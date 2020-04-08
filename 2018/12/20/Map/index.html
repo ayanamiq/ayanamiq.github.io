@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="概述如上图：  Map 是映射接口，Map中存储的内容是键值对(key-value)。 AbstractMap 是继承于Map的抽象类，它实现了Map中的大部分API。其它Map的实现类可以通过继承AbstractMap来减少重复编码。 SortedMap 是继承于Map的接口。SortedMap中的内容是排序的键值对，排序的方法是通过比较器(Comparator)。 NavigableMap 是">
+<meta name="keywords" content="集合,Map">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Map">
+<meta property="og:url" content="https://jingyao066.gitee.io/2018/12/20/Map/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="概述如上图：  Map 是映射接口，Map中存储的内容是键值对(key-value)。 AbstractMap 是继承于Map的抽象类，它实现了Map中的大部分API。其它Map的实现类可以通过继承AbstractMap来减少重复编码。 SortedMap 是继承于Map的接口。SortedMap中的内容是排序的键值对，排序的方法是通过比较器(Comparator)。 NavigableMap 是">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/20/Map/1.jpg">
+<meta property="og:updated_time" content="2020-01-19T06:29:08.018Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Map">
+<meta name="twitter:description" content="概述如上图：  Map 是映射接口，Map中存储的内容是键值对(key-value)。 AbstractMap 是继承于Map的抽象类，它实现了Map中的大部分API。其它Map的实现类可以通过继承AbstractMap来减少重复编码。 SortedMap 是继承于Map的接口。SortedMap中的内容是排序的键值对，排序的方法是通过比较器(Comparator)。 NavigableMap 是">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2018/12/20/Map/1.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2018/12/20/Map/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Map | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2018/12/20/Map/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Map
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-20 13:46:07" itemprop="dateCreated datePublished" datetime="2018-12-20T13:46:07+08:00">2018-12-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-01-19 14:29:08" itemprop="dateModified" datetime="2020-01-19T14:29:08+08:00">2020-01-19</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2018/12/20/Map/" class="leancloud_visitors" data-flag-title="Map">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p><img src="/2018/12/20/Map/1.jpg" alt=""><br>如上图：</p>
+<ul>
+<li>Map 是映射接口，Map中存储的内容是键值对(key-value)。</li>
+<li>AbstractMap 是继承于Map的抽象类，它实现了Map中的大部分API。其它Map的实现类可以通过继承AbstractMap来减少重复编码。</li>
+<li>SortedMap 是继承于Map的接口。SortedMap中的内容是排序的键值对，排序的方法是通过比较器(Comparator)。</li>
+<li>NavigableMap 是继承于SortedMap的接口。相比于SortedMap，NavigableMap有一系列的导航方法；如”获取大于/等于某对象的键值对”、“获取小于/等于某对象的键值对”等等。 </li>
+<li>TreeMap 继承于AbstractMap，且实现了NavigableMap接口；因此，TreeMap中的内容是“有序的键值对”！</li>
+<li>HashMap 继承于AbstractMap，但没实现NavigableMap接口；因此，HashMap的内容是“键值对，但不保证次序”！</li>
+<li>Hashtable 虽然不是继承于AbstractMap，但它继承于Dictionary(Dictionary也是键值对的接口)，而且也实现Map接口；因此，Hashtable的内容也是“键值对，也不保证次序”。但和HashMap相比，Hashtable是线程安全的，而且它支持通过Enumeration去遍历。</li>
+<li>WeakHashMap 继承于AbstractMap。它和HashMap的键类型不同，WeakHashMap的键是“弱键”。</li>
+</ul>
+<h1 id="Map定义"><a href="#Map定义" class="headerlink" title="Map定义"></a>Map定义</h1><p><code>public interface Map&lt;K,V&gt;{}</code><br>Map 是一个键值对(key-value)映射接口。Map映射中不能包含重复的键；每个键最多只能映射到一个值。<br>Map 接口提供三种collection 视图，允许以键集、值集或键-值映射关系集的形式查看某个映射的内容。<br>Map 映射顺序。有些实现类，可以明确保证其顺序，如 TreeMap；另一些映射实现则不保证顺序，如 HashMap 类。<br>Map 的实现类应该提供2个“标准的”构造方法：第一个，void（无参数）构造方法，用于创建空映射；第二个，带有单个 Map 类型参数的构造方法，用于创建一个与其参数具有相同键-值映射关系的新映射。实际上，后一个构造方法允许用户复制任意映射，生成所需类的一个等价映射。尽管无法强制执行此建议（因为接口不能包含构造方法），但是 JDK 中所有通用的映射实现都遵从它。</p>
+<h1 id="Map的API"><a href="#Map的API" class="headerlink" title="Map的API"></a>Map的API</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">abstract void                 clear()</span><br><span class="line">abstract boolean              containsKey(Object key)</span><br><span class="line">abstract boolean              containsValue(Object value)</span><br><span class="line">abstract Set&lt;Entry&lt;K, V&gt;&gt;     entrySet()</span><br><span class="line">abstract boolean              equals(Object object)</span><br><span class="line">abstract V                    get(Object key)</span><br><span class="line">abstract int                  hashCode()</span><br><span class="line">abstract boolean              isEmpty()</span><br><span class="line">abstract Set&lt;K&gt;               keySet()</span><br><span class="line">abstract V                    put(K key, V value)</span><br><span class="line">abstract void                 putAll(Map&lt;? extends K, ? extends V&gt; map)</span><br><span class="line">abstract V                    remove(Object key)</span><br><span class="line">abstract int                  size()</span><br><span class="line">abstract Collection&lt;V&gt;        values()</span><br></pre></td></tr></table></figure>
+<p>Map提供了一些用于返回数据的接口：键集、值集、键-值映射关系集<br>entrySet()用于返回键-值集的Set集合<br>keySet()用于返回键集的Set集合<br>values()用户返回值集的Collection集合<br>因为Map中不能包含重复的键；每个键最多只能映射到一个值。所以，键-值集、键集都是Set，值集时Collection。</p>
+<p>Map提供了一些方法：根据键获取值、删除键、获取容量大小、键值对。</p>
+<h1 id="Map-Entry"><a href="#Map-Entry" class="headerlink" title="Map.Entry"></a>Map.Entry</h1><p>Map.Entry定义如下：<br><code>interface Entry&lt;K,V&gt; {}</code><br>Map.Entry是Map内部的一个接口，Map.Entry是键值对，Map通过 entrySet() 获取Map.Entry的键值对集合，从而通过该集合实现对键值对的操作。</p>
+<h2 id="Map-Entry的API"><a href="#Map-Entry的API" class="headerlink" title="Map.Entry的API"></a>Map.Entry的API</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">abstract boolean     equals(Object object)</span><br><span class="line">abstract K             getKey()</span><br><span class="line">abstract V             getValue()</span><br><span class="line">abstract int         hashCode()</span><br><span class="line">abstract V             setValue(V object)</span><br></pre></td></tr></table></figure>
+<h1 id="AbstractMap"><a href="#AbstractMap" class="headerlink" title="AbstractMap"></a>AbstractMap</h1><p><code>public abstract class AbstractMap&lt;K,V&gt; implements Map&lt;K,V&gt; {}</code><br>AbstractMap类提供Map接口的实现，以最大限度的减少实现此接口所需的工作。<br>要实现不可修改的映射，编程人员只需扩展此类并提供 entrySet 方法的实现即可，该方法将返回映射的映射关系 set 视图。通常，返回的 set 将依次在 AbstractSet 上实现。此 set 不支持 add() 或 remove() 方法，其迭代器也不支持 remove() 方法。<br>要实现可修改的映射，编程人员必须另外重写此类的 put 方法（否则将抛出 UnsupportedOperationException），entrySet().iterator() 返回的迭代器也必须另外实现其 remove 方法。</p>
+<h2 id="AbstractMap的API"><a href="#AbstractMap的API" class="headerlink" title="AbstractMap的API"></a>AbstractMap的API</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">abstract Set&lt;Entry&lt;K, V&gt;&gt;     entrySet()</span><br><span class="line">         void                 clear()</span><br><span class="line">         boolean              containsKey(Object key)</span><br><span class="line">         boolean              containsValue(Object value)</span><br><span class="line">         boolean              equals(Object object)</span><br><span class="line">         V                    get(Object key)</span><br><span class="line">         int                  hashCode()</span><br><span class="line">         boolean              isEmpty()</span><br><span class="line">         Set&lt;K&gt;               keySet()</span><br><span class="line">         V                    put(K key, V value)</span><br><span class="line">         void                 putAll(Map&lt;? extends K, ? extends V&gt; map)</span><br><span class="line">         V                    remove(Object key)</span><br><span class="line">         int                  size()</span><br><span class="line">         String               toString()</span><br><span class="line">         Collection&lt;V&gt;        values()</span><br><span class="line">         Object               clone()</span><br></pre></td></tr></table></figure>
+<h1 id="SortedMap"><a href="#SortedMap" class="headerlink" title="SortedMap"></a>SortedMap</h1><p><code>public interface SortedMap&lt;K,V&gt; extends Map&lt;K,V&gt; {}</code><br>SortedMap是一个继承于Map接口的接口，它是一个有序的SortedMap键值映射。<br>SortedMap的排序方式有两种：自然排序或者用户指定比较器。 插入有序 SortedMap 的所有元素都必须实现 Comparable 接口（或者被指定的比较器所接受）。</p>
+<p>另外，所有SortedMap 实现类都应该提供 4 个“标准”构造方法：</p>
+<ol>
+<li>void（无参数）构造方法，它创建一个空的有序映射，按照键的自然顺序进行排序。</li>
+<li>带有一个 Comparator 类型参数的构造方法，它创建一个空的有序映射，根据指定的比较器进行排序。</li>
+<li>带有一个 Map 类型参数的构造方法，它创建一个新的有序映射，其键-值映射关系与参数相同，按照键的自然顺序进行排序。</li>
+<li>带有一个 SortedMap 类型参数的构造方法，它创建一个新的有序映射，其键-值映射关系和排序方法与输入的有序映射相同。无法保证强制实施此建议，因为接口不能包含构造方法。</li>
+</ol>
+<h2 id="SortedMap的API"><a href="#SortedMap的API" class="headerlink" title="SortedMap的API"></a>SortedMap的API</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">// 继承于Map的API</span><br><span class="line">abstract void                 clear()</span><br><span class="line">abstract boolean              containsKey(Object key)</span><br><span class="line">abstract boolean              containsValue(Object value)</span><br><span class="line">abstract Set&lt;Entry&lt;K, V&gt;&gt;     entrySet()</span><br><span class="line">abstract boolean              equals(Object object)</span><br><span class="line">abstract V                    get(Object key)</span><br><span class="line">abstract int                  hashCode()</span><br><span class="line">abstract boolean              isEmpty()</span><br><span class="line">abstract Set&lt;K&gt;               keySet()</span><br><span class="line">abstract V                    put(K key, V value)</span><br><span class="line">abstract void                 putAll(Map&lt;? extends K, ? extends V&gt; map)</span><br><span class="line">abstract V                    remove(Object key)</span><br><span class="line">abstract int                  size()</span><br><span class="line">abstract Collection&lt;V&gt;        values()</span><br><span class="line">// SortedMap新增的API </span><br><span class="line">abstract Comparator&lt;? super K&gt;     comparator()</span><br><span class="line">abstract K                         firstKey()</span><br><span class="line">abstract SortedMap&lt;K, V&gt;           headMap(K endKey)</span><br><span class="line">abstract K                         lastKey()</span><br><span class="line">abstract SortedMap&lt;K, V&gt;           subMap(K startKey, K endKey)</span><br><span class="line">abstract SortedMap&lt;K, V&gt;           tailMap(K startKey)</span><br></pre></td></tr></table></figure>
+<h1 id="NavigableMap"><a href="#NavigableMap" class="headerlink" title="NavigableMap"></a>NavigableMap</h1><p><code>public interface NavigableMap&lt;K,V&gt; extends SortedMap&lt;K,V&gt; {}</code><br>NavigableMap是继承于SortedMap的接口。它是一个可导航的键-值对集合，具有了为给定搜索目标报告最接近匹配项的导航方法。<br>NavigableMap分别提供了获取“键”、“键-值对”、“键集”、“键-值对集”的相关方法。</p>
+<h2 id="NavigableMap的API"><a href="#NavigableMap的API" class="headerlink" title="NavigableMap的API"></a>NavigableMap的API</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">abstract Entry&lt;K, V&gt;             ceilingEntry(K key)</span><br><span class="line">abstract Entry&lt;K, V&gt;             firstEntry()</span><br><span class="line">abstract Entry&lt;K, V&gt;             floorEntry(K key)</span><br><span class="line">abstract Entry&lt;K, V&gt;             higherEntry(K key)</span><br><span class="line">abstract Entry&lt;K, V&gt;             lastEntry()</span><br><span class="line">abstract Entry&lt;K, V&gt;             lowerEntry(K key)</span><br><span class="line">abstract Entry&lt;K, V&gt;             pollFirstEntry()</span><br><span class="line">abstract Entry&lt;K, V&gt;             pollLastEntry()</span><br><span class="line">abstract K                       ceilingKey(K key)</span><br><span class="line">abstract K                       floorKey(K key)</span><br><span class="line">abstract K                       higherKey(K key)</span><br><span class="line">abstract K                       lowerKey(K key)</span><br><span class="line">abstract NavigableSet&lt;K&gt;         descendingKeySet()</span><br><span class="line">abstract NavigableSet&lt;K&gt;         navigableKeySet()</span><br><span class="line">abstract NavigableMap&lt;K, V&gt;      descendingMap()</span><br><span class="line">abstract NavigableMap&lt;K, V&gt;      headMap(K toKey, boolean inclusive)</span><br><span class="line">abstract SortedMap&lt;K, V&gt;         headMap(K toKey)</span><br><span class="line">abstract SortedMap&lt;K, V&gt;         subMap(K fromKey, K toKey)</span><br><span class="line">abstract NavigableMap&lt;K, V&gt;      subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive)</span><br><span class="line">abstract SortedMap&lt;K, V&gt;         tailMap(K fromKey)</span><br><span class="line">abstract NavigableMap&lt;K, V&gt;      tailMap(K fromKey, boolean inclusive)</span><br></pre></td></tr></table></figure>
+<p>说明：<br>NavigableMap除了继承SortedMap的特性外，它的提供的功能可以分为4类：</p>
+<ul>
+<li>提供操作键-值对的方法。<br> lowerEntry、floorEntry、ceilingEntry 和 higherEntry 方法，它们分别返回与小于、小于等于、大于等于、大于给定键的键关联的 Map.Entry 对象。<br> firstEntry、pollFirstEntry、lastEntry 和 pollLastEntry 方法，它们返回和/或移除最小和最大的映射关系（如果存在），否则返回 null。</li>
+<li>提供操作键的方法。这个和第1类比较类似<br> lowerKey、floorKey、ceilingKey 和 higherKey 方法，它们分别返回与小于、小于等于、大于等于、大于给定键的键。</li>
+<li>获取键集。<br>navigableKeySet、descendingKeySet分别获取正序/反序的键集。</li>
+<li>获取键-值对的子集。</li>
+</ul>
+<h1 id="Dictionary"><a href="#Dictionary" class="headerlink" title="Dictionary"></a>Dictionary</h1><p><code>public abstract class Dictionary&lt;K,V&gt; {}</code><br>Dictionary是JDK 1.0定义的键值对的接口，它也包括了操作键值对的基本函数。</p>
+<h2 id="Dictionary的API"><a href="#Dictionary的API" class="headerlink" title="Dictionary的API"></a>Dictionary的API</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">abstract Enumeration&lt;V&gt;     elements()</span><br><span class="line">abstract V                  get(Object key)</span><br><span class="line">abstract boolean            isEmpty()</span><br><span class="line">abstract Enumeration&lt;K&gt;     keys()</span><br><span class="line">abstract V                  put(K key, V value)</span><br><span class="line">abstract V                  remove(Object key)</span><br><span class="line">abstract int                size()</span><br></pre></td></tr></table></figure>
+<h1 id="记一次map的使用"><a href="#记一次map的使用" class="headerlink" title="记一次map的使用"></a>记一次map的使用</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Map&lt;String,String&gt;&gt; videoList = new ArrayList&lt;&gt;();</span><br><span class="line">Map&lt;String,String&gt; map = new HashMap&lt;&gt;();</span><br><span class="line">map.put(&quot;video&quot;,&quot;v1&quot;);</span><br><span class="line">map.put(&quot;cover&quot;,&quot;c1&quot;);</span><br><span class="line">videoList.add(map);</span><br><span class="line">//这一步，list的中第一个map中的v1变成了v2</span><br><span class="line">map.put(&quot;video&quot;,&quot;v2&quot;);</span><br><span class="line">//c1变成了c2，也就是说map改变了，同时add到list中的map也改变了</span><br><span class="line">//也就是说，add到list中的map，是指向了内存地址，内存地址变了，指向的也改变了</span><br><span class="line">map.put(&quot;cover&quot;,&quot;c2&quot;);</span><br><span class="line">videoList.add(map);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/集合/" rel="tag"># 集合</a>
+          
+            <a href="/tags/Map/" rel="tag"># Map</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/19/List总结/" rel="next" title="List总结">
+                <i class="fa fa-chevron-left"></i> List总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/20/HashMap/" rel="prev" title="HashMap">
+                HashMap <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Map定义"><span class="nav-number">2.</span> <span class="nav-text">Map定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Map的API"><span class="nav-number">3.</span> <span class="nav-text">Map的API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Map-Entry"><span class="nav-number">4.</span> <span class="nav-text">Map.Entry</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Map-Entry的API"><span class="nav-number">4.1.</span> <span class="nav-text">Map.Entry的API</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AbstractMap"><span class="nav-number">5.</span> <span class="nav-text">AbstractMap</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AbstractMap的API"><span class="nav-number">5.1.</span> <span class="nav-text">AbstractMap的API</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SortedMap"><span class="nav-number">6.</span> <span class="nav-text">SortedMap</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SortedMap的API"><span class="nav-number">6.1.</span> <span class="nav-text">SortedMap的API</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NavigableMap"><span class="nav-number">7.</span> <span class="nav-text">NavigableMap</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#NavigableMap的API"><span class="nav-number">7.1.</span> <span class="nav-text">NavigableMap的API</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Dictionary"><span class="nav-number">8.</span> <span class="nav-text">Dictionary</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Dictionary的API"><span class="nav-number">8.1.</span> <span class="nav-text">Dictionary的API</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#记一次map的使用"><span class="nav-number">9.</span> <span class="nav-text">记一次map的使用</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

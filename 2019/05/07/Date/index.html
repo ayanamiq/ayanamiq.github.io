@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Date介绍Date 定义public class Date implements java.io.Serializable, Cloneable, Comparable&amp;lt;Date&amp;gt; {} Date 是表示时间的类。一个Date对象表示一个特定的瞬间，能精确到毫秒。我们可以通过这个特定的瞬间，来获取到Date对应的“年、月、日、时、分、秒”。反之亦然，我们也可以通过设置Date的“年、">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Date">
+<meta property="og:url" content="https://jingyao066.gitee.io/2019/05/07/Date/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="Date介绍Date 定义public class Date implements java.io.Serializable, Cloneable, Comparable&amp;lt;Date&amp;gt; {} Date 是表示时间的类。一个Date对象表示一个特定的瞬间，能精确到毫秒。我们可以通过这个特定的瞬间，来获取到Date对应的“年、月、日、时、分、秒”。反之亦然，我们也可以通过设置Date的“年、">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-12-27T08:03:58.635Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Date">
+<meta name="twitter:description" content="Date介绍Date 定义public class Date implements java.io.Serializable, Cloneable, Comparable&amp;lt;Date&amp;gt; {} Date 是表示时间的类。一个Date对象表示一个特定的瞬间，能精确到毫秒。我们可以通过这个特定的瞬间，来获取到Date对应的“年、月、日、时、分、秒”。反之亦然，我们也可以通过设置Date的“年、">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2019/05/07/Date/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Date | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2019/05/07/Date/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Date
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-07 10:42:11" itemprop="dateCreated datePublished" datetime="2019-05-07T10:42:11+08:00">2019-05-07</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-12-27 16:03:58" itemprop="dateModified" datetime="2019-12-27T16:03:58+08:00">2019-12-27</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/05/07/Date/" class="leancloud_visitors" data-flag-title="Date">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Date介绍"><a href="#Date介绍" class="headerlink" title="Date介绍"></a>Date介绍</h1><p>Date 定义<br><code>public class Date implements java.io.Serializable, Cloneable, Comparable&lt;Date&gt; {}</code></p>
+<p>Date 是表示时间的类。<br>一个Date对象表示一个特定的瞬间，能精确到毫秒。我们可以通过这个特定的瞬间，来获取到Date对应的“年、月、日、时、分、秒”。反之亦然，我们也可以通过设置Date的“年、月、日、时、分、秒”等信息，来改变Date所指定的特定瞬间。<br>除了“年月日时分秒”等信息之外，Data也允许格式化和解析日期字符串。即，我们可以定义一个字符串，这个字符串包含时间信息，然后将字符串通过Date来解析，从而得到相应的Date对象。<br>在 JDK 1.1 之前，通常是通过Data操作“年月日时分秒”。不过，由于Date的相关 API 不易于实现国际化。从 JDK 1.1 开始，应该使用 Calendar 类来操作“年月日时分秒”，同时可以通过 DateFormat 类来格式化和解析日期字符串。Date 中的相应方法已废弃。<br>jdk1.8之后，不建议再使用date对象。转而使用<code>LocalDateTime</code></p>
+<h1 id="Date和Calendar相互转换"><a href="#Date和Calendar相互转换" class="headerlink" title="Date和Calendar相互转换"></a>Date和Calendar相互转换</h1><ul>
+<li><p>Date转换为Calendar</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 新建date，且日期/时间为2013-09-19 14:22:30</span></span><br><span class="line">Date date = <span class="keyword">new</span> Date(<span class="number">113</span>, <span class="number">8</span>, <span class="number">19</span>, <span class="number">14</span>, <span class="number">22</span>, <span class="number">30</span>);</span><br><span class="line"><span class="comment">// 新建Calendar对象，并设置日期为date</span></span><br><span class="line">Calendar cal = Calendar.getInstance();</span><br><span class="line">cal.setTime(date);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Calendar换为Date</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 新建Calendar对象</span></span><br><span class="line">Calendar cal = Calendar.getInstance();</span><br><span class="line"><span class="comment">// 获取Calendar对应的Date</span></span><br><span class="line">Date date = cal.getTime();</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="Date-函数列表"><a href="#Date-函数列表" class="headerlink" title="Date 函数列表"></a>Date 函数列表</h1><p>Date 共包含下面5个构造函数<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Date构造函数一：传入“年、月、日”</span></span><br><span class="line"><span class="comment">// (01) 年 -- 减 1900 的年份。若要设为1988，则“年”应该是88。</span></span><br><span class="line"><span class="comment">// (02) 月 -- 0-11 的月份。0是一月,1是二月,依次类推。</span></span><br><span class="line"><span class="comment">// (03) 日 -- 1-31 之间的某一天。</span></span><br><span class="line">Date(<span class="keyword">int</span> year, <span class="keyword">int</span> month, <span class="keyword">int</span> day)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Date构造函数二：传入“年、月、日、时、分”</span></span><br><span class="line"><span class="comment">// (01) 年 -- 减 1900 的年份。若要设为1988，则“年”应该是88。</span></span><br><span class="line"><span class="comment">// (02) 月 -- 0-11 的月份。0是一月,1是二月,依次类推。</span></span><br><span class="line"><span class="comment">// (03) 日 -- 1-31 之间的某一天。</span></span><br><span class="line"><span class="comment">// (04) 时 -- 0-23 之间的小时数。</span></span><br><span class="line"><span class="comment">// (05) 分 -- 0-59 之间的分钟数。</span></span><br><span class="line">Date(<span class="keyword">int</span> year, <span class="keyword">int</span> month, <span class="keyword">int</span> day, <span class="keyword">int</span> hour, <span class="keyword">int</span> minute)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Date构造函数三：传入“年、月、日、时、分、秒”</span></span><br><span class="line"><span class="comment">// (01) 年 -- 减 1900 的年份。若要设为1988，则“年”应该是88。</span></span><br><span class="line"><span class="comment">// (02) 月 -- 0-11 的月份。0是一月,1是二月,依次类推。</span></span><br><span class="line"><span class="comment">// (03) 日 -- 1-31 之间的某一天。</span></span><br><span class="line"><span class="comment">// (04) 时 -- 0-23 之间的小时数。</span></span><br><span class="line"><span class="comment">// (05) 分 -- 0-59 之间的分钟数。</span></span><br><span class="line"><span class="comment">// (06) 秒 -- 0-59 之间的秒钟数。</span></span><br><span class="line">Date(<span class="keyword">int</span> year, <span class="keyword">int</span> month, <span class="keyword">int</span> day, <span class="keyword">int</span> hour, <span class="keyword">int</span> minute, <span class="keyword">int</span> second)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Date构造函数四：传入“毫秒”。 毫秒 = “目标时间” - “1970-01-01 00:00:00 GMT”</span></span><br><span class="line">Date(<span class="keyword">long</span> milliseconds)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Date构造函数五：传入“字符串”。</span></span><br><span class="line">Date(String string)</span><br></pre></td></tr></table></figure></p>
+<h1 id="Date的操作API"><a href="#Date的操作API" class="headerlink" title="Date的操作API"></a>Date的操作API</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 根据参数确定日期和时间。这些参数被解释为年份、月份、月中某一天、一天中的某一小时、小时中某一分钟和分钟中的某一秒。</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">long</span>     <span class="title">UTC</span><span class="params">(<span class="keyword">int</span> year, <span class="keyword">int</span> month, <span class="keyword">int</span> day, <span class="keyword">int</span> hour, <span class="keyword">int</span> minute, <span class="keyword">int</span> second)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 此日期是否在指定日期之后。</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span>     <span class="title">after</span><span class="params">(Date date)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 此日期是否在指定日期之前</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span>     <span class="title">before</span><span class="params">(Date date)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 返回此对象的副本。</span></span></span><br><span class="line"><span class="function">Object     <span class="title">clone</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">// 比较两个日期的顺序。</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">compareTo</span><span class="params">(Date date)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 比较两个日期是否相等。</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span>     <span class="title">equals</span><span class="params">(Object object)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 返回此 Date 对象表示的月份中的某一天。返回的值在 1 和 31 之间，表示包含或开始于此 Date 对象表示的时间的月份中的某一天（用本地时区进行解释）。</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">getDate</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">// 返回此日期表示的周中的某一天。返回值 (0 = Sunday, 1 = Monday, 2 = Tuesday, 3 = Wednesday, 4 = Thursday, 5 = Friday, 6 = Saturday) 表示一周中的某一天</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">getDay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">// 返回此 Date 对象表示的小时。返回值是一个数字（0 至 23）</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">getHours</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">// 返回此日期所表示的小时已经过去的分钟数（用本地时区进行解释）。返回值在 0 和 59 之间。</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">getMinutes</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">// 返回表示月份的数字，该月份包含或开始于此 Date 对象所表示的瞬间。返回的值在 0 和 11 之间。0为一月，1为二月，依次类推。</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">getMonth</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">// 返回此日期所表示的分钟已经过去的秒数。返回的值在 0 和 61 之间。值 60 和 61 只可能发生在考虑了闰秒的 Java 虚拟机上。</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">getSeconds</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">// 返回自 1970 年 1 月 1 日 00:00:00 GMT 以来此 Date 对象表示的毫秒数。</span></span></span><br><span class="line"><span class="function"><span class="keyword">long</span>     <span class="title">getTime</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">// 返回相对于 UTC（相应于此 Date 对象表示的时间）的本地时区的偏移量（以分钟为单位）。</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">getTimezoneOffset</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">// 返回一个值，此值是从包含或开始于此 Date 对象表示的瞬间的年份减去 1900 的结果（用本地时区进行解释）。</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">getYear</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">// 哈希值</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">hashCode</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">// 把字符串 s 解释为日期和时间的表示形式。</span></span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">long</span>     <span class="title">parse</span><span class="params">(String string)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 把此 Date 对象的月份中的某一天设置为指定值。</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span>     <span class="title">setDate</span><span class="params">(<span class="keyword">int</span> day)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 把此 Date 对象的小时设置为指定值。</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span>     <span class="title">setHours</span><span class="params">(<span class="keyword">int</span> hour)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 把此 Date 对象的分钟数设置为指定值。</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span>     <span class="title">setMinutes</span><span class="params">(<span class="keyword">int</span> minute)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 把此日期的月份设置为指定值。0为一月，1为二月，依次类推。</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span>     <span class="title">setMonth</span><span class="params">(<span class="keyword">int</span> month)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 把此 Date 的秒数设置为指定值。</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span>     <span class="title">setSeconds</span><span class="params">(<span class="keyword">int</span> second)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 设置此 Date 对象，以表示 1970 年 1 月 1 日 00:00:00 GMT 以后 time 毫秒的时间点。</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span>     <span class="title">setTime</span><span class="params">(<span class="keyword">long</span> milliseconds)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 把此 Date 对象的年份设置为指定的值加 1900。</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span>     <span class="title">setYear</span><span class="params">(<span class="keyword">int</span> year)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 返回GMT字符串</span></span></span><br><span class="line"><span class="function">String     <span class="title">toGMTString</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">// 返回本地字符串</span></span></span><br><span class="line"><span class="function">String     <span class="title">toLocaleString</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">// 返回字符串</span></span></span><br><span class="line"><span class="function">String     <span class="title">toString</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<h1 id="Date操作示例"><a href="#Date操作示例" class="headerlink" title="Date操作示例"></a>Date操作示例</h1><p>下面我们通过示例学习使用Date的API。<br>源码如下(DateTest.java)：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> java.util.Calendar;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * java Date类的测试程序</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * 注意几点：</span></span><br><span class="line"><span class="comment"> * (01) Date中的“年”      -- 读取/设置 到的年份值=“‘时间年份’ - 1900年”</span></span><br><span class="line"><span class="comment"> * (02) Date中的“月”      -- 0是一月,1是二月,2是三月,依次类推。</span></span><br><span class="line"><span class="comment"> * (03) Date中的“星期几”  -- 1是周日,2是周一,3是周二,依次类推。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> skywang</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DateTest</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 测试Date的构造函数：Date共有5类构造函数</span></span><br><span class="line">        testDateConstructor();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 测试Date类的“设置”、“读取”函数</span></span><br><span class="line">        testDateSet();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 测试Date类的before(), after(), compareTo(), equals(), clone(), parse()等接口</span></span><br><span class="line">        testOtherDateAPIs();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试Date的构造函数：Date共有5类构造函数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testDateConstructor</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        Date date;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Date构造函数一：传入“年、月、日”。</span></span><br><span class="line">        <span class="comment">// 参数说明</span></span><br><span class="line">        <span class="comment">// (01) 年 -- 减 1900 的年份。若要设为1988，则“年”应该是88。</span></span><br><span class="line">        <span class="comment">// (02) 月 -- 0-11 的月份。0是一月,1是二月,依次类推。</span></span><br><span class="line">        <span class="comment">// (03) 日 -- 1-31 之间的某一天。</span></span><br><span class="line">        <span class="comment">// 设置时间为“1988-08-08”</span></span><br><span class="line">        date = <span class="keyword">new</span> Date(<span class="number">88</span>,<span class="number">7</span>,<span class="number">8</span>);</span><br><span class="line">        System.out.printf(<span class="string">"Constructor-1  : %s\n"</span>, tostring(date));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Date构造函数二：传入“年、月、日、时、分”</span></span><br><span class="line">        <span class="comment">// (01) 年 -- 减 1900 的年份。若要设为1988，则“年”应该是88。</span></span><br><span class="line">        <span class="comment">// (02) 月 -- 0-11 的月份。0是一月,1是二月,依次类推。</span></span><br><span class="line">        <span class="comment">// (03) 日 -- 1-31 之间的某一天。</span></span><br><span class="line">        <span class="comment">// (04) 时 -- 0-23 之间的小时数。</span></span><br><span class="line">        <span class="comment">// (05) 分 -- 0-59 之间的分钟数。</span></span><br><span class="line">        <span class="comment">// 设置时间为“1999-09-09 19:19”</span></span><br><span class="line">        date = <span class="keyword">new</span> Date(<span class="number">99</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">19</span>,<span class="number">19</span>);</span><br><span class="line">        System.out.printf(<span class="string">"Constructor-2  : %s\n"</span>, tostring(date));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Date构造函数三：传入“年、月、日、时、分、秒”</span></span><br><span class="line">        <span class="comment">// (01) 年 -- 减 1900 的年份。若要设为1988，则“年”应该是88。</span></span><br><span class="line">        <span class="comment">// (02) 月 -- 0-11 的月份。0是一月,1是二月,依次类推。</span></span><br><span class="line">        <span class="comment">// (03) 日 -- 1-31 之间的某一天。</span></span><br><span class="line">        <span class="comment">// (04) 时 -- 0-23 之间的小时数。</span></span><br><span class="line">        <span class="comment">// (05) 分 -- 0-59 之间的分钟数。</span></span><br><span class="line">        <span class="comment">// (06) 秒 -- 0-59 之间的秒钟数。</span></span><br><span class="line">        date = <span class="keyword">new</span> Date(<span class="number">100</span>,<span class="number">10</span>,<span class="number">10</span>,<span class="number">20</span>,<span class="number">10</span>,<span class="number">10</span>);</span><br><span class="line">        System.out.printf(<span class="string">"Constructor-3  : %s\n"</span>, tostring(date));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Date构造函数四：传入“毫秒”。 毫秒 = “目标时间” - “1970-01-01 00:00:00 GMT”</span></span><br><span class="line">        <span class="comment">// 973858210000(ms) 对应时间 2000-10-10 8:10:10</span></span><br><span class="line">        date = <span class="keyword">new</span> Date(<span class="number">973858210000l</span>);</span><br><span class="line">        System.out.printf(<span class="string">"Constructor-4  : %s\n"</span>, tostring(date));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Date构造函数五：传入“字符串”。可以为以下几种格式：</span></span><br><span class="line">        <span class="comment">// (注意，year值 = “实际年份-1900”)</span></span><br><span class="line">        <span class="comment">// 1955-08-12 13:30:00</span></span><br><span class="line">        date = <span class="keyword">new</span> Date(<span class="string">"Sat, 12 Aug 95 13:30:00 GMT"</span>);</span><br><span class="line">        System.out.printf(<span class="string">"Constructor-5.1: %s\n"</span>, tostring(date));</span><br><span class="line">        <span class="comment">// 1955-08-12 13:30:00</span></span><br><span class="line">        date = <span class="keyword">new</span> Date(<span class="string">"12 Aug 95 13:30:00"</span>);</span><br><span class="line">        System.out.printf(<span class="string">"Constructor-5.2: %s\n"</span>, tostring(date));</span><br><span class="line">        <span class="comment">// 1955-08-12</span></span><br><span class="line">        date = <span class="keyword">new</span> Date(<span class="string">"12 Aug 95"</span>);</span><br><span class="line">        System.out.printf(<span class="string">"Constructor-5.3: %s\n"</span>, tostring(date));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试Date类的“读取”函数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testGet</span><span class="params">(Date date)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// “年”。减 1900 的年份。若为1988，则“年”是88。</span></span><br><span class="line">        <span class="keyword">int</span> year = date.getYear();</span><br><span class="line">        <span class="comment">// “月”。 0-11 的月份。0是一月,1是二月,依次类推。</span></span><br><span class="line">        <span class="keyword">int</span> month = date.getMonth();</span><br><span class="line">        <span class="comment">// “日”</span></span><br><span class="line">        <span class="keyword">int</span> day = date.getDate();</span><br><span class="line">        <span class="comment">// “时”</span></span><br><span class="line">        <span class="keyword">int</span> hour = date.getHours();</span><br><span class="line">        <span class="comment">// “分”</span></span><br><span class="line">        <span class="keyword">int</span> minute = date.getMinutes();</span><br><span class="line">        <span class="comment">// “秒”</span></span><br><span class="line">        <span class="keyword">int</span> second = date.getSeconds();</span><br><span class="line">        <span class="comment">// “星期(几)”。 周日是1,周一是2,周二是3,依次类推。</span></span><br><span class="line">        <span class="keyword">int</span> weekday = date.getDay();</span><br><span class="line">        <span class="comment">// “毫秒”。毫秒 = “目标时间” - “1970-01-01 00:00:00 GMT”</span></span><br><span class="line">        <span class="keyword">long</span> millis = date.getTime();</span><br><span class="line">        <span class="comment">// “时区偏移”。相对于 UTC 的本地时区的偏移量（以分钟为单位）。</span></span><br><span class="line">        <span class="keyword">int</span> timezoneoffset = date.getTimezoneOffset();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//System.out.printf("\t!!!date get is: %s\n", tostring(date));</span></span><br><span class="line">        System.out.println(<span class="string">"\t!!!get date: "</span>+year+<span class="string">"-"</span>+month+<span class="string">"-"</span>+day+<span class="string">" "</span>+hour+<span class="string">":"</span>+minute+<span class="string">":"</span>+second+<span class="string">"\t"</span>+millis+<span class="string">"(ms)"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试Date类的“设置”函数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testDateSet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 新建date</span></span><br><span class="line">        Date date = <span class="keyword">new</span> Date(<span class="number">99</span>,<span class="number">8</span>,<span class="number">9</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置Date为“2013-09-19 15:28:30”</span></span><br><span class="line">        <span class="comment">// 设为“2013年”。传入值是“‘目标年份’ - ‘1900 的年份’”</span></span><br><span class="line">        date.setYear(<span class="number">113</span>);</span><br><span class="line">        <span class="comment">// 设为“8月”，传入的参数应该是8。因为，一月是0,二月是1,依次类推。</span></span><br><span class="line">        date.setMonth(<span class="number">8</span>);</span><br><span class="line">        <span class="comment">// 设为“19日”</span></span><br><span class="line">        date.setDate(<span class="number">19</span>);</span><br><span class="line">        <span class="comment">// 设为“15”(上午)。采用的24时制；因此，若要设为上午3点，应该传入参数3。</span></span><br><span class="line">        date.setHours(<span class="number">11</span>);</span><br><span class="line">        <span class="comment">// 设为“28分”</span></span><br><span class="line">        date.setMinutes(<span class="number">28</span>);</span><br><span class="line">        <span class="comment">// 设为“30秒”</span></span><br><span class="line">        date.setSeconds(<span class="number">30</span>);</span><br><span class="line">        System.out.printf(<span class="string">"new date-01 is: %s\n"</span>, tostring(date));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 测试Date的获取函数</span></span><br><span class="line">        testGet(date);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设为“毫秒”，1379561310000(ms) 对应的时间是“2013-09-19 15:28:30”</span></span><br><span class="line">        date.setTime(<span class="number">1379561310000l</span>);</span><br><span class="line">        System.out.printf(<span class="string">"new date-02 is: %s\n"</span>, tostring(date));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试Date类的before(), after(), compareTo(), equals(), clone(), parse()等接口</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testOtherDateAPIs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 初始化d1=2008-05-12, d2=2009-03-15。</span></span><br><span class="line">        Date d1 = <span class="keyword">new</span> Date(<span class="number">108</span>,<span class="number">4</span>,<span class="number">12</span>);</span><br><span class="line">        System.out.printf(<span class="string">"\nd1 is: %s\n"</span>, tostring(d1));</span><br><span class="line">        Date d2 = <span class="keyword">new</span> Date(<span class="number">109</span>,<span class="number">2</span>,<span class="number">15</span>);</span><br><span class="line">        System.out.printf(<span class="string">"d2 is: %s\n"</span>, tostring(d2));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 克隆</span></span><br><span class="line">        Date d3 = (Date) d1.clone();</span><br><span class="line">        System.out.printf(<span class="string">"clone of d1 is: %s\n"</span>, tostring(d3));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// d1 是否早于 d2</span></span><br><span class="line">        <span class="keyword">boolean</span> isBefore = d1.before(d2);</span><br><span class="line">        <span class="comment">// d1 是否晚于 d2</span></span><br><span class="line">        <span class="keyword">boolean</span> isAfter = d1.after(d2);</span><br><span class="line">        <span class="comment">// d1 是否等于 d2</span></span><br><span class="line">        <span class="keyword">boolean</span> isEquals = d1.after(d2);</span><br><span class="line">        <span class="comment">// d1 和 d2 比较。</span></span><br><span class="line">        <span class="comment">// 若d1 早于 d2，返回 -1</span></span><br><span class="line">        <span class="comment">// 若d1 晚于 d2，返回 1</span></span><br><span class="line">        <span class="comment">// 若d1 等于 d2，返回 0</span></span><br><span class="line">        <span class="keyword">int</span> comp = d1.compareTo(d2);</span><br><span class="line">        System.out.printf(<span class="string">"isBefore=%s, isAfter=%s, isEquals=%s, comp=%s\n"</span>, </span><br><span class="line">                isBefore, isAfter, isEquals, comp);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// parse接口</span></span><br><span class="line">        <span class="keyword">long</span> millis = Date.parse(<span class="string">"13 Mar 2009"</span>);</span><br><span class="line">        <span class="comment">// (注意，通过这种方式设置Date，获取的Year值是“实际年份-1900”)</span></span><br><span class="line">        Date d4 = <span class="keyword">new</span> Date(millis);</span><br><span class="line">        System.out.printf(<span class="string">"millis=%s, d4=%s\n"</span>, millis, tostring(d4));</span><br><span class="line">        System.out.printf(<span class="string">"d1.toGMTString()%s\n"</span>, d1.toGMTString());</span><br><span class="line">        System.out.printf(<span class="string">"d1.toLocaleString()%s\n"</span>, d1.toLocaleString());</span><br><span class="line">        System.out.printf(<span class="string">"d1.toString()%s\n"</span>, d1.toString());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 将date转换Calendar对象，并返回实际的年月日。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">tostring</span><span class="params">(Date date)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 获取Date对应的Calendar</span></span><br><span class="line">        Calendar cal = Calendar.getInstance();</span><br><span class="line">        cal.setTime(date);</span><br><span class="line">        <span class="keyword">int</span> year = cal.get(Calendar.YEAR);</span><br><span class="line">        <span class="keyword">int</span> month = cal.get(Calendar.MONTH)+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> day = cal.get(Calendar.DATE);</span><br><span class="line">        <span class="keyword">int</span> hour = cal.get(Calendar.HOUR);</span><br><span class="line">        <span class="keyword">int</span> minute = cal.get(Calendar.MINUTE);</span><br><span class="line">        <span class="keyword">int</span> second = cal.get(Calendar.SECOND);</span><br><span class="line">        <span class="keyword">long</span> millis = cal.getTimeInMillis();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> year+<span class="string">"-"</span>+month+<span class="string">"-"</span>+day+<span class="string">" "</span>+hour+<span class="string">":"</span>+minute+<span class="string">":"</span>+second+<span class="string">"\t"</span>+millis+<span class="string">"(ms)"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="LocalDateTime"><a href="#LocalDateTime" class="headerlink" title="LocalDateTime"></a>LocalDateTime</h1><ul>
+<li><p>获取当前此刻的时间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">LocalDateTime rightNow = LocalDateTime.now();</span><br><span class="line">System.out.println( &quot;当前时刻：&quot; + rightNow );</span><br><span class="line">System.out.println( &quot;当前年份：&quot; + rightNow.getYear() );</span><br><span class="line">System.out.println( &quot;当前月份：&quot; + rightNow.getMonth() );</span><br><span class="line">System.out.println( &quot;当前日份：&quot; + rightNow.getDayOfMonth() );</span><br><span class="line">System.out.println( &quot;当前时：&quot; + rightNow.getHour() );</span><br><span class="line">System.out.println( &quot;当前分：&quot; + rightNow.getMinute() );</span><br><span class="line">System.out.println( &quot;当前秒：&quot; + rightNow.getSecond() );</span><br><span class="line"></span><br><span class="line">// 输出结果：</span><br><span class="line">当前时刻：2019-12-13T22:05:26.779</span><br><span class="line">当前年份：2019</span><br><span class="line">当前月份：DECEMBER</span><br><span class="line">当前日份：13</span><br><span class="line">当前时：22</span><br><span class="line">当前分：5</span><br><span class="line">当前秒：26</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>构造一个指定年、月、日的时间：<br>比如，想构造：2019年10月12月12日9时21分32秒<br><code>LocalDateTime beforeDate = LocalDateTime.of(2019, Month.DECEMBER, 12, 9, 21, 32);</code></p>
+</li>
+<li><p>修改日期</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LocalDateTime rightNow = LocalDateTime.now(); </span><br><span class="line">rightNow = rightNow.minusYears( 2 );  // 减少 2 年</span><br><span class="line">rightNow = rightNow.plusMonths( 3 );  // 增加 3 个月</span><br><span class="line">rightNow = rightNow.withYear( 2008 ); // 直接修改年份到2008年</span><br><span class="line">rightNow = rightNow.withHour( 13 );   // 直接修改小时到13时</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>格式化日期</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">LocalDateTime rightNow = LocalDateTime.now();</span><br><span class="line">String result1 = rightNow.format( DateTimeFormatter.ISO_DATE );</span><br><span class="line">String result2 = rightNow.format( DateTimeFormatter.BASIC_ISO_DATE );</span><br><span class="line">String result3 = rightNow.format( DateTimeFormatter.ofPattern(&quot;yyyy/MM/dd&quot;) );</span><br><span class="line">System.out.println(&quot;格式化后的日期(基本样式一举例)：&quot; + result1);</span><br><span class="line">System.out.println(&quot;格式化后的日期(基本样式二举例)：&quot; + result2);</span><br><span class="line">System.out.println(&quot;格式化后的日期(自定义样式举例)：&quot; + result3);</span><br><span class="line"></span><br><span class="line">// 输出结果：</span><br><span class="line">格式化后的日期(基本样式一举例)：2019-12-13</span><br><span class="line">格式化后的日期(基本样式二举例)：20191213</span><br><span class="line">格式化后的日期(自定义样式举例)：2019/12/13</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>时间反解析</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LocalDateTime time = LocalDateTime.parse(&quot;2002--01--02 11:21&quot;,DateTimeFormatter.ofPattern(&quot;yyyy--MM--dd HH:mm&quot;));</span><br><span class="line">System.out.println(&quot;字符串反解析后的时间为：&quot; + time);</span><br><span class="line"></span><br><span class="line">// 输出：</span><br><span class="line">字符串反解析后的时间为：2002-01-02T11:21</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="线程安全问题"><a href="#线程安全问题" class="headerlink" title="线程安全问题"></a>线程安全问题</h2><p>其实以前我们惯用的 Date时间类是可变类，这就意味着在多线程环境下对共享 Date变量进行操作时，必须由程序员自己来保证线程安全！否则极有可能翻车。<br>而自 Java8开始推出的 LocalDateTime却是线程安全的，开发人员不用再考虑并发问题，这点我们从 LocalDateTime的官方源码中即可看出：<br><code>this class is immutable and thread-safe</code></p>
+<h2 id="日期格式化的选择"><a href="#日期格式化的选择" class="headerlink" title="日期格式化的选择"></a>日期格式化的选择</h2><p>大家除了惯用 Date来表示时间之外，还有一个用于和 Date连用的 SimpleDateFormat 时间格式化类大家可能也戒不掉了!<br>SimpleDateFormat最主要的致命问题也是在于它本身并不线程安全，这在它的源码注释里已然告知过了：<br><code>Date formats are not synchronized</code><br>那取而代之，我们现在改用什么呢？其实在前文已经用到啦，那就是了<code>DateTimeFormatter</code>了，他也是线程安全的：<br><code>this class is immutable and thread-safe</code></p>
+<h1 id="GMT、UTC、时区的关系"><a href="#GMT、UTC、时区的关系" class="headerlink" title="GMT、UTC、时区的关系"></a>GMT、UTC、时区的关系</h1><p>许多人都知道两地时间表简称为GMT或UTC，而世界时区表则通称为World Time，那么GMT与UTC的实质原意又是为何？世界时区又是怎么区分的？面盘上密密麻麻的英文单字代表着什么意义与作用呢？这些都是新手在接触两地时间表或世界时区表时，脑海中所不断浮现的种种疑问，以下将带您一探时区奥妙的究竟。</p>
+<h2 id="全球24个时区的划分"><a href="#全球24个时区的划分" class="headerlink" title="全球24个时区的划分"></a>全球24个时区的划分</h2><p>相较于两地时间表，可以显示世界各时区时间和地名的世界时区表（World Time），就显得精密与复杂多了，通常世界时区表的表盘上会标示着全球24个时区的城市名称，但究竟这24个时区是如何产生的？过去世界各地原本各自订定当地时间，但随着交通和电讯的发达，各地交流日益频繁，不同的地方时间，造成许多困扰，于是在西元1884年的国际会议上制定了全球性的标准时，明定以英国伦敦格林威治这个地方为零度经线的起点（亦称为本初子午线），并以地球由西向东每24小时自转一周360°，订定每隔经度15°，时差1小时。而每15°的经线则称为该时区的中央经线，将全球划分为24个时区，其中包含23个整时区及180°经线左右两侧的2个半时区。就全球的时间来看，东经的时间比西经要早，也就是如果格林威治时间是中午12时，则中央经线15°E的时区为下午1时，中央经线30°E时区的时间为下午2时；反之，中央经线15°W的时区时间为上午11时，中央经线30°W时区的时间为上午10时。以台湾为例，台湾位于东经121°，换算后与格林威治就有8小时的时差。如果两人同时从格林威治的0°各往东、西方前进，当他们在经线180°时，就会相差24小时，所以经线180°被定为国际换日线，由西向东通过此线时日期要减去一日，反之，若由东向西则要增加一日。</p>
+<h2 id="格林威治标准时间GMT"><a href="#格林威治标准时间GMT" class="headerlink" title="格林威治标准时间GMT"></a>格林威治标准时间GMT</h2><p>十七世纪，格林威治皇家天文台为了海上霸权的扩张计画而进行天体观测。1675年旧皇家观测所(Old Royal Observatory) 正式成立，到了1884年决定以通过格林威治的子午线作为划分地球东西两半球的经度零度。观测所门口墙上有一个标志24小时的时钟，显示当下的时间，对全球而言，这里所设定的时间是世界时间参考点，全球都以格林威治的时间作为标准来设定时间，这就是我们耳熟能详的「格林威治标准时间」(Greenwich Mean Time，简称G.M.T.)的由来，标示在手表上，则代表此表具有两地时间功能，也就是同时可以显示原居地和另一个国度的时间。</p>
+<h2 id="世界协调时间UTC"><a href="#世界协调时间UTC" class="headerlink" title="世界协调时间UTC"></a>世界协调时间UTC</h2><p>多数的两地时间表都以GMT来表示，但也有些两地时间表上看不到GMT字样，出现的反而是UTC这3个英文字母，究竟何谓UTC？事实上，UTC指的是Coordinated Universal Time－ 世界协调时间（又称世界标准时间、世界统一时间），是经过平均太阳时(以格林威治时间GMT为准)、地轴运动修正后的新时标以及以「秒」为单位的国际原子时所综合精算而成的时间，计算过程相当严谨精密，因此若以「世界标准时间」的角度来说，UTC比GMT来得更加精准。其误差值必须保持在0.9秒以内，若大于0.9秒则由位于巴黎的国际地球自转事务中央局发布闰秒，使UTC与地球自转周期一致。所以基本上UTC的本质强调的是比GMT更为精确的世界时间标准，不过对于现行表款来说，GMT与UTC的功能与精确度是没有差别的。</p>
+<h2 id="夏日节约时间DST"><a href="#夏日节约时间DST" class="headerlink" title="夏日节约时间DST"></a>夏日节约时间DST</h2><p>所谓「夏日节约时间」Daylight Saving Time（简称D.S.T.），是指在夏天太阳升起的比较早时，将时钟拨快一小时，以提早日光的使用，在英国则称为夏令时间(Summer Time)。这个构想于1784年由美国班杰明·富兰克林提出来，1915年德国成为第一个正式实施夏令日光节约时间的国家，以削减灯光照明和耗电开支。自此以后，全球以欧洲和北美为主的约70个国家都引用这个做法。目前被划分成两个时区的印度也正在商讨是否全国该统一实行夏令日光节约时间。欧洲手机上也有很多GSM系统的基地台，除了会传送当地时间外也包括夏令日光节约时间，做为手机的时间标准，使用者可以自行决定要开启或关闭。值得注意的是，某些国家有实施「夏日节约时间」的制度，出国时别忘了跟随当地习惯在表上调整一下，这可是机械表没有的功能设计哦！</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/06/Calendar/" rel="next" title="Calendar">
+                <i class="fa fa-chevron-left"></i> Calendar
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/07/SimpleDateFormat/" rel="prev" title="SimpleDateFormat">
+                SimpleDateFormat <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Date介绍"><span class="nav-number">1.</span> <span class="nav-text">Date介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Date和Calendar相互转换"><span class="nav-number">2.</span> <span class="nav-text">Date和Calendar相互转换</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Date-函数列表"><span class="nav-number">3.</span> <span class="nav-text">Date 函数列表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Date的操作API"><span class="nav-number">4.</span> <span class="nav-text">Date的操作API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Date操作示例"><span class="nav-number">5.</span> <span class="nav-text">Date操作示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LocalDateTime"><span class="nav-number">6.</span> <span class="nav-text">LocalDateTime</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#线程安全问题"><span class="nav-number">6.1.</span> <span class="nav-text">线程安全问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#日期格式化的选择"><span class="nav-number">6.2.</span> <span class="nav-text">日期格式化的选择</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GMT、UTC、时区的关系"><span class="nav-number">7.</span> <span class="nav-text">GMT、UTC、时区的关系</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#全球24个时区的划分"><span class="nav-number">7.1.</span> <span class="nav-text">全球24个时区的划分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#格林威治标准时间GMT"><span class="nav-number">7.2.</span> <span class="nav-text">格林威治标准时间GMT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#世界协调时间UTC"><span class="nav-number">7.3.</span> <span class="nav-text">世界协调时间UTC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#夏日节约时间DST"><span class="nav-number">7.4.</span> <span class="nav-text">夏日节约时间DST</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

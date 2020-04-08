@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="概述SQL语句需要先编译然后执行，而存储过程（Stored Procedure）是一组为了完成特定功能的SQL语句集，经编译后存储在数据库中，用户通过指定存储过程的名字并给定参数（如果该存储过程带有参数）来调用执行它。存储过程是可编程的函数，在数据库中(数据字典表)创建并保存，可以由SQL语句和控制结构组成。当想要在不同的应用程序或平台上执行相同的函数，或者封装特定功能时，存储过程是非常有用的。数">
+<meta name="keywords" content="mysql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql进阶-存储过程">
+<meta property="og:url" content="https://jingyao066.gitee.io/2018/12/28/mysql进阶-存储过程/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="概述SQL语句需要先编译然后执行，而存储过程（Stored Procedure）是一组为了完成特定功能的SQL语句集，经编译后存储在数据库中，用户通过指定存储过程的名字并给定参数（如果该存储过程带有参数）来调用执行它。存储过程是可编程的函数，在数据库中(数据字典表)创建并保存，可以由SQL语句和控制结构组成。当想要在不同的应用程序或平台上执行相同的函数，或者封装特定功能时，存储过程是非常有用的。数">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-25T07:57:23.536Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mysql进阶-存储过程">
+<meta name="twitter:description" content="概述SQL语句需要先编译然后执行，而存储过程（Stored Procedure）是一组为了完成特定功能的SQL语句集，经编译后存储在数据库中，用户通过指定存储过程的名字并给定参数（如果该存储过程带有参数）来调用执行它。存储过程是可编程的函数，在数据库中(数据字典表)创建并保存，可以由SQL语句和控制结构组成。当想要在不同的应用程序或平台上执行相同的函数，或者封装特定功能时，存储过程是非常有用的。数">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2018/12/28/mysql进阶-存储过程/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>mysql进阶-存储过程 | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2018/12/28/mysql进阶-存储过程/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">mysql进阶-存储过程
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-28 20:08:17" itemprop="dateCreated datePublished" datetime="2018-12-28T20:08:17+08:00">2018-12-28</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-10-25 15:57:23" itemprop="dateModified" datetime="2019-10-25T15:57:23+08:00">2019-10-25</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2018/12/28/mysql进阶-存储过程/" class="leancloud_visitors" data-flag-title="mysql进阶-存储过程">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>SQL语句需要先编译然后执行，而存储过程（Stored Procedure）是一组为了完成特定功能的SQL语句集，经编译后存储在数据库中，用户通过指定存储过程的名字并给定参数（如果该存储过程带有参数）来调用执行它。<br>存储过程是可编程的函数，在数据库中(数据字典表)创建并保存，可以由SQL语句和控制结构组成。当想要在不同的应用程序或平台上执行相同的函数，或者封装特定功能时，存储过程是非常有用的。数据库中的存储过程可以看做是对编程中面向对象方法的模拟，它允许控制数据的访问方式。</p>
+<h1 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h1><ul>
+<li>增强SQL语言的功能和灵活性：将重复性很高的一些操作，封装到一个存储过程中，简化了对这些SQL的调用</li>
+<li>组件式编程：存储过程被创建后，可以在程序中被多次调用，而不必重新编写该存储过程的SQL语句。而且数据库专业人员可以随时对存储过程进行修改，对应用程序源代码毫无影响。</li>
+<li>较快的执行速度：存储过程是预编译的。在首次运行一个存储过程时查询，优化器对其进行分析优化，并且给出最终被存储在系统表中的执行计划。而批处理的Transaction-SQL语句在每次运行时都要进行编译和优化，速度相对要慢一些。</li>
+<li>减少网络流量：针对同一个数据库对象的操作（如查询、修改），如果这一操作所涉及的Transaction-SQL语句被组织进存储过程，那么当在客户计算机上调用该存储过程时，网络中传送的只是该调用语句，从而大大减少网络流量并降低了网络负载。</li>
+<li>保证数据安全：通过对执行某一存储过程的权限进行限制，能够实现对相应的数据的访问权限的限制，避免了非授权用户对数据的访问，保证了数据的安全。</li>
+</ul>
+<h1 id="创建存储过程"><a href="#创建存储过程" class="headerlink" title="创建存储过程"></a>创建存储过程</h1><p>完整语法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">CREATE</span><br><span class="line">    [DEFINER = &#123; user | CURRENT_USER &#125;]</span><br><span class="line">　PROCEDURE sp_name ([proc_parameter[,...]])</span><br><span class="line">    [characteristic ...] routine_body</span><br><span class="line"></span><br><span class="line">proc_parameter:</span><br><span class="line">    [ IN | OUT | INOUT ] param_name type</span><br><span class="line"></span><br><span class="line">characteristic:</span><br><span class="line">    COMMENT &apos;string&apos;</span><br><span class="line">  | LANGUAGE SQL</span><br><span class="line">  | [NOT] DETERMINISTIC</span><br><span class="line">  | &#123; CONTAINS SQL | NO SQL | READS SQL DATA | MODIFIES SQL DATA &#125;</span><br><span class="line">  | SQL SECURITY &#123; DEFINER | INVOKER &#125;</span><br><span class="line"></span><br><span class="line">routine_body:</span><br><span class="line">　　Valid SQL routine statement</span><br><span class="line"></span><br><span class="line">[begin_label:] BEGIN</span><br><span class="line">　　[statement_list]</span><br><span class="line">　　　　……</span><br><span class="line">END [end_label]</span><br></pre></td></tr></table></figure></p>
+<p>简单语法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE </span><br><span class="line">	PROCEDURE  过程名</span><br><span class="line">	([[IN|OUT|INOUT] 参数名 数据类型[,[IN|OUT|INOUT] 参数名 数据类型…]])</span><br><span class="line">	[特性 ...]</span><br><span class="line">	BEGIN</span><br><span class="line">		过程体</span><br><span class="line">	END</span><br></pre></td></tr></table></figure></p>
+<p>存储过程传入表名，mysql是不支持表名，列名做参数的。只能采用动态拼接的方法来生成sql语句。<br>参考：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">DROP PROCEDURE IF EXISTS `pagePro`;</span><br><span class="line">CREATE DEFINER = `root`@`localhost` PROCEDURE `pagePro`(in pageNo int,in pageSize int,in tableName varchar(50))</span><br><span class="line">BEGIN</span><br><span class="line">	DECLARE startIndex INT;</span><br><span class="line">	set startIndex = pageSize * (pageNo-1);</span><br><span class="line">	set @s = concat(&quot;select * from &quot;,tableName,&quot; LIMIT &quot;,startIndex,&quot;,&quot;,pageSize);</span><br><span class="line">	prepare stmt from @s;</span><br><span class="line">	execute stmt;</span><br><span class="line">	DEALLOCATE prepare stmt;</span><br><span class="line">END;</span><br></pre></td></tr></table></figure></p>
+<h2 id="存储过程体"><a href="#存储过程体" class="headerlink" title="存储过程体"></a>存储过程体</h2><p>存储过程体包含了在过程调用时必须执行的语句，例如：dml、ddl语句，if-then-else和while-do语句、声明变量的declare语句等<br>过程体格式：以begin开始，以end结束(可嵌套)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line">　　BEGIN</span><br><span class="line">　　　　BEGIN</span><br><span class="line">　　　　　　statements; </span><br><span class="line">　　　　END</span><br><span class="line">　　END</span><br><span class="line">END</span><br></pre></td></tr></table></figure></p>
+<p>注意：每个嵌套块及其中的每条语句，必须以分号结束，表示过程体结束的begin-end块(又叫做复合语句compound statement)，则不需要分号。</p>
+<h2 id="为语句块贴标签"><a href="#为语句块贴标签" class="headerlink" title="为语句块贴标签"></a>为语句块贴标签</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[begin_label:] BEGIN</span><br><span class="line">　　[statement_list]</span><br><span class="line">END [end_label]</span><br></pre></td></tr></table></figure>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">label1: BEGIN</span><br><span class="line">　　label2: BEGIN</span><br><span class="line">　　　　label3: BEGIN</span><br><span class="line">　　　　　　statements; </span><br><span class="line">　　　　END label3 ;</span><br><span class="line">　　END label2;</span><br><span class="line">END label1</span><br></pre></td></tr></table></figure></p>
+<p>标签的作用：<br>①增强代码的可读性<br>②在某些语句(例如:leave和iterate语句)，需要用到标签</p>
+<p>简单示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER //</span><br><span class="line">  CREATE PROCEDURE myproc(OUT s int)</span><br><span class="line">    BEGIN</span><br><span class="line">      SELECT COUNT(*) INTO s FROM students;</span><br><span class="line">    END</span><br><span class="line">    //</span><br><span class="line">DELIMITER;</span><br></pre></td></tr></table></figure></p>
+<h2 id="分隔符"><a href="#分隔符" class="headerlink" title="分隔符"></a>分隔符</h2><p>MySQL默认以”;”为分隔符，如果没有声明分割符，则编译器会把存储过程当成SQL语句进行处理，因此编译过程会报错，所以要事先用“DELIMITER //”声明当前段分隔符，让编译器把两个”//“之间的内容当做存储过程的代码，不会执行这些代码；“DELIMITER ;”的意为把分隔符还原。</p>
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><p>存储过程根据需要可能会有输入、输出、输入输出参数，如果有多个参数用”,”分割开。MySQL存储过程的参数用在存储过程的定义，共有三种参数类型,IN,OUT,INOUT:</p>
+<p>IN参数的值必须在调用存储过程时指定，在存储过程中修改该参数的值不能被返回，为默认值<br>OUT：该值可在存储过程内部被改变，并可返回<br>INOUT：调用时指定，并且可被改变和返回</p>
+<h2 id="过程体"><a href="#过程体" class="headerlink" title="过程体"></a>过程体</h2><p>过程体的开始与结束使用BEGIN与END进行标识。</p>
+<h2 id="in参数例子"><a href="#in参数例子" class="headerlink" title="in参数例子"></a>in参数例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER //</span><br><span class="line">  CREATE PROCEDURE in_param(IN p_in int)</span><br><span class="line">    BEGIN</span><br><span class="line">    SELECT p_in;</span><br><span class="line">    SET p_in=2;</span><br><span class="line">    SELECT p_in;</span><br><span class="line">    END;</span><br><span class="line">    //</span><br><span class="line">DELIMITER ;</span><br><span class="line">#调用</span><br><span class="line">SET @p_in=1;</span><br><span class="line">CALL in_param(@p_in);</span><br><span class="line">SELECT @p_in;</span><br></pre></td></tr></table></figure>
+<p>结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">p_in</span><br><span class="line">1</span><br><span class="line"></span><br><span class="line">p_in</span><br><span class="line">2</span><br><span class="line"></span><br><span class="line">@p_in</span><br><span class="line">1</span><br></pre></td></tr></table></figure></p>
+<p>以上可以看出，p_in虽然在存储过程中被修改，但并不影响@p_id的值，因为前者为局部变量、后者为全局变量。</p>
+<h2 id="OUT参数例子"><a href="#OUT参数例子" class="headerlink" title="OUT参数例子"></a>OUT参数例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#存储过程OUT参数</span><br><span class="line">DELIMITER //</span><br><span class="line">  CREATE PROCEDURE out_param(OUT p_out int)</span><br><span class="line">    BEGIN</span><br><span class="line">      SELECT p_out;</span><br><span class="line">      SET p_out=2;</span><br><span class="line">      SELECT p_out;</span><br><span class="line">    END;</span><br><span class="line">    //</span><br><span class="line">DELIMITER ;</span><br><span class="line">#调用</span><br><span class="line">SET @p_out=1;</span><br><span class="line">CALL out_param(@p_out);</span><br><span class="line">SELECT @p_out;</span><br></pre></td></tr></table></figure>
+<p>结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">p_out</span><br><span class="line">(null)</span><br><span class="line">#因为out是向调用者输出参数，不接收输入的参数，所以存储过程里的p_out为null</span><br><span class="line"></span><br><span class="line">p_out</span><br><span class="line">2</span><br><span class="line"></span><br><span class="line">@p_out</span><br><span class="line">2</span><br><span class="line">#调用了out_param存储过程，输出参数，改变了p_out变量的值</span><br></pre></td></tr></table></figure></p>
+<h2 id="INOUT参数例子"><a href="#INOUT参数例子" class="headerlink" title="INOUT参数例子"></a>INOUT参数例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#存储过程INOUT参数</span><br><span class="line">DELIMITER //</span><br><span class="line">  CREATE PROCEDURE inout_param(INOUT p_inout int)</span><br><span class="line">    BEGIN</span><br><span class="line">      SELECT p_inout;</span><br><span class="line">      SET p_inout=2;</span><br><span class="line">      SELECT p_inout;</span><br><span class="line">    END;</span><br><span class="line">    //</span><br><span class="line">DELIMITER ;</span><br><span class="line">#调用</span><br><span class="line">SET @p_inout=1;</span><br><span class="line">CALL inout_param(@p_inout) ;</span><br><span class="line">SELECT @p_inout;</span><br></pre></td></tr></table></figure>
+<p>结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">p_inout</span><br><span class="line">1</span><br><span class="line"></span><br><span class="line">p_inout</span><br><span class="line">2</span><br><span class="line"></span><br><span class="line">@p_inout</span><br><span class="line">2</span><br></pre></td></tr></table></figure></p>
+<p>注意1：<br>①如果过程没有参数，也必须在过程名后面写上小括号<br>例：CREATE PROCEDURE sp_name ([proc_parameter[,…]]) ……<br>②确保参数的名字不等于列的名字，否则在过程体中，参数名被当做列名来处理</p>
+<p>注意2：<br>输入值使用in参数；<br>返回值使用out参数；<br>inout参数就尽量的少用。</p>
+<h1 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h1><p>语法：<br><code>DECLARE 变量名1[,变量名2...] 数据类型 [默认值];</code><br>数据类型为MySQL的数据类型。</p>
+<h2 id="变量赋值"><a href="#变量赋值" class="headerlink" title="变量赋值"></a>变量赋值</h2><p>语法：<br><code>SET 变量名 = 变量值 [,变量名= 变量值 ...]</code></p>
+<h2 id="用户变量"><a href="#用户变量" class="headerlink" title="用户变量"></a>用户变量</h2><p>用户变量一般以@开头，请规范命名用户变量</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>1.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT &apos;Hello World&apos; into @x;</span><br><span class="line">SELECT @x;</span><br></pre></td></tr></table></figure></p>
+<p>示例2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SET @y=&apos;Goodbye Cruel World&apos;;</span><br><span class="line">SELECT @y;</span><br></pre></td></tr></table></figure></p>
+<p>示例3：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SET @z=1+2+3;</span><br><span class="line">SELECT @z;</span><br></pre></td></tr></table></figure></p>
+<h3 id="在存储过程中使用用户变量"><a href="#在存储过程中使用用户变量" class="headerlink" title="在存储过程中使用用户变量"></a>在存储过程中使用用户变量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE PROCEDURE GreetWorld() SELECT CONCAT(@greeting,&apos; World&apos;);</span><br><span class="line">SET @greeting=&apos;Hello&apos;;</span><br><span class="line">CALL GreetWorld();</span><br></pre></td></tr></table></figure>
+<p>结果：<br><code>Hello World</code></p>
+<h3 id="在存储过程间传递全局范围的用户变量"><a href="#在存储过程间传递全局范围的用户变量" class="headerlink" title="在存储过程间传递全局范围的用户变量"></a>在存储过程间传递全局范围的用户变量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CREATE PROCEDURE p1() SET @last_proc=&apos;p1&apos;;</span><br><span class="line">CREATE PROCEDURE p2() SELECT CONCAT(&apos;Last procedure was &apos;,@last_proc);</span><br><span class="line">CALL p1();</span><br><span class="line">CALL p2();</span><br></pre></td></tr></table></figure>
+<p>结果：<br><code>Last procedure was p1</code></p>
+<h1 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h1><p>MySQL存储过程可使用两种风格的注释：</p>
+<p>双杠：–，该风格一般用于单行注释<br>C风格： 一般用于多行注释</p>
+<h1 id="调用"><a href="#调用" class="headerlink" title="调用"></a>调用</h1><p>用call和你过程名以及一个括号，括号里面根据需要，加入参数，参数包括输入参数、输出参数、输入输出参数。</p>
+<h1 id="存储过程的查询"><a href="#存储过程的查询" class="headerlink" title="存储过程的查询"></a>存储过程的查询</h1><p>查询存储过程:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT name FROM mysql.proc WHERE db=&apos;数据库名&apos;;</span><br><span class="line">SELECT routine_name FROM information_schema.routines WHERE routine_schema=&apos;数据库名&apos;;</span><br><span class="line">SHOW PROCEDURE STATUS WHERE db=&apos;数据库名&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>查看存储过程详细信息:<br><code>SHOW CREATE PROCEDURE 数据库.存储过程名;</code></p>
+<h1 id="存储过程的修改"><a href="#存储过程的修改" class="headerlink" title="存储过程的修改"></a>存储过程的修改</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ALTER &#123;PROCEDURE | FUNCTION&#125; sp_name [characteristic ...]</span><br><span class="line">characteristic:</span><br><span class="line">&#123; CONTAINS SQL | NO SQL | READS SQL DATA | MODIFIES SQL DATA &#125;</span><br><span class="line">| SQL SECURITY &#123; DEFINER | INVOKER &#125;</span><br><span class="line">| COMMENT &apos;string&apos;</span><br></pre></td></tr></table></figure>
+<p>.sp_name参数表示存储过程或函数的名称；<br>.characteristic参数指定存储函数的特性。<br>.CONTAINS SQL表示子程序包含SQL语句，但不包含读或写数据的语句；<br>.NO SQL表示子程序中不包含SQL语句；<br>.READS SQL DATA表示子程序中包含读数据的语句；<br>.MODIFIES SQL DATA表示子程序中包含写数据的语句。<br>.SQL SECURITY { DEFINER | INVOKER }指明谁有权限来执行，DEFINER表示只有定义者自己才能够执行；INVOKER表示调用者可以执行。<br>.COMMENT ‘string’是注释信息。</p>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#将读写权限改为MODIFIES SQL DATA，并指明调用者可以执行。</span><br><span class="line">ALTER  PROCEDURE  num_from_employee</span><br><span class="line">  MODIFIES SQL DATA</span><br><span class="line">  SQL SECURITY INVOKER ;</span><br><span class="line">#将读写权限改为READS SQL DATA，并加上注释信息&apos;FIND NAME&apos;。</span><br><span class="line">ALTER  PROCEDURE  name_from_employee</span><br><span class="line">  READS SQL DATA</span><br><span class="line">  COMMENT &apos;FIND NAME&apos;;</span><br></pre></td></tr></table></figure></p>
+<h1 id="删除存储过程"><a href="#删除存储过程" class="headerlink" title="删除存储过程"></a>删除存储过程</h1><p><code>DROP PROCEDURE [过程1[,过程2…]]</code><br>从MySQL的表格中删除一个或多个存储过程。</p>
+<h1 id="存储过程的控制语句"><a href="#存储过程的控制语句" class="headerlink" title="存储过程的控制语句"></a>存储过程的控制语句</h1><h2 id="变量作用域"><a href="#变量作用域" class="headerlink" title="变量作用域"></a>变量作用域</h2><p>内部变量在其作用域范围内享有更高的优先权，当执行到end时，内部变量消失，不再可见了，在存储过程外再也找不到这个内部变量，但是可以通过out参数或者将其值指派给会话变量来保存其值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER //</span><br><span class="line">  CREATE PROCEDURE proc()</span><br><span class="line">    BEGIN</span><br><span class="line">      DECLARE x1 VARCHAR(5) DEFAULT &apos;outer&apos;;</span><br><span class="line">        BEGIN</span><br><span class="line">          DECLARE x1 VARCHAR(5) DEFAULT &apos;inner&apos;;</span><br><span class="line">          SELECT x1;</span><br><span class="line">        END;</span><br><span class="line">      SELECT x1;</span><br><span class="line">    END;</span><br><span class="line">    //</span><br><span class="line">DELIMITER ;</span><br><span class="line">#调用</span><br><span class="line">CALL proc();</span><br></pre></td></tr></table></figure></p>
+<p>结果：<br><code>inner</code></p>
+<h2 id="条件语句"><a href="#条件语句" class="headerlink" title="条件语句"></a>条件语句</h2><p>IF-THEN-ELSE语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#条件语句IF-THEN-ELSE</span><br><span class="line">DROP PROCEDURE IF EXISTS proc3;</span><br><span class="line">DELIMITER //</span><br><span class="line">CREATE PROCEDURE proc3(IN parameter int)</span><br><span class="line">  BEGIN</span><br><span class="line">    DECLARE var int;</span><br><span class="line">    SET var=parameter+1;</span><br><span class="line">    IF var=0 THEN</span><br><span class="line">      INSERT INTO t VALUES (17);</span><br><span class="line">    END IF ;</span><br><span class="line">    IF parameter=0 THEN</span><br><span class="line">      UPDATE t SET s1=s1+1;</span><br><span class="line">    ELSE</span><br><span class="line">      UPDATE t SET s1=s1+2;</span><br><span class="line">    END IF ;</span><br><span class="line">  END ;</span><br><span class="line">  //</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure></p>
+<p>CASE-WHEN-THEN-ELSE语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#CASE-WHEN-THEN-ELSE语句</span><br><span class="line">DELIMITER //</span><br><span class="line">  CREATE PROCEDURE proc4 (IN parameter INT)</span><br><span class="line">    BEGIN</span><br><span class="line">      DECLARE var INT;</span><br><span class="line">      SET var=parameter+1;</span><br><span class="line">      CASE var</span><br><span class="line">        WHEN 0 THEN</span><br><span class="line">          INSERT INTO t VALUES (17);</span><br><span class="line">        WHEN 1 THEN</span><br><span class="line">          INSERT INTO t VALUES (18);</span><br><span class="line">        ELSE</span><br><span class="line">          INSERT INTO t VALUES (19);</span><br><span class="line">      END CASE ;</span><br><span class="line">    END ;</span><br><span class="line">  //</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure></p>
+<h2 id="循环语句"><a href="#循环语句" class="headerlink" title="循环语句"></a>循环语句</h2><p>WHILE-DO…END-WHILE<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER //</span><br><span class="line">  CREATE PROCEDURE proc5()</span><br><span class="line">    BEGIN</span><br><span class="line">      DECLARE var INT;</span><br><span class="line">      SET var=0;</span><br><span class="line">      WHILE var&lt;6 DO</span><br><span class="line">        INSERT INTO t VALUES (var);</span><br><span class="line">        SET var=var+1;</span><br><span class="line">      END WHILE ;</span><br><span class="line">    END;</span><br><span class="line">  //</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure></p>
+<p>REPEAT…END REPEAT<br>此语句的特点是执行操作后检查结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER //</span><br><span class="line">  CREATE PROCEDURE proc6 ()</span><br><span class="line">    BEGIN</span><br><span class="line">      DECLARE v INT;</span><br><span class="line">      SET v=0;</span><br><span class="line">      REPEAT</span><br><span class="line">        INSERT INTO t VALUES(v);</span><br><span class="line">        SET v=v+1;</span><br><span class="line">        UNTIL v&gt;=5</span><br><span class="line">      END REPEAT;</span><br><span class="line">    END;</span><br><span class="line">  //</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure></p>
+<p>LOOP…END LOOP<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER //</span><br><span class="line">  CREATE PROCEDURE proc7 ()</span><br><span class="line">    BEGIN</span><br><span class="line">      DECLARE v INT;</span><br><span class="line">      SET v=0;</span><br><span class="line">      LOOP_LABLE:LOOP</span><br><span class="line">        INSERT INTO t VALUES(v);</span><br><span class="line">        SET v=v+1;</span><br><span class="line">        IF v &gt;=5 THEN</span><br><span class="line">          LEAVE LOOP_LABLE;</span><br><span class="line">        END IF;</span><br><span class="line">      END LOOP;</span><br><span class="line">    END;</span><br><span class="line">  //</span><br><span class="line">DELIMITER;</span><br></pre></td></tr></table></figure></p>
+<p>LABLES标号<br>标号可以用在begin repeat while 或者loop 语句前，语句标号只能在合法的语句前面使用。可以跳出循环，使运行指令达到复合语句的最后一步。</p>
+<p>ITERATE迭代<br>通过引用复合语句的标号,来从新开始复合语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#ITERATE</span><br><span class="line">DELIMITER //</span><br><span class="line">  CREATE PROCEDURE proc8()</span><br><span class="line">  BEGIN</span><br><span class="line">    DECLARE v INT;</span><br><span class="line">    SET v=0;</span><br><span class="line">    LOOP_LABLE:LOOP</span><br><span class="line">      IF v=3 THEN</span><br><span class="line">        SET v=v+1;</span><br><span class="line">        ITERATE LOOP_LABLE;</span><br><span class="line">      END IF;</span><br><span class="line">      INSERT INTO t VALUES(v);</span><br><span class="line">      SET v=v+1;</span><br><span class="line">      IF v&gt;=5 THEN</span><br><span class="line">        LEAVE LOOP_LABLE;</span><br><span class="line">      END IF;</span><br><span class="line">    END LOOP;</span><br><span class="line">  END;</span><br><span class="line">  //</span><br><span class="line">DELIMITER;</span><br></pre></td></tr></table></figure></p>
+<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><p>存储过程可使用的函数与mysql本身的函数一致。</p>
+<h1 id="游标"><a href="#游标" class="headerlink" title="游标"></a>游标</h1><p>概述1:<br>在操作mysql的时候我们知道MySQL检索操作返回一组称为结果集的行。这组返回的行都是与 SQL语句相匹配的行（零行或多行）。<br>简单的SELECT语句,没有办法得到第一行、下一行或前 10行，也不存在每次一行地处理所有行的简单方法。<br>有时，需要在检索出来的行中前进或后退一行或多行。这就是使用游标的原因。<br>游标（ cursor）是一个存储在MySQL服务器上的数据库查询，它不是一条 SELECT语句，而是被该语句检索出来的结果集。<br>在存储了游标之后，应用程序可以根据需要滚动或浏览其中的数据。游标主要用于交互式应用，其中用户需要滚动屏幕上的数据，并对数据进行浏览或做出更改。</p>
+<p>概述2：<br>游标的设计是一种数据缓冲区的思想，用来存放SQL语句执行的结果。游标是一种能从包括多条数据记录的结果集中每次提取一条记录的机制。<br>尽管游标能遍历结果中的所有行，但一次只指向一行。<br>游标的作用就是用于对查询数据库所返回的记录进行遍历，以便进行相应的操作。</p>
+<p>简单来说就是查询出来的数据索引，通过对游标的操作（第一个位置、最后一个位置、上一个位置、下一个位置）可以遍历出数据。</p>
+<h2 id="游标的特性"><a href="#游标的特性" class="headerlink" title="游标的特性"></a>游标的特性</h2><p>属性：<br>1.不敏感（Asensitive）：数据库可以选择不复制结果集<br>2.只读（Read only）<br>3.不滚动（Nonscrollable）：游标只能向一个方向前进，并且不可以跳过任何一行数据。</p>
+<p>优点：<br>针对行操作，对从数据库中SELECT查询得到的结果集的每一行，可以进行独立的、相同或不同的操作，是一种分离的思想。</p>
+<p>缺点：<br>1.性能较低，只能一行一行的操作，在数据量大的情况下，速度过慢。<br>2.会产生死锁，影响其他业务操作。当数据量大时，使用游标会造成内存不足的现象。</p>
+<h2 id="游标的应用场景"><a href="#游标的应用场景" class="headerlink" title="游标的应用场景"></a>游标的应用场景</h2><p>1.存储过程<br>2.函数<br>3.触发器<br>4.事件</p>
+<h2 id="游标的应用"><a href="#游标的应用" class="headerlink" title="游标的应用"></a>游标的应用</h2><p>1.定义<br><code>DECLARE cursor_name CURSOR FOR select_statement</code></p>
+<p>2.打开游标<br><code>OPEN cursor_name;</code></p>
+<p>3.读取游标数据<br><code>FETCH cursor_name INTO var_name [, var_name]...</code></p>
+<p>4.关闭游标<br><code>CLOSE cursor_name;</code></p>
+<p>5.释放游标<br><code>DEALLOCATE cursor_name;</code></p>
+<p>使用游标涉及几个明确的步骤。<br>1、在能够使用游标前，必须声明（定义）它。这个过程实际上没有检索数据，它只是定义要使用的 SELECT语句。<br>2、一旦声明后，必须打开游标以供使用。这个过程用前面定义的SELECT语句把数据实际检索出来。<br>3、对于填有数据的游标，根据需要取出（检索）各行。<br>4、在结束游标使用时，必须关闭游标。<br>在声明游标后，可根据需要频繁地打开和关闭游标。在游标打开后，可根据需要频繁地执行取操作。</p>
+<h2 id="游标使用示例"><a href="#游标使用示例" class="headerlink" title="游标使用示例"></a>游标使用示例</h2><p>1.创建游标测试表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE cursor_table</span><br><span class="line">(</span><br><span class="line">id INT ,</span><br><span class="line">name VARCHAR(10),</span><br><span class="line">age INT</span><br><span class="line">)ENGINE=innoDB DEFAULT CHARSET=utf8;</span><br><span class="line">insert into cursor_table values(1, &apos;孙悟空&apos;, 500);</span><br><span class="line">insert into cursor_table values(2, &apos;猪八戒&apos;, 200);</span><br><span class="line">insert into cursor_table values(3, &apos;沙悟净&apos;, 100);</span><br><span class="line">insert into cursor_table values(4, &apos;唐僧&apos;, 20);</span><br></pre></td></tr></table></figure></p>
+<p>三种方式使用游标创建一个存储过程，统计年龄大于30的记录的数量。<br>2.Loop循环<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">CREATE  PROCEDURE getTotal()</span><br><span class="line">BEGIN</span><br><span class="line">    DECLARE total INT; </span><br><span class="line">    ##创建接收游标数据的变量</span><br><span class="line">    DECLARE sid INT;</span><br><span class="line">    DECLARE sname VARCHAR(10);</span><br><span class="line">    #创建总数变量</span><br><span class="line">    DECLARE sage INT;</span><br><span class="line">    #创建结束标志变量</span><br><span class="line">    DECLARE done INT DEFAULT false;</span><br><span class="line">    #创建游标</span><br><span class="line">    DECLARE cur CURSOR FOR SELECT id,name,age from cursor_table where age&gt;30;</span><br><span class="line">    #指定游标循环结束时的返回值</span><br><span class="line">    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = true;</span><br><span class="line">    #设置初始值 </span><br><span class="line">    SET sage = 0;</span><br><span class="line">    SET total=0;</span><br><span class="line">    #打开游标</span><br><span class="line">    OPEN cur;</span><br><span class="line">    #开始循环游标里的数据</span><br><span class="line">    read_loop:loop</span><br><span class="line">    #根据游标当前指向的一条数据</span><br><span class="line">    FETCH cur INTO sid,sname,sage;</span><br><span class="line">    #判断游标的循环是否结束</span><br><span class="line">    IF done THEN</span><br><span class="line">        LEAVE read_loop;    #跳出游标循环  </span><br><span class="line">    END IF;</span><br><span class="line">    #获取一条数据时，将count值进行累加操作，这里可以做任意你想做的操作，</span><br><span class="line">    SET total = total + 1;</span><br><span class="line">    #结束游标循环</span><br><span class="line">    END LOOP;</span><br><span class="line">    #关闭游标</span><br><span class="line">    CLOSE cur;</span><br><span class="line"></span><br><span class="line">    #输出结果</span><br><span class="line">    SELECT total;</span><br><span class="line">END</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#调用存储过程  </span><br><span class="line">call getTotal();</span><br></pre></td></tr></table></figure>
+<p>3.While循环<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">CREATE  PROCEDURE getTotal()</span><br><span class="line">BEGIN</span><br><span class="line">    DECLARE total INT; </span><br><span class="line">    ##创建接收游标数据的变量</span><br><span class="line">    DECLARE sid INT;</span><br><span class="line">    DECLARE sname VARCHAR(10);</span><br><span class="line">    #创建总数变量</span><br><span class="line">    DECLARE sage INT;</span><br><span class="line">    #创建结束标志变量</span><br><span class="line">    DECLARE done INT DEFAULT false;</span><br><span class="line">    #创建游标</span><br><span class="line">    DECLARE cur CURSOR FOR SELECT id,name,age from cursor_table where age&gt;30;</span><br><span class="line">    #指定游标循环结束时的返回值</span><br><span class="line">    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = true; </span><br><span class="line">    SET total = 0;</span><br><span class="line">    OPEN cur;</span><br><span class="line">    FETCH cur INTO sid, sname, sage;</span><br><span class="line">    WHILE(NOT done) </span><br><span class="line">    DO</span><br><span class="line">        SET total = total + 1;  </span><br><span class="line">        FETCH cur INTO sid, sname, sage;  </span><br><span class="line">    END WHILE;</span><br><span class="line"></span><br><span class="line">    CLOSE cur;</span><br><span class="line">    SELECT total;</span><br><span class="line">END</span><br></pre></td></tr></table></figure></p>
+<p>4.Repeat循环<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">CREATE getTotal()</span><br><span class="line">BEGIN</span><br><span class="line">    DECLARE total INT; </span><br><span class="line">    ##创建接收游标数据的变量</span><br><span class="line">    DECLARE sid INT;</span><br><span class="line">    DECLARE sname VARCHAR(10);</span><br><span class="line">    #创建总数变量</span><br><span class="line">    DECLARE sage INT;</span><br><span class="line">    #创建结束标志变量</span><br><span class="line">    DECLARE done INT DEFAULT false;</span><br><span class="line">    #创建游标</span><br><span class="line">    DECLARE cur CURSOR FOR SELECT id,name,age from cursor_table where age &gt; 30;</span><br><span class="line">    #指定游标循环结束时的返回值</span><br><span class="line">    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = true; </span><br><span class="line">    SET total = 0;</span><br><span class="line">    OPEN cur;</span><br><span class="line">    REPEAT</span><br><span class="line">    FETCH cur INTO sid, sname, sage;</span><br><span class="line">    IF NOT done THEN</span><br><span class="line">        SET total = total + 1;  </span><br><span class="line">    END IF;</span><br><span class="line">    UNTIL done END REPEAT;</span><br><span class="line">    CLOSE cur;</span><br><span class="line">    SELECT total;</span><br><span class="line">END</span><br></pre></td></tr></table></figure></p>
+<p>5.使用游标批量更新数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line"> DECLARE  no_more_record INT DEFAULT 0;</span><br><span class="line"> DECLARE  pID BIGINT(20);</span><br><span class="line"> DECLARE  pValue DECIMAL(15,5);</span><br><span class="line"> DECLARE  cur_record CURSOR FOR   SELECT colA, colB from tableABC;  /*首先这里对游标进行定义*/</span><br><span class="line"> DECLARE  CONTINUE HANDLER FOR NOT FOUND  SET  no_more_record = 1; /*这个是个条件处理,针对NOT FOUND的条件,当没有记录时赋值为1*/</span><br><span class="line"> </span><br><span class="line"> OPEN  cur_record; /*接着使用OPEN打开游标*/</span><br><span class="line"> FETCH  cur_record INTO pID, pValue; /*把第一行数据写入变量中,游标也随之指向了记录的第一行*/</span><br><span class="line"> </span><br><span class="line"> WHILE no_more_record != 1 DO</span><br><span class="line"> INSERT  INTO testTable(ID, Value)</span><br><span class="line"> VALUES  (pID, pValue);</span><br><span class="line"> FETCH  cur_record INTO pID, pValue;</span><br><span class="line"> </span><br><span class="line"> END WHILE;</span><br><span class="line"> CLOSE  cur_record;  /*用完后记得用CLOSE把资源释放掉*/</span><br><span class="line">END</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/26/mysql进阶-视图/" rel="next" title="mysql进阶-视图">
+                <i class="fa fa-chevron-left"></i> mysql进阶-视图
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/07/mysql进阶-索引/" rel="prev" title="mysql进阶-索引">
+                mysql进阶-索引 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#优点"><span class="nav-number">2.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建存储过程"><span class="nav-number">3.</span> <span class="nav-text">创建存储过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#存储过程体"><span class="nav-number">3.1.</span> <span class="nav-text">存储过程体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为语句块贴标签"><span class="nav-number">3.2.</span> <span class="nav-text">为语句块贴标签</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分隔符"><span class="nav-number">3.3.</span> <span class="nav-text">分隔符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数"><span class="nav-number">3.4.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#过程体"><span class="nav-number">3.5.</span> <span class="nav-text">过程体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#in参数例子"><span class="nav-number">3.6.</span> <span class="nav-text">in参数例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OUT参数例子"><span class="nav-number">3.7.</span> <span class="nav-text">OUT参数例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#INOUT参数例子"><span class="nav-number">3.8.</span> <span class="nav-text">INOUT参数例子</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#变量"><span class="nav-number">4.</span> <span class="nav-text">变量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#变量赋值"><span class="nav-number">4.1.</span> <span class="nav-text">变量赋值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户变量"><span class="nav-number">4.2.</span> <span class="nav-text">用户变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#示例"><span class="nav-number">4.2.1.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在存储过程中使用用户变量"><span class="nav-number">4.2.2.</span> <span class="nav-text">在存储过程中使用用户变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在存储过程间传递全局范围的用户变量"><span class="nav-number">4.2.3.</span> <span class="nav-text">在存储过程间传递全局范围的用户变量</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注释"><span class="nav-number">5.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#调用"><span class="nav-number">6.</span> <span class="nav-text">调用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#存储过程的查询"><span class="nav-number">7.</span> <span class="nav-text">存储过程的查询</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#存储过程的修改"><span class="nav-number">8.</span> <span class="nav-text">存储过程的修改</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#删除存储过程"><span class="nav-number">9.</span> <span class="nav-text">删除存储过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#存储过程的控制语句"><span class="nav-number">10.</span> <span class="nav-text">存储过程的控制语句</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#变量作用域"><span class="nav-number">10.1.</span> <span class="nav-text">变量作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#条件语句"><span class="nav-number">10.2.</span> <span class="nav-text">条件语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环语句"><span class="nav-number">10.3.</span> <span class="nav-text">循环语句</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#函数"><span class="nav-number">11.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#游标"><span class="nav-number">12.</span> <span class="nav-text">游标</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#游标的特性"><span class="nav-number">12.1.</span> <span class="nav-text">游标的特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#游标的应用场景"><span class="nav-number">12.2.</span> <span class="nav-text">游标的应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#游标的应用"><span class="nav-number">12.3.</span> <span class="nav-text">游标的应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#游标使用示例"><span class="nav-number">12.4.</span> <span class="nav-text">游标使用示例</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

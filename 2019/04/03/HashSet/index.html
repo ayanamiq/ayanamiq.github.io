@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Set架构  Set 是继承于Collection的接口。它是一个不允许有重复元素的集合。 AbstractSet 是一个抽象类，它继承于AbstractCollection，AbstractCollection实现了Set中的绝大部分函数，为Set的实现类提供了便利。 HastSet 和 TreeSet 是Set的两个实现类。 HashSet依赖于HashMap，它实际上是通过HashMap实现">
+<meta name="keywords" content="集合,Set">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HashSet">
+<meta property="og:url" content="https://jingyao066.gitee.io/2019/04/03/HashSet/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="Set架构  Set 是继承于Collection的接口。它是一个不允许有重复元素的集合。 AbstractSet 是一个抽象类，它继承于AbstractCollection，AbstractCollection实现了Set中的绝大部分函数，为Set的实现类提供了便利。 HastSet 和 TreeSet 是Set的两个实现类。 HashSet依赖于HashMap，它实际上是通过HashMap实现">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/04/03/HashSet/1.jpg">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/04/03/HashSet/2.jpg">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.244Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HashSet">
+<meta name="twitter:description" content="Set架构  Set 是继承于Collection的接口。它是一个不允许有重复元素的集合。 AbstractSet 是一个抽象类，它继承于AbstractCollection，AbstractCollection实现了Set中的绝大部分函数，为Set的实现类提供了便利。 HastSet 和 TreeSet 是Set的两个实现类。 HashSet依赖于HashMap，它实际上是通过HashMap实现">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2019/04/03/HashSet/1.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2019/04/03/HashSet/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>HashSet | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2019/04/03/HashSet/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">HashSet
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-03 10:33:47" itemprop="dateCreated datePublished" datetime="2019-04-03T10:33:47+08:00">2019-04-03</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/04/03/HashSet/" class="leancloud_visitors" data-flag-title="HashSet">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Set架构"><a href="#Set架构" class="headerlink" title="Set架构"></a>Set架构</h1><p><img src="/2019/04/03/HashSet/1.jpg" alt=""></p>
+<ol>
+<li>Set 是继承于Collection的接口。它是一个不允许有重复元素的集合。</li>
+<li>AbstractSet 是一个抽象类，它继承于AbstractCollection，AbstractCollection实现了Set中的绝大部分函数，为Set的实现类提供了便利。</li>
+<li>HastSet 和 TreeSet 是Set的两个实现类。<br> HashSet依赖于HashMap，它实际上是通过HashMap实现的。HashSet中的元素是无序的。<br> TreeSet依赖于TreeMap，它实际上是通过TreeMap实现的。TreeSet中的元素是有序的。</li>
+</ol>
+<h1 id="HashSet介绍"><a href="#HashSet介绍" class="headerlink" title="HashSet介绍"></a>HashSet介绍</h1><p>HashSet 是一个没有重复元素的集合。<br>它是由HashMap实现的，不保证元素的顺序，而且HashSet允许使用 null 元素。<br>HashSet是非同步的。如果多个线程同时访问一个哈希 set，而其中至少一个线程修改了该 set，那么它必须 保持外部同步。这通常是通过对自然封装该 set 的对象执行同步操作来完成的。如果不存在这样的对象，则应该使用 Collections.synchronizedSet 方法来“包装” set。最好在创建时完成这一操作，以防止对该 set 进行意外的不同步访问：<br><code>Set s = Collections.synchronizedSet(new HashSet(...));</code><br>HashSet通过iterator()返回的迭代器是fail-fast的。</p>
+<h1 id="HashSet的构造函数"><a href="#HashSet的构造函数" class="headerlink" title="HashSet的构造函数"></a>HashSet的构造函数</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 默认构造函数</span><br><span class="line">public HashSet() </span><br><span class="line"></span><br><span class="line">// 带集合的构造函数</span><br><span class="line">public HashSet(Collection&lt;? extends E&gt; c) </span><br><span class="line"></span><br><span class="line">// 指定HashSet初始容量和加载因子的构造函数</span><br><span class="line">public HashSet(int initialCapacity, float loadFactor) </span><br><span class="line"></span><br><span class="line">// 指定HashSet初始容量的构造函数</span><br><span class="line">public HashSet(int initialCapacity) </span><br><span class="line"></span><br><span class="line">// 指定HashSet初始容量和加载因子的构造函数,dummy没有任何作用</span><br><span class="line">HashSet(int initialCapacity, float loadFactor, boolean dummy)</span><br></pre></td></tr></table></figure>
+<h1 id="HashSet的主要API"><a href="#HashSet的主要API" class="headerlink" title="HashSet的主要API"></a>HashSet的主要API</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">boolean         add(E object)</span><br><span class="line">void            clear()</span><br><span class="line">Object          clone()</span><br><span class="line">boolean         contains(Object object)</span><br><span class="line">boolean         isEmpty()</span><br><span class="line">Iterator&lt;E&gt;     iterator()</span><br><span class="line">boolean         remove(Object object)</span><br><span class="line">int             size()</span><br></pre></td></tr></table></figure>
+<h1 id="HashSet数据结构"><a href="#HashSet数据结构" class="headerlink" title="HashSet数据结构"></a>HashSet数据结构</h1><p>HashSet的继承关系如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">java.lang.Object</span><br><span class="line">   ↳     java.util.AbstractCollection&lt;E&gt;</span><br><span class="line">         ↳     java.util.AbstractSet&lt;E&gt;</span><br><span class="line">               ↳     java.util.HashSet&lt;E&gt;</span><br><span class="line"></span><br><span class="line">public class HashSet&lt;E&gt;</span><br><span class="line">    extends AbstractSet&lt;E&gt;</span><br><span class="line">    implements Set&lt;E&gt;, Cloneable, java.io.Serializable &#123; &#125;</span><br></pre></td></tr></table></figure></p>
+<p>HashSet与Map关系如下图：<br><img src="/2019/04/03/HashSet/2.jpg" alt=""><br>从图中可以看出：<br>(01) HashSet继承于AbstractSet，并且实现了Set接口。<br>(02) HashSet的本质是一个”没有重复元素”的集合，它是通过HashMap实现的。HashSet中含有一个”HashMap类型的成员变量”map，HashSet的操作函数，实际上都是通过map实现的。</p>
+<h1 id="HashSet源码解析-基于JDK1-6-0-45"><a href="#HashSet源码解析-基于JDK1-6-0-45" class="headerlink" title="HashSet源码解析(基于JDK1.6.0_45)"></a>HashSet源码解析(基于JDK1.6.0_45)</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br></pre></td><td class="code"><pre><span class="line">package java.util;</span><br><span class="line"></span><br><span class="line">public class HashSet&lt;E&gt;</span><br><span class="line">    extends AbstractSet&lt;E&gt;</span><br><span class="line">    implements Set&lt;E&gt;, Cloneable, java.io.Serializable</span><br><span class="line">&#123;</span><br><span class="line">    static final long serialVersionUID = -5024744406713321676L;</span><br><span class="line"></span><br><span class="line">    // HashSet是通过map(HashMap对象)保存内容的</span><br><span class="line">    private transient HashMap&lt;E,Object&gt; map;</span><br><span class="line"></span><br><span class="line">    // PRESENT是向map中插入key-value对应的value</span><br><span class="line">    // 因为HashSet中只需要用到key，而HashMap是key-value键值对；</span><br><span class="line">    // 所以，向map中添加键值对时，键值对的值固定是PRESENT</span><br><span class="line">    private static final Object PRESENT = new Object();</span><br><span class="line"></span><br><span class="line">    // 默认构造函数</span><br><span class="line">    public HashSet() &#123;</span><br><span class="line">        // 调用HashMap的默认构造函数，创建map</span><br><span class="line">        map = new HashMap&lt;E,Object&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 带集合的构造函数</span><br><span class="line">    public HashSet(Collection&lt;? extends E&gt; c) &#123;</span><br><span class="line">        // 创建map。</span><br><span class="line">        // 为什么要调用Math.max((int) (c.size()/.75f) + 1, 16)，从 (c.size()/.75f) + 1 和 16 中选择一个比较大的树呢？        </span><br><span class="line">        // 首先，说明(c.size()/.75f) + 1</span><br><span class="line">        //   因为从HashMap的效率(时间成本和空间成本)考虑，HashMap的加载因子是0.75。</span><br><span class="line">        //   当HashMap的“阈值”(阈值=HashMap总的大小*加载因子) &lt; “HashMap实际大小”时，</span><br><span class="line">        //   就需要将HashMap的容量翻倍。</span><br><span class="line">        //   所以，(c.size()/.75f) + 1 计算出来的正好是总的空间大小。</span><br><span class="line">        // 接下来，说明为什么是 16 。</span><br><span class="line">        //   HashMap的总的大小，必须是2的指数倍。若创建HashMap时，指定的大小不是2的指数倍；</span><br><span class="line">        //   HashMap的构造函数中也会重新计算，找出比“指定大小”大的最小的2的指数倍的数。</span><br><span class="line">        //   所以，这里指定为16是从性能考虑。避免重复计算。</span><br><span class="line">        map = new HashMap&lt;E,Object&gt;(Math.max((int) (c.size()/.75f) + 1, 16));</span><br><span class="line">        // 将集合(c)中的全部元素添加到HashSet中</span><br><span class="line">        addAll(c);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 指定HashSet初始容量和加载因子的构造函数</span><br><span class="line">    public HashSet(int initialCapacity, float loadFactor) &#123;</span><br><span class="line">        map = new HashMap&lt;E,Object&gt;(initialCapacity, loadFactor);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 指定HashSet初始容量的构造函数</span><br><span class="line">    public HashSet(int initialCapacity) &#123;</span><br><span class="line">        map = new HashMap&lt;E,Object&gt;(initialCapacity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    HashSet(int initialCapacity, float loadFactor, boolean dummy) &#123;</span><br><span class="line">        map = new LinkedHashMap&lt;E,Object&gt;(initialCapacity, loadFactor);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回HashSet的迭代器</span><br><span class="line">    public Iterator&lt;E&gt; iterator() &#123;</span><br><span class="line">        // 实际上返回的是HashMap的“key集合的迭代器”</span><br><span class="line">        return map.keySet().iterator();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int size() &#123;</span><br><span class="line">        return map.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public boolean isEmpty() &#123;</span><br><span class="line">        return map.isEmpty();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public boolean contains(Object o) &#123;</span><br><span class="line">        return map.containsKey(o);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 将元素(e)添加到HashSet中</span><br><span class="line">    public boolean add(E e) &#123;</span><br><span class="line">        return map.put(e, PRESENT)==null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 删除HashSet中的元素(o)</span><br><span class="line">    public boolean remove(Object o) &#123;</span><br><span class="line">        return map.remove(o)==PRESENT;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void clear() &#123;</span><br><span class="line">        map.clear();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 克隆一个HashSet，并返回Object对象</span><br><span class="line">    public Object clone() &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            HashSet&lt;E&gt; newSet = (HashSet&lt;E&gt;) super.clone();</span><br><span class="line">            newSet.map = (HashMap&lt;E, Object&gt;) map.clone();</span><br><span class="line">            return newSet;</span><br><span class="line">        &#125; catch (CloneNotSupportedException e) &#123;</span><br><span class="line">            throw new InternalError();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // java.io.Serializable的写入函数</span><br><span class="line">    // 将HashSet的“总的容量，加载因子，实际容量，所有的元素”都写入到输出流中</span><br><span class="line">    private void writeObject(java.io.ObjectOutputStream s)</span><br><span class="line">        throws java.io.IOException &#123;</span><br><span class="line">        // Write out any hidden serialization magic</span><br><span class="line">        s.defaultWriteObject();</span><br><span class="line"></span><br><span class="line">        // Write out HashMap capacity and load factor</span><br><span class="line">        s.writeInt(map.capacity());</span><br><span class="line">        s.writeFloat(map.loadFactor());</span><br><span class="line"></span><br><span class="line">        // Write out size</span><br><span class="line">        s.writeInt(map.size());</span><br><span class="line"></span><br><span class="line">        // Write out all elements in the proper order.</span><br><span class="line">        for (Iterator i=map.keySet().iterator(); i.hasNext(); )</span><br><span class="line">            s.writeObject(i.next());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    // java.io.Serializable的读取函数</span><br><span class="line">    // 将HashSet的“总的容量，加载因子，实际容量，所有的元素”依次读出</span><br><span class="line">    private void readObject(java.io.ObjectInputStream s)</span><br><span class="line">        throws java.io.IOException, ClassNotFoundException &#123;</span><br><span class="line">        // Read in any hidden serialization magic</span><br><span class="line">        s.defaultReadObject();</span><br><span class="line"></span><br><span class="line">        // Read in HashMap capacity and load factor and create backing HashMap</span><br><span class="line">        int capacity = s.readInt();</span><br><span class="line">        float loadFactor = s.readFloat();</span><br><span class="line">        map = (((HashSet)this) instanceof LinkedHashSet ?</span><br><span class="line">               new LinkedHashMap&lt;E,Object&gt;(capacity, loadFactor) :</span><br><span class="line">               new HashMap&lt;E,Object&gt;(capacity, loadFactor));</span><br><span class="line"></span><br><span class="line">        // Read in size</span><br><span class="line">        int size = s.readInt();</span><br><span class="line"></span><br><span class="line">        // Read in all elements in the proper order.</span><br><span class="line">        for (int i=0; i&lt;size; i++) &#123;</span><br><span class="line">            E e = (E) s.readObject();</span><br><span class="line">            map.put(e, PRESENT);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="HashSet遍历方式"><a href="#HashSet遍历方式" class="headerlink" title="HashSet遍历方式"></a>HashSet遍历方式</h1><h2 id="通过Iterator遍历HashSet"><a href="#通过Iterator遍历HashSet" class="headerlink" title="通过Iterator遍历HashSet"></a>通过Iterator遍历HashSet</h2><ol>
+<li>根据iterator()获取HashSet的迭代器。</li>
+<li>遍历迭代器获取各个元素。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 假设set是HashSet对象</span><br><span class="line">for(Iterator iterator = set.iterator();</span><br><span class="line">       iterator.hasNext(); ) &#123; </span><br><span class="line">    iterator.next();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="通过for-each遍历HashSet"><a href="#通过for-each遍历HashSet" class="headerlink" title="通过for-each遍历HashSet"></a>通过for-each遍历HashSet</h2><ol>
+<li>根据toArray()获取HashSet的元素集合对应的数组。</li>
+<li>遍历数组，获取各个元素。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 假设set是HashSet对象，并且set中元素是String类型</span><br><span class="line">String[] arr = (String[])set.toArray(new String[0]);</span><br><span class="line">for (String str:arr)</span><br><span class="line">    System.out.printf(&quot;for each : %s\n&quot;, str);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="HashSet示例"><a href="#HashSet示例" class="headerlink" title="HashSet示例"></a>HashSet示例</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Iterator;</span><br><span class="line">import java.util.HashSet;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * @desc HashSet常用API的使用。</span><br><span class="line"> *</span><br><span class="line"> * @author skywang</span><br><span class="line"> */</span><br><span class="line">public class HashSetTest &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        // HashSet常用API</span><br><span class="line">        testHashSetAPIs() ;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /*</span><br><span class="line">     * HashSet除了iterator()和add()之外的其它常用API</span><br><span class="line">     */</span><br><span class="line">    private static void testHashSetAPIs() &#123;</span><br><span class="line">        // 新建HashSet</span><br><span class="line">        HashSet set = new HashSet();</span><br><span class="line"></span><br><span class="line">        // 将元素添加到Set中</span><br><span class="line">        set.add(&quot;a&quot;);</span><br><span class="line">        set.add(&quot;b&quot;);</span><br><span class="line">        set.add(&quot;c&quot;);</span><br><span class="line">        set.add(&quot;d&quot;);</span><br><span class="line">        set.add(&quot;e&quot;);</span><br><span class="line"></span><br><span class="line">        // 打印HashSet的实际大小</span><br><span class="line">        System.out.printf(&quot;size : %d\n&quot;, set.size());</span><br><span class="line"></span><br><span class="line">        // 判断HashSet是否包含某个值</span><br><span class="line">        System.out.printf(&quot;HashSet contains a :%s\n&quot;, set.contains(&quot;a&quot;));</span><br><span class="line">        System.out.printf(&quot;HashSet contains g :%s\n&quot;, set.contains(&quot;g&quot;));</span><br><span class="line"></span><br><span class="line">        // 删除HashSet中的“e”</span><br><span class="line">        set.remove(&quot;e&quot;);</span><br><span class="line"></span><br><span class="line">        // 将Set转换为数组</span><br><span class="line">        String[] arr = (String[])set.toArray(new String[0]);</span><br><span class="line">        for (String str:arr)</span><br><span class="line">            System.out.printf(&quot;for each : %s\n&quot;, str);</span><br><span class="line"></span><br><span class="line">        // 新建一个包含b、c、f的HashSet</span><br><span class="line">        HashSet otherset = new HashSet();</span><br><span class="line">        otherset.add(&quot;b&quot;);</span><br><span class="line">        otherset.add(&quot;c&quot;);</span><br><span class="line">        otherset.add(&quot;f&quot;);</span><br><span class="line"></span><br><span class="line">        // 克隆一个removeset，内容和set一模一样</span><br><span class="line">        HashSet removeset = (HashSet)set.clone();</span><br><span class="line">        // 删除“removeset中，属于otherSet的元素”</span><br><span class="line">        removeset.removeAll(otherset);</span><br><span class="line">        // 打印removeset</span><br><span class="line">        System.out.printf(&quot;removeset : %s\n&quot;, removeset);</span><br><span class="line"></span><br><span class="line">        // 克隆一个retainset，内容和set一模一样</span><br><span class="line">        HashSet retainset = (HashSet)set.clone();</span><br><span class="line">        // 保留“retainset中，属于otherSet的元素”</span><br><span class="line">        retainset.retainAll(otherset);</span><br><span class="line">        // 打印retainset</span><br><span class="line">        System.out.printf(&quot;retainset : %s\n&quot;, retainset);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        // 遍历HashSet</span><br><span class="line">        for(Iterator iterator = set.iterator();</span><br><span class="line">               iterator.hasNext(); ) </span><br><span class="line">            System.out.printf(&quot;iterator : %s\n&quot;, iterator.next());</span><br><span class="line"></span><br><span class="line">        // 清空HashSet</span><br><span class="line">        set.clear();</span><br><span class="line"></span><br><span class="line">        // 输出HashSet是否为空</span><br><span class="line">        System.out.printf(&quot;%s\n&quot;, set.isEmpty()?&quot;set is empty&quot;:&quot;set is not empty&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/集合/" rel="tag"># 集合</a>
+          
+            <a href="/tags/Set/" rel="tag"># Set</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/03/API-notice/" rel="next" title="API-notice">
+                <i class="fa fa-chevron-left"></i> API-notice
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/03/TreeSet/" rel="prev" title="TreeSet">
+                TreeSet <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Set架构"><span class="nav-number">1.</span> <span class="nav-text">Set架构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HashSet介绍"><span class="nav-number">2.</span> <span class="nav-text">HashSet介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HashSet的构造函数"><span class="nav-number">3.</span> <span class="nav-text">HashSet的构造函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HashSet的主要API"><span class="nav-number">4.</span> <span class="nav-text">HashSet的主要API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HashSet数据结构"><span class="nav-number">5.</span> <span class="nav-text">HashSet数据结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HashSet源码解析-基于JDK1-6-0-45"><span class="nav-number">6.</span> <span class="nav-text">HashSet源码解析(基于JDK1.6.0_45)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HashSet遍历方式"><span class="nav-number">7.</span> <span class="nav-text">HashSet遍历方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#通过Iterator遍历HashSet"><span class="nav-number">7.1.</span> <span class="nav-text">通过Iterator遍历HashSet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过for-each遍历HashSet"><span class="nav-number">7.2.</span> <span class="nav-text">通过for-each遍历HashSet</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HashSet示例"><span class="nav-number">8.</span> <span class="nav-text">HashSet示例</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

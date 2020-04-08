@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="文件上传功能创建一个简单的包含WEB依赖的SpringBoot项目12345678910111213141516&amp;lt;!-- Spring Boot web启动器 --&amp;gt;&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;spring-boot-">
+<meta name="keywords" content="other">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring boot">
+<meta property="og:url" content="https://jingyao066.gitee.io/2019/09/22/spring-boot/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="文件上传功能创建一个简单的包含WEB依赖的SpringBoot项目12345678910111213141516&amp;lt;!-- Spring Boot web启动器 --&amp;gt;&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;spring-boot-">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/09/22/spring-boot/1.gif">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/09/22/spring-boot/2.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/09/22/spring-boot/3.gif">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/09/22/spring-boot/4.gif">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/09/22/spring-boot/5.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/09/22/spring-boot/6.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/09/22/spring-boot/7.png">
+<meta property="og:updated_time" content="2020-04-07T05:49:44.453Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="spring boot">
+<meta name="twitter:description" content="文件上传功能创建一个简单的包含WEB依赖的SpringBoot项目12345678910111213141516&amp;lt;!-- Spring Boot web启动器 --&amp;gt;&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;spring-boot-">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2019/09/22/spring-boot/1.gif">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2019/09/22/spring-boot/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>spring boot | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2019/09/22/spring-boot/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">spring boot
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-22 17:27:28" itemprop="dateCreated datePublished" datetime="2019-09-22T17:27:28+08:00">2019-09-22</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-04-07 13:49:44" itemprop="dateModified" datetime="2020-04-07T13:49:44+08:00">2020-04-07</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/09/22/spring-boot/" class="leancloud_visitors" data-flag-title="spring boot">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="文件上传功能"><a href="#文件上传功能" class="headerlink" title="文件上传功能"></a>文件上传功能</h1><h2 id="创建一个简单的包含WEB依赖的SpringBoot项目"><a href="#创建一个简单的包含WEB依赖的SpringBoot项目" class="headerlink" title="创建一个简单的包含WEB依赖的SpringBoot项目"></a>创建一个简单的包含WEB依赖的SpringBoot项目</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Spring Boot web启动器 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- jsp --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jstl<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.tomcat.embed<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>tomcat-embed-jasper<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--&lt;scope&gt;provided&lt;/scope&gt;--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="配置文件上传的文件大小限制"><a href="#配置文件上传的文件大小限制" class="headerlink" title="配置文件上传的文件大小限制"></a>配置文件上传的文件大小限制</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 上传文件总的最大值</span><br><span class="line">spring.servlet.multipart.max-request-size=10MB</span><br><span class="line"># 单个文件的最大值</span><br><span class="line">spring.servlet.multipart.max-file-size=10MB</span><br><span class="line"></span><br><span class="line">## jsp</span><br><span class="line">spring.mvc.view.prefix=/WEB-INF/jsp/</span><br><span class="line">spring.mvc.view.suffix=.jsp</span><br><span class="line"></span><br><span class="line">#配置外部访问文件（把上传的图片视频文件放到E盘下的fileUpload文件夹下，linux需要更改为linux路径）</span><br><span class="line">cbs.imagesPath=file:/E:/fileUpload/</span><br></pre></td></tr></table></figure>
+<h2 id="单文件上传示例"><a href="#单文件上传示例" class="headerlink" title="单文件上传示例"></a>单文件上传示例</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.songguoliang.springboot.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.PostMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestParam;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.ResponseBody;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.multipart.MultipartFile;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.multipart.MultipartHttpServletRequest;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> sgl</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2018-05-15 14:04</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UploadController</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(UploadController.class);</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/upload"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">upload</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"upload"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping</span>(<span class="string">"/upload"</span>)</span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">upload</span><span class="params">(@RequestParam(<span class="string">"file"</span>)</span> MultipartFile file) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (file.isEmpty()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"上传失败，请选择文件"</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String fileName = file.getOriginalFilename();</span><br><span class="line">		<span class="comment">//String filePath = "D:/fileUpload/";   这是windows的路径</span></span><br><span class="line">        String filePath = <span class="string">"/Users/itinypocket/workspace/temp/"</span>;</span><br><span class="line">        File dest = <span class="keyword">new</span> File(filePath + fileName);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            file.transferTo(dest);</span><br><span class="line">            LOGGER.info(<span class="string">"上传成功"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"上传成功"</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            LOGGER.error(e.toString(), e);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"上传失败！"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="创建upload-jsp文件"><a href="#创建upload-jsp文件" class="headerlink" title="创建upload.jsp文件"></a>创建upload.jsp文件</h3><p>只有一个表单，选择文件，form的enctype为multipart/form-data:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">page</span> <span class="attr">contentType</span>=<span class="string">"text/html;charset=UTF-8"</span> <span class="attr">pageEncoding</span>=<span class="string">"UTF-8"</span> %&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"IE=edge,chrome=1"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>单文件上传<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">action</span>=<span class="string">"/upload"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"file"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"提交"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="通过springboot插件启动项目"><a href="#通过springboot插件启动项目" class="headerlink" title="通过springboot插件启动项目"></a>通过springboot插件启动项目</h3><p>浏览器输入<code>http://localhost:8080/upload</code>跳转到刚写的jsp页面。<br>选择文件点击提交按钮返回成功信息，我们上传的文件保存在/Users/itinypocket/workspace/temp路径下，然后上传成功。</p>
+<h2 id="多文件上传"><a href="#多文件上传" class="headerlink" title="多文件上传"></a>多文件上传</h2><p>创建多文件上传的jsp页面，多文件上传页面只是比单文件上传多了file选择的input而已，multiUpload.jsp内容如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">page</span> <span class="attr">contentType</span>=<span class="string">"text/html;charset=UTF-8"</span> <span class="attr">pageEncoding</span>=<span class="string">"UTF-8"</span> %&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"IE=edge,chrome=1"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>多文件上传<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">action</span>=<span class="string">"/multiUpload"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"file"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"file"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"file"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"提交"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="在UploadController里添加多文件上传的方法"><a href="#在UploadController里添加多文件上传的方法" class="headerlink" title="在UploadController里添加多文件上传的方法"></a>在UploadController里添加多文件上传的方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/multiUpload"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">multiUpload</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"multiUpload"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/multiUpload"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">multiUpload</span><span class="params">(MultipartFile[] files)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//String filePath = "D:/fileUpload/";   这是windows的路径</span></span><br><span class="line">    String filePath = <span class="string">"/Users/itinypocket/workspace/temp/"</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; files.size(); i++) &#123;</span><br><span class="line">        MultipartFile file = files.get(i);</span><br><span class="line">        <span class="keyword">if</span> (file.isEmpty()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"上传第"</span> + (i++) + <span class="string">"个文件失败"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        String fileName = file.getOriginalFilename();</span><br><span class="line"></span><br><span class="line">        File dest = <span class="keyword">new</span> File(filePath + fileName);</span><br><span class="line">		System.out.println( <span class="string">"文件大小是："</span> +files[i].getSize() + <span class="string">"byte"</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            file.transferTo(dest);</span><br><span class="line">            LOGGER.info(<span class="string">"第"</span> + (i + <span class="number">1</span>) + <span class="string">"个文件上传成功"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            LOGGER.error(e.toString(), e);</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"上传第"</span> + (i++) + <span class="string">"个文件失败"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"上传成功"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重启服务，浏览器输入<code>http://localhost:8080/multiUpload</code>然后选择要上传的文件，点击提交按钮，得到成功信息。<br>我们选择的三个文件已被成功上传到/Users/itinypocket/workspace/temp路径下。</p>
+<p>多文件上传的方法只是最基础的版本，没有加入文件存在判断，文件夹不存在判断等，可以根据自己的需求改造。<br>其实只需要一个多文件上传就足够了，毕竟多文件包含了单文件，另外上面的多文件上传方法还可以当作文件上传接口使用，下面就用postman来测试这个接口。</p>
+<p><code>file.getSize()</code>方法可以直接获取到文件的大小， 单位是字节，可以转换成自己想要的单位。<br>下面转换成mb，保留两位小数：<br><code>new BigDecimal(files[i].getSize()).divide(BigDecimal.valueOf(1024*1024),2,BigDecimal.ROUND_HALF_UP)</code></p>
+<p>配置外部访问服务器资源的。不配置的话，访问不了图片或视频等文件。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Value;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.web.servlet.MultipartConfigFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.*;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> javax.servlet.MultipartConfigElement;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//上传配置类</span></span><br><span class="line"><span class="comment">//图片放到/F:/fileUpload/后，从磁盘读取的图片数据scr将会变成images/picturename.jpg的格式</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebAppConfig</span> <span class="keyword">extends</span> <span class="title">WebMvcConfigurerAdapter</span> </span>&#123;</span><br><span class="line"><span class="comment">//public class WebAppConfig extends WebMvcConfigurationSupport &#123;</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 在配置文件中配置的文件保存路径</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;cbs.imagesPath&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String mImagesPath;</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> MultipartConfigElement <span class="title">multipartConfigElement</span><span class="params">()</span></span>&#123;</span><br><span class="line">        MultipartConfigFactory factory = <span class="keyword">new</span> MultipartConfigFactory();</span><br><span class="line">        <span class="comment">//文件最大KB,MB</span></span><br><span class="line">        factory.setMaxFileSize(<span class="string">"1024MB"</span>);</span><br><span class="line">        <span class="comment">//设置总上传数据总大小</span></span><br><span class="line">        factory.setMaxRequestSize(<span class="string">"1024MB"</span>);</span><br><span class="line">        <span class="keyword">return</span> factory.createMultipartConfig();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addResourceHandlers</span><span class="params">(ResourceHandlerRegistry registry)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(mImagesPath.equals(<span class="string">""</span>) || mImagesPath.equals(<span class="string">"$&#123;cbs.imagesPath&#125;"</span>))&#123;</span><br><span class="line">            String imagesPath = WebAppConfig.class.getClassLoader().getResource(<span class="string">""</span>).getPath();</span><br><span class="line">            System.out.print(<span class="string">"1.上传配置类imagesPath=="</span>+imagesPath+<span class="string">"\n"</span>);</span><br><span class="line">            <span class="keyword">if</span>(imagesPath.indexOf(<span class="string">".jar"</span>)&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                imagesPath = imagesPath.substring(<span class="number">0</span>, imagesPath.indexOf(<span class="string">".jar"</span>));</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(imagesPath.indexOf(<span class="string">"classes"</span>)&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                imagesPath = <span class="string">"file:"</span>+imagesPath.substring(<span class="number">0</span>, imagesPath.indexOf(<span class="string">"classes"</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            imagesPath = imagesPath.substring(<span class="number">0</span>, imagesPath.lastIndexOf(<span class="string">"/"</span>))+<span class="string">"/images/"</span>;</span><br><span class="line">            mImagesPath = imagesPath;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.print(<span class="string">"imagesPath============="</span>+mImagesPath+<span class="string">"\n"</span>);</span><br><span class="line">        <span class="comment">//LoggerFactory.getLogger(WebAppConfig.class).info("imagesPath============="+mImagesPath+"\n");</span></span><br><span class="line">        registry.addResourceHandler(<span class="string">"/images/**"</span>).addResourceLocations(mImagesPath);</span><br><span class="line">        <span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">        System.out.print(<span class="string">"2.上传配置类mImagesPath=="</span>+mImagesPath+<span class="string">"\n"</span>);</span><br><span class="line">        <span class="keyword">super</span>.addResourceHandlers(registry);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://blog.csdn.net/gnail_oug/article/details/80324120" target="_blank" rel="noopener">参考地址1</a><br><a href="https://blog.csdn.net/qq_37164847/article/details/81668242" target="_blank" rel="noopener">参考地址2</a></p>
+<h2 id="postMan测试文件上传"><a href="#postMan测试文件上传" class="headerlink" title="postMan测试文件上传"></a>postMan测试文件上传</h2><ul>
+<li><p>选择post请求方式，输入请求地址</p>
+</li>
+<li><p>填写Headers<br>Key：Content-Type<br>Value：multipart/form-data</p>
+</li>
+<li><p>填写body<br>选择form-data，然后鼠标悬浮在输入框的末尾，默认Text，这里我们选择File。</p>
+</li>
+</ul>
+<p>注意：form-data的key值，一定要和controller参数的名字一致。</p>
+<h1 id="导出excel"><a href="#导出excel" class="headerlink" title="导出excel"></a>导出excel</h1><ul>
+<li><p>添加maven</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.poi&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;poi&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.13&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.poi&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;poi-ooxml&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.13&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>自定义实体类所需要的bean：ExcelColumn</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(&#123;ElementType.FIELD&#125;)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> ExcelColumn &#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">String <span class="title">value</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">col</span><span class="params">()</span> <span class="keyword">default</span> 0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ExcelUtils编写</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.commons.collections.CollectionUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.lang3.BooleanUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.lang3.CharUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.lang3.StringUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.lang3.math.NumberUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.poi.hssf.usermodel.HSSFDateUtil;</span><br><span class="line"><span class="keyword">import</span> org.apache.poi.hssf.usermodel.HSSFWorkbook;</span><br><span class="line"><span class="keyword">import</span> org.apache.poi.ss.usermodel.*;</span><br><span class="line"><span class="keyword">import</span> org.apache.poi.xssf.usermodel.XSSFWorkbook;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.http.MediaType;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.multipart.MultipartFile;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileOutputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Constructor;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.math.BigDecimal;</span><br><span class="line"><span class="keyword">import</span> java.net.URLEncoder;</span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.atomic.AtomicInteger;</span><br><span class="line"><span class="keyword">import</span> java.util.stream.Collectors;</span><br><span class="line"><span class="keyword">import</span> java.util.stream.Stream;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Abbot</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2018/9/12 15:27</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExcelUtils</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Logger log = LoggerFactory.getLogger(ExcelUtils.class);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String EXCEL2003 = <span class="string">"xls"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String EXCEL2007 = <span class="string">"xlsx"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">List&lt;T&gt; <span class="title">readExcel</span><span class="params">(String path, Class&lt;T&gt; cls,MultipartFile file)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        String fileName = file.getOriginalFilename();</span><br><span class="line">        <span class="keyword">if</span> (!fileName.matches(<span class="string">"^.+\\.(?i)(xls)$"</span>) &amp;&amp; !fileName.matches(<span class="string">"^.+\\.(?i)(xlsx)$"</span>)) &#123;</span><br><span class="line">            log.error(<span class="string">"上传文件格式不正确"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        List&lt;T&gt; dataList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        Workbook workbook = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            InputStream is = file.getInputStream();</span><br><span class="line">            <span class="keyword">if</span> (fileName.endsWith(EXCEL2007)) &#123;</span><br><span class="line"><span class="comment">//                FileInputStream is = new FileInputStream(new File(path));</span></span><br><span class="line">                workbook = <span class="keyword">new</span> XSSFWorkbook(is);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (fileName.endsWith(EXCEL2003)) &#123;</span><br><span class="line"><span class="comment">//                FileInputStream is = new FileInputStream(new File(path));</span></span><br><span class="line">                workbook = <span class="keyword">new</span> HSSFWorkbook(is);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (workbook != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">//类映射  注解 value--&gt;bean columns</span></span><br><span class="line">                Map&lt;String, List&lt;Field&gt;&gt; classMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">                List&lt;Field&gt; fields = Stream.of(cls.getDeclaredFields()).collect(Collectors.toList());</span><br><span class="line">                fields.forEach(</span><br><span class="line">                        field -&gt; &#123;</span><br><span class="line">                            ExcelColumn annotation = field.getAnnotation(ExcelColumn.class);</span><br><span class="line">                            <span class="keyword">if</span> (annotation != <span class="keyword">null</span>) &#123;</span><br><span class="line">                                String value = annotation.value();</span><br><span class="line">                                <span class="keyword">if</span> (StringUtils.isBlank(value)) &#123;</span><br><span class="line">                                    <span class="keyword">return</span>;<span class="comment">//return起到的作用和continue是相同的 语法</span></span><br><span class="line">                                &#125;</span><br><span class="line">                                <span class="keyword">if</span> (!classMap.containsKey(value)) &#123;</span><br><span class="line">                                    classMap.put(value, <span class="keyword">new</span> ArrayList&lt;&gt;());</span><br><span class="line">                                &#125;</span><br><span class="line">                                field.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">                                classMap.get(value).add(field);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                );</span><br><span class="line">                <span class="comment">//索引--&gt;columns</span></span><br><span class="line">                Map&lt;Integer, List&lt;Field&gt;&gt; reflectionMap = <span class="keyword">new</span> HashMap&lt;&gt;(<span class="number">16</span>);</span><br><span class="line">                <span class="comment">//默认读取第一个sheet</span></span><br><span class="line">                Sheet sheet = workbook.getSheetAt(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">boolean</span> firstRow = <span class="keyword">true</span>;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = sheet.getFirstRowNum(); i &lt;= sheet.getLastRowNum(); i++) &#123;</span><br><span class="line">                    Row row = sheet.getRow(i);</span><br><span class="line">                    <span class="comment">//首行  提取注解</span></span><br><span class="line">                    <span class="keyword">if</span> (firstRow) &#123;</span><br><span class="line">                        <span class="keyword">for</span> (<span class="keyword">int</span> j = row.getFirstCellNum(); j &lt;= row.getLastCellNum(); j++) &#123;</span><br><span class="line">                            Cell cell = row.getCell(j);</span><br><span class="line">                            String cellValue = getCellValue(cell);</span><br><span class="line">                            <span class="keyword">if</span> (classMap.containsKey(cellValue)) &#123;</span><br><span class="line">                                reflectionMap.put(j, classMap.get(cellValue));</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                        firstRow = <span class="keyword">false</span>;</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="comment">//忽略空白行</span></span><br><span class="line">                        <span class="keyword">if</span> (row == <span class="keyword">null</span>) &#123;</span><br><span class="line">                            <span class="keyword">continue</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">try</span> &#123;</span><br><span class="line">                            T t = cls.newInstance();</span><br><span class="line">                            <span class="comment">//判断是否为空白行</span></span><br><span class="line">                            <span class="keyword">boolean</span> allBlank = <span class="keyword">true</span>;</span><br><span class="line">                            <span class="keyword">for</span> (<span class="keyword">int</span> j = row.getFirstCellNum(); j &lt;= row.getLastCellNum(); j++) &#123;</span><br><span class="line">                                <span class="keyword">if</span> (reflectionMap.containsKey(j)) &#123;</span><br><span class="line">                                    Cell cell = row.getCell(j);</span><br><span class="line">                                    String cellValue = getCellValue(cell);</span><br><span class="line">                                    <span class="keyword">if</span> (StringUtils.isNotBlank(cellValue)) &#123;</span><br><span class="line">                                        allBlank = <span class="keyword">false</span>;</span><br><span class="line">                                    &#125;</span><br><span class="line">                                    List&lt;Field&gt; fieldList = reflectionMap.get(j);</span><br><span class="line">                                    fieldList.forEach(</span><br><span class="line">                                            x -&gt; &#123;</span><br><span class="line">                                                <span class="keyword">try</span> &#123;</span><br><span class="line">                                                    handleField(t, cellValue, x);</span><br><span class="line">                                                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                                                    log.error(String.format(<span class="string">"reflect field:%s value:%s exception!"</span>, x.getName(), cellValue), e);</span><br><span class="line">                                                &#125;</span><br><span class="line">                                            &#125;</span><br><span class="line">                                    );</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;</span><br><span class="line">                            <span class="keyword">if</span> (!allBlank) &#123;</span><br><span class="line">                                dataList.add(t);</span><br><span class="line">                            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                                log.warn(String.format(<span class="string">"row:%s is blank ignore!"</span>, i));</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                            log.error(String.format(<span class="string">"parse row:%s exception!"</span>, i), e);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            log.error(String.format(<span class="string">"parse excel exception!"</span>), e);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (workbook != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    workbook.close();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                    log.error(String.format(<span class="string">"parse excel exception!"</span>), e);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dataList;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">handleField</span><span class="params">(T t, String value, Field field)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        Class&lt;?&gt; type = field.getType();</span><br><span class="line">        <span class="keyword">if</span> (type == <span class="keyword">null</span> || type == <span class="keyword">void</span>.class || StringUtils.isBlank(value)) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (type == Object.class) &#123;</span><br><span class="line">            field.set(t, value);</span><br><span class="line">            <span class="comment">//数字类型</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type.getSuperclass() == <span class="keyword">null</span> || type.getSuperclass() == Number.class) &#123;</span><br><span class="line">            <span class="keyword">if</span> (type == <span class="keyword">int</span>.class || type == Integer.class) &#123;</span><br><span class="line">                field.set(t, NumberUtils.toInt(value));</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type == <span class="keyword">long</span>.class || type == Long.class) &#123;</span><br><span class="line">                field.set(t, NumberUtils.toLong(value));</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type == <span class="keyword">byte</span>.class || type == Byte.class) &#123;</span><br><span class="line">                field.set(t, NumberUtils.toByte(value));</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type == <span class="keyword">short</span>.class || type == Short.class) &#123;</span><br><span class="line">                field.set(t, NumberUtils.toShort(value));</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type == <span class="keyword">double</span>.class || type == Double.class) &#123;</span><br><span class="line">                field.set(t, NumberUtils.toDouble(value));</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type == <span class="keyword">float</span>.class || type == Float.class) &#123;</span><br><span class="line">                field.set(t, NumberUtils.toFloat(value));</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type == <span class="keyword">char</span>.class || type == Character.class) &#123;</span><br><span class="line">                field.set(t, CharUtils.toChar(value));</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type == <span class="keyword">boolean</span>.class) &#123;</span><br><span class="line">                field.set(t, BooleanUtils.toBoolean(value));</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type == BigDecimal.class) &#123;</span><br><span class="line">                field.set(t, <span class="keyword">new</span> BigDecimal(value));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type == Boolean.class) &#123;</span><br><span class="line">            field.set(t, BooleanUtils.toBoolean(value));</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type == Date.class) &#123;</span><br><span class="line">            <span class="comment">//</span></span><br><span class="line">            field.set(t, value);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type == String.class) &#123;</span><br><span class="line">            field.set(t, value);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            Constructor&lt;?&gt; constructor = type.getConstructor(String.class);</span><br><span class="line">            field.set(t, constructor.newInstance(value));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getCellValue</span><span class="params">(Cell cell)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (cell == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) &#123;</span><br><span class="line">            <span class="keyword">if</span> (DateUtil.isCellDateFormatted(cell)) &#123;</span><br><span class="line">                <span class="keyword">return</span> HSSFDateUtil.getJavaDate(cell.getNumericCellValue()).toString();</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> BigDecimal(cell.getNumericCellValue()).toString();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (cell.getCellType() == Cell.CELL_TYPE_STRING) &#123;</span><br><span class="line">            <span class="keyword">return</span> StringUtils.trimToEmpty(cell.getStringCellValue());</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (cell.getCellType() == Cell.CELL_TYPE_FORMULA) &#123;</span><br><span class="line">            <span class="keyword">return</span> StringUtils.trimToEmpty(cell.getCellFormula());</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (cell.getCellType() == Cell.CELL_TYPE_BLANK) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (cell.getCellType() == Cell.CELL_TYPE_BOOLEAN) &#123;</span><br><span class="line">            <span class="keyword">return</span> String.valueOf(cell.getBooleanCellValue());</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (cell.getCellType() == Cell.CELL_TYPE_ERROR) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"ERROR"</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> cell.toString().trim();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">writeExcel</span><span class="params">(HttpServletResponse response, List&lt;T&gt; dataList, Class&lt;T&gt; cls)</span></span>&#123;</span><br><span class="line">        Field[] fields = cls.getDeclaredFields();</span><br><span class="line">        List&lt;Field&gt; fieldList = Arrays.stream(fields)</span><br><span class="line">                .filter(field -&gt; &#123;</span><br><span class="line">                    ExcelColumn annotation = field.getAnnotation(ExcelColumn.class);</span><br><span class="line">                    <span class="keyword">if</span> (annotation != <span class="keyword">null</span> &amp;&amp; annotation.col() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                        field.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                &#125;).sorted(Comparator.comparing(field -&gt; &#123;</span><br><span class="line">                    <span class="keyword">int</span> col = <span class="number">0</span>;</span><br><span class="line">                    ExcelColumn annotation = field.getAnnotation(ExcelColumn.class);</span><br><span class="line">                    <span class="keyword">if</span> (annotation != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        col = annotation.col();</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">return</span> col;</span><br><span class="line">                &#125;)).collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line">        Workbook wb = <span class="keyword">new</span> XSSFWorkbook();</span><br><span class="line">        Sheet sheet = wb.createSheet(<span class="string">"Sheet1"</span>);</span><br><span class="line">        AtomicInteger ai = <span class="keyword">new</span> AtomicInteger();</span><br><span class="line">        &#123;</span><br><span class="line">            Row row = sheet.createRow(ai.getAndIncrement());</span><br><span class="line">            AtomicInteger aj = <span class="keyword">new</span> AtomicInteger();</span><br><span class="line">            <span class="comment">//写入头部</span></span><br><span class="line">            fieldList.forEach(field -&gt; &#123;</span><br><span class="line">                ExcelColumn annotation = field.getAnnotation(ExcelColumn.class);</span><br><span class="line">                String columnName = <span class="string">""</span>;</span><br><span class="line">                <span class="keyword">if</span> (annotation != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    columnName = annotation.value();</span><br><span class="line">                &#125;</span><br><span class="line">                Cell cell = row.createCell(aj.getAndIncrement());</span><br><span class="line"></span><br><span class="line">                CellStyle cellStyle = wb.createCellStyle();</span><br><span class="line">                cellStyle.setFillForegroundColor(IndexedColors.WHITE.getIndex());</span><br><span class="line">                cellStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);</span><br><span class="line">                cellStyle.setAlignment(CellStyle.ALIGN_CENTER);</span><br><span class="line"></span><br><span class="line">                Font font = wb.createFont();</span><br><span class="line">                font.setBoldweight(Font.BOLDWEIGHT_NORMAL);</span><br><span class="line">                cellStyle.setFont(font);</span><br><span class="line">                cell.setCellStyle(cellStyle);</span><br><span class="line">                cell.setCellValue(columnName);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (CollectionUtils.isNotEmpty(dataList)) &#123;</span><br><span class="line">            dataList.forEach(t -&gt; &#123;</span><br><span class="line">                Row row1 = sheet.createRow(ai.getAndIncrement());</span><br><span class="line">                AtomicInteger aj = <span class="keyword">new</span> AtomicInteger();</span><br><span class="line">                fieldList.forEach(field -&gt; &#123;</span><br><span class="line">                    Class&lt;?&gt; type = field.getType();</span><br><span class="line">                    Object value = <span class="string">""</span>;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        value = field.get(t);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                    Cell cell = row1.createCell(aj.getAndIncrement());</span><br><span class="line">                    <span class="keyword">if</span> (value != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (type == Date.class) &#123;</span><br><span class="line">                            cell.setCellValue(value.toString());</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            cell.setCellValue(value.toString());</span><br><span class="line">                        &#125;</span><br><span class="line">                        cell.setCellValue(value.toString());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//冻结窗格</span></span><br><span class="line">        wb.getSheet(<span class="string">"Sheet1"</span>).createFreezePane(<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">        <span class="comment">//浏览器下载excel</span></span><br><span class="line">        buildExcelDocument(<span class="string">"abbot.xlsx"</span>,wb,response);</span><br><span class="line">        <span class="comment">//生成excel文件</span></span><br><span class="line"><span class="comment">//        buildExcelFile(".\\default.xlsx",wb);</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 浏览器下载excel</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> fileName</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> wb</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> response</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span>  <span class="keyword">void</span>  <span class="title">buildExcelDocument</span><span class="params">(String fileName, Workbook wb,HttpServletResponse response)</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);</span><br><span class="line">            response.setHeader(<span class="string">"Content-Disposition"</span>, <span class="string">"attachment;filename="</span>+URLEncoder.encode(fileName, <span class="string">"utf-8"</span>));</span><br><span class="line">            response.flushBuffer();</span><br><span class="line">            wb.write(response.getOutputStream());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 生成excel文件</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> path 生成excel路径</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> wb</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span>  <span class="keyword">void</span>  <span class="title">buildExcelFile</span><span class="params">(String path, Workbook wb)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        File file = <span class="keyword">new</span> File(path);</span><br><span class="line">        <span class="keyword">if</span> (file.exists()) &#123;</span><br><span class="line">            file.delete();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            wb.write(<span class="keyword">new</span> FileOutputStream(file));</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>定义导出实体类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BusClick</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExcelColumn</span>(value = <span class="string">"cityCode"</span>, col = <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">private</span> String cityCode;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExcelColumn</span>(value = <span class="string">"markId"</span>, col = <span class="number">2</span>)</span><br><span class="line">    <span class="keyword">private</span> String markId;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExcelColumn</span>(value = <span class="string">"toaluv"</span>, col = <span class="number">3</span>)</span><br><span class="line">    <span class="keyword">private</span> String toaluv;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExcelColumn</span>(value = <span class="string">"date"</span>, col = <span class="number">4</span>)</span><br><span class="line">    <span class="keyword">private</span> String date;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExcelColumn</span>(value = <span class="string">"clientVer"</span>, col = <span class="number">5</span>)</span><br><span class="line">    <span class="keyword">private</span> String clientVer;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//省略getter and setter 方法</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Controller层代码编写</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/excel"</span>)</span><br><span class="line"><span class="meta">@Api</span>(value = <span class="string">"excel导入导出"</span>, tags = <span class="string">"excel导入导出"</span>, description = <span class="string">"excel导入导出"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExcelController</span> <span class="keyword">extends</span> <span class="title">BaseController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    ExcelService excelService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(value = <span class="string">"/exportExcel"</span>, method = RequestMethod.GET)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exportExcel</span><span class="params">()</span>  <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        HttpServletResponse response = getHttpResponse();</span><br><span class="line"></span><br><span class="line">        List&lt;BusClick&gt; resultList = excelService.getBusClick();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> t1 = System.currentTimeMillis();</span><br><span class="line">        ExcelUtils.writeExcel(response, resultList, BusClick.class);</span><br><span class="line">        <span class="keyword">long</span> t2 = System.currentTimeMillis();</span><br><span class="line">        System.out.println(String.format(<span class="string">"write over! cost:%sms"</span>, (t2 - t1)));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(value = <span class="string">"/readExcel"</span>, method = RequestMethod.POST)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">readExcel</span><span class="params">(MultipartFile file)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> t1 = System.currentTimeMillis();</span><br><span class="line">        List&lt;BusClick&gt; list = ExcelUtils.readExcel(<span class="string">""</span>, BusClick.class, file);</span><br><span class="line">        <span class="keyword">long</span> t2 = System.currentTimeMillis();</span><br><span class="line">        System.out.println(String.format(<span class="string">"read over! cost:%sms"</span>, (t2 - t1)));</span><br><span class="line">        list.forEach(</span><br><span class="line">                b -&gt; System.out.println(JSON.toJSONString(b))</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><a href="https://www.cnblogs.com/linjiqin/p/10975761.html" target="_blank" rel="noopener">参考地址</a></p>
+<h1 id="记录一次折腾spring-boot配置文件"><a href="#记录一次折腾spring-boot配置文件" class="headerlink" title="记录一次折腾spring boot配置文件"></a>记录一次折腾spring boot配置文件</h1><p>之前老M弃用<code>application.properties</code>，自己写配置文件，搞了一大堆配置，现在因为要搭集群，遂把配置文件改回<code>application.properties</code>。</p>
+<p>首先删除<code>configure</code>模块，然后删除各个模块中的config配置文件，并在各个模块加入<code>application.properties</code>。</p>
+<p>然后启动报错：<br><code>java.lang.IllegalStateException: No such application config! Please add &lt;dubbo:application name=&quot;...&quot; /&gt; to your spring config.</code><br>解决：<br>在<code>controller</code>或<code>service</code>同级创建config文件夹，在下面创建dubbo的配置文件：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zjx.api.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.alibaba.dubbo.config.ApplicationConfig;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.dubbo.config.ConsumerConfig;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.dubbo.config.ProtocolConfig;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.dubbo.config.RegistryConfig;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span>: wjy</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>: dubbo配置</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DubboConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Author</span>: wjy</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span>: dubbo.application配置</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Params</span> []</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Return</span> com.alibaba.dubbo.config.ApplicationConfig</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ApplicationConfig <span class="title">applicationConfig</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ApplicationConfig applicationConfig = <span class="keyword">new</span> ApplicationConfig();</span><br><span class="line">        applicationConfig.setId(<span class="string">"zjx_api"</span>);</span><br><span class="line">        applicationConfig.setName(<span class="string">"zjx_api"</span>);</span><br><span class="line">        applicationConfig.setQosEnable(<span class="keyword">true</span>);</span><br><span class="line">        applicationConfig.setQosPort(<span class="number">20002</span>);</span><br><span class="line">        <span class="keyword">return</span> applicationConfig;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Author</span>: wjy</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span>: dubbo.protocol配置</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Params</span> []</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Return</span> com.alibaba.dubbo.config.ProtocolConfig</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ProtocolConfig <span class="title">protocolConfig</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ProtocolConfig protocolConfig = <span class="keyword">new</span> ProtocolConfig();</span><br><span class="line">        protocolConfig.setId(<span class="string">"dubbo"</span>);</span><br><span class="line">        protocolConfig.setName(<span class="string">"dubbo"</span>);</span><br><span class="line">        protocolConfig.setPort(<span class="number">20882</span>);</span><br><span class="line">        <span class="keyword">return</span> protocolConfig;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Author</span>: wjy</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span>: dubbo.registry配置</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Params</span> []</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Return</span> com.alibaba.dubbo.config.RegistryConfig</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RegistryConfig <span class="title">registryConfig</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        RegistryConfig registryConfig = <span class="keyword">new</span> RegistryConfig();</span><br><span class="line">        registryConfig.setAddress(<span class="string">"zookeeper://127.0.0.1:2181"</span>);</span><br><span class="line">        registryConfig.setCheck(<span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">return</span> registryConfig;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Author</span>: wjy</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span>: dubbo.consumer配置</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Params</span> []</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Return</span> com.alibaba.dubbo.config.ConsumerConfig</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ConsumerConfig <span class="title">consumerConfig</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ConsumerConfig consumerConfig = <span class="keyword">new</span> ConsumerConfig();</span><br><span class="line">        consumerConfig.setTimeout(<span class="number">3000</span>);</span><br><span class="line">        consumerConfig.setCheck(<span class="keyword">true</span>);</span><br><span class="line">        consumerConfig.setVersion(<span class="string">"1.0.0"</span>);</span><br><span class="line">        <span class="keyword">return</span> consumerConfig;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>启动成功。</p>
+<h1 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h1><p>日志，通常不会在需求阶段作为一个功能单独提出来，也不会在产品方案中看到它的细节。但是，这丝毫不影响它在任何一个系统中的重要的地位。<br>为了保证服务的高可用，发现问题一定要即使，解决问题一定要迅速，所以生产环境一旦出现问题，预警系统就会通过邮件、短信甚至电话的方式实施多维轰炸模式，确保相关负责人不错过每一个可能的bug。<br>预警系统判断疑似bug大部分源于日志。比如某个微服务接口由于各种原因导致频繁调用出错，此时调用端会捕获这样的异常并打印ERROR级别的日志，当该错误日志达到一定次数出现的时候，就会触发报警。</p>
+<p>Spring Boot默认日志系统<br>Spring Boot默认使用LogBack日志系统，如果不需要更改为其他日志系统如Log4j2等，则无需多余的配置，LogBack默认将日志打印到控制台上。<br>如果要使用LogBack，原则上是需要添加dependency依赖的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">&lt;artifactId&gt;spring-boot-starter-logging&lt;/artifactId&gt;&lt;/pre&gt;</span><br></pre></td></tr></table></figure></p>
+<p>但是因为新建的Spring Boot项目一般都会引用spring-boot-starter或者spring-boot-starter-web，而这两个起步依赖中都已经包含了对于spring-boot-starter-logging的依赖，所以，无需额外添加依赖。<br>我们基于《没做过大项目，但我会建大项目》中创建的项目，启动springboot-demo项目，可以看到打印的日志信息如下。<br><img src="/2019/09/22/spring-boot/1.gif" alt=""></p>
+<p>以上至默认配置启动下的日志显示情况，如果需要做一些定制的日志配置比如将日志存储到文件等应该如何配置，下面就通过几个小问题来看看Spring Boot下是如何解决这些问题的。</p>
+<h2 id="如何在项目中打印日志"><a href="#如何在项目中打印日志" class="headerlink" title="如何在项目中打印日志"></a>如何在项目中打印日志</h2><p>新建一个配置类LogConfig，注入一个Bean，并在方法中打印日志<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.jackie.springbootdemo.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.jackie.springbootdemo.model.Person;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LogConfig</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOG = LoggerFactory.getLogger(LogConfig.class);</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> Person <span class="title">logMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        LOG.info(<span class="string">"==========print log=========="</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Person();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行SpringBootDemoApplication，可以看到控制台的日志<br><img src="/2019/09/22/spring-boot/2.png" alt=""><br>Spring Boot默认的日志级别为INFO，这里打印的是INFO级别的日志所以可以显示。<br>很多开发者在日常写<br><code>private static final Logger LOG = LoggerFactory.getLogger(LogConfig.class);</code><br>总觉得后面的<code>LogConfig.class</code>可有可无，因为随便写个其他类也不会报错，但是准确编写class信息能够提供快速定位日志的效率。我们看到打印的日志内容左侧就是对应的类名称，这个是通过<br><code>private static final Logger LOG = LoggerFactory.getLogger(LogConfig.class);</code>实现的。<br>如果将LogConfig.class换成xxx.class，输出日志就会显示对应的xxx类名。这样声明的好处就是方便定位日志。</p>
+<h2 id="如何将日志信息存储到文件"><a href="#如何将日志信息存储到文件" class="headerlink" title="如何将日志信息存储到文件"></a>如何将日志信息存储到文件</h2><p>在本机环境，我们习惯在控制台看日志，但是线上我们还是要通过将日志信息保存到日志文件中，查询日志文件即可。<br>那么应该如何配置才能将日志信息保存到文件呢？<br>在我们创建的springboot-demo项目中，resources目录下有个application.properties文件（如果是application.yml文件也是同样的道理，只是采用的不同的编写风格而已）。添加如下配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">logging.path=/Users/jackie/workspace/rome/ </span><br><span class="line">logging.file=springbootdemo.log</span><br></pre></td></tr></table></figure></p>
+<p>logging.path：该属性用来配置日志文件的路径<br>logging.file：该属性用来配置日志文件名，如果该属性不配置，默认文件名为spring.log<br>运行SpringBootDemoApplication<br><img src="/2019/09/22/spring-boot/3.gif" alt=""><br>可以看到在指定路径下生成了springbootdemo.log文件，该文件内容和控制台打印内容一致。<br>如果注释logging.file=springbootdemo.log则生成默认文件名spring.log<br><img src="/2019/09/22/spring-boot/4.gif" alt=""></p>
+<h2 id="如何设置日志级别"><a href="#如何设置日志级别" class="headerlink" title="如何设置日志级别"></a>如何设置日志级别</h2><p>日志级别总共有TARCE &lt; DEBUG &lt; INFO &lt; WARN &lt; ERROR &lt; FATAL ，且级别是逐渐提供，如果日志级别设置为INFO，则意味TRACE和DEBUG级别的日志都看不到。<br>上例中我们打印了一个INFO级别的日志，因为Spring Boot默认级别就是INFO，如果我们改为WARN，是否还能看到这行日志信息。</p>
+<p><strong>logging.level</strong><br>该属性用于配置日志级别。在applicaition.properties中添加<br><code>logging.level.root=warn</code><br>这里是用的root级别，即项目的所有日志，我们也可以使用package级别，即指定包下使用相应的日志级别，下面再看。<br>启动SpringBootDemoApplication<br><img src="/2019/09/22/spring-boot/5.png" alt=""><br>你没看错，这个项目是成功启动了，但是几乎没有内容，这是因为之前打印的日志级别都是INFO，这里设置为WARN，所以INFO级别的日志都不显示。<br>这里我们可以改动root还是INFO级别，将指定包下的日志级别设置为WARN<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">logging.level.root=INFO</span><br><span class="line">logging.level.com.jackie.springbootdemo.config=WARN</span><br></pre></td></tr></table></figure></p>
+<p>启动SpringBootDemoApplication<br><img src="/2019/09/22/spring-boot/6.png" alt=""><br>可以看到除了LogConfig类中的INFO级别的日志没有打印出来，其他的INFO级别的日志都正常输出了。</p>
+<h2 id="如何定制自己的日志格式"><a href="#如何定制自己的日志格式" class="headerlink" title="如何定制自己的日志格式"></a>如何定制自己的日志格式</h2><p>在application.properties中添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">logging.pattern.console=%d&#123;yyyy/MM/dd-HH:mm:ss&#125; [%thread] %-5level %logger- %msg%n </span><br><span class="line">logging.pattern.file=%d&#123;yyyy/MM/dd-HH:mm&#125; [%thread] %-5level %logger- %msg%n</span><br></pre></td></tr></table></figure></p>
+<p>logging.pattern.console：该属性用于定制日志输出格式。<br>上述配置的编码中，对应符号的含义如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">%d&#123;HH:mm:ss.SSS&#125;——日志输出时间</span><br><span class="line">%thread——输出日志的进程名字，这在Web应用以及异步任务处理中很有用</span><br><span class="line">%-5level——日志级别，并且使用5个字符靠左对齐</span><br><span class="line">%logger- ——日志输出者的名字</span><br><span class="line">%msg——日志消息</span><br><span class="line">%n——平台的换行符</span><br></pre></td></tr></table></figure></p>
+<p>启动SpringBootDemoApplication<br><img src="/2019/09/22/spring-boot/7.png" alt=""></p>
+<h1 id="SpringBoot中获取ApplicationContext的三种方式"><a href="#SpringBoot中获取ApplicationContext的三种方式" class="headerlink" title="SpringBoot中获取ApplicationContext的三种方式"></a>SpringBoot中获取ApplicationContext的三种方式</h1><p>ApplicationContext是什么？<br>简单来说就是Spring中的容器，可以用来获取容器中的各种bean组件，注册监听事件，加载资源文件等功能。</p>
+<ul>
+<li><p>直接使用Autowired注入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">public class Book1 &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private ApplicationContext applicationContext;</span><br><span class="line"></span><br><span class="line">    public void show ()&#123;</span><br><span class="line">        System.out.println(applicationContext.getClass());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>利用 spring4.3 的新特性<br>使用spring4.3新特性但是存在一定的局限性，必须满足以下两点：<br>构造函数只能有一个，如果有多个，就必须有一个无参数的构造函数，此时，spring会调用无参的构造函数。<br>构造函数的参数，必须在spring容器中存在。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">public class Book2 &#123;</span><br><span class="line"></span><br><span class="line">    private ApplicationContext applicationContext;</span><br><span class="line"></span><br><span class="line">    public Book2(ApplicationContext applicationContext)&#123;</span><br><span class="line">        System.out.println(applicationContext.getClass());</span><br><span class="line">        this.applicationContext=applicationContext;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void show ()&#123;</span><br><span class="line">        System.out.println(applicationContext.getClass());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>实现spring提供的接口 ApplicationContextAware<br>spring 在bean 初始化后会判断是不是ApplicationContextAware的子类，调用setApplicationContext（）方法， 会将容器中ApplicationContext传入进去</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">public class Book3 implements ApplicationContextAware &#123;</span><br><span class="line"></span><br><span class="line">    private ApplicationContext applicationContext;</span><br><span class="line"></span><br><span class="line">    public void show ()&#123;</span><br><span class="line">        System.out.println(applicationContext.getClass());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException &#123;</span><br><span class="line">        this.applicationContext = applicationContext;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="在工具类中使用redisTemplate"><a href="#在工具类中使用redisTemplate" class="headerlink" title="在工具类中使用redisTemplate"></a>在工具类中使用redisTemplate</h1><ul>
+<li><p>启动类加上组件扫描<br><code>@ComponentScan(basePackages = {&quot;com.zjx.util&quot;,&quot;com.zjx.api&quot;})</code></p>
+</li>
+<li><p>工具类需要实现spring提供的接口<br><code>public class TokenUtil implements ApplicationContextAware</code></p>
+</li>
+<li><p>类上加注解<br><code>@Component</code></p>
+</li>
+<li><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> RedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> ApplicationContext applicationContext;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">setApplicationContext</span><span class="params">(ApplicationContext applicationContext)</span> <span class="keyword">throws</span> BeansException </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(<span class="keyword">this</span>.applicationContext == <span class="keyword">null</span>)&#123;</span><br><span class="line">		<span class="keyword">this</span>.applicationContext = applicationContext;</span><br><span class="line">		<span class="keyword">if</span>(redisTemplate == <span class="keyword">null</span>)&#123;</span><br><span class="line">			Object o = applicationContext.getBean(<span class="string">"redisTemplate"</span>);</span><br><span class="line">			<span class="keyword">if</span>(o <span class="keyword">instanceof</span> RedisTemplate)&#123;</span><br><span class="line">				redisTemplate = (RedisTemplate)o;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后启动服务，直接使用就好了<br><code>redisTemplate.opsForValue().set(&quot;test&quot;,&quot;1&quot;);</code></p>
+</li>
+</ul>
+<h1 id="单用户登录"><a href="#单用户登录" class="headerlink" title="单用户登录"></a>单用户登录</h1><p>单用户登录区别于单点登录。<br>单点登录：单点登录（Single Sign On），简称为 SSO，是目前比较流行的企业业务整合的解决方案之一。SSO的定义是在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。<br>单用户登录：也叫单设备登录(Single device login)，互斥登录。即同一个账号的下，后一个登录的把前一个踢掉。比如，微信，钉钉。</p>
+<p>一直没在网上找到这个机制的实现方法，只能自己琢磨。<br>前后端分离的系统，该功能需要前后端配合实现。我决定使用redis+token来实现该功能。思路：</p>
+<ul>
+<li>一个设备登录时，app端传递一个code，uuid就行，保存在app本地，每次登录都传递相同的code。为什么不用设备码？考虑到可能获取不到设备码，iphone现在好像也没有设备码这一说了。<br>将userId作为key，code作为value存到redis中，同时将userId、mobile、ip、code等参数des加密成token，并返回给前端。</li>
+<li>用户请求接口时，会携带token，解密token，将token中取到的code，同redis中的code对比，如果相同，就是同一设备，不同，就给前端返回错误码，然后前端让将用户踢下线。</li>
+</ul>
+<h1 id="SpringBoot-中使用Spring-retry-重试机制"><a href="#SpringBoot-中使用Spring-retry-重试机制" class="headerlink" title="SpringBoot 中使用Spring retry 重试机制"></a>SpringBoot 中使用Spring retry 重试机制</h1><p>当我们调用一个接口可能由于网络等原因造成第一次失败，再去尝试就成功了，这就是重试机制，spring支持重试机制。<br>加入maven依赖<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.retry&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-retry&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p>启动类加注解<br><code>@EnableRetry</code></p>
+<p>在需要重试的Servcie方法上加注解配置<br><code>@Retryable(value = Exception.class,maxAttempts = 3,backoff = @Backoff(delay = 2000,multiplier = 2))</code><br>value：表示当哪些异常的时候触发重试<br>maxAttempts：表示最大重试次数默认为3<br>delay：表示重试的延迟时间，单位毫秒。<br>multiplier：表示上一次延时时间是这一次的倍数。比如配置delay 是1000，multiplier是2 也就是一秒 第一次尝试是间隔1秒第二次就是2秒第三次就是4秒依次类推。</p>
+<p>@Recover：用于@Retryable重试失败后处理方法，用在和上边一个方法的类中，此方法里的异常一定要是@Retryable方法里抛出的异常，否则不会调用。</p>
+<h1 id="读取配置文件"><a href="#读取配置文件" class="headerlink" title="读取配置文件"></a>读取配置文件</h1><p>通常，我将一些支付的参数写在一个类中，<code>静态常量类</code>。<br>但是这样修改参数后，需要重启项目。一种更好的方法是将这些参数写在配置文件中，这样修改配置文件后，无需重启项目，实现热部署。</p>
+<ol>
+<li><p>将参数写在配置文件中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alipay.config.gatewayUrl=https://openapi.alipay.com/gateway.do</span><br><span class="line">alipay.config.appId=2019123456474282</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新建实体类，字段名与配置文件中的一致。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">@Component</span><br><span class="line">@ConfigurationProperties(prefix = &quot;alipay.config&quot;)</span><br><span class="line">public class AlipayAppConfig &#123;</span><br><span class="line">    private String gatewayUrl;</span><br><span class="line">    private String appId;</span><br><span class="line">	//...其他参数</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>就是通过<code>ConfigurationProperties</code>来读取配置文件的。<br>使用该注解需要引入maven<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-configuration-processor&lt;/artifactId&gt;</span><br><span class="line">	&lt;optional&gt;true&lt;/optional&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<ol start="3">
+<li>在需要用到的类，注入该实体类<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line">private AlipayAppConfig alipayAppConfig;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>完。然后我现在是分布式项目，不知道怎么搞…</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/other/" rel="tag"># other</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/23/SecureCRT/" rel="next" title="SecureCRT">
+                <i class="fa fa-chevron-left"></i> SecureCRT
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/22/calculate/" rel="prev" title="calculate">
+                calculate <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#文件上传功能"><span class="nav-number">1.</span> <span class="nav-text">文件上传功能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建一个简单的包含WEB依赖的SpringBoot项目"><span class="nav-number">1.1.</span> <span class="nav-text">创建一个简单的包含WEB依赖的SpringBoot项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置文件上传的文件大小限制"><span class="nav-number">1.2.</span> <span class="nav-text">配置文件上传的文件大小限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单文件上传示例"><span class="nav-number">1.3.</span> <span class="nav-text">单文件上传示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建upload-jsp文件"><span class="nav-number">1.3.1.</span> <span class="nav-text">创建upload.jsp文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过springboot插件启动项目"><span class="nav-number">1.3.2.</span> <span class="nav-text">通过springboot插件启动项目</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多文件上传"><span class="nav-number">1.4.</span> <span class="nav-text">多文件上传</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在UploadController里添加多文件上传的方法"><span class="nav-number">1.4.1.</span> <span class="nav-text">在UploadController里添加多文件上传的方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#postMan测试文件上传"><span class="nav-number">1.5.</span> <span class="nav-text">postMan测试文件上传</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#导出excel"><span class="nav-number">2.</span> <span class="nav-text">导出excel</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#记录一次折腾spring-boot配置文件"><span class="nav-number">3.</span> <span class="nav-text">记录一次折腾spring boot配置文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#日志"><span class="nav-number">4.</span> <span class="nav-text">日志</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何在项目中打印日志"><span class="nav-number">4.1.</span> <span class="nav-text">如何在项目中打印日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何将日志信息存储到文件"><span class="nav-number">4.2.</span> <span class="nav-text">如何将日志信息存储到文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何设置日志级别"><span class="nav-number">4.3.</span> <span class="nav-text">如何设置日志级别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何定制自己的日志格式"><span class="nav-number">4.4.</span> <span class="nav-text">如何定制自己的日志格式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SpringBoot中获取ApplicationContext的三种方式"><span class="nav-number">5.</span> <span class="nav-text">SpringBoot中获取ApplicationContext的三种方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在工具类中使用redisTemplate"><span class="nav-number">6.</span> <span class="nav-text">在工具类中使用redisTemplate</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#单用户登录"><span class="nav-number">7.</span> <span class="nav-text">单用户登录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SpringBoot-中使用Spring-retry-重试机制"><span class="nav-number">8.</span> <span class="nav-text">SpringBoot 中使用Spring retry 重试机制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#读取配置文件"><span class="nav-number">9.</span> <span class="nav-text">读取配置文件</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

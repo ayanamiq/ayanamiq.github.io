@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="总体框架Java集合是java提供的工具包，包含了常用的数据结构：集合、链表、队列、栈、数组、映射等。Java集合工具包位置是java.util.*Java集合主要可以划分为4个部分：List列表、Set集合、Map映射、工具类(Iterator迭代器、Enumeration枚举类、Arrays和Collections)、。Java集合工具包框架图(如下)： 大致说明看上面的框架图，先抓住它的主干">
+<meta name="keywords" content="collection">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Collection">
+<meta property="og:url" content="https://jingyao066.gitee.io/2018/12/06/Collection/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="总体框架Java集合是java提供的工具包，包含了常用的数据结构：集合、链表、队列、栈、数组、映射等。Java集合工具包位置是java.util.*Java集合主要可以划分为4个部分：List列表、Set集合、Map映射、工具类(Iterator迭代器、Enumeration枚举类、Arrays和Collections)、。Java集合工具包框架图(如下)： 大致说明看上面的框架图，先抓住它的主干">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/06/Collection/1.jpg">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.239Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Collection">
+<meta name="twitter:description" content="总体框架Java集合是java提供的工具包，包含了常用的数据结构：集合、链表、队列、栈、数组、映射等。Java集合工具包位置是java.util.*Java集合主要可以划分为4个部分：List列表、Set集合、Map映射、工具类(Iterator迭代器、Enumeration枚举类、Arrays和Collections)、。Java集合工具包框架图(如下)： 大致说明看上面的框架图，先抓住它的主干">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2018/12/06/Collection/1.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2018/12/06/Collection/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Collection | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2018/12/06/Collection/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Collection
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-06 18:21:41" itemprop="dateCreated datePublished" datetime="2018-12-06T18:21:41+08:00">2018-12-06</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2018/12/06/Collection/" class="leancloud_visitors" data-flag-title="Collection">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="总体框架"><a href="#总体框架" class="headerlink" title="总体框架"></a>总体框架</h1><p>Java集合是java提供的工具包，包含了常用的数据结构：集合、链表、队列、栈、数组、映射等。Java集合工具包位置是java.util.*<br>Java集合主要可以划分为4个部分：List列表、Set集合、Map映射、工具类(Iterator迭代器、Enumeration枚举类、Arrays和Collections)、。<br>Java集合工具包框架图(如下)：<br><img src="/2018/12/06/Collection/1.jpg" alt=""></p>
+<h1 id="大致说明"><a href="#大致说明" class="headerlink" title="大致说明"></a>大致说明</h1><p>看上面的框架图，先抓住它的主干，即Collection和Map。</p>
+<ol>
+<li>Collection是一个接口，是高度抽象出来的集合，它包含了集合的基本操作和属性。<br>Collection包含了List和Set两大分支。</li>
+</ol>
+<ul>
+<li><p>List是一个有序的队列，每一个元素都有它的索引。第一个元素的索引值是0。<br> List的实现类有LinkedList, ArrayList, Vector, Stack。</p>
+</li>
+<li><p>Set是一个不允许有重复元素的集合。<br> Set的实现类有HastSet和TreeSet。<br> HashSet依赖于HashMap，它实际上是通过HashMap实现的；<br> TreeSet依赖于TreeMap，它实际上是通过TreeMap实现的。</p>
+</li>
+</ul>
+<ol start="2">
+<li><p>Map是一个映射接口，即key-value键值对。Map中的每一个元素包含“一个key”和“key对应的value”。<br> AbstractMap是个抽象类，它实现了Map接口中的大部分API。而HashMap，TreeMap，WeakHashMap都是继承于AbstractMap。<br>Hashtable虽然继承于Dictionary，但它实现了Map接口。</p>
+</li>
+<li><p>接下来，再看Iterator。<br>它是遍历集合的工具，即我们通常通过Iterator迭代器来遍历集合。我们说Collection依赖于Iterator，是因为Collection的实现类都要实现iterator()函数，返回一个Iterator对象。ListIterator是专门为遍历List而存在的</p>
+</li>
+<li><p>再看Enumeration<br>它是JDK 1.0引入的抽象类。作用和Iterator一样，也是遍历集合；但是Enumeration的功能要比Iterator少。在上面的框图中，Enumeration只能在Hashtable, Vector, Stack中使用。</p>
+</li>
+<li><p>最后，看Arrays和Collections。<br>它们是操作数组、集合的两个工具类。</p>
+</li>
+</ol>
+<h1 id="集合-Collection"><a href="#集合-Collection" class="headerlink" title="集合(Collection)"></a>集合(Collection)</h1><p>Collection是一个接口，它主要的两个分支是：List 和 Set。<br>List和Set都是接口，它们继承于Collection。List是有序的队列，List中可以有重复的元素；而Set是数学概念中的集合，Set中没有重复元素。<br>List和Set都有它们各自的实现类。<br>为了方便，我们抽象出了AbstractCollection抽象类，它实现了Collection中的绝大部分函数；这样，在Collection的实现类中，我们就可以通过继承AbstractCollection省去重复编码。AbstractList和AbstractSet都继承于AbstractCollection，具体的List实现类继承于AbstractList，而Set的实现类则继承于AbstractSet。<br>另外，Collection中有一个iterator()函数，它的作用是返回一个Iterator接口。通常，我们通过Iterator迭代器来遍历集合。ListIterator是List接口所特有的，在List接口中，通过ListIterator()返回一个ListIterator对象。</p>
+<p>为了方便对多个对象进行操作，集合是存储对象的最常用的一种方式<br>集合的出现就是为了存储对象，可以存储任意类型的对象，而且长度可变。<br>集合和数组的区别?</p>
+<ul>
+<li>都是容器</li>
+<li>数组长度固定，集合长度可变</li>
+<li>数组可以存储基本数据类型，集合只能存对象</li>
+<li>数组存储的数据类型是单一的，集合可以存储任意类型的对象</li>
+</ul>
+<h1 id="Collection简介"><a href="#Collection简介" class="headerlink" title="Collection简介"></a>Collection简介</h1><p>定义如下：<br><code>public interface Collection&lt;E&gt; extends Iterable&lt;E&gt; {}</code><br>它是一个接口，是高度抽象出来的集合，它包含了集合的基本操作：添加、删除、清空、遍历(读取)、是否为空、获取大小、是否保护某元素等等。<br>Collection接口的所有子类(直接子类和间接子类)都必须实现2种构造函数：不带参数的构造函数 和 参数为Collection的构造函数。带参数的构造函数，可以用来转换Collection的类型。</p>
+<h1 id="List简介"><a href="#List简介" class="headerlink" title="List简介"></a>List简介</h1><p>定义如下：<br><code>public interface List&lt;E&gt; extends Collection&lt;E&gt; {}</code><br>List是一个继承于Collection的接口，即List是集合中的一种。List是有序的队列，List中的每一个元素都有一个索引；第一个元素的索引值是0，往后的元素的索引值依次+1。和Set不同，List中允许有重复的元素。</p>
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><p>既然List是继承于Collection接口，它自然就包含了Collection中的全部函数接口；由于List是有序队列，它也额外的有自己的API接口。主要有“添加、删除、获取、修改指定位置的元素”、“获取List中的子队列”等。</p>
+<h1 id="Set简介"><a href="#Set简介" class="headerlink" title="Set简介"></a>Set简介</h1><p>定义如下：<br><code>public interface Set&lt;E&gt; extends Collection&lt;E&gt; {}</code><br>Set是一个继承于Collection的接口，即Set也是集合中的一种。Set是没有重复元素的集合。</p>
+<h2 id="API-1"><a href="#API-1" class="headerlink" title="API"></a>API</h2><p>Set的API和Collection完全一样。</p>
+<h1 id="AbstractCollection"><a href="#AbstractCollection" class="headerlink" title="AbstractCollection"></a>AbstractCollection</h1><p>定义如下：<br><code>public abstract class AbstractCollection&lt;E&gt; implements Collection&lt;E&gt; {}</code><br>AbstractCollection是一个抽象类，它实现了Collection中除iterator()和size()之外的函数。<br>主要作用：<br>它实现了Collection接口中的大部分函数。从而方便其它类实现Collection，比如ArrayList、LinkedList等，它们这些类想要实现Collection接口，通过继承AbstractCollection就已经实现了大部分的接口了。</p>
+<h1 id="AbstractList"><a href="#AbstractList" class="headerlink" title="AbstractList"></a>AbstractList</h1><p>定义如下：<br><code>public abstract class AbstractList&lt;E&gt; extends AbstractCollection&lt;E&gt; implements List&lt;E&gt; {}</code><br>AbstractList是一个继承于AbstractCollection，并且实现List接口的抽象类。它实现了List中除size()、get(int location)之外的函数。<br>AbstractList的主要作用：它实现了List接口中的大部分函数。从而方便其它类继承List。<br>另外，和AbstractCollection相比，AbstractList抽象类中，实现了iterator()接口。</p>
+<h1 id="AbstractSet"><a href="#AbstractSet" class="headerlink" title="AbstractSet"></a>AbstractSet</h1><p>定义如下：<br><code>public abstract class AbstractSet&lt;E&gt; extends AbstractCollection&lt;E&gt; implements Set&lt;E&gt; {}</code><br>AbstractSet是一个继承于AbstractCollection，并且实现Set接口的抽象类。由于Set接口和Collection接口中的API完全一样，Set也就没有自己单独的API。和AbstractCollection一样，它实现了List中除iterator()和size()之外的函数。<br>AbstractSet的主要作用：它实现了Set接口中的大部分函数。从而方便其它类实现Set接口。</p>
+<h1 id="Iterator"><a href="#Iterator" class="headerlink" title="Iterator"></a>Iterator</h1><p><code>public interface Iterator&lt;E&gt; {}</code></p>
+<p>Iterator是一个接口，它是集合的迭代器。集合可以通过Iterator去遍历集合中的元素。Iterator提供的API接口，包括：</p>
+<ol>
+<li>是否存在下一个元素 <code>boolean hasNext();    //每次next之前，先调用此方法探测是否迭代到终点</code></li>
+<li>获取下一个元素   <code>E next();            //返回当前迭代元素 ，同时，迭代游标后移</code></li>
+<li>删除当前元素 void remove();<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/*删除最近一次已近迭代出出去的那个元素。</span><br><span class="line"> 只有当next执行完后，才能调用remove函数。</span><br><span class="line"> 比如你要删除第一个元素，不能直接调用 remove()   而要先next一下( );</span><br><span class="line"> 在没有先调用next 就调用remove方法是会抛出异常的。</span><br><span class="line"> 这个和MySQL中的ResultSet很类似</span><br><span class="line">*/</span><br><span class="line">void remove() </span><br><span class="line">&#123;</span><br><span class="line">    throw new UnsupportedOperationException(&quot;remove&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>注意：Iterator遍历Collection时，是fail-fast机制的。即，当某一个线程A通过iterator去遍历某集合的过程中，若该集合的内容被其他线程所改变了；那么线程A访问集合时，就会抛出ConcurrentModificationException异常，产生fail-fast事件。关于fail-fast的详细内容，我们会在后面专门进行说明。</p>
+<p>实现了Iterable接口，就可以调用iterator()方法。<br>HashMap类就实现了Iterable接口，遍历map时，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Iterator iter = hashMap.iterator(); </span><br><span class="line">while(iter.hashNext()) &#123; </span><br><span class="line">  String s = iter.next(); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="手动迭代list，和foreach原理是一样的"><a href="#手动迭代list，和foreach原理是一样的" class="headerlink" title="手动迭代list，和foreach原理是一样的"></a>手动迭代list，和foreach原理是一样的</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; li = new ArrayList&lt;&gt;();</span><br><span class="line">li.add(1);</span><br><span class="line">li.add(2);</span><br><span class="line">li.add(3);</span><br><span class="line">//不使用foreach 而手动迭代</span><br><span class="line">Iterator&lt;Integer&gt; iter = li.iterator();    //获取ArrayList 的迭代器</span><br><span class="line">while(iter.hasNext())                      //①先探测能否继续迭代</span><br><span class="line">&#123;</span><br><span class="line">	System.out.println(iter.next());       //②后取出本次迭代出的元素</span><br><span class="line">	//invoke  remove()                     //③最后如果需要，调用remove</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="AbstractList中实现的迭代器类解读："><a href="#AbstractList中实现的迭代器类解读：" class="headerlink" title="AbstractList中实现的迭代器类解读："></a>AbstractList中实现的迭代器类解读：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">private class Itr implements Iterator&lt;E&gt; &#123;</span><br><span class="line">    //AbstractList 中实现的迭代器，删除了一些细节。不影响理解,Itr为一个priavate成员内部类</span><br><span class="line">    int cursor = 0;   //马上等待被迭代元素的index</span><br><span class="line">    //最近一次，已经被迭代出的元素的index，如果这个元素迭代后，被删除了，则lastRet重置为-1</span><br><span class="line">    int lastRet = -1;</span><br><span class="line">    public boolean hasNext() &#123;</span><br><span class="line">        return cursor != size();      //当前游标值 等于  集合的size()  说明已经不能再迭代了。</span><br><span class="line">    &#125;</span><br><span class="line">    public E next() &#123;</span><br><span class="line">        int i = cursor;</span><br><span class="line">        E next = get(i);</span><br><span class="line">        lastRet = i;     //lastRet 保存的是最近一次已经被迭代出去的元素索引</span><br><span class="line">        cursor = i + 1;  //cursor为马上等待被迭代的元素的索引</span><br><span class="line">        return next;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public void remove() &#123;</span><br><span class="line">        if (lastRet &lt; 0)                             //调用remove之前没有调用next</span><br><span class="line">            throw new IllegalStateException();       //则抛异常。这就是为什么在使用remove前，要next的原因</span><br><span class="line">        OuterList.this.remove(lastRet);            //从集合中删除这个元素</span><br><span class="line">        if (lastRet &lt; cursor)                      //集合删除元素后，集合后面的元素的索引会都减小1，cursor也要同步后移</span><br><span class="line">            cursor--;</span><br><span class="line">        lastRet = -1;                                 //重置</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>迭代出来的元素都是原来集合元素的拷贝<br>Java集合中保存的元素实质是对象的引用(可以理解为C中的指针)，而非对象本身。<br>迭代出的元素也就都是 引用的拷贝，结果还是引用。那么，如果集合中保存的元素是可变类型的，我们就可以通过迭代出的元素修改原集合中的对象。<br>而对于不可变类型，如String  基本元素的包装类型Integer 都是则不会反应到原集合中。</p>
+<p>验证：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public class Main &#123;</span><br><span class="line">        public static void main(String[] args) &#123;</span><br><span class="line">            List&lt;Person&gt; li = new ArrayList&lt;&gt;();</span><br><span class="line">            Person p = new Person(&quot;Tom&quot;);</span><br><span class="line">            li.add(p);</span><br><span class="line">            for (Person ap : li) &#123;</span><br><span class="line">                ap.setName(&quot;Jerry&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(li.get(0).getName());     //Jerry  not Tom</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    class Person &#123;</span><br><span class="line">        public Person(String name) &#123;</span><br><span class="line">            this.name = (name == null ? &quot;&quot; : name);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        private String name;</span><br><span class="line">        public String getName() &#123;</span><br><span class="line">            return name;</span><br><span class="line">        &#125;</span><br><span class="line">        public void setName(String name) &#123;</span><br><span class="line">            if (name == null)</span><br><span class="line">                name = &quot;&quot;;</span><br><span class="line">            this.name = name;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="自己实现迭代器"><a href="#自己实现迭代器" class="headerlink" title="自己实现迭代器"></a>自己实现迭代器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">public class Main &#123;</span><br><span class="line">        public static void main(String[] args) &#123;</span><br><span class="line">            MyString s = new MyString(&quot;1234567&quot;);</span><br><span class="line">            for (char c : s) &#123;</span><br><span class="line">                System.out.println(c);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    class MyString implements Iterable&lt;Character&gt; &#123;</span><br><span class="line">        private int length = 0;</span><br><span class="line">        private String ineers = null;</span><br><span class="line">        public MyString(String s) &#123;</span><br><span class="line">            this.ineers = s;</span><br><span class="line">            this.length = s.length();</span><br><span class="line">        &#125;</span><br><span class="line">        @Override</span><br><span class="line">        public Iterator&lt;Character&gt; iterator() &#123;</span><br><span class="line">            class iter implements Iterator&lt;Character&gt;     //方法内部类</span><br><span class="line">            &#123;</span><br><span class="line">                private int cur = 0;</span><br><span class="line">                @Override</span><br><span class="line">                public boolean hasNext() &#123;</span><br><span class="line">                    return cur != length;</span><br><span class="line">                &#125;</span><br><span class="line">                @Override</span><br><span class="line">                public Character next() &#123;</span><br><span class="line">                    Character c = ineers.charAt(cur);</span><br><span class="line">                    cur++;</span><br><span class="line">                    return c;</span><br><span class="line">                &#125;</span><br><span class="line">                public void remove() &#123;</span><br><span class="line">                    // do nothing</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            return new iter();     //安装Iterable接口的约定，返回迭代器</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Iterable"><a href="#Iterable" class="headerlink" title="Iterable"></a>Iterable</h1><p><code>public interface Iterable&lt;T&gt;</code><br>Iterable是一个接口，Collection接口继承了Iterable(接口扩展)，Iterable中包含</p>
+<ol>
+<li>iterator方法的显式调用</li>
+<li>forEach方法</li>
+<li>spliterator方法</li>
+</ol>
+<h1 id="Iterator和Iterable-区别"><a href="#Iterator和Iterable-区别" class="headerlink" title="Iterator和Iterable 区别"></a>Iterator和Iterable 区别</h1><p>从英文意思去理解：<br>Iterable：故名思议，实现了这个接口的集合对象支持迭代，是可迭代的。able结尾的表示 <strong>能…样</strong>，<strong>可以做…。</strong><br>Iterator：在英语中or 结尾是都是表示 <strong>…样的人</strong> 或 <strong>… 者</strong>。如creator就是创作者的意思。这里也是一样：iterator就是迭代者，我们一般叫迭代器，它就是提供迭代机制的对象，具体如何迭代，都是Iterator接口规范的。</p>
+<h2 id="Iterable-1"><a href="#Iterable-1" class="headerlink" title="Iterable"></a>Iterable</h2><p>一个集合对象要表明自己支持迭代，能有使用foreach语句的特权，就必须实现Iterable接口，表明我是可迭代的，然而实现Iterable接口，就必需为foreach语句提供一个迭代器。<br>这个迭代器是用接口定义的 iterator方法提供的。也就是iterator方法需要返回一个Iterator对象。</p>
+<h2 id="Iterator-1"><a href="#Iterator-1" class="headerlink" title="Iterator"></a>Iterator</h2><ol>
+<li>每次在迭代前，先调用hasNext()探测是否迭代到终点（本次还能再迭代吗？）。</li>
+<li>next方法不仅要返回当前元素，还要后移游标cursor</li>
+<li>remove()方法用来删除最近一次已经迭代出的元素</li>
+<li>迭代出的元素是原集合中元素的拷贝（重要）</li>
+<li>配合foreach使用</li>
+</ol>
+<p>为什么一定要实现Iterable接口，为什么不直接实现Iterator接口呢？<br>答：看一下JDK中的集合类，比如List一族或者Set一族，都是实现了Iterable接口，但并不直接实现Iterator接口。 仔细想一下这么做是有道理的。<br>因为Iterator接口的核心方法next()或者hasNext() 是依赖于迭代器的当前迭代位置的。 如果Collection直接实现Iterator接口，势必导致集合对象中包含当前迭代位置的数据(指针)。<br>当集合在不同方法间被传递时，由于当前迭代位置不可预置，那么next()方法的结果会变成不可预知。  除非再为Iterator接口添加一个reset()方法，用来重置当前迭代位置。<br>但即时这样，Collection也只能同时存在一个当前迭代位置。 而Iterable则不然，每次调用都会返回一个从头开始计数的迭代器。 多个迭代器是互不干扰的。 </p>
+<h1 id="ListIterator"><a href="#ListIterator" class="headerlink" title="ListIterator"></a>ListIterator</h1><p><code>public interface ListIterator&lt;E&gt; extends Iterator&lt;E&gt; {}</code><br>ListIterator是一个继承于Iterator的接口，它是队列迭代器。专门用于便利List，能提供向前/向后遍历。相比于Iterator，它新增了添加、是否存在上一个元素、获取上一个元素等等API接口。</p>
+<h2 id="API-2"><a href="#API-2" class="headerlink" title="API"></a>API</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// ListIterator的API</span><br><span class="line">// 继承于Iterator的接口</span><br><span class="line">abstract boolean hasNext()</span><br><span class="line">abstract E next()</span><br><span class="line">abstract void remove()</span><br><span class="line">// 新增API接口</span><br><span class="line">abstract void add(E object)</span><br><span class="line">abstract boolean hasPrevious()</span><br><span class="line">abstract int nextIndex()</span><br><span class="line">abstract E previous()</span><br><span class="line">abstract int previousIndex()</span><br><span class="line">abstract void set(E object)</span><br></pre></td></tr></table></figure>
+<h1 id="集合的特点"><a href="#集合的特点" class="headerlink" title="集合的特点"></a>集合的特点</h1><ol>
+<li>用于存储对象</li>
+<li>长度可变</li>
+<li>可以存储不同类型的对象</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">---|Collection:(包含list和set子接口)</span><br><span class="line">	---|List: 有存储顺序, 可重复</span><br><span class="line">		---|ArrayList：数组实现, 查找快, 增删慢</span><br><span class="line">			由于是数组实现, 在增和删的时候会牵扯到数组</span><br><span class="line">			增容, 以及拷贝元素. 所以慢。数组是可以直接</span><br><span class="line">			按索引查找, 所以查找时较快</span><br><span class="line">		---|LinkedList：链表实现, 增删快, 查找慢</span><br><span class="line">			由于链表实现, 增加时只要让前一个元素记住自</span><br><span class="line">			己就可以, 删除时让前一个元素记住后一个元</span><br><span class="line">			素, 后一个元素记住前一个元素. 这样的增删效</span><br><span class="line">			率较高但查询时需要一个一个的遍历, 所以效率</span><br><span class="line">			较低</span><br><span class="line">		---|Vector：和ArrayList原理相同, 但线程安全, 效率略低</span><br><span class="line">				</span><br><span class="line">	---|Set: 无存储顺序, 不可重复</span><br><span class="line">		---|HashSet:线程不安全，存取速度快，底层以哈希表实现</span><br><span class="line">		---|TreeSet:红黑二叉树结构，默认对元素进行自然排序，</span><br><span class="line">		---|LinkedHashSet:会保存插入的顺序</span><br><span class="line"></span><br><span class="line">---| Map:键值对(不允许重复的键)null可以作为键，这样的键只有一个</span><br><span class="line">	注:map和collection没有关系</span><br><span class="line">		---|HashMap:根据键的hashCode值存储数据，根据键可以直接获取它的值，查询快(存入的值在取的时候也是随机的)</span><br><span class="line">		---|TreeMap:取出来后是排序后的键值对(如果需要按照自然排序或自定义排序,用这个)</span><br><span class="line">		---|HashTable:和hashMap实现原理一样,区别在于线程安全</span><br><span class="line">		---|LinkedHashMap:输出的顺序和输入的顺序是相同的</span><br><span class="line">		---|ConcurrentHashMap：采用了分段锁的设计，并发map</span><br></pre></td></tr></table></figure>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ol>
+<li><p>list和set的区别<br>list允许重复对象，set不允许重复对象<br>list是有序容器，保留了每个元素的插入顺序，输出顺序就是插入顺序<br>set是无序容器，无法保证每个元素的存储顺序<br>list可以插入多个null元素，set只允许一个null元素</p>
+</li>
+<li><p>什么时候该使用什么样的集合：</p>
+</li>
+</ol>
+<ul>
+<li>List：如果我们需要保留存储顺序, 并且保留重复元素, 使用List<ul>
+<li>如果查询较多, 那么使用ArrayList</li>
+<li>如果存取较多, 那么使用LinkedList</li>
+<li>如果需要线程安全, 那么使用Vector</li>
+</ul>
+</li>
+<li>Set：如果我们不需要保留存储顺序, 并且需要去掉重复元素, 使用Set<ul>
+<li>如果我们需要将元素排序， 那么使用TreeSet</li>
+<li>如果我们不需要排序， 使用HashSet， HashSet比TreeSet效率高</li>
+<li>如果我们需要保留存储顺序，又要过滤重复元素，那么使用LinkedHashSet</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li><p>用什么方法<br>看到array，就要想到角标。<br>看到link，就要想到first，last。<br>看到hash，就要想到hashCode，equals<br>看到tree，就要想到两个接口：Comparable，Comparator。</p>
+</li>
+<li><p>Collection接口的方法：</p>
+</li>
+</ol>
+<ul>
+<li>add()：将指定对象存储到容器中</li>
+<li>addAll()：直接添加一整个集合 </li>
+<li>remove()：将指定对象从集合中删除</li>
+<li>removeAll()：直接删除一个集合</li>
+<li>clear()：清空集合中的所有元素</li>
+<li>contains()：判断集合中是否包含指定对象</li>
+<li>collection.size()：返回集合的大小</li>
+<li>toArray()：集合转换成数组</li>
+</ul>
+<ol start="5">
+<li>List特有的方法</li>
+</ol>
+<ul>
+<li>增加：List.add(1,”指定元素”)，在指定位置添加元素</li>
+<li>删除：List.remove(1,”指定元素”)，删除指定位置的元素</li>
+<li>修改：List.set(1,”指定元素”)，修改指定位置的元素</li>
+<li>查找：List.get(1,”指定元素”)，查找指定位置的元素</li>
+<li>求子集合:List<e> subList(int fromIndex, int toIndex) // 不包含toIndex</e></li>
+</ul>
+<ol start="6">
+<li>LinkedList特有方法</li>
+</ol>
+<ul>
+<li>addFirst()：在集合的第一个位置添加元素</li>
+<li>addLast()：最后</li>
+<li>getFirst()：返回此集合的第一个元素</li>
+<li>getLast()：最后    </li>
+<li>removeFirst()：移除集合的第一个元素</li>
+<li>removeLast()：最后</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/collection/" rel="tag"># collection</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/06/JAVA/" rel="next" title="JAVA">
+                <i class="fa fa-chevron-left"></i> JAVA
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/06/Spring/" rel="prev" title="Spring">
+                Spring <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#总体框架"><span class="nav-number">1.</span> <span class="nav-text">总体框架</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#大致说明"><span class="nav-number">2.</span> <span class="nav-text">大致说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#集合-Collection"><span class="nav-number">3.</span> <span class="nav-text">集合(Collection)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Collection简介"><span class="nav-number">4.</span> <span class="nav-text">Collection简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#List简介"><span class="nav-number">5.</span> <span class="nav-text">List简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#API"><span class="nav-number">5.1.</span> <span class="nav-text">API</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Set简介"><span class="nav-number">6.</span> <span class="nav-text">Set简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#API-1"><span class="nav-number">6.1.</span> <span class="nav-text">API</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AbstractCollection"><span class="nav-number">7.</span> <span class="nav-text">AbstractCollection</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AbstractList"><span class="nav-number">8.</span> <span class="nav-text">AbstractList</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AbstractSet"><span class="nav-number">9.</span> <span class="nav-text">AbstractSet</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Iterator"><span class="nav-number">10.</span> <span class="nav-text">Iterator</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#手动迭代list，和foreach原理是一样的"><span class="nav-number">10.1.</span> <span class="nav-text">手动迭代list，和foreach原理是一样的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AbstractList中实现的迭代器类解读："><span class="nav-number">10.2.</span> <span class="nav-text">AbstractList中实现的迭代器类解读：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自己实现迭代器"><span class="nav-number">10.3.</span> <span class="nav-text">自己实现迭代器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Iterable"><span class="nav-number">11.</span> <span class="nav-text">Iterable</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Iterator和Iterable-区别"><span class="nav-number">12.</span> <span class="nav-text">Iterator和Iterable 区别</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Iterable-1"><span class="nav-number">12.1.</span> <span class="nav-text">Iterable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Iterator-1"><span class="nav-number">12.2.</span> <span class="nav-text">Iterator</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ListIterator"><span class="nav-number">13.</span> <span class="nav-text">ListIterator</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#API-2"><span class="nav-number">13.1.</span> <span class="nav-text">API</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#集合的特点"><span class="nav-number">14.</span> <span class="nav-text">集合的特点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题"><span class="nav-number">15.</span> <span class="nav-text">问题</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="概述和HashMap一样，Hashtable 也是一个散列表，它存储的内容是键值对(key-value)映射。Hashtable 继承于Dictionary，实现了Map、Cloneable、java.io.Serializable接口。Hashtable 的函数都是同步的，这意味着它是线程安全的。它的key、value都不可以为null。此外，Hashtable中的映射不是有序的。Hashtab">
+<meta name="keywords" content="集合,Map">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hashtable">
+<meta property="og:url" content="https://jingyao066.gitee.io/2018/12/21/Hashtable/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="概述和HashMap一样，Hashtable 也是一个散列表，它存储的内容是键值对(key-value)映射。Hashtable 继承于Dictionary，实现了Map、Cloneable、java.io.Serializable接口。Hashtable 的函数都是同步的，这意味着它是线程安全的。它的key、value都不可以为null。此外，Hashtable中的映射不是有序的。Hashtab">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/21/Hashtable/1.jpg">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.245Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hashtable">
+<meta name="twitter:description" content="概述和HashMap一样，Hashtable 也是一个散列表，它存储的内容是键值对(key-value)映射。Hashtable 继承于Dictionary，实现了Map、Cloneable、java.io.Serializable接口。Hashtable 的函数都是同步的，这意味着它是线程安全的。它的key、value都不可以为null。此外，Hashtable中的映射不是有序的。Hashtab">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2018/12/21/Hashtable/1.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2018/12/21/Hashtable/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Hashtable | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2018/12/21/Hashtable/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Hashtable
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-21 10:35:10" itemprop="dateCreated datePublished" datetime="2018-12-21T10:35:10+08:00">2018-12-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2018/12/21/Hashtable/" class="leancloud_visitors" data-flag-title="Hashtable">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>和HashMap一样，Hashtable 也是一个散列表，它存储的内容是键值对(key-value)映射。<br>Hashtable 继承于Dictionary，实现了Map、Cloneable、java.io.Serializable接口。<br>Hashtable 的函数都是同步的，这意味着它是线程安全的。它的key、value都不可以为null。此外，Hashtable中的映射不是有序的。<br>Hashtable 的实例有两个参数影响其性能：<strong>初始容量</strong>和<strong>加载因子</strong>。容量是哈希表中桶的数量，初始容量就是哈希表创建时的容量。<br>注意，哈希表的状态为open：在发生“哈希冲突”的情况下，单个桶会存储多个条目，这些条目必须按顺序搜索。加载因子是对哈希表在其容量自动增加之前可以达到多满的一个尺度。初始容量和加载因子这两个参数只是对该实现的提示。关于何时以及是否调用rehash方法的具体细节则依赖于该实现。<br>通常，默认加载因子是0.75，这是在时间和空间成本上寻求一种折衷。加载因子过高虽然减少了空间开销，但同时也增加了查找某个条目的时间，在大多数 Hashtable 操作中，包括get和put操作，都反映了这一点。</p>
+<h1 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 默认构造函数。</span><br><span class="line">public Hashtable() </span><br><span class="line">// 指定“容量大小”的构造函数</span><br><span class="line">public Hashtable(int initialCapacity) </span><br><span class="line">// 指定“容量大小”和“加载因子”的构造函数</span><br><span class="line">public Hashtable(int initialCapacity, float loadFactor) </span><br><span class="line">// 包含“子Map”的构造函数</span><br><span class="line">public Hashtable(Map&lt;? extends K, ? extends V&gt; t)</span><br></pre></td></tr></table></figure>
+<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><p>继承关系：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">java.lang.Object</span><br><span class="line">   ↳     java.util.Dictionary&lt;K, V&gt;</span><br><span class="line">         ↳     java.util.Hashtable&lt;K, V&gt;</span><br><span class="line"></span><br><span class="line">public class Hashtable&lt;K,V&gt; extends Dictionary&lt;K,V&gt;</span><br><span class="line">    implements Map&lt;K,V&gt;, Cloneable, java.io.Serializable &#123; &#125;</span><br></pre></td></tr></table></figure></p>
+<p>Hashtable与Map的关系图：<br><img src="/2018/12/21/Hashtable/1.jpg" alt=""></p>
+<p>从图中可以看出： </p>
+<ul>
+<li>Hashtable继承于Dictionary类，实现了Map接口。Map是”key-value键值对”接口，Dictionary是声明了操作”键值对”函数接口的抽象类。 </li>
+<li>Hashtable是通过”拉链法”实现的哈希表。它包括几个重要的成员变量：table，count，threshold，loadFactor，modCount。<br>table是一个Entry[]数组类型，而Entry实际上就是一个单向链表。哈希表的”key-value键值对”都是存储在Entry数组中的。<br>count是Hashtable的大小，它是Hashtable保存的键值对的数量。<br>threshold是Hashtable的阈值，用于判断是否需要调整Hashtable的容量。threshold的值=”容量*加载因子”。<br>loadFactor就是加载因子。<br>modCount是用来实现fail-fast机制的</li>
+</ul>
+<h1 id="源码解析"><a href="#源码解析" class="headerlink" title="源码解析"></a>源码解析</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br><span class="line">519</span><br><span class="line">520</span><br><span class="line">521</span><br><span class="line">522</span><br><span class="line">523</span><br><span class="line">524</span><br><span class="line">525</span><br><span class="line">526</span><br><span class="line">527</span><br><span class="line">528</span><br><span class="line">529</span><br><span class="line">530</span><br><span class="line">531</span><br><span class="line">532</span><br><span class="line">533</span><br><span class="line">534</span><br><span class="line">535</span><br><span class="line">536</span><br><span class="line">537</span><br><span class="line">538</span><br><span class="line">539</span><br><span class="line">540</span><br><span class="line">541</span><br><span class="line">542</span><br><span class="line">543</span><br><span class="line">544</span><br><span class="line">545</span><br><span class="line">546</span><br><span class="line">547</span><br><span class="line">548</span><br><span class="line">549</span><br><span class="line">550</span><br><span class="line">551</span><br><span class="line">552</span><br><span class="line">553</span><br><span class="line">554</span><br><span class="line">555</span><br><span class="line">556</span><br><span class="line">557</span><br><span class="line">558</span><br><span class="line">559</span><br><span class="line">560</span><br><span class="line">561</span><br><span class="line">562</span><br><span class="line">563</span><br><span class="line">564</span><br><span class="line">565</span><br><span class="line">566</span><br><span class="line">567</span><br><span class="line">568</span><br><span class="line">569</span><br><span class="line">570</span><br><span class="line">571</span><br><span class="line">572</span><br><span class="line">573</span><br><span class="line">574</span><br><span class="line">575</span><br><span class="line">576</span><br><span class="line">577</span><br><span class="line">578</span><br><span class="line">579</span><br><span class="line">580</span><br><span class="line">581</span><br><span class="line">582</span><br><span class="line">583</span><br><span class="line">584</span><br><span class="line">585</span><br><span class="line">586</span><br><span class="line">587</span><br><span class="line">588</span><br><span class="line">589</span><br><span class="line">590</span><br><span class="line">591</span><br><span class="line">592</span><br><span class="line">593</span><br><span class="line">594</span><br><span class="line">595</span><br><span class="line">596</span><br><span class="line">597</span><br><span class="line">598</span><br><span class="line">599</span><br><span class="line">600</span><br><span class="line">601</span><br><span class="line">602</span><br><span class="line">603</span><br><span class="line">604</span><br><span class="line">605</span><br><span class="line">606</span><br><span class="line">607</span><br><span class="line">608</span><br><span class="line">609</span><br><span class="line">610</span><br><span class="line">611</span><br><span class="line">612</span><br><span class="line">613</span><br><span class="line">614</span><br><span class="line">615</span><br><span class="line">616</span><br><span class="line">617</span><br><span class="line">618</span><br><span class="line">619</span><br><span class="line">620</span><br><span class="line">621</span><br><span class="line">622</span><br><span class="line">623</span><br><span class="line">624</span><br><span class="line">625</span><br><span class="line">626</span><br><span class="line">627</span><br><span class="line">628</span><br><span class="line">629</span><br><span class="line">630</span><br><span class="line">631</span><br><span class="line">632</span><br><span class="line">633</span><br><span class="line">634</span><br><span class="line">635</span><br><span class="line">636</span><br><span class="line">637</span><br><span class="line">638</span><br><span class="line">639</span><br><span class="line">640</span><br><span class="line">641</span><br><span class="line">642</span><br><span class="line">643</span><br><span class="line">644</span><br><span class="line">645</span><br><span class="line">646</span><br><span class="line">647</span><br><span class="line">648</span><br><span class="line">649</span><br><span class="line">650</span><br><span class="line">651</span><br><span class="line">652</span><br><span class="line">653</span><br><span class="line">654</span><br><span class="line">655</span><br><span class="line">656</span><br><span class="line">657</span><br><span class="line">658</span><br><span class="line">659</span><br><span class="line">660</span><br><span class="line">661</span><br><span class="line">662</span><br><span class="line">663</span><br><span class="line">664</span><br><span class="line">665</span><br><span class="line">666</span><br><span class="line">667</span><br><span class="line">668</span><br><span class="line">669</span><br><span class="line">670</span><br><span class="line">671</span><br><span class="line">672</span><br><span class="line">673</span><br><span class="line">674</span><br><span class="line">675</span><br><span class="line">676</span><br><span class="line">677</span><br><span class="line">678</span><br><span class="line">679</span><br><span class="line">680</span><br><span class="line">681</span><br><span class="line">682</span><br><span class="line">683</span><br><span class="line">684</span><br><span class="line">685</span><br><span class="line">686</span><br><span class="line">687</span><br><span class="line">688</span><br><span class="line">689</span><br><span class="line">690</span><br><span class="line">691</span><br><span class="line">692</span><br><span class="line">693</span><br><span class="line">694</span><br><span class="line">695</span><br><span class="line">696</span><br><span class="line">697</span><br><span class="line">698</span><br><span class="line">699</span><br><span class="line">700</span><br><span class="line">701</span><br><span class="line">702</span><br><span class="line">703</span><br><span class="line">704</span><br><span class="line">705</span><br><span class="line">706</span><br><span class="line">707</span><br><span class="line">708</span><br><span class="line">709</span><br><span class="line">710</span><br><span class="line">711</span><br><span class="line">712</span><br><span class="line">713</span><br><span class="line">714</span><br><span class="line">715</span><br><span class="line">716</span><br><span class="line">717</span><br><span class="line">718</span><br><span class="line">719</span><br><span class="line">720</span><br><span class="line">721</span><br><span class="line">722</span><br><span class="line">723</span><br><span class="line">724</span><br><span class="line">725</span><br><span class="line">726</span><br><span class="line">727</span><br><span class="line">728</span><br><span class="line">729</span><br><span class="line">730</span><br><span class="line">731</span><br><span class="line">732</span><br><span class="line">733</span><br><span class="line">734</span><br><span class="line">735</span><br><span class="line">736</span><br><span class="line">737</span><br><span class="line">738</span><br><span class="line">739</span><br><span class="line">740</span><br><span class="line">741</span><br><span class="line">742</span><br><span class="line">743</span><br><span class="line">744</span><br><span class="line">745</span><br><span class="line">746</span><br><span class="line">747</span><br><span class="line">748</span><br><span class="line">749</span><br><span class="line">750</span><br><span class="line">751</span><br><span class="line">752</span><br><span class="line">753</span><br><span class="line">754</span><br><span class="line">755</span><br><span class="line">756</span><br><span class="line">757</span><br><span class="line">758</span><br><span class="line">759</span><br><span class="line">760</span><br><span class="line">761</span><br><span class="line">762</span><br><span class="line">763</span><br><span class="line">764</span><br><span class="line">765</span><br><span class="line">766</span><br><span class="line">767</span><br><span class="line">768</span><br><span class="line">769</span><br><span class="line">770</span><br><span class="line">771</span><br><span class="line">772</span><br><span class="line">773</span><br><span class="line">774</span><br><span class="line">775</span><br><span class="line">776</span><br><span class="line">777</span><br><span class="line">778</span><br><span class="line">779</span><br><span class="line">780</span><br><span class="line">781</span><br><span class="line">782</span><br><span class="line">783</span><br><span class="line">784</span><br><span class="line">785</span><br><span class="line">786</span><br><span class="line">787</span><br><span class="line">788</span><br><span class="line">789</span><br><span class="line">790</span><br><span class="line">791</span><br><span class="line">792</span><br></pre></td><td class="code"><pre><span class="line">package java.util;</span><br><span class="line">import java.io.*;</span><br><span class="line"></span><br><span class="line">public class Hashtable&lt;K,V&gt;</span><br><span class="line">    extends Dictionary&lt;K,V&gt;</span><br><span class="line">    implements Map&lt;K,V&gt;, Cloneable, java.io.Serializable &#123;</span><br><span class="line"></span><br><span class="line">    // Hashtable保存key-value的数组。</span><br><span class="line">    // Hashtable是采用拉链法实现的，每一个Entry本质上是一个单向链表</span><br><span class="line">    private transient Entry[] table;</span><br><span class="line"></span><br><span class="line">    // Hashtable中元素的实际数量</span><br><span class="line">    private transient int count;</span><br><span class="line"></span><br><span class="line">    // 阈值，用于判断是否需要调整Hashtable的容量（threshold = 容量*加载因子）</span><br><span class="line">    private int threshold;</span><br><span class="line"></span><br><span class="line">    // 加载因子</span><br><span class="line">    private float loadFactor;</span><br><span class="line"></span><br><span class="line">    // Hashtable被改变的次数</span><br><span class="line">    private transient int modCount = 0;</span><br><span class="line"></span><br><span class="line">    // 序列版本号</span><br><span class="line">    private static final long serialVersionUID = 1421746759512286392L;</span><br><span class="line"></span><br><span class="line">    // 指定“容量大小”和“加载因子”的构造函数</span><br><span class="line">    public Hashtable(int initialCapacity, float loadFactor) &#123;</span><br><span class="line">        if (initialCapacity &lt; 0)</span><br><span class="line">            throw new IllegalArgumentException(&quot;Illegal Capacity: &quot;+</span><br><span class="line">                                               initialCapacity);</span><br><span class="line">        if (loadFactor &lt;= 0 || Float.isNaN(loadFactor))</span><br><span class="line">            throw new IllegalArgumentException(&quot;Illegal Load: &quot;+loadFactor);</span><br><span class="line"></span><br><span class="line">        if (initialCapacity==0)</span><br><span class="line">            initialCapacity = 1;</span><br><span class="line">        this.loadFactor = loadFactor;</span><br><span class="line">        table = new Entry[initialCapacity];</span><br><span class="line">        threshold = (int)(initialCapacity * loadFactor);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 指定“容量大小”的构造函数</span><br><span class="line">    public Hashtable(int initialCapacity) &#123;</span><br><span class="line">        this(initialCapacity, 0.75f);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 默认构造函数。</span><br><span class="line">    public Hashtable() &#123;</span><br><span class="line">        // 默认构造函数，指定的容量大小是11；加载因子是0.75</span><br><span class="line">        this(11, 0.75f);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 包含“子Map”的构造函数</span><br><span class="line">    public Hashtable(Map&lt;? extends K, ? extends V&gt; t) &#123;</span><br><span class="line">        this(Math.max(2*t.size(), 11), 0.75f);</span><br><span class="line">        // 将“子Map”的全部元素都添加到Hashtable中</span><br><span class="line">        putAll(t);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public synchronized int size() &#123;</span><br><span class="line">        return count;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public synchronized boolean isEmpty() &#123;</span><br><span class="line">        return count == 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回“所有key”的枚举对象</span><br><span class="line">    public synchronized Enumeration&lt;K&gt; keys() &#123;</span><br><span class="line">        return this.&lt;K&gt;getEnumeration(KEYS);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回“所有value”的枚举对象</span><br><span class="line">    public synchronized Enumeration&lt;V&gt; elements() &#123;</span><br><span class="line">        return this.&lt;V&gt;getEnumeration(VALUES);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 判断Hashtable是否包含“值(value)”</span><br><span class="line">    public synchronized boolean contains(Object value) &#123;</span><br><span class="line">        // Hashtable中“键值对”的value不能是null，</span><br><span class="line">        // 若是null的话，抛出异常!</span><br><span class="line">        if (value == null) &#123;</span><br><span class="line">            throw new NullPointerException();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 从后向前遍历table数组中的元素(Entry)</span><br><span class="line">        // 对于每个Entry(单向链表)，逐个遍历，判断节点的值是否等于value</span><br><span class="line">        Entry tab[] = table;</span><br><span class="line">        for (int i = tab.length ; i-- &gt; 0 ;) &#123;</span><br><span class="line">            for (Entry&lt;K,V&gt; e = tab[i] ; e != null ; e = e.next) &#123;</span><br><span class="line">                if (e.value.equals(value)) &#123;</span><br><span class="line">                    return true;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public boolean containsValue(Object value) &#123;</span><br><span class="line">        return contains(value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 判断Hashtable是否包含key</span><br><span class="line">    public synchronized boolean containsKey(Object key) &#123;</span><br><span class="line">        Entry tab[] = table;</span><br><span class="line">        int hash = key.hashCode();</span><br><span class="line">        // 计算索引值，</span><br><span class="line">        // % tab.length 的目的是防止数据越界</span><br><span class="line">        int index = (hash &amp; 0x7FFFFFFF) % tab.length;</span><br><span class="line">        // 找到“key对应的Entry(链表)”，然后在链表中找出“哈希值”和“键值”与key都相等的元素</span><br><span class="line">        for (Entry&lt;K,V&gt; e = tab[index] ; e != null ; e = e.next) &#123;</span><br><span class="line">            if ((e.hash == hash) &amp;&amp; e.key.equals(key)) &#123;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回key对应的value，没有的话返回null</span><br><span class="line">    public synchronized V get(Object key) &#123;</span><br><span class="line">        Entry tab[] = table;</span><br><span class="line">        int hash = key.hashCode();</span><br><span class="line">        // 计算索引值，</span><br><span class="line">        int index = (hash &amp; 0x7FFFFFFF) % tab.length;</span><br><span class="line">        // 找到“key对应的Entry(链表)”，然后在链表中找出“哈希值”和“键值”与key都相等的元素</span><br><span class="line">        for (Entry&lt;K,V&gt; e = tab[index] ; e != null ; e = e.next) &#123;</span><br><span class="line">            if ((e.hash == hash) &amp;&amp; e.key.equals(key)) &#123;</span><br><span class="line">                return e.value;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 调整Hashtable的长度，将长度变成原来的(2倍+1)</span><br><span class="line">    // (01) 将“旧的Entry数组”赋值给一个临时变量。</span><br><span class="line">    // (02) 创建一个“新的Entry数组”，并赋值给“旧的Entry数组”</span><br><span class="line">    // (03) 将“Hashtable”中的全部元素依次添加到“新的Entry数组”中</span><br><span class="line">    protected void rehash() &#123;</span><br><span class="line">        int oldCapacity = table.length;</span><br><span class="line">        Entry[] oldMap = table;</span><br><span class="line"></span><br><span class="line">        int newCapacity = oldCapacity * 2 + 1;</span><br><span class="line">        Entry[] newMap = new Entry[newCapacity];</span><br><span class="line"></span><br><span class="line">        modCount++;</span><br><span class="line">        threshold = (int)(newCapacity * loadFactor);</span><br><span class="line">        table = newMap;</span><br><span class="line"></span><br><span class="line">        for (int i = oldCapacity ; i-- &gt; 0 ;) &#123;</span><br><span class="line">            for (Entry&lt;K,V&gt; old = oldMap[i] ; old != null ; ) &#123;</span><br><span class="line">                Entry&lt;K,V&gt; e = old;</span><br><span class="line">                old = old.next;</span><br><span class="line"></span><br><span class="line">                int index = (e.hash &amp; 0x7FFFFFFF) % newCapacity;</span><br><span class="line">                e.next = newMap[index];</span><br><span class="line">                newMap[index] = e;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 将“key-value”添加到Hashtable中</span><br><span class="line">    public synchronized V put(K key, V value) &#123;</span><br><span class="line">        // Hashtable中不能插入value为null的元素！！！</span><br><span class="line">        if (value == null) &#123;</span><br><span class="line">            throw new NullPointerException();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 若“Hashtable中已存在键为key的键值对”，</span><br><span class="line">        // 则用“新的value”替换“旧的value”</span><br><span class="line">        Entry tab[] = table;</span><br><span class="line">        int hash = key.hashCode();</span><br><span class="line">        int index = (hash &amp; 0x7FFFFFFF) % tab.length;</span><br><span class="line">        for (Entry&lt;K,V&gt; e = tab[index] ; e != null ; e = e.next) &#123;</span><br><span class="line">            if ((e.hash == hash) &amp;&amp; e.key.equals(key)) &#123;</span><br><span class="line">                V old = e.value;</span><br><span class="line">                e.value = value;</span><br><span class="line">                return old;</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 若“Hashtable中不存在键为key的键值对”，</span><br><span class="line">        // (01) 将“修改统计数”+1</span><br><span class="line">        modCount++;</span><br><span class="line">        // (02) 若“Hashtable实际容量” &gt; “阈值”(阈值=总的容量 * 加载因子)</span><br><span class="line">        //  则调整Hashtable的大小</span><br><span class="line">        if (count &gt;= threshold) &#123;</span><br><span class="line">            // Rehash the table if the threshold is exceeded</span><br><span class="line">            rehash();</span><br><span class="line"></span><br><span class="line">            tab = table;</span><br><span class="line">            index = (hash &amp; 0x7FFFFFFF) % tab.length;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // (03) 将“Hashtable中index”位置的Entry(链表)保存到e中</span><br><span class="line">        Entry&lt;K,V&gt; e = tab[index];</span><br><span class="line">        // (04) 创建“新的Entry节点”，并将“新的Entry”插入“Hashtable的index位置”，并设置e为“新的Entry”的下一个元素(即“新Entry”为链表表头)。        </span><br><span class="line">        tab[index] = new Entry&lt;K,V&gt;(hash, key, value, e);</span><br><span class="line">        // (05) 将“Hashtable的实际容量”+1</span><br><span class="line">        count++;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 删除Hashtable中键为key的元素</span><br><span class="line">    public synchronized V remove(Object key) &#123;</span><br><span class="line">        Entry tab[] = table;</span><br><span class="line">        int hash = key.hashCode();</span><br><span class="line">        int index = (hash &amp; 0x7FFFFFFF) % tab.length;</span><br><span class="line">        // 找到“key对应的Entry(链表)”</span><br><span class="line">        // 然后在链表中找出要删除的节点，并删除该节点。</span><br><span class="line">        for (Entry&lt;K,V&gt; e = tab[index], prev = null ; e != null ; prev = e, e = e.next) &#123;</span><br><span class="line">            if ((e.hash == hash) &amp;&amp; e.key.equals(key)) &#123;</span><br><span class="line">                modCount++;</span><br><span class="line">                if (prev != null) &#123;</span><br><span class="line">                    prev.next = e.next;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    tab[index] = e.next;</span><br><span class="line">                &#125;</span><br><span class="line">                count--;</span><br><span class="line">                V oldValue = e.value;</span><br><span class="line">                e.value = null;</span><br><span class="line">                return oldValue;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 将“Map(t)”的中全部元素逐一添加到Hashtable中</span><br><span class="line">    public synchronized void putAll(Map&lt;? extends K, ? extends V&gt; t) &#123;</span><br><span class="line">        for (Map.Entry&lt;? extends K, ? extends V&gt; e : t.entrySet())</span><br><span class="line">            put(e.getKey(), e.getValue());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 清空Hashtable</span><br><span class="line">    // 将Hashtable的table数组的值全部设为null</span><br><span class="line">    public synchronized void clear() &#123;</span><br><span class="line">        Entry tab[] = table;</span><br><span class="line">        modCount++;</span><br><span class="line">        for (int index = tab.length; --index &gt;= 0; )</span><br><span class="line">            tab[index] = null;</span><br><span class="line">        count = 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 克隆一个Hashtable，并以Object的形式返回。</span><br><span class="line">    public synchronized Object clone() &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            Hashtable&lt;K,V&gt; t = (Hashtable&lt;K,V&gt;) super.clone();</span><br><span class="line">            t.table = new Entry[table.length];</span><br><span class="line">            for (int i = table.length ; i-- &gt; 0 ; ) &#123;</span><br><span class="line">                t.table[i] = (table[i] != null)</span><br><span class="line">                ? (Entry&lt;K,V&gt;) table[i].clone() : null;</span><br><span class="line">            &#125;</span><br><span class="line">            t.keySet = null;</span><br><span class="line">            t.entrySet = null;</span><br><span class="line">            t.values = null;</span><br><span class="line">            t.modCount = 0;</span><br><span class="line">            return t;</span><br><span class="line">        &#125; catch (CloneNotSupportedException e) &#123;</span><br><span class="line">            // this shouldn&apos;t happen, since we are Cloneable</span><br><span class="line">            throw new InternalError();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public synchronized String toString() &#123;</span><br><span class="line">        int max = size() - 1;</span><br><span class="line">        if (max == -1)</span><br><span class="line">            return &quot;&#123;&#125;&quot;;</span><br><span class="line"></span><br><span class="line">        StringBuilder sb = new StringBuilder();</span><br><span class="line">        Iterator&lt;Map.Entry&lt;K,V&gt;&gt; it = entrySet().iterator();</span><br><span class="line"></span><br><span class="line">        sb.append(&apos;&#123;&apos;);</span><br><span class="line">        for (int i = 0; ; i++) &#123;</span><br><span class="line">            Map.Entry&lt;K,V&gt; e = it.next();</span><br><span class="line">            K key = e.getKey();</span><br><span class="line">            V value = e.getValue();</span><br><span class="line">            sb.append(key   == this ? &quot;(this Map)&quot; : key.toString());</span><br><span class="line">            sb.append(&apos;=&apos;);</span><br><span class="line">            sb.append(value == this ? &quot;(this Map)&quot; : value.toString());</span><br><span class="line"></span><br><span class="line">            if (i == max)</span><br><span class="line">                return sb.append(&apos;&#125;&apos;).toString();</span><br><span class="line">            sb.append(&quot;, &quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 获取Hashtable的枚举类对象</span><br><span class="line">    // 若Hashtable的实际大小为0,则返回“空枚举类”对象；</span><br><span class="line">    // 否则，返回正常的Enumerator的对象。(Enumerator实现了迭代器和枚举两个接口)</span><br><span class="line">    private &lt;T&gt; Enumeration&lt;T&gt; getEnumeration(int type) &#123;</span><br><span class="line">    if (count == 0) &#123;</span><br><span class="line">        return (Enumeration&lt;T&gt;)emptyEnumerator;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return new Enumerator&lt;T&gt;(type, false);</span><br><span class="line">    &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 获取Hashtable的迭代器</span><br><span class="line">    // 若Hashtable的实际大小为0,则返回“空迭代器”对象；</span><br><span class="line">    // 否则，返回正常的Enumerator的对象。(Enumerator实现了迭代器和枚举两个接口)</span><br><span class="line">    private &lt;T&gt; Iterator&lt;T&gt; getIterator(int type) &#123;</span><br><span class="line">        if (count == 0) &#123;</span><br><span class="line">            return (Iterator&lt;T&gt;) emptyIterator;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return new Enumerator&lt;T&gt;(type, true);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Hashtable的“key的集合”。它是一个Set，意味着没有重复元素</span><br><span class="line">    private transient volatile Set&lt;K&gt; keySet = null;</span><br><span class="line">    // Hashtable的“key-value的集合”。它是一个Set，意味着没有重复元素</span><br><span class="line">    private transient volatile Set&lt;Map.Entry&lt;K,V&gt;&gt; entrySet = null;</span><br><span class="line">    // Hashtable的“key-value的集合”。它是一个Collection，意味着可以有重复元素</span><br><span class="line">    private transient volatile Collection&lt;V&gt; values = null;</span><br><span class="line"></span><br><span class="line">    // 返回一个被synchronizedSet封装后的KeySet对象</span><br><span class="line">    // synchronizedSet封装的目的是对KeySet的所有方法都添加synchronized，实现多线程同步</span><br><span class="line">    public Set&lt;K&gt; keySet() &#123;</span><br><span class="line">        if (keySet == null)</span><br><span class="line">            keySet = Collections.synchronizedSet(new KeySet(), this);</span><br><span class="line">        return keySet;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Hashtable的Key的Set集合。</span><br><span class="line">    // KeySet继承于AbstractSet，所以，KeySet中的元素没有重复的。</span><br><span class="line">    private class KeySet extends AbstractSet&lt;K&gt; &#123;</span><br><span class="line">        public Iterator&lt;K&gt; iterator() &#123;</span><br><span class="line">            return getIterator(KEYS);</span><br><span class="line">        &#125;</span><br><span class="line">        public int size() &#123;</span><br><span class="line">            return count;</span><br><span class="line">        &#125;</span><br><span class="line">        public boolean contains(Object o) &#123;</span><br><span class="line">            return containsKey(o);</span><br><span class="line">        &#125;</span><br><span class="line">        public boolean remove(Object o) &#123;</span><br><span class="line">            return Hashtable.this.remove(o) != null;</span><br><span class="line">        &#125;</span><br><span class="line">        public void clear() &#123;</span><br><span class="line">            Hashtable.this.clear();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回一个被synchronizedSet封装后的EntrySet对象</span><br><span class="line">    // synchronizedSet封装的目的是对EntrySet的所有方法都添加synchronized，实现多线程同步</span><br><span class="line">    public Set&lt;Map.Entry&lt;K,V&gt;&gt; entrySet() &#123;</span><br><span class="line">        if (entrySet==null)</span><br><span class="line">            entrySet = Collections.synchronizedSet(new EntrySet(), this);</span><br><span class="line">        return entrySet;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Hashtable的Entry的Set集合。</span><br><span class="line">    // EntrySet继承于AbstractSet，所以，EntrySet中的元素没有重复的。</span><br><span class="line">    private class EntrySet extends AbstractSet&lt;Map.Entry&lt;K,V&gt;&gt; &#123;</span><br><span class="line">        public Iterator&lt;Map.Entry&lt;K,V&gt;&gt; iterator() &#123;</span><br><span class="line">            return getIterator(ENTRIES);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public boolean add(Map.Entry&lt;K,V&gt; o) &#123;</span><br><span class="line">            return super.add(o);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 查找EntrySet中是否包含Object(0)</span><br><span class="line">        // 首先，在table中找到o对应的Entry(Entry是一个单向链表)</span><br><span class="line">        // 然后，查找Entry链表中是否存在Object</span><br><span class="line">        public boolean contains(Object o) &#123;</span><br><span class="line">            if (!(o instanceof Map.Entry))</span><br><span class="line">                return false;</span><br><span class="line">            Map.Entry entry = (Map.Entry)o;</span><br><span class="line">            Object key = entry.getKey();</span><br><span class="line">            Entry[] tab = table;</span><br><span class="line">            int hash = key.hashCode();</span><br><span class="line">            int index = (hash &amp; 0x7FFFFFFF) % tab.length;</span><br><span class="line"></span><br><span class="line">            for (Entry e = tab[index]; e != null; e = e.next)</span><br><span class="line">                if (e.hash==hash &amp;&amp; e.equals(entry))</span><br><span class="line">                    return true;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 删除元素Object(0)</span><br><span class="line">        // 首先，在table中找到o对应的Entry(Entry是一个单向链表)</span><br><span class="line">        // 然后，删除链表中的元素Object</span><br><span class="line">        public boolean remove(Object o) &#123;</span><br><span class="line">            if (!(o instanceof Map.Entry))</span><br><span class="line">                return false;</span><br><span class="line">            Map.Entry&lt;K,V&gt; entry = (Map.Entry&lt;K,V&gt;) o;</span><br><span class="line">            K key = entry.getKey();</span><br><span class="line">            Entry[] tab = table;</span><br><span class="line">            int hash = key.hashCode();</span><br><span class="line">            int index = (hash &amp; 0x7FFFFFFF) % tab.length;</span><br><span class="line"></span><br><span class="line">            for (Entry&lt;K,V&gt; e = tab[index], prev = null; e != null;</span><br><span class="line">                 prev = e, e = e.next) &#123;</span><br><span class="line">                if (e.hash==hash &amp;&amp; e.equals(entry)) &#123;</span><br><span class="line">                    modCount++;</span><br><span class="line">                    if (prev != null)</span><br><span class="line">                        prev.next = e.next;</span><br><span class="line">                    else</span><br><span class="line">                        tab[index] = e.next;</span><br><span class="line"></span><br><span class="line">                    count--;</span><br><span class="line">                    e.value = null;</span><br><span class="line">                    return true;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public int size() &#123;</span><br><span class="line">            return count;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void clear() &#123;</span><br><span class="line">            Hashtable.this.clear();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回一个被synchronizedCollection封装后的ValueCollection对象</span><br><span class="line">    // synchronizedCollection封装的目的是对ValueCollection的所有方法都添加synchronized，实现多线程同步</span><br><span class="line">    public Collection&lt;V&gt; values() &#123;</span><br><span class="line">    if (values==null)</span><br><span class="line">        values = Collections.synchronizedCollection(new ValueCollection(),</span><br><span class="line">                                                        this);</span><br><span class="line">        return values;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Hashtable的value的Collection集合。</span><br><span class="line">    // ValueCollection继承于AbstractCollection，所以，ValueCollection中的元素可以重复的。</span><br><span class="line">    private class ValueCollection extends AbstractCollection&lt;V&gt; &#123;</span><br><span class="line">        public Iterator&lt;V&gt; iterator() &#123;</span><br><span class="line">        return getIterator(VALUES);</span><br><span class="line">        &#125;</span><br><span class="line">        public int size() &#123;</span><br><span class="line">            return count;</span><br><span class="line">        &#125;</span><br><span class="line">        public boolean contains(Object o) &#123;</span><br><span class="line">            return containsValue(o);</span><br><span class="line">        &#125;</span><br><span class="line">        public void clear() &#123;</span><br><span class="line">            Hashtable.this.clear();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 重新equals()函数</span><br><span class="line">    // 若两个Hashtable的所有key-value键值对都相等，则判断它们两个相等</span><br><span class="line">    public synchronized boolean equals(Object o) &#123;</span><br><span class="line">        if (o == this)</span><br><span class="line">            return true;</span><br><span class="line"></span><br><span class="line">        if (!(o instanceof Map))</span><br><span class="line">            return false;</span><br><span class="line">        Map&lt;K,V&gt; t = (Map&lt;K,V&gt;) o;</span><br><span class="line">        if (t.size() != size())</span><br><span class="line">            return false;</span><br><span class="line"></span><br><span class="line">        try &#123;</span><br><span class="line">            // 通过迭代器依次取出当前Hashtable的key-value键值对</span><br><span class="line">            // 并判断该键值对，存在于Hashtable(o)中。</span><br><span class="line">            // 若不存在，则立即返回false；否则，遍历完“当前Hashtable”并返回true。</span><br><span class="line">            Iterator&lt;Map.Entry&lt;K,V&gt;&gt; i = entrySet().iterator();</span><br><span class="line">            while (i.hasNext()) &#123;</span><br><span class="line">                Map.Entry&lt;K,V&gt; e = i.next();</span><br><span class="line">                K key = e.getKey();</span><br><span class="line">                V value = e.getValue();</span><br><span class="line">                if (value == null) &#123;</span><br><span class="line">                    if (!(t.get(key)==null &amp;&amp; t.containsKey(key)))</span><br><span class="line">                        return false;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    if (!value.equals(t.get(key)))</span><br><span class="line">                        return false;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (ClassCastException unused)   &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125; catch (NullPointerException unused) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 计算Hashtable的哈希值</span><br><span class="line">    // 若 Hashtable的实际大小为0 或者 加载因子&lt;0，则返回0。</span><br><span class="line">    // 否则，返回“Hashtable中的每个Entry的key和value的异或值 的总和”。</span><br><span class="line">    public synchronized int hashCode() &#123;</span><br><span class="line">        int h = 0;</span><br><span class="line">        if (count == 0 || loadFactor &lt; 0)</span><br><span class="line">            return h;  // Returns zero</span><br><span class="line"></span><br><span class="line">        loadFactor = -loadFactor;  // Mark hashCode computation in progress</span><br><span class="line">        Entry[] tab = table;</span><br><span class="line">        for (int i = 0; i &lt; tab.length; i++)</span><br><span class="line">            for (Entry e = tab[i]; e != null; e = e.next)</span><br><span class="line">                h += e.key.hashCode() ^ e.value.hashCode();</span><br><span class="line">        loadFactor = -loadFactor;  // Mark hashCode computation complete</span><br><span class="line"></span><br><span class="line">        return h;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // java.io.Serializable的写入函数</span><br><span class="line">    // 将Hashtable的“总的容量，实际容量，所有的Entry”都写入到输出流中</span><br><span class="line">    private synchronized void writeObject(java.io.ObjectOutputStream s)</span><br><span class="line">        throws IOException</span><br><span class="line">    &#123;</span><br><span class="line">        // Write out the length, threshold, loadfactor</span><br><span class="line">        s.defaultWriteObject();</span><br><span class="line"></span><br><span class="line">        // Write out length, count of elements and then the key/value objects</span><br><span class="line">        s.writeInt(table.length);</span><br><span class="line">        s.writeInt(count);</span><br><span class="line">        for (int index = table.length-1; index &gt;= 0; index--) &#123;</span><br><span class="line">            Entry entry = table[index];</span><br><span class="line"></span><br><span class="line">            while (entry != null) &#123;</span><br><span class="line">            s.writeObject(entry.key);</span><br><span class="line">            s.writeObject(entry.value);</span><br><span class="line">            entry = entry.next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // java.io.Serializable的读取函数：根据写入方式读出</span><br><span class="line">    // 将Hashtable的“总的容量，实际容量，所有的Entry”依次读出</span><br><span class="line">    private void readObject(java.io.ObjectInputStream s)</span><br><span class="line">         throws IOException, ClassNotFoundException</span><br><span class="line">    &#123;</span><br><span class="line">        // Read in the length, threshold, and loadfactor</span><br><span class="line">        s.defaultReadObject();</span><br><span class="line"></span><br><span class="line">        // Read the original length of the array and number of elements</span><br><span class="line">        int origlength = s.readInt();</span><br><span class="line">        int elements = s.readInt();</span><br><span class="line"></span><br><span class="line">        // Compute new size with a bit of room 5% to grow but</span><br><span class="line">        // no larger than the original size.  Make the length</span><br><span class="line">        // odd if it&apos;s large enough, this helps distribute the entries.</span><br><span class="line">        // Guard against the length ending up zero, that&apos;s not valid.</span><br><span class="line">        int length = (int)(elements * loadFactor) + (elements / 20) + 3;</span><br><span class="line">        if (length &gt; elements &amp;&amp; (length &amp; 1) == 0)</span><br><span class="line">            length--;</span><br><span class="line">        if (origlength &gt; 0 &amp;&amp; length &gt; origlength)</span><br><span class="line">            length = origlength;</span><br><span class="line"></span><br><span class="line">        Entry[] table = new Entry[length];</span><br><span class="line">        count = 0;</span><br><span class="line"></span><br><span class="line">        // Read the number of elements and then all the key/value objects</span><br><span class="line">        for (; elements &gt; 0; elements--) &#123;</span><br><span class="line">            K key = (K)s.readObject();</span><br><span class="line">            V value = (V)s.readObject();</span><br><span class="line">                // synch could be eliminated for performance</span><br><span class="line">                reconstitutionPut(table, key, value);</span><br><span class="line">        &#125;</span><br><span class="line">        this.table = table;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void reconstitutionPut(Entry[] tab, K key, V value)</span><br><span class="line">        throws StreamCorruptedException</span><br><span class="line">    &#123;</span><br><span class="line">        if (value == null) &#123;</span><br><span class="line">            throw new java.io.StreamCorruptedException();</span><br><span class="line">        &#125;</span><br><span class="line">        // Makes sure the key is not already in the hashtable.</span><br><span class="line">        // This should not happen in deserialized version.</span><br><span class="line">        int hash = key.hashCode();</span><br><span class="line">        int index = (hash &amp; 0x7FFFFFFF) % tab.length;</span><br><span class="line">        for (Entry&lt;K,V&gt; e = tab[index] ; e != null ; e = e.next) &#123;</span><br><span class="line">            if ((e.hash == hash) &amp;&amp; e.key.equals(key)) &#123;</span><br><span class="line">                throw new java.io.StreamCorruptedException();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        // Creates the new entry.</span><br><span class="line">        Entry&lt;K,V&gt; e = tab[index];</span><br><span class="line">        tab[index] = new Entry&lt;K,V&gt;(hash, key, value, e);</span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Hashtable的Entry节点，它本质上是一个单向链表。</span><br><span class="line">    // 也因此，我们才能推断出Hashtable是由拉链法实现的散列表</span><br><span class="line">    private static class Entry&lt;K,V&gt; implements Map.Entry&lt;K,V&gt; &#123;</span><br><span class="line">        // 哈希值</span><br><span class="line">        int hash;</span><br><span class="line">        K key;</span><br><span class="line">        V value;</span><br><span class="line">        // 指向的下一个Entry，即链表的下一个节点</span><br><span class="line">        Entry&lt;K,V&gt; next;</span><br><span class="line"></span><br><span class="line">        // 构造函数</span><br><span class="line">        protected Entry(int hash, K key, V value, Entry&lt;K,V&gt; next) &#123;</span><br><span class="line">            this.hash = hash;</span><br><span class="line">            this.key = key;</span><br><span class="line">            this.value = value;</span><br><span class="line">            this.next = next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        protected Object clone() &#123;</span><br><span class="line">            return new Entry&lt;K,V&gt;(hash, key, value,</span><br><span class="line">                  (next==null ? null : (Entry&lt;K,V&gt;) next.clone()));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public K getKey() &#123;</span><br><span class="line">            return key;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public V getValue() &#123;</span><br><span class="line">            return value;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 设置value。若value是null，则抛出异常。</span><br><span class="line">        public V setValue(V value) &#123;</span><br><span class="line">            if (value == null)</span><br><span class="line">                throw new NullPointerException();</span><br><span class="line"></span><br><span class="line">            V oldValue = this.value;</span><br><span class="line">            this.value = value;</span><br><span class="line">            return oldValue;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 覆盖equals()方法，判断两个Entry是否相等。</span><br><span class="line">        // 若两个Entry的key和value都相等，则认为它们相等。</span><br><span class="line">        public boolean equals(Object o) &#123;</span><br><span class="line">            if (!(o instanceof Map.Entry))</span><br><span class="line">                return false;</span><br><span class="line">            Map.Entry e = (Map.Entry)o;</span><br><span class="line"></span><br><span class="line">            return (key==null ? e.getKey()==null : key.equals(e.getKey())) &amp;&amp;</span><br><span class="line">               (value==null ? e.getValue()==null : value.equals(e.getValue()));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public int hashCode() &#123;</span><br><span class="line">            return hash ^ (value==null ? 0 : value.hashCode());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public String toString() &#123;</span><br><span class="line">            return key.toString()+&quot;=&quot;+value.toString();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static final int KEYS = 0;</span><br><span class="line">    private static final int VALUES = 1;</span><br><span class="line">    private static final int ENTRIES = 2;</span><br><span class="line"></span><br><span class="line">    // Enumerator的作用是提供了“通过elements()遍历Hashtable的接口” 和 “通过entrySet()遍历Hashtable的接口”。因为，它同时实现了 “Enumerator接口”和“Iterator接口”。</span><br><span class="line">    private class Enumerator&lt;T&gt; implements Enumeration&lt;T&gt;, Iterator&lt;T&gt; &#123;</span><br><span class="line">        // 指向Hashtable的table</span><br><span class="line">        Entry[] table = Hashtable.this.table;</span><br><span class="line">        // Hashtable的总的大小</span><br><span class="line">        int index = table.length;</span><br><span class="line">        Entry&lt;K,V&gt; entry = null;</span><br><span class="line">        Entry&lt;K,V&gt; lastReturned = null;</span><br><span class="line">        int type;</span><br><span class="line"></span><br><span class="line">        // Enumerator是 “迭代器(Iterator)” 还是 “枚举类(Enumeration)”的标志</span><br><span class="line">        // iterator为true，表示它是迭代器；否则，是枚举类。</span><br><span class="line">        boolean iterator;</span><br><span class="line"></span><br><span class="line">        // 在将Enumerator当作迭代器使用时会用到，用来实现fail-fast机制。</span><br><span class="line">        protected int expectedModCount = modCount;</span><br><span class="line"></span><br><span class="line">        Enumerator(int type, boolean iterator) &#123;</span><br><span class="line">            this.type = type;</span><br><span class="line">            this.iterator = iterator;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 从遍历table的数组的末尾向前查找，直到找到不为null的Entry。</span><br><span class="line">        public boolean hasMoreElements() &#123;</span><br><span class="line">            Entry&lt;K,V&gt; e = entry;</span><br><span class="line">            int i = index;</span><br><span class="line">            Entry[] t = table;</span><br><span class="line">            /* Use locals for faster loop iteration */</span><br><span class="line">            while (e == null &amp;&amp; i &gt; 0) &#123;</span><br><span class="line">                e = t[--i];</span><br><span class="line">            &#125;</span><br><span class="line">            entry = e;</span><br><span class="line">            index = i;</span><br><span class="line">            return e != null;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 获取下一个元素</span><br><span class="line">        // 注意：从hasMoreElements() 和nextElement() 可以看出“Hashtable的elements()遍历方式”</span><br><span class="line">        // 首先，从后向前的遍历table数组。table数组的每个节点都是一个单向链表(Entry)。</span><br><span class="line">        // 然后，依次向后遍历单向链表Entry。</span><br><span class="line">        public T nextElement() &#123;</span><br><span class="line">            Entry&lt;K,V&gt; et = entry;</span><br><span class="line">            int i = index;</span><br><span class="line">            Entry[] t = table;</span><br><span class="line">            /* Use locals for faster loop iteration */</span><br><span class="line">            while (et == null &amp;&amp; i &gt; 0) &#123;</span><br><span class="line">                et = t[--i];</span><br><span class="line">            &#125;</span><br><span class="line">            entry = et;</span><br><span class="line">            index = i;</span><br><span class="line">            if (et != null) &#123;</span><br><span class="line">                Entry&lt;K,V&gt; e = lastReturned = entry;</span><br><span class="line">                entry = e.next;</span><br><span class="line">                return type == KEYS ? (T)e.key : (type == VALUES ? (T)e.value : (T)e);</span><br><span class="line">            &#125;</span><br><span class="line">            throw new NoSuchElementException(&quot;Hashtable Enumerator&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 迭代器Iterator的判断是否存在下一个元素</span><br><span class="line">        // 实际上，它是调用的hasMoreElements()</span><br><span class="line">        public boolean hasNext() &#123;</span><br><span class="line">            return hasMoreElements();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 迭代器获取下一个元素</span><br><span class="line">        // 实际上，它是调用的nextElement()</span><br><span class="line">        public T next() &#123;</span><br><span class="line">            if (modCount != expectedModCount)</span><br><span class="line">                throw new ConcurrentModificationException();</span><br><span class="line">            return nextElement();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 迭代器的remove()接口。</span><br><span class="line">        // 首先，它在table数组中找出要删除元素所在的Entry，</span><br><span class="line">        // 然后，删除单向链表Entry中的元素。</span><br><span class="line">        public void remove() &#123;</span><br><span class="line">            if (!iterator)</span><br><span class="line">                throw new UnsupportedOperationException();</span><br><span class="line">            if (lastReturned == null)</span><br><span class="line">                throw new IllegalStateException(&quot;Hashtable Enumerator&quot;);</span><br><span class="line">            if (modCount != expectedModCount)</span><br><span class="line">                throw new ConcurrentModificationException();</span><br><span class="line"></span><br><span class="line">            synchronized(Hashtable.this) &#123;</span><br><span class="line">                Entry[] tab = Hashtable.this.table;</span><br><span class="line">                int index = (lastReturned.hash &amp; 0x7FFFFFFF) % tab.length;</span><br><span class="line"></span><br><span class="line">                for (Entry&lt;K,V&gt; e = tab[index], prev = null; e != null;</span><br><span class="line">                     prev = e, e = e.next) &#123;</span><br><span class="line">                    if (e == lastReturned) &#123;</span><br><span class="line">                        modCount++;</span><br><span class="line">                        expectedModCount++;</span><br><span class="line">                        if (prev == null)</span><br><span class="line">                            tab[index] = e.next;</span><br><span class="line">                        else</span><br><span class="line">                            prev.next = e.next;</span><br><span class="line">                        count--;</span><br><span class="line">                        lastReturned = null;</span><br><span class="line">                        return;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                throw new ConcurrentModificationException();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private static Enumeration emptyEnumerator = new EmptyEnumerator();</span><br><span class="line">    private static Iterator emptyIterator = new EmptyIterator();</span><br><span class="line"></span><br><span class="line">    // 空枚举类</span><br><span class="line">    // 当Hashtable的实际大小为0；此时，又要通过Enumeration遍历Hashtable时，返回的是“空枚举类”的对象。</span><br><span class="line">    private static class EmptyEnumerator implements Enumeration&lt;Object&gt; &#123;</span><br><span class="line"></span><br><span class="line">        EmptyEnumerator() &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 空枚举类的hasMoreElements() 始终返回false</span><br><span class="line">        public boolean hasMoreElements() &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 空枚举类的nextElement() 抛出异常</span><br><span class="line">        public Object nextElement() &#123;</span><br><span class="line">            throw new NoSuchElementException(&quot;Hashtable Enumerator&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    // 空迭代器</span><br><span class="line">    // 当Hashtable的实际大小为0；此时，又要通过迭代器遍历Hashtable时，返回的是“空迭代器”的对象。</span><br><span class="line">    private static class EmptyIterator implements Iterator&lt;Object&gt; &#123;</span><br><span class="line"></span><br><span class="line">        EmptyIterator() &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public boolean hasNext() &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public Object next() &#123;</span><br><span class="line">            throw new NoSuchElementException(&quot;Hashtable Iterator&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void remove() &#123;</span><br><span class="line">            throw new IllegalStateException(&quot;Hashtable Iterator&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Hashtable的“拉链法”相关内容"><a href="#Hashtable的“拉链法”相关内容" class="headerlink" title="Hashtable的“拉链法”相关内容"></a>Hashtable的“拉链法”相关内容</h1><h2 id="Hashtable的数据存储数组"><a href="#Hashtable的数据存储数组" class="headerlink" title="Hashtable的数据存储数组"></a>Hashtable的数据存储数组</h2><p><code>private transient Entry&lt;?,?&gt;[] table</code><br>Hashtable的key-value都是存储在table数组中的。</p>
+<h2 id="数据节点Entry的数据结构"><a href="#数据节点Entry的数据结构" class="headerlink" title="数据节点Entry的数据结构"></a>数据节点Entry的数据结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">private static class Entry&lt;K,V&gt; implements Map.Entry&lt;K,V&gt; &#123;</span><br><span class="line">    // 哈希值</span><br><span class="line">    int hash;</span><br><span class="line">    K key;</span><br><span class="line">    V value;</span><br><span class="line">    // 指向的下一个Entry，即链表的下一个节点</span><br><span class="line">    Entry&lt;K,V&gt; next;</span><br><span class="line"></span><br><span class="line">    // 构造函数</span><br><span class="line">    protected Entry(int hash, K key, V value, Entry&lt;K,V&gt; next) &#123;</span><br><span class="line">        this.hash = hash;</span><br><span class="line">        this.key = key;</span><br><span class="line">        this.value = value;</span><br><span class="line">        this.next = next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected Object clone() &#123;</span><br><span class="line">        return new Entry&lt;K,V&gt;(hash, key, value,</span><br><span class="line">              (next==null ? null : (Entry&lt;K,V&gt;) next.clone()));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public K getKey() &#123;</span><br><span class="line">        return key;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public V getValue() &#123;</span><br><span class="line">        return value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 设置value。若value是null，则抛出异常。</span><br><span class="line">    public V setValue(V value) &#123;</span><br><span class="line">        if (value == null)</span><br><span class="line">            throw new NullPointerException();</span><br><span class="line"></span><br><span class="line">        V oldValue = this.value;</span><br><span class="line">        this.value = value;</span><br><span class="line">        return oldValue;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 覆盖equals()方法，判断两个Entry是否相等。</span><br><span class="line">    // 若两个Entry的key和value都相等，则认为它们相等。</span><br><span class="line">    public boolean equals(Object o) &#123;</span><br><span class="line">        if (!(o instanceof Map.Entry))</span><br><span class="line">            return false;</span><br><span class="line">        Map.Entry e = (Map.Entry)o;</span><br><span class="line"></span><br><span class="line">        return (key==null ? e.getKey()==null : key.equals(e.getKey())) &amp;&amp;</span><br><span class="line">           (value==null ? e.getValue()==null : value.equals(e.getValue()));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int hashCode() &#123;</span><br><span class="line">        return hash ^ (value==null ? 0 : value.hashCode());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String toString() &#123;</span><br><span class="line">        return key.toString()+&quot;=&quot;+value.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从中，我们可以看出 Entry 实际上就是一个单向链表。这也是为什么我们说Hashtable是通过拉链法解决哈希冲突的。<br>Entry 实现了Map.Entry 接口，即实现getKey(), getValue(), setValue(V value), equals(Object o), hashCode()这些函数。这些都是基本的读取/修改key、value值的函数。</p>
+<h1 id="构造函数-1"><a href="#构造函数-1" class="headerlink" title="构造函数"></a>构造函数</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">// 默认构造函数。</span><br><span class="line">public Hashtable() &#123;</span><br><span class="line">    // 默认构造函数，指定的容量大小是11；加载因子是0.75</span><br><span class="line">    this(11, 0.75f);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 指定“容量大小”的构造函数</span><br><span class="line">public Hashtable(int initialCapacity) &#123;</span><br><span class="line">    this(initialCapacity, 0.75f);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 指定“容量大小”和“加载因子”的构造函数</span><br><span class="line">public Hashtable(int initialCapacity, float loadFactor) &#123;</span><br><span class="line">    if (initialCapacity &lt; 0)</span><br><span class="line">        throw new IllegalArgumentException(&quot;Illegal Capacity: &quot;+</span><br><span class="line">                                           initialCapacity);</span><br><span class="line">    if (loadFactor &lt;= 0 || Float.isNaN(loadFactor))</span><br><span class="line">        throw new IllegalArgumentException(&quot;Illegal Load: &quot;+loadFactor);</span><br><span class="line"></span><br><span class="line">    if (initialCapacity==0)</span><br><span class="line">        initialCapacity = 1;</span><br><span class="line">    this.loadFactor = loadFactor;</span><br><span class="line">    table = new Entry[initialCapacity];</span><br><span class="line">    threshold = (int)(initialCapacity * loadFactor);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 包含“子Map”的构造函数</span><br><span class="line">public Hashtable(Map&lt;? extends K, ? extends V&gt; t) &#123;</span><br><span class="line">    this(Math.max(2*t.size(), 11), 0.75f);</span><br><span class="line">    // 将“子Map”的全部元素都添加到Hashtable中</span><br><span class="line">    putAll(t);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="主要对外接口"><a href="#主要对外接口" class="headerlink" title="主要对外接口"></a>主要对外接口</h1><h2 id="clear"><a href="#clear" class="headerlink" title="clear()"></a>clear()</h2><p>clear() 的作用是清空Hashtable。它是将Hashtable的table数组的值全部设为null<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public synchronized void clear() &#123;</span><br><span class="line">    Entry tab[] = table;</span><br><span class="line">    modCount++;</span><br><span class="line">    for (int index = tab.length; --index &gt;= 0; )</span><br><span class="line">        tab[index] = null;</span><br><span class="line">    count = 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="contails"><a href="#contails" class="headerlink" title="contails()"></a>contails()</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public boolean containsValue(Object value) &#123;</span><br><span class="line">    return contains(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public synchronized boolean contains(Object value) &#123;</span><br><span class="line">    // Hashtable中“键值对”的value不能是null，</span><br><span class="line">    // 若是null的话，抛出异常!</span><br><span class="line">    if (value == null) &#123;</span><br><span class="line">        throw new NullPointerException();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 从后向前遍历table数组中的元素(Entry)</span><br><span class="line">    // 对于每个Entry(单向链表)，逐个遍历，判断节点的值是否等于value</span><br><span class="line">    Entry tab[] = table;</span><br><span class="line">    for (int i = tab.length ; i-- &gt; 0 ;) &#123;</span><br><span class="line">        for (Entry&lt;K,V&gt; e = tab[i] ; e != null ; e = e.next) &#123;</span><br><span class="line">            if (e.value.equals(value)) &#123;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="contailsKey"><a href="#contailsKey" class="headerlink" title="contailsKey()"></a>contailsKey()</h2><p>判断Hashtable是否包含key<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public synchronized boolean containsKey(Object key) &#123;</span><br><span class="line">    Entry tab[] = table;</span><br><span class="line">    int hash = key.hashCode();</span><br><span class="line">    // 计算索引值，</span><br><span class="line">    // % tab.length 的目的是防止数据越界</span><br><span class="line">    int index = (hash &amp; 0x7FFFFFFF) % tab.length;</span><br><span class="line">    // 找到“key对应的Entry(链表)”，然后在链表中找出“哈希值”和“键值”与key都相等的元素</span><br><span class="line">    for (Entry&lt;K,V&gt; e = tab[index] ; e != null ; e = e.next) &#123;</span><br><span class="line">        if ((e.hash == hash) &amp;&amp; e.key.equals(key)) &#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="elements"><a href="#elements" class="headerlink" title="elements()"></a>elements()</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public synchronized Enumeration&lt;V&gt; elements() &#123;</span><br><span class="line">    return this.&lt;V&gt;getEnumeration(VALUES);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 获取Hashtable的枚举类对象</span><br><span class="line">private &lt;T&gt; Enumeration&lt;T&gt; getEnumeration(int type) &#123;</span><br><span class="line">    if (count == 0) &#123;</span><br><span class="line">        return (Enumeration&lt;T&gt;)emptyEnumerator;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return new Enumerator&lt;T&gt;(type, false);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从中，我们可以看出：<br>(01) 若Hashtable的实际大小为0,则返回“空枚举类”对象emptyEnumerator；<br>(02) 否则，返回正常的Enumerator的对象。(Enumerator实现了迭代器和枚举两个接口)</p>
+<p>我们先看看emptyEnumerator对象是如何实现的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">private static Enumeration emptyEnumerator = new EmptyEnumerator();</span><br><span class="line"></span><br><span class="line">// 空枚举类</span><br><span class="line">// 当Hashtable的实际大小为0；此时，又要通过Enumeration遍历Hashtable时，返回的是“空枚举类”的对象。</span><br><span class="line">private static class EmptyEnumerator implements Enumeration&lt;Object&gt; &#123;</span><br><span class="line"></span><br><span class="line">    EmptyEnumerator() &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 空枚举类的hasMoreElements() 始终返回false</span><br><span class="line">    public boolean hasMoreElements() &#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 空枚举类的nextElement() 抛出异常</span><br><span class="line">    public Object nextElement() &#123;</span><br><span class="line">        throw new NoSuchElementException(&quot;Hashtable Enumerator&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们在来看看Enumeration类<br>Enumerator的作用是提供了“通过elements()遍历Hashtable的接口” 和 “通过entrySet()遍历Hashtable的接口”。因为，它同时实现了 “Enumerator接口”和“Iterator接口”。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line">private class Enumerator&lt;T&gt; implements Enumeration&lt;T&gt;, Iterator&lt;T&gt; &#123;</span><br><span class="line">    // 指向Hashtable的table</span><br><span class="line">    Entry[] table = Hashtable.this.table;</span><br><span class="line">    // Hashtable的总的大小</span><br><span class="line">    int index = table.length;</span><br><span class="line">    Entry&lt;K,V&gt; entry = null;</span><br><span class="line">    Entry&lt;K,V&gt; lastReturned = null;</span><br><span class="line">    int type;</span><br><span class="line"></span><br><span class="line">    // Enumerator是 “迭代器(Iterator)” 还是 “枚举类(Enumeration)”的标志</span><br><span class="line">    // iterator为true，表示它是迭代器；否则，是枚举类。</span><br><span class="line">    boolean iterator;</span><br><span class="line"></span><br><span class="line">    // 在将Enumerator当作迭代器使用时会用到，用来实现fail-fast机制。</span><br><span class="line">    protected int expectedModCount = modCount;</span><br><span class="line"></span><br><span class="line">    Enumerator(int type, boolean iterator) &#123;</span><br><span class="line">        this.type = type;</span><br><span class="line">        this.iterator = iterator;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 从遍历table的数组的末尾向前查找，直到找到不为null的Entry。</span><br><span class="line">    public boolean hasMoreElements() &#123;</span><br><span class="line">        Entry&lt;K,V&gt; e = entry;</span><br><span class="line">        int i = index;</span><br><span class="line">        Entry[] t = table;</span><br><span class="line">        /* Use locals for faster loop iteration */</span><br><span class="line">        while (e == null &amp;&amp; i &gt; 0) &#123;</span><br><span class="line">            e = t[--i];</span><br><span class="line">        &#125;</span><br><span class="line">        entry = e;</span><br><span class="line">        index = i;</span><br><span class="line">        return e != null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 获取下一个元素</span><br><span class="line">    // 注意：从hasMoreElements() 和nextElement() 可以看出“Hashtable的elements()遍历方式”</span><br><span class="line">    // 首先，从后向前的遍历table数组。table数组的每个节点都是一个单向链表(Entry)。</span><br><span class="line">    // 然后，依次向后遍历单向链表Entry。</span><br><span class="line">    public T nextElement() &#123;</span><br><span class="line">        Entry&lt;K,V&gt; et = entry;</span><br><span class="line">        int i = index;</span><br><span class="line">        Entry[] t = table;</span><br><span class="line">        /* Use locals for faster loop iteration */</span><br><span class="line">        while (et == null &amp;&amp; i &gt; 0) &#123;</span><br><span class="line">            et = t[--i];</span><br><span class="line">        &#125;</span><br><span class="line">        entry = et;</span><br><span class="line">        index = i;</span><br><span class="line">        if (et != null) &#123;</span><br><span class="line">            Entry&lt;K,V&gt; e = lastReturned = entry;</span><br><span class="line">            entry = e.next;</span><br><span class="line">            return type == KEYS ? (T)e.key : (type == VALUES ? (T)e.value : (T)e);</span><br><span class="line">        &#125;</span><br><span class="line">        throw new NoSuchElementException(&quot;Hashtable Enumerator&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 迭代器Iterator的判断是否存在下一个元素</span><br><span class="line">    // 实际上，它是调用的hasMoreElements()</span><br><span class="line">    public boolean hasNext() &#123;</span><br><span class="line">        return hasMoreElements();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 迭代器获取下一个元素</span><br><span class="line">    // 实际上，它是调用的nextElement()</span><br><span class="line">    public T next() &#123;</span><br><span class="line">        if (modCount != expectedModCount)</span><br><span class="line">            throw new ConcurrentModificationException();</span><br><span class="line">        return nextElement();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 迭代器的remove()接口。</span><br><span class="line">    // 首先，它在table数组中找出要删除元素所在的Entry，</span><br><span class="line">    // 然后，删除单向链表Entry中的元素。</span><br><span class="line">    public void remove() &#123;</span><br><span class="line">        if (!iterator)</span><br><span class="line">            throw new UnsupportedOperationException();</span><br><span class="line">        if (lastReturned == null)</span><br><span class="line">            throw new IllegalStateException(&quot;Hashtable Enumerator&quot;);</span><br><span class="line">        if (modCount != expectedModCount)</span><br><span class="line">            throw new ConcurrentModificationException();</span><br><span class="line"></span><br><span class="line">        synchronized(Hashtable.this) &#123;</span><br><span class="line">            Entry[] tab = Hashtable.this.table;</span><br><span class="line">            int index = (lastReturned.hash &amp; 0x7FFFFFFF) % tab.length;</span><br><span class="line"></span><br><span class="line">            for (Entry&lt;K,V&gt; e = tab[index], prev = null; e != null;</span><br><span class="line">                 prev = e, e = e.next) &#123;</span><br><span class="line">                if (e == lastReturned) &#123;</span><br><span class="line">                    modCount++;</span><br><span class="line">                    expectedModCount++;</span><br><span class="line">                    if (prev == null)</span><br><span class="line">                        tab[index] = e.next;</span><br><span class="line">                    else</span><br><span class="line">                        prev.next = e.next;</span><br><span class="line">                    count--;</span><br><span class="line">                    lastReturned = null;</span><br><span class="line">                    return;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            throw new ConcurrentModificationException();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>entrySet(), keySet(), keys(), values()的实现方法和elements()差不多，而且源码中已经明确的给出了注释。这里就不再做过多说明了。</p>
+<h2 id="get"><a href="#get" class="headerlink" title="get()"></a>get()</h2><p>获取key对应的value，没有就返回null<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public synchronized V get(Object key) &#123;</span><br><span class="line">    Entry tab[] = table;</span><br><span class="line">    int hash = key.hashCode();</span><br><span class="line">    // 计算索引值，</span><br><span class="line">    int index = (hash &amp; 0x7FFFFFFF) % tab.length;</span><br><span class="line">    // 找到“key对应的Entry(链表)”，然后在链表中找出“哈希值”和“键值”与key都相等的元素</span><br><span class="line">    for (Entry&lt;K,V&gt; e = tab[index] ; e != null ; e = e.next) &#123;</span><br><span class="line">        if ((e.hash == hash) &amp;&amp; e.key.equals(key)) &#123;</span><br><span class="line">            return e.value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="put"><a href="#put" class="headerlink" title="put()"></a>put()</h2><p>put() 的作用是对外提供接口，让Hashtable对象可以通过put()将“key-value”添加到Hashtable中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">public synchronized V put(K key, V value) &#123;</span><br><span class="line">    // Hashtable中不能插入value为null的元素！！！</span><br><span class="line">    if (value == null) &#123;</span><br><span class="line">        throw new NullPointerException();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 若“Hashtable中已存在键为key的键值对”，</span><br><span class="line">    // 则用“新的value”替换“旧的value”</span><br><span class="line">    Entry tab[] = table;</span><br><span class="line">    int hash = key.hashCode();</span><br><span class="line">    int index = (hash &amp; 0x7FFFFFFF) % tab.length;</span><br><span class="line">    for (Entry&lt;K,V&gt; e = tab[index] ; e != null ; e = e.next) &#123;</span><br><span class="line">        if ((e.hash == hash) &amp;&amp; e.key.equals(key)) &#123;</span><br><span class="line">            V old = e.value;</span><br><span class="line">            e.value = value;</span><br><span class="line">            return old;</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 若“Hashtable中不存在键为key的键值对”，</span><br><span class="line">    // (01) 将“修改统计数”+1</span><br><span class="line">    modCount++;</span><br><span class="line">    // (02) 若“Hashtable实际容量” &gt; “阈值”(阈值=总的容量 * 加载因子)</span><br><span class="line">    //  则调整Hashtable的大小</span><br><span class="line">    if (count &gt;= threshold) &#123;</span><br><span class="line">        // Rehash the table if the threshold is exceeded</span><br><span class="line">        rehash();</span><br><span class="line"></span><br><span class="line">        tab = table;</span><br><span class="line">        index = (hash &amp; 0x7FFFFFFF) % tab.length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // (03) 将“Hashtable中index”位置的Entry(链表)保存到e中</span><br><span class="line">    Entry&lt;K,V&gt; e = tab[index];</span><br><span class="line">    // (04) 创建“新的Entry节点”，并将“新的Entry”插入“Hashtable的index位置”，并设置e为“新的Entry”的下一个元素(即“新Entry”为链表表头)。</span><br><span class="line">    tab[index] = new Entry&lt;K,V&gt;(hash, key, value, e);</span><br><span class="line">    // (05) 将“Hashtable的实际容量”+1</span><br><span class="line">    count++;</span><br><span class="line">    return null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="putAll"><a href="#putAll" class="headerlink" title="putAll()"></a>putAll()</h2><p>putAll()的作用是将Map<t>中的元素注意添加到Hashtable中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public synchronized void putAll(Map&lt;? extends K, ? extends V&gt; t) &#123;</span><br><span class="line"> for (Map.Entry&lt;? extends K, ? extends V&gt; e : t.entrySet())</span><br><span class="line">	 put(e.getKey(), e.getValue());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></t></p>
+<h2 id="remove"><a href="#remove" class="headerlink" title="remove()"></a>remove()</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">public boolean remove(Object o) &#123;</span><br><span class="line">	if (!(o instanceof Map.Entry))</span><br><span class="line">		return false;</span><br><span class="line">	Map.Entry&lt;?,?&gt; entry = (Map.Entry&lt;?,?&gt;) o;</span><br><span class="line">	Object key = entry.getKey();</span><br><span class="line">	Entry&lt;?,?&gt;[] tab = table;</span><br><span class="line">	int hash = key.hashCode();</span><br><span class="line">	int index = (hash &amp; 0x7FFFFFFF) % tab.length;</span><br><span class="line"></span><br><span class="line">	@SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">	Entry&lt;K,V&gt; e = (Entry&lt;K,V&gt;)tab[index];</span><br><span class="line">	//找到&apos;key对应的Entry(链表)&apos;</span><br><span class="line">	//然后在链表中找出要删除的节点，并删除该节点。</span><br><span class="line">	for(Entry&lt;K,V&gt; prev = null; e != null; prev = e, e = e.next) &#123;</span><br><span class="line">		if (e.hash==hash &amp;&amp; e.equals(entry)) &#123;</span><br><span class="line">			modCount++;</span><br><span class="line">			if (prev != null)</span><br><span class="line">				prev.next = e.next;</span><br><span class="line">			else</span><br><span class="line">				tab[index] = e.next;</span><br><span class="line"></span><br><span class="line">			count--;</span><br><span class="line">			e.value = null;</span><br><span class="line">			return true;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Hashtable的遍历方式"><a href="#Hashtable的遍历方式" class="headerlink" title="Hashtable的遍历方式"></a>Hashtable的遍历方式</h1><h2 id="遍历键值对"><a href="#遍历键值对" class="headerlink" title="遍历键值对"></a>遍历键值对</h2><ol>
+<li>根据EntrySet()获取Hashtable的键值对Set集合</li>
+<li>通过Iterator遍历第一步得到的集合<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 假设table是Hashtable对象</span><br><span class="line">// table中的key是String类型，value是Integer类型</span><br><span class="line">Integer integ = null;</span><br><span class="line">Iterator iter = table.entrySet().iterator();</span><br><span class="line">while(iter.hasNext()) &#123;</span><br><span class="line">    Map.Entry entry = (Map.Entry)iter.next();</span><br><span class="line">    // 获取key</span><br><span class="line">    key = (String)entry.getKey();</span><br><span class="line">        // 获取value</span><br><span class="line">    integ = (Integer)entry.getValue();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="遍历键"><a href="#遍历键" class="headerlink" title="遍历键"></a>遍历键</h2><ol>
+<li>根据keySet()获取Hashtable的“键”的Set集合。</li>
+<li>通过Iterator迭代器遍历上一步得到的集合。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 假设table是Hashtable对象</span><br><span class="line">// table中的key是String类型，value是Integer类型</span><br><span class="line">String key = null;</span><br><span class="line">Integer integ = null;</span><br><span class="line">Iterator iter = table.keySet().iterator();</span><br><span class="line">while (iter.hasNext()) &#123;</span><br><span class="line">        // 获取key</span><br><span class="line">    key = (String)iter.next();</span><br><span class="line">        // 根据key，获取value</span><br><span class="line">    integ = (Integer)table.get(key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="遍历值"><a href="#遍历值" class="headerlink" title="遍历值"></a>遍历值</h2><ol>
+<li>根据value()获取Hashtable的“值”的集合。</li>
+<li>通过Iterator迭代器遍历上一步得到的集合。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 假设table是Hashtable对象</span><br><span class="line">// table中的key是String类型，value是Integer类型</span><br><span class="line">Integer value = null;</span><br><span class="line">Collection c = table.values();</span><br><span class="line">Iterator iter= c.iterator();</span><br><span class="line">while (iter.hasNext()) &#123;</span><br><span class="line">    value = (Integer)iter.next();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="通过Enumeration遍历Hashtable的键"><a href="#通过Enumeration遍历Hashtable的键" class="headerlink" title="通过Enumeration遍历Hashtable的键"></a>通过Enumeration遍历Hashtable的键</h2><ol>
+<li>根据keys()获取Hashtable的集合。</li>
+<li>通过Enumeration遍历上一步得到的集合。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Enumeration enu = table.keys();</span><br><span class="line">while(enu.hasMoreElements()) &#123;</span><br><span class="line">    System.out.println(enu.nextElement());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="通过Enumeration遍历Hashtable的值"><a href="#通过Enumeration遍历Hashtable的值" class="headerlink" title="通过Enumeration遍历Hashtable的值"></a>通过Enumeration遍历Hashtable的值</h2><ol>
+<li>根据elements()获取Hashtable的集合。</li>
+<li>通过Enumeration遍历上一步得到的集合。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Enumeration enu = table.elements();</span><br><span class="line">while(enu.hasMoreElements()) &#123;</span><br><span class="line">    System.out.println(enu.nextElement());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="Hashtable代码示例"><a href="#Hashtable代码示例" class="headerlink" title="Hashtable代码示例"></a>Hashtable代码示例</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">import java.util.*;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * @desc Hashtable的测试程序。</span><br><span class="line"> *</span><br><span class="line"> * @author skywang</span><br><span class="line"> */</span><br><span class="line">public class HashtableTest &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        testHashtableAPIs();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static void testHashtableAPIs() &#123;</span><br><span class="line">        // 初始化随机种子</span><br><span class="line">        Random r = new Random();</span><br><span class="line">        // 新建Hashtable</span><br><span class="line">        Hashtable table = new Hashtable();</span><br><span class="line">        // 添加操作</span><br><span class="line">        table.put(&quot;one&quot;, r.nextInt(10));</span><br><span class="line">        table.put(&quot;two&quot;, r.nextInt(10));</span><br><span class="line">        table.put(&quot;three&quot;, r.nextInt(10));</span><br><span class="line"></span><br><span class="line">        // 打印出table</span><br><span class="line">        System.out.println(&quot;table:&quot;+table );</span><br><span class="line"></span><br><span class="line">        // 通过Iterator遍历key-value</span><br><span class="line">        Iterator iter = table.entrySet().iterator();</span><br><span class="line">        while(iter.hasNext()) &#123;</span><br><span class="line">            Map.Entry entry = (Map.Entry)iter.next();</span><br><span class="line">            System.out.println(&quot;next : &quot;+ entry.getKey() +&quot; - &quot;+entry.getValue());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Hashtable的键值对个数        </span><br><span class="line">        System.out.println(&quot;size:&quot;+table.size());</span><br><span class="line"></span><br><span class="line">        // containsKey(Object key) :是否包含键key</span><br><span class="line">        System.out.println(&quot;contains key two : &quot;+table.containsKey(&quot;two&quot;));</span><br><span class="line">        System.out.println(&quot;contains key five : &quot;+table.containsKey(&quot;five&quot;));</span><br><span class="line"></span><br><span class="line">        // containsValue(Object value) :是否包含值value</span><br><span class="line">        System.out.println(&quot;contains value 0 : &quot;+table.containsValue(new Integer(0)));</span><br><span class="line"></span><br><span class="line">        // remove(Object key) ： 删除键key对应的键值对</span><br><span class="line">        table.remove(&quot;three&quot;);</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;table:&quot;+table );</span><br><span class="line"></span><br><span class="line">        // clear() ： 清空Hashtable</span><br><span class="line">        table.clear();</span><br><span class="line"></span><br><span class="line">        // isEmpty() : Hashtable是否为空</span><br><span class="line">        System.out.println((table.isEmpty()?&quot;table is empty&quot;:&quot;table is not empty&quot;) );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/集合/" rel="tag"># 集合</a>
+          
+            <a href="/tags/Map/" rel="tag"># Map</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/20/HashMap/" rel="next" title="HashMap">
+                <i class="fa fa-chevron-left"></i> HashMap
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/24/pay/" rel="prev" title="pay">
+                pay <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#构造函数"><span class="nav-number">2.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据结构"><span class="nav-number">3.</span> <span class="nav-text">数据结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#源码解析"><span class="nav-number">4.</span> <span class="nav-text">源码解析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hashtable的“拉链法”相关内容"><span class="nav-number">5.</span> <span class="nav-text">Hashtable的“拉链法”相关内容</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hashtable的数据存储数组"><span class="nav-number">5.1.</span> <span class="nav-text">Hashtable的数据存储数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据节点Entry的数据结构"><span class="nav-number">5.2.</span> <span class="nav-text">数据节点Entry的数据结构</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#构造函数-1"><span class="nav-number">6.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主要对外接口"><span class="nav-number">7.</span> <span class="nav-text">主要对外接口</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#clear"><span class="nav-number">7.1.</span> <span class="nav-text">clear()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#contails"><span class="nav-number">7.2.</span> <span class="nav-text">contails()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#contailsKey"><span class="nav-number">7.3.</span> <span class="nav-text">contailsKey()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#elements"><span class="nav-number">7.4.</span> <span class="nav-text">elements()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#get"><span class="nav-number">7.5.</span> <span class="nav-text">get()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#put"><span class="nav-number">7.6.</span> <span class="nav-text">put()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#putAll"><span class="nav-number">7.7.</span> <span class="nav-text">putAll()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#remove"><span class="nav-number">7.8.</span> <span class="nav-text">remove()</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hashtable的遍历方式"><span class="nav-number">8.</span> <span class="nav-text">Hashtable的遍历方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#遍历键值对"><span class="nav-number">8.1.</span> <span class="nav-text">遍历键值对</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#遍历键"><span class="nav-number">8.2.</span> <span class="nav-text">遍历键</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#遍历值"><span class="nav-number">8.3.</span> <span class="nav-text">遍历值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过Enumeration遍历Hashtable的键"><span class="nav-number">8.4.</span> <span class="nav-text">通过Enumeration遍历Hashtable的键</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过Enumeration遍历Hashtable的值"><span class="nav-number">8.5.</span> <span class="nav-text">通过Enumeration遍历Hashtable的值</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hashtable代码示例"><span class="nav-number">9.</span> <span class="nav-text">Hashtable代码示例</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

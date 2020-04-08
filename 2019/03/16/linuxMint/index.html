@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="一直想用deepin，奈何挣扎了一天都没装上(笔记本的问题)，耗尽了我的耐心，然后安装了linuxMint。下面记录踩坑之路。 安装必要指令geditsudo apt-get install gedit文件编辑器，比vi、vim好用一些。 软件安装jdk首先卸载系统自带的jdk，查看安装的软件包sudo dpkg –list | grep -i jdk 删除jdksudo apt-get purg">
+<meta name="keywords" content="linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linuxMint">
+<meta property="og:url" content="https://jingyao066.gitee.io/2019/03/16/linuxMint/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="一直想用deepin，奈何挣扎了一天都没装上(笔记本的问题)，耗尽了我的耐心，然后安装了linuxMint。下面记录踩坑之路。 安装必要指令geditsudo apt-get install gedit文件编辑器，比vi、vim好用一些。 软件安装jdk首先卸载系统自带的jdk，查看安装的软件包sudo dpkg –list | grep -i jdk 删除jdksudo apt-get purg">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.315Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linuxMint">
+<meta name="twitter:description" content="一直想用deepin，奈何挣扎了一天都没装上(笔记本的问题)，耗尽了我的耐心，然后安装了linuxMint。下面记录踩坑之路。 安装必要指令geditsudo apt-get install gedit文件编辑器，比vi、vim好用一些。 软件安装jdk首先卸载系统自带的jdk，查看安装的软件包sudo dpkg –list | grep -i jdk 删除jdksudo apt-get purg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2019/03/16/linuxMint/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>linuxMint | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2019/03/16/linuxMint/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">linuxMint
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-16 12:37:30" itemprop="dateCreated datePublished" datetime="2019-03-16T12:37:30+08:00">2019-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/03/16/linuxMint/" class="leancloud_visitors" data-flag-title="linuxMint">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>一直想用deepin，奈何挣扎了一天都没装上(笔记本的问题)，耗尽了我的耐心，然后安装了linuxMint。下面记录踩坑之路。</p>
+<h1 id="安装必要指令"><a href="#安装必要指令" class="headerlink" title="安装必要指令"></a>安装必要指令</h1><h2 id="gedit"><a href="#gedit" class="headerlink" title="gedit"></a>gedit</h2><p><code>sudo apt-get install gedit</code><br>文件编辑器，比vi、vim好用一些。</p>
+<h1 id="软件安装"><a href="#软件安装" class="headerlink" title="软件安装"></a>软件安装</h1><h2 id="jdk"><a href="#jdk" class="headerlink" title="jdk"></a>jdk</h2><p>首先卸载系统自带的jdk，查看安装的软件包<br>sudo dpkg –list | grep -i jdk</p>
+<p>删除jdk<br>sudo apt-get purge openjdk*</p>
+<p>删除其他的包<br>sudo apt-get purge icedtea-<em> openjdk-</em><br>cd /usr/lib/jvm （如果没有jvm这个目录，就不用管这步了）<br>sudo rm -rf jdk<version></version></p>
+<p>再次确认是否被删除<br>sudo dpkg –list | grep -i jdk</p>
+<p><a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank" rel="noopener">https://www.oracle.com/technetwork/java/javase/downloads/index.html</a><br>下载想要的jdk，下载完成后，解压到/opt目录<br><code>sudo tar zxvf jdk.tar.gz -C /opt/</code><br>注意将jdk改成自己下载的jdk名字</p>
+<p>下面配置环境变量，需要提前安装gedit，如上。<br>gedit安装好后，<code>sudo gedit /etc/profile</code><br>在 profile 文件的后面加上以下语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># JAVA Config</span><br><span class="line">export JAVA_HOME=/opt/jdk1.8.0_101</span><br><span class="line">export JRE_HOME=/opt/jdk1.8.0_101/jre</span><br><span class="line">export CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib:$CLASSPATH</span><br><span class="line">export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$PATH</span><br></pre></td></tr></table></figure></p>
+<p>注意将jdk名字改成自己的。</p>
+<p>使文件立即生效<br><code>source /etc/profile</code><br>在终端输入java -version，看到版本号说明成功。</p>
+<h2 id="node"><a href="#node" class="headerlink" title="node"></a>node</h2><p><a href="https://nodejs.org/zh-cn/download/" target="_blank" rel="noopener">https://nodejs.org/zh-cn/download/</a><br>官网下载linux版本的二进制文件<br><code>xz -d  node-v8.11.1-linux-x64.tar.xz</code><br>上边指令执行完后，文件末尾没有.xz了，然后将文件解压到想要的目录<br><code>sudo tar zxvf node_10.15.tar -C /home/wjy/install</code></p>
+<p>添加链接，可以全局使用命令<br><code>ln -s /root/node-10.15/bin/node /usr/local/bin/node</code><br><code>ln -s /root/node-10.15/bin/npm /usr/local/bin/npm</code></p>
+<p>执行完在终端任意目录 输入 node -v，看到版本号说明成功。</p>
+<h2 id="snap"><a href="#snap" class="headerlink" title="snap"></a>snap</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install snapd </span><br><span class="line">sudo apt-get install snapcraft</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>列出已经安装的snap包<br><code>sudo snap list</code></p>
+</li>
+<li><p>搜索要安装的snap包<br><code>sudo snap find &lt;text to search&gt;</code></p>
+</li>
+<li><p>安装一个snap包<br><code>sudo snap install &lt;snap name&gt;</code></p>
+</li>
+<li><p>更新一个snap包，如果你后面不加包的名字的话那就是更新所有的snap包<br><code>sudo snap refresh &lt;snap name&gt;</code></p>
+</li>
+<li><p>把一个包还原到以前安装的版本<br><code>sudo snap revert &lt;snap name&gt;</code></p>
+</li>
+<li><p>删除一个snap包<br><code>sudo snap remove &lt;snap name&gt;</code> </p>
+</li>
+<li><p>安装网易云音乐<br><code>sudo snap install netease-music --devmode --beta</code></p>
+</li>
+<li><p>安装微信<br><code>sudo snap install electronic-wechat</code><br>需要重启才能在左下角管理中看到微信</p>
+</li>
+</ul>
+<h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><p>更新linux mint 内核及软件包<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update </span><br><span class="line">sudo apt-get upgrade</span><br></pre></td></tr></table></figure></p>
+<p>使用dpkg包管理器查询是否已安装git<br><code>sudo dpkg -l git</code></p>
+<p>通过apt-get 安装软件库中最新版本的git<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install git</span><br></pre></td></tr></table></figure></p>
+<p>检查是否安装成功<br><code>git --version</code></p>
+<h3 id="idea中配置git"><a href="#idea中配置git" class="headerlink" title="idea中配置git"></a>idea中配置git</h3><p>使用apt-get install 方式安装的软件，<br>1.下载的软件存放位置<br>/var/cache/apt/archives</p>
+<p>2.安装后软件默认位置<br>/usr/share</p>
+<p>3.可执行文件位置<br>/usr/bin</p>
+<p>4.配置文件位置<br>/etc</p>
+<p>5.lib文件位置<br>/usr/lib</p>
+<p>所以在idea中配置git的可执行文件，选择位置use/bin/git<br>点击test，显示git版本号，说明成功，就可以从github或coding上拉取代码了。</p>
+<h2 id="zookeeper"><a href="#zookeeper" class="headerlink" title="zookeeper"></a>zookeeper</h2><p>下载地址：<br><a href="http://mirror.bit.edu.cn/apache/zookeeper/" target="_blank" rel="noopener">http://mirror.bit.edu.cn/apache/zookeeper/</a><br>下载stable版本。</p>
+<p>将下载好的.gz解压并复制到想要的位置。/home/wjy/install</p>
+<p>在zk的根目录创建两个文件夹data和data_log，分别用来存放zk的数据以及日志。然后进入到data目录，使用pwd指令查看并复制data目录的绝对路径。</p>
+<p>进入zookeeper的conf目录下，复制zoo_sample.cfg为zoo.cfg<br><code>cp zoo_sample.cfg zoo.cfg</code></p>
+<p>然后编辑zoo.cfg，修改或新增下面两行配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dataDir=/home/wjy/install/zookeeper-3.4.13/data</span><br><span class="line">dataLogDir=/home/wjy/install/zookeeper-3.4.13/data_log</span><br></pre></td></tr></table></figure></p>
+<p>保存并退出。</p>
+<p>zoo.cfg只存放了单机的配置，想配置集群需要在最后面加上其他服务器的ip和端口。</p>
+<p>到zk的bin目录下启动：<br><code>./zkServer.sh start</code></p>
+<p>查看状态<br><code>./zkServer.sh status</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ZooKeeper JMX enabled by default</span><br><span class="line">Using config: /home/wjy/install/zookeeper-3.4.13/bin/../conf/zoo.cfg</span><br><span class="line">Mode: standalone</span><br></pre></td></tr></table></figure></p>
+<p>出现上边的状态说明启动成功。<br>standalone：单机</p>
+<h2 id="redis"><a href="#redis" class="headerlink" title="redis"></a>redis</h2><p><a href="https://redis.io/" target="_blank" rel="noopener">https://redis.io/</a><br>官网下载，解压并复制到想要的位置 /home/wjy/install</p>
+<p>cd到redis根目录下，执行<br><code>make</code><br>报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">net.c:36:23: fatal error: sys/types.h: No such file or directory(没有那个文件或目录)</span><br><span class="line">...</span><br><span class="line">adlist.c:32:20: fatal error: stdlib.h: No such file or directory</span><br></pre></td></tr></table></figure></p>
+<p>原因是缺少文件，执行以下命令后再次make：<br><code>sudo apt-get install libc6-dev</code></p>
+<p>还是报错:<br><code>zmalloc.h:50:31: fatal error: jemalloc/jemalloc.h: No such file or directory</code></p>
+<p>原因是libc不是默认的分配器，在make后添加参数解决：<br><code>sudo make MALLOC=libc</code></p>
+<p>等待执行完成，到redis/src目录下，执行<br><code>./redis-server</code><br>出现端口号和进程PID，证明启动成功。</p>
+<h2 id="postman"><a href="#postman" class="headerlink" title="postman"></a>postman</h2><p><a href="https://www.getpostman.com/downloads/" target="_blank" rel="noopener">https://www.getpostman.com/downloads/</a><br>下载对应版本.gz,并解压到理想位置。</p>
+<p>创建全局变量，也就是在任何地方都可以执行postman，不用去到安装目录，执行<br><code>sudo ln -s /home/wjy/install/Postman/Postman  /usr/bin/postman</code></p>
+<p>添加启动器应用图标，也就是可以从启动器快速启动，执行<br><code>vim /usr/share/applications/postman.desktop</code><br>填写如下内容：注意修改路径<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[Desktop Entry]</span><br><span class="line">Encoding=UTF-8</span><br><span class="line">Name=Postman</span><br><span class="line">Exec=postman</span><br><span class="line">Icon=/home/wjy/install/Postman/resources/app/assets/icon.png</span><br><span class="line">Terminal=false</span><br><span class="line">Type=Application</span><br><span class="line">Categories=Development;</span><br></pre></td></tr></table></figure></p>
+<p>然后就可以在启动器搜索到postman，然后可以将该应用添加到桌面。</p>
+<h2 id="navicat"><a href="#navicat" class="headerlink" title="navicat"></a>navicat</h2><p>官网下载：<a href="https://www.navicat.com.cn/download/navicat-premium" target="_blank" rel="noopener">https://www.navicat.com.cn/download/navicat-premium</a><br>直接下载试用版，解压到理想位置。<br>进入到解压好的目录,启动<br><code>./start_navicat</code><br>启动成功。</p>
+<p>将navicat快捷方式添加到桌面<br><code>vim /usr/share/applications/navicat.desktop</code><br>填写如下内容：注意修改路径<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[Desktop Entry]</span><br><span class="line">Encoding=UTF-8</span><br><span class="line">Name=Navicat Premium</span><br><span class="line">Comment=The Smarter Way to manage dadabase</span><br><span class="line">Exec=/bin/sh &quot;/home/wjy/install/navicat121_premium_cs_x64/start_navicat&quot;</span><br><span class="line">Icon=/home/wjy/install/navicat121_premium_cs_x64/navicat.png</span><br><span class="line">Categories=Application;Database;MySQL;navicat</span><br><span class="line">Version=1.0</span><br><span class="line">Type=Application</span><br><span class="line">Terminal=0</span><br></pre></td></tr></table></figure></p>
+<p>然后就可以在启动器搜索到navicat，可以将该应用添加到桌面。</p>
+<p>编辑解压目录下的start_navicat文件，修改export LANG=”en_US.UTF-8”，改为export LANG=”zh_CN.UTF-8”。<br>进入后发现还是部分乱码，这时需要打开navicat，点击上边选项卡的第五个，为工具，点击下拉选最后一个选项，然后将常规、编辑器、记录三个位置的字体改成能正常显示的字体。</p>
+<p>破解：<br>在windows破解好后，linux上安装相同版本，然后将windows，Navicat Premium目录下所有文件拷贝到linux，navicat121_premium_cs_x64中的Navicat目录。<br>其实就是在windows破解好后，再整体复制到linux替换原文件。不是非要自己的电脑是双系统，可以用别的windows电脑破解再copy。<br>可以直接下载如下windows破解版：<a href="https://pan.baidu.com/s/10z5Ozjqdhar1bj0YVR0GMA，提取码：z86k，不过这个是Navicat_11版本的。" target="_blank" rel="noopener">https://pan.baidu.com/s/10z5Ozjqdhar1bj0YVR0GMA，提取码：z86k，不过这个是Navicat_11版本的。</a></p>
+<h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><p>安装<br><code>sudo apt-get install mysql-server mysql-common mysql-client</code><br><code>sudo /etc/init.d/mysql restart</code></p>
+<p>设置初始密码：<br><code>sudo mysql_secure_installation</code><br>按照引导设置密码</p>
+<p>登录<br><code>sudo mysql -u root -p</code><br>必须带sudo，不然会出现<code>Access denied for user ‘root‘@‘localhost‘</code><br>然后输入刚才设置的密码。</p>
+<p>解决Access denied 问题：<br>参考地址：<a href="https://www.cnblogs.com/cpl9412290130/p/9583868.html" target="_blank" rel="noopener">https://www.cnblogs.com/cpl9412290130/p/9583868.html</a></p>
+<p>终端输入：<br><code>sudo gedit /etc/mysql/mysql.conf.d/mysqld.cnf</code><br>然后在这个配置文件中的[mysqld]这一块中加入skip-grant-tables这句话，位置随意，直接加在第一行即可。<br>作用：就是让你可以不用密码登录进去mysql。<br>重启mysql：<code>service mysql restart</code></p>
+<p>在终端上输入mysql -u root -p，遇见输入密码的提示直接回车即可,进入mysql后，分别执行下面三句话：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use mysql;   然后敲回车</span><br><span class="line">update user set authentication_string=password(&quot;你的密码&quot;) where user=&quot;root&quot;;  然后敲回车</span><br><span class="line">flush privileges;  然后敲回车</span><br></pre></td></tr></table></figure></p>
+<p>然后输入quit，退出mysql。</p>
+<p>重新进入到mysqld.cnf文件中去把刚开始加的skip-grant-tables这条语句给注释掉。</p>
+<p>再返回终端输入mysql -u root -p，应该就可以进入数据库了。</p>
+<p>如果此时还是报出错误，那么就需要返回step3中，把注释掉的那条语句重新生效（就是删除#符号），重新进入mysql中，先选择一个数据库（use mysql;）,然后输入select user,plugin from user;<br>可以看到在执行了select user,plugin from user;后，错误原因是因为plugin root的字段是auth_socket，那我们改掉它为下面的mysql_native_password就行了。输入：<br><code>update user set authentication_string=password(&quot;ln122920&quot;),plugin=&#39;mysql_native_password&#39; where user=&#39;root&#39;;</code><br>然后回车执行以下，再输入select user,plugin from user;回车，我们能看到root用户的字段改成功了。<br>最后quit退出,再次mysql -u root -p，成功！</p>
+<p>重启服务：<br><code>service mysql restart</code></p>
+<p>修改密码级别：<br><code>set global validate_password_policy=0;</code><br><code>set global validate_password_length=4;</code></p>
+<h3 id="配置远程连接"><a href="#配置远程连接" class="headerlink" title="配置远程连接"></a>配置远程连接</h3><ol>
+<li><p>修改配置文件<br><code>sudo gedit /etc/mysql/mysql.conf.d/mysqld.cnf</code><br>找到<code>bind-address = 127.0.0.1</code>，将后边的ip修改为：<code>0.0.0.0</code></p>
+</li>
+<li><p>为需要远程登录的用户赋予权限<br>为root用户赋予权限：<br><code>grant all privileges on *.* to &#39;root&#39;@&#39;%&#39; identified by &#39;root&#39; with grant option;</code><br>注意修改<code>identified by</code>后边的密码。<br>可能会报错：<br><code>Your password does not satisfy the current policy requirements</code><br>这时修改密码级别：<br><code>set global validate_password_policy=0;</code><br><code>set global validate_password_length=4;</code></p>
+</li>
+</ol>
+<p>然后执行赋权语句成功，刷新权限：<br><code>flush privileges;</code></p>
+<p>重启mysql服务：<br><code>service mysql restart</code></p>
+<h2 id="beyond-compare"><a href="#beyond-compare" class="headerlink" title="beyond compare"></a>beyond compare</h2><p><a href="https://www.scootersoftware.com/download.php?zz=kb_linux_install" target="_blank" rel="noopener">https://www.scootersoftware.com/download.php?zz=kb_linux_install</a><br>查看官网，通过官网提示安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget https://www.scootersoftware.com/bcompare-4.2.9.23626_amd64.deb</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install gdebi-core</span><br><span class="line">sudo gdebi bcompare-4.2.9.23626_amd64.deb</span><br></pre></td></tr></table></figure></p>
+<p>卸载<br><code>sudo apt-get remove bcompare</code></p>
+<h2 id="xmind"><a href="#xmind" class="headerlink" title="xmind"></a>xmind</h2><p>官网下载linux客户端：<br><a href="https://www.xmind.cn/download/xmind8/" target="_blank" rel="noopener">https://www.xmind.cn/download/xmind8/</a><br>一定要下载zip版的。</p>
+<p>下载破解文件：<br><a href="https://pan.baidu.com/s/1DOYU_OuOrIUPJoywsQswVA" target="_blank" rel="noopener">https://pan.baidu.com/s/1DOYU_OuOrIUPJoywsQswVA</a><br>提取码：f3jj</p>
+<p>将<code>XMind_amd64.tar.gz</code>下的两个文件<code>XMind.ini</code>和<code>XMindCrack.jar</code>放到<code>XMind_amd64</code>目录下。</p>
+<p>通过如下命令修改hosts文件：<br><code>sudo vi /etc/hosts</code><br>在文件的末尾添加：<br><code>127.0.0.1 www.xmind.net</code></p>
+<p>回到解压后的文件夹的根目录，运行<code>./setup.sh.</code>，安装好依赖库之后，再次进入XMind_amd64，双击运行XMind文件。<br>在XMind主界面依次：<code>Help(帮助) -&gt; License(序列号)</code>，复制以下license key填入，邮箱随便填：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XAka34A2rVRYJ4XBIU35UZMUEEF64CMMIYZCK2FZZUQNODEKUHGJLFMSLIQMQUCUBXRENLK6NZL37JXP4PZXQFILMQ2RG5R7G4QNDO3PSOEUBOCDRYSSXZGRARV6MGA33TN2AMUBHEL4FXMWYTTJDEINJXUAV4BAYKBDCZQWVF3LWYXSDCXY546U3NBGOI3ZPAP2SO3CSQFNB7VVIY123456789012345</span><br></pre></td></tr></table></figure></p>
+<p>然后激活成功。</p>
+<h1 id="一些问题"><a href="#一些问题" class="headerlink" title="一些问题"></a>一些问题</h1><h2 id="字体"><a href="#字体" class="headerlink" title="字体"></a>字体</h2><ul>
+<li>终端字体<br>文泉驿等宽微米黑 Bold</li>
+</ul>
+<h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><ul>
+<li>在应用程序中搜索”窗口管理器”，然后点击键盘，将：<ul>
+<li>“工作区”和”移动窗口至工作去”等与ctrl和alt相关的快捷键全部清除</li>
+<li>在窗口管理器-键盘，找到”显示桌面”，将快捷键改为<strong>super+D</strong>(保持与windows一致)</li>
+</ul>
+</li>
+<li>在应用程序中搜索”键盘”，应用程序和快捷键选项卡，找到：<ul>
+<li>/usr/bin/xflock4，修改为Super+L</li>
+<li>xfce4-appfinder，保留原快捷键</li>
+<li>x-terminal-emulator，修改为Alt+/</li>
+</ul>
+</li>
+<li>ctrl+alt+s<br>这个快捷键是idea的setting的快捷键，但是在mint中被fcitx输入法占用了。<br>右键右下角的输入法，选择配置fcitx-&gt;全局配置-&gt;显示高级选项，找到想修改的快捷键，建议直接置空(选中后，点击esc)。</li>
+</ul>
+<h2 id="VI模式中上下左右键和回退键出现字母"><a href="#VI模式中上下左右键和回退键出现字母" class="headerlink" title="VI模式中上下左右键和回退键出现字母"></a>VI模式中上下左右键和回退键出现字母</h2><p><code>sudo vi /etc/vim/vimrc.tiny</code><br>上下左右字母：<br>这个文件里面的倒数第二句话是“set compatible”改为“set nocompatible”</p>
+<p>回退健：<br>在“set nocompatible”后面(下一行)加上<br>set backspace=2</p>
+<h2 id="ctrl-alt-f12"><a href="#ctrl-alt-f12" class="headerlink" title="ctrl+alt+f12"></a>ctrl+alt+f12</h2><p>不只是linuxmint，Ubuntu、deepin等按这组快捷键都会黑屏，不要害怕，不是黑屏，ctrl+alt+f7可以返回。<br>ALT＋CTRL+F1——F6可进入6个终端，F7开始到F12有6个图形界面，f7是我们安装的图形界面，所以ctrl+alt+f7可以返回。<br>参考地址：<a href="https://askubuntu.com/questions/277517/what-does-ctrl-alt-f12-do" target="_blank" rel="noopener">https://askubuntu.com/questions/277517/what-does-ctrl-alt-f12-do</a></p>
+<h2 id="主文件夹的中文文件夹改为英文"><a href="#主文件夹的中文文件夹改为英文" class="headerlink" title="主文件夹的中文文件夹改为英文"></a>主文件夹的中文文件夹改为英文</h2><p>因为是中文版，/home/wjy 下的用户目录都是中文的，在终端操作很不方便，需要切换输入法。而且纯命令行界面，中文文件夹会乱码，根本不知道是哪个是哪个。<br>打开终端，在终端中输入命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export LANG=en_US</span><br><span class="line">xdg-user-dirs-gtk-update</span><br></pre></td></tr></table></figure></p>
+<p>跳出对话框询问是否将目录转化为英文路径，同意并关闭。<br>在终端中输入命令：<br><code>export LANG=zh_CN</code><br>关闭终端，重启系统。下次进入系统，系统会提示是否把转化好的目录改回中文，选择不再提示，并取消修改(保留旧的，旧的就是重启之前改好的英文文件夹)。这样就完成了</p>
+<h1 id="弃坑"><a href="#弃坑" class="headerlink" title="弃坑"></a>弃坑</h1><p>没有必要换linux。我使用过7年Linux桌面。想到哪说到哪吧<br>首先，Linux下开发用的应用软件奇缺，质量普遍不高，基本都只是凑合能用。除了jetbrain家的软件是良心系列，其他应用软件，良心的真是少之又少。<br>比如MySQL工具，就没有Windows上的好。mysql workbench不稳定，界面难用，而且有bug（使用mysql proxy会遇到），可能导致无法连接数据库。Navicat也只有wine版，默认连中文都处理不好，也很卡。那些说mycli的装逼犯，就让他装逼吧。基于Java的那几个MySQL工具，问题也不少。我现在是dbvis+mysql workbench凑合<br>远程终端也没有能超越xshell的存在。<br>聊天工具QQ，钉钉，微信，也只是勉强能用的地步（比如wine qq不支持边缘吸附，网页版钉钉不支持查看加密消息。。）。输入法极其难用，Linux下有搜狗输入法算是最好的中文输入法了（那些说rime的装逼犯你别管），但是这货内存泄漏很严重，时不时就占据个四五G内存。<br>WPS嘛，勉强能用，但是WPS不支持公式啊，图表也巨丑啊，或许一般场景呢是够了。<br>对新硬件支持也差。<br>还有，依赖关系是巨坑。装一个软件，引入一大堆软件，卸载软件也很容易搞崩系统（那些否认的你别理）。虽说有了flatpak格式，但是这个东西还没普及，而且占用空间远比windows大。如图，一个小小的截图，190M体积，在Windows下，只要1%的体积。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/11/JeeSite-4-x/" rel="next" title="JeeSite_4.x">
+                <i class="fa fa-chevron-left"></i> JeeSite_4.x
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/20/poem/" rel="prev" title="诗">
+                诗 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安装必要指令"><span class="nav-number">1.</span> <span class="nav-text">安装必要指令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#gedit"><span class="nav-number">1.1.</span> <span class="nav-text">gedit</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#软件安装"><span class="nav-number">2.</span> <span class="nav-text">软件安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#jdk"><span class="nav-number">2.1.</span> <span class="nav-text">jdk</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#node"><span class="nav-number">2.2.</span> <span class="nav-text">node</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#snap"><span class="nav-number">2.3.</span> <span class="nav-text">snap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git"><span class="nav-number">2.4.</span> <span class="nav-text">git</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#idea中配置git"><span class="nav-number">2.4.1.</span> <span class="nav-text">idea中配置git</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zookeeper"><span class="nav-number">2.5.</span> <span class="nav-text">zookeeper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#redis"><span class="nav-number">2.6.</span> <span class="nav-text">redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#postman"><span class="nav-number">2.7.</span> <span class="nav-text">postman</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#navicat"><span class="nav-number">2.8.</span> <span class="nav-text">navicat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql"><span class="nav-number">2.9.</span> <span class="nav-text">mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置远程连接"><span class="nav-number">2.9.1.</span> <span class="nav-text">配置远程连接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#beyond-compare"><span class="nav-number">2.10.</span> <span class="nav-text">beyond compare</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xmind"><span class="nav-number">2.11.</span> <span class="nav-text">xmind</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一些问题"><span class="nav-number">3.</span> <span class="nav-text">一些问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#字体"><span class="nav-number">3.1.</span> <span class="nav-text">字体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快捷键"><span class="nav-number">3.2.</span> <span class="nav-text">快捷键</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VI模式中上下左右键和回退键出现字母"><span class="nav-number">3.3.</span> <span class="nav-text">VI模式中上下左右键和回退键出现字母</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ctrl-alt-f12"><span class="nav-number">3.4.</span> <span class="nav-text">ctrl+alt+f12</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主文件夹的中文文件夹改为英文"><span class="nav-number">3.5.</span> <span class="nav-text">主文件夹的中文文件夹改为英文</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#弃坑"><span class="nav-number">4.</span> <span class="nav-text">弃坑</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

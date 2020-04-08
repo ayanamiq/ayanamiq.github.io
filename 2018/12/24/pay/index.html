@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="支付宝支付官网：https://docs.open.alipay.com/catalog微信支付官网：https://pay.weixin.qq.com/wiki/doc/api/index.html 设计思路策略模式+工厂模式，工厂方法用于创建不同场景下的策略。类图如下：策略接口IPayStrategy定义了需要子类实现的方法 ，每一种支付方式为一种策略。场景类通过枚举类获取策略类型，通过Pay">
+<meta name="keywords" content="pay">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pay">
+<meta property="og:url" content="https://jingyao066.gitee.io/2018/12/24/pay/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="支付宝支付官网：https://docs.open.alipay.com/catalog微信支付官网：https://pay.weixin.qq.com/wiki/doc/api/index.html 设计思路策略模式+工厂模式，工厂方法用于创建不同场景下的策略。类图如下：策略接口IPayStrategy定义了需要子类实现的方法 ，每一种支付方式为一种策略。场景类通过枚举类获取策略类型，通过Pay">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/24/pay/1.jpg">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/24/pay/2.jpg">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/24/pay/3.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/24/pay/4.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/24/pay/5.png">
+<meta property="og:updated_time" content="2020-01-14T12:54:52.127Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="pay">
+<meta name="twitter:description" content="支付宝支付官网：https://docs.open.alipay.com/catalog微信支付官网：https://pay.weixin.qq.com/wiki/doc/api/index.html 设计思路策略模式+工厂模式，工厂方法用于创建不同场景下的策略。类图如下：策略接口IPayStrategy定义了需要子类实现的方法 ，每一种支付方式为一种策略。场景类通过枚举类获取策略类型，通过Pay">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2018/12/24/pay/1.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2018/12/24/pay/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>pay | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2018/12/24/pay/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">pay
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-24 13:50:44" itemprop="dateCreated datePublished" datetime="2018-12-24T13:50:44+08:00">2018-12-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-01-14 20:54:52" itemprop="dateModified" datetime="2020-01-14T20:54:52+08:00">2020-01-14</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2018/12/24/pay/" class="leancloud_visitors" data-flag-title="pay">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>支付宝支付官网：<br><a href="https://docs.open.alipay.com/catalog" target="_blank" rel="noopener">https://docs.open.alipay.com/catalog</a><br>微信支付官网：<br><a href="https://pay.weixin.qq.com/wiki/doc/api/index.html" target="_blank" rel="noopener">https://pay.weixin.qq.com/wiki/doc/api/index.html</a></p>
+<h1 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h1><p>策略模式+工厂模式，工厂方法用于创建不同场景下的策略。类图如下：<br><img src="/2018/12/24/pay/1.jpg" alt=""><br>策略接口<code>IPayStrategy</code>定义了需要子类实现的方法 ，每一种支付方式为一种策略。<br>场景类通过枚举类获取策略类型，通过PayFactory创建场景类需要的支付策略。<br>工厂方法可以创建默认商户的支付策略，也可以在工厂方法里再写一个使用指定商户id或第三方支付的沙箱环境的方法 ，payBaseModel为一些业务参数，例如标题，描述，回调接口以及支付完的跳转页面等。</p>
+<h1 id="maven依赖"><a href="#maven依赖" class="headerlink" title="maven依赖"></a>maven依赖</h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alipay.sdk<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>alipay-sdk-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.52.ALL<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.wxpay.sdk<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>wxpay-sdk<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.9<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.httpcomponents<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>httpclient<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.commons<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-lang3<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.3.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"> <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.commons<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-lang3<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.3.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>由于微信最新的支付sdk在maven仓库里已经没有，合并为了weixin-java-tools里的一个模块，详见<br><a href="https://github.com/wechat-group/WxJava" target="_blank" rel="noopener">https://github.com/wechat-group/WxJava</a><br>本文所使用的微信支付sdk是官网下载后自己编译的。</p>
+<h1 id="关键类"><a href="#关键类" class="headerlink" title="关键类"></a>关键类</h1><h2 id="策略接口"><a href="#策略接口" class="headerlink" title="策略接口"></a>策略接口</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface IPayStrategy &#123;</span><br><span class="line">    public Map&lt;String,String&gt; excutePayOrder(PayBaseModel model) throws Exception;</span><br><span class="line">    public int excuteQueryStatus(String orderNo) throws Exception;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="业务参数类"><a href="#业务参数类" class="headerlink" title="业务参数类"></a>业务参数类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PayBaseModel</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1L</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//商品标题</span></span><br><span class="line">    <span class="keyword">private</span> String title;</span><br><span class="line">    <span class="comment">//商品描述</span></span><br><span class="line">    <span class="keyword">private</span> String desc;</span><br><span class="line">    <span class="comment">//回调地址</span></span><br><span class="line">    <span class="keyword">private</span> String notifyUrl;</span><br><span class="line">    <span class="comment">//交易金额</span></span><br><span class="line">    <span class="keyword">private</span> String tradeMoney;</span><br><span class="line">    <span class="comment">//商户订单号</span></span><br><span class="line">    <span class="keyword">private</span> String outTradeNo;</span><br><span class="line">    <span class="comment">//自定义参数</span></span><br><span class="line">    <span class="keyword">private</span> String attach;</span><br><span class="line">    <span class="comment">//网页支付完成后的跳转地址</span></span><br><span class="line">    <span class="keyword">private</span> String returnUrl;</span><br><span class="line">    <span class="comment">//用户ip</span></span><br><span class="line">    <span class="keyword">private</span> String realIp;</span><br><span class="line">    <span class="comment">//请求头</span></span><br><span class="line">    <span class="keyword">private</span> String referer;</span><br><span class="line">    ...</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">//get set方法自己实现 也可以不用实现，因为构造函数里传入了</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PayBaseModel</span><span class="params">(String title, String notifyUrl, String tradeMoney, String outTradeNo, String returnUrl)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.title = title;</span><br><span class="line">        <span class="keyword">this</span>.notifyUrl = notifyUrl;</span><br><span class="line">        <span class="keyword">this</span>.tradeMoney = tradeMoney;</span><br><span class="line">        <span class="keyword">this</span>.outTradeNo = outTradeNo;</span><br><span class="line">        <span class="keyword">this</span>.returnUrl = returnUrl;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PayBaseModel</span><span class="params">(String title, String notifyUrl, String tradeMoney, String outTradeNo)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.title = title;</span><br><span class="line">        <span class="keyword">this</span>.notifyUrl = notifyUrl;</span><br><span class="line">        <span class="keyword">this</span>.tradeMoney = tradeMoney;</span><br><span class="line">        <span class="keyword">this</span>.outTradeNo = outTradeNo;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="四种支付策略"><a href="#四种支付策略" class="headerlink" title="四种支付策略"></a>四种支付策略</h2><h3 id="AliAppPayStrategy"><a href="#AliAppPayStrategy" class="headerlink" title="AliAppPayStrategy"></a>AliAppPayStrategy</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.alipay.api.AlipayApiException;</span><br><span class="line"><span class="keyword">import</span> com.alipay.api.AlipayClient;</span><br><span class="line"><span class="keyword">import</span> com.alipay.api.AlipayResponse;</span><br><span class="line"><span class="keyword">import</span> com.alipay.api.DefaultAlipayClient;</span><br><span class="line"><span class="keyword">import</span> com.alipay.api.domain.AlipayTradeAppPayModel;</span><br><span class="line"><span class="keyword">import</span> com.alipay.api.request.AlipayTradeAppPayRequest;</span><br><span class="line"><span class="keyword">import</span> com.tubitu.util.pay.IPayStrategy;</span><br><span class="line"><span class="keyword">import</span> com.tubitu.util.pay.PayConstant;</span><br><span class="line"><span class="keyword">import</span> com.tubitu.util.pay.model.PayBaseModel;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.lang3.StringUtils;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> java.math.BigDecimal;</span><br><span class="line"><span class="keyword">import</span> java.text.DecimalFormat;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="comment">//支付宝APP支付</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AliAppPayStrategy</span> <span class="keyword">implements</span> <span class="title">IPayStrategy</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> String url;</span><br><span class="line">    <span class="keyword">private</span> String appId;</span><br><span class="line">    <span class="keyword">private</span> String privateKey;</span><br><span class="line">    <span class="keyword">private</span> String publicKey;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> orderTimeOUt;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Logger LOGGER = LoggerFactory.getLogger(AliAppPayStrategy.class);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AliAppPayStrategy</span><span class="params">(String url, String appId, String privateKey, String publicKey, <span class="keyword">int</span> orderTimeOUt)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.url = url;</span><br><span class="line">        <span class="keyword">this</span>.appId = appId;</span><br><span class="line">        <span class="keyword">this</span>.privateKey = privateKey;</span><br><span class="line">        <span class="keyword">this</span>.publicKey = publicKey;</span><br><span class="line">        <span class="keyword">this</span>.orderTimeOUt = orderTimeOUt;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Map&lt;String, String&gt; <span class="title">excutePayOrder</span><span class="params">(PayBaseModel payBaseModel)</span> <span class="keyword">throws</span> AlipayApiException </span>&#123;</span><br><span class="line">        LOGGER.info(<span class="string">"**********************获取支付宝APP支付模板"</span> + payBaseModel.toString()</span><br><span class="line">                + <span class="string">"**************************************************"</span>);</span><br><span class="line">        Map&lt;String, String&gt; resultMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        AlipayTradeAppPayRequest payRequest = <span class="keyword">new</span> AlipayTradeAppPayRequest();</span><br><span class="line">        AlipayTradeAppPayModel model = <span class="keyword">new</span> AlipayTradeAppPayModel();</span><br><span class="line">        <span class="comment">//组装必填参数：订单标题 商家交易订单号 交易金额</span></span><br><span class="line">        model.setSubject(payBaseModel.getTitle());</span><br><span class="line">        model.setOutTradeNo(payBaseModel.getOutTradeNo());</span><br><span class="line">        <span class="keyword">if</span> (!StringUtils.isEmpty(payBaseModel.getDesc())) &#123;</span><br><span class="line">            <span class="comment">//交易详情</span></span><br><span class="line">            model.setBody(payBaseModel.getDesc());</span><br><span class="line">        &#125;</span><br><span class="line">        model.setTotalAmount(<span class="keyword">new</span> DecimalFormat(<span class="string">"0.00"</span>).format(<span class="keyword">new</span> BigDecimal(payBaseModel.getTradeMoney())));</span><br><span class="line">        <span class="keyword">if</span> (!StringUtils.isEmpty(payBaseModel.getAttach())) &#123;</span><br><span class="line">            <span class="comment">//自定义参数</span></span><br><span class="line">            model.setPassbackParams(payBaseModel.getAttach());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//非必填参数 订单过期时间</span></span><br><span class="line">        model.setTimeoutExpress(<span class="keyword">this</span>.orderTimeOUt + <span class="string">"m"</span>);</span><br><span class="line">        <span class="comment">//app支付交易码-固定值</span></span><br><span class="line">        model.setProductCode(<span class="string">"QUICK_MSECURITY_PAY"</span>);</span><br><span class="line">        <span class="comment">//回调通知</span></span><br><span class="line">        payRequest.setNotifyUrl(payBaseModel.getNotifyUrl());</span><br><span class="line">        <span class="comment">//业务参数模板</span></span><br><span class="line">        payRequest.setBizModel(model);</span><br><span class="line">        AlipayClient alipayClient = <span class="keyword">new</span> DefaultAlipayClient(<span class="keyword">this</span>.url, <span class="keyword">this</span>.appId, <span class="keyword">this</span>.privateKey,</span><br><span class="line">                PayConstant.ALI_DEFAULT_FORMAT, PayConstant.DEFAULT_CHARSET, <span class="keyword">this</span>.publicKey, PayConstant.ALI_DEFAULT_SIGNTYPE);</span><br><span class="line">        AlipayResponse response = alipayClient.sdkExecute(payRequest);</span><br><span class="line">        resultMap.put(<span class="string">"payContent"</span>, response.getBody());</span><br><span class="line">        resultMap.put(<span class="string">"out_trade_no"</span>, payBaseModel.getOutTradeNo());</span><br><span class="line">        LOGGER.info(<span class="string">"**********************阿里支付下单接口返回数据:"</span> + resultMap + <span class="string">"**************************************************"</span>);</span><br><span class="line">        <span class="keyword">return</span> resultMap;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="AliWebPayStrategy"><a href="#AliWebPayStrategy" class="headerlink" title="AliWebPayStrategy"></a>AliWebPayStrategy</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">import com.alibaba.fastjson.JSONObject;</span><br><span class="line">import com.alipay.api.AlipayApiException;</span><br><span class="line">import com.alipay.api.AlipayClient;</span><br><span class="line">import com.alipay.api.DefaultAlipayClient;</span><br><span class="line">import com.alipay.api.request.AlipayTradeWapPayRequest;</span><br><span class="line">import com.tubitu.util.pay.IPayStrategy;</span><br><span class="line">import com.tubitu.util.pay.PayConstant;</span><br><span class="line">import com.tubitu.util.pay.model.PayBaseModel;</span><br><span class="line"> </span><br><span class="line">import java.math.BigDecimal;</span><br><span class="line">import java.text.DecimalFormat;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">//支付宝网页支付</span><br><span class="line">public class AliWebPayStrategy implements IPayStrategy &#123;</span><br><span class="line"> </span><br><span class="line">    private String url;</span><br><span class="line">    private String appId;</span><br><span class="line">    private String privateKey;</span><br><span class="line">    private String publicKey;</span><br><span class="line">    private int orderTimeOut;</span><br><span class="line"></span><br><span class="line">    public AliWebPayStrategy(String url, String appId, String privateKey, String publicKey, int orderTimeOUt) &#123;</span><br><span class="line">        this.url = url;</span><br><span class="line">        this.appId = appId;</span><br><span class="line">        this.privateKey = privateKey;</span><br><span class="line">        this.publicKey = publicKey;</span><br><span class="line">        this.orderTimeOut = orderTimeOUt;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public Map&lt;String, String&gt; excutePayOrder(PayBaseModel payBaseModel) throws AlipayApiException &#123;</span><br><span class="line">        Map&lt;String,String&gt; resultMap = new HashMap&lt;&gt;();</span><br><span class="line">        //创建API对应的request</span><br><span class="line">        AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();</span><br><span class="line">        //支付完成阿里回跳转到该页面</span><br><span class="line">        alipayRequest.setReturnUrl(payBaseModel.getReturnUrl());</span><br><span class="line">        //判断传入的地址是否为http或者https开头  支付结果通知接口</span><br><span class="line">        alipayRequest.setNotifyUrl(payBaseModel.getNotifyUrl());</span><br><span class="line">        JSONObject json = new JSONObject();</span><br><span class="line">        json.put(&quot;out_trade_no&quot;, payBaseModel.getOutTradeNo());</span><br><span class="line">        json.put(&quot;total_amount&quot;, new DecimalFormat(&quot;0.00&quot;).format(new BigDecimal(payBaseModel.getTradeMoney())));</span><br><span class="line">        json.put(&quot;subject&quot;, payBaseModel.getTitle());</span><br><span class="line">        json.put(&quot;passback_params&quot;, payBaseModel.getAttach());</span><br><span class="line">        json.put(&quot;product_code&quot;, &quot;QUICK_WAP_PAY&quot;);</span><br><span class="line">        json.put(&quot;timeout_express&quot;,this.orderTimeOut+&quot;&quot;);</span><br><span class="line">        //填充业务参数</span><br><span class="line">        alipayRequest.setBizContent(json.toJSONString());</span><br><span class="line">        String form = &quot;&quot;;</span><br><span class="line">        AlipayClient alipayClient = new DefaultAlipayClient(this.url, this.appId,this.privateKey, </span><br><span class="line">                PayConstant.ALI_DEFAULT_FORMAT, PayConstant.DEFAULT_CHARSET, this.publicKey, PayConstant.ALI_DEFAULT_SIGNTYPE);</span><br><span class="line">        //调用SDK生成表单</span><br><span class="line">        form = alipayClient.pageExecute(alipayRequest).getBody();</span><br><span class="line">        resultMap.put(&quot;form&quot;,form);</span><br><span class="line">        return resultMap;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="WxAppPayStrategy"><a href="#WxAppPayStrategy" class="headerlink" title="WxAppPayStrategy"></a>WxAppPayStrategy</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.github.wxpay.sdk.WXPayConstants;</span><br><span class="line"><span class="keyword">import</span> com.github.wxpay.sdk.WXPayUtil;</span><br><span class="line"><span class="keyword">import</span> com.tubitu.util.date.DateUtil;</span><br><span class="line"><span class="keyword">import</span> com.tubitu.util.http.ContentTypeEnum;</span><br><span class="line"><span class="keyword">import</span> com.tubitu.util.pay.IPayStrategy;</span><br><span class="line"><span class="keyword">import</span> com.tubitu.util.pay.PayUtil;</span><br><span class="line"><span class="keyword">import</span> com.tubitu.util.pay.model.PayBaseModel;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.lang3.StringUtils;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> java.math.BigDecimal;</span><br><span class="line"><span class="keyword">import</span> java.util.Calendar;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="comment">//微信APP支付</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WxAppPayStrategy</span> <span class="keyword">implements</span> <span class="title">IPayStrategy</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> String url;</span><br><span class="line">    <span class="keyword">private</span> String appId;</span><br><span class="line">    <span class="keyword">private</span> String mchId;</span><br><span class="line">    <span class="keyword">private</span> String appKey;</span><br><span class="line">    <span class="keyword">private</span> String partnerId;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> orderTimeOut;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WxAppPayStrategy</span><span class="params">(String url, String appId, String mchId, String appKey, String partnerId, <span class="keyword">int</span> orderTimeOut)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.url = url;</span><br><span class="line">        <span class="keyword">this</span>.appId = appId;</span><br><span class="line">        <span class="keyword">this</span>.mchId = mchId;</span><br><span class="line">        <span class="keyword">this</span>.appKey = appKey;</span><br><span class="line">        <span class="keyword">this</span>.partnerId = partnerId;</span><br><span class="line">        <span class="keyword">this</span>.orderTimeOut = orderTimeOut;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Logger LOGGER = LoggerFactory.getLogger(WxAppPayStrategy.class);</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Map&lt;String, String&gt; <span class="title">excutePayOrder</span><span class="params">(PayBaseModel payBaseModel)</span> </span>&#123;</span><br><span class="line">        LOGGER.info(<span class="string">"**********************获取微信APP支付模板"</span> + payBaseModel.toString() + </span><br><span class="line">                <span class="string">"**************************************************"</span>);</span><br><span class="line">        Map&lt;String, String&gt; resultMap = <span class="keyword">null</span>;</span><br><span class="line">       </span><br><span class="line">            <span class="comment">//返回结果</span></span><br><span class="line">            resultMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        1 拼接参数向微信请求，获取prepare_id</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">            Map&lt;String, String&gt; paramMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">            paramMap.put(<span class="string">"appid"</span>, <span class="keyword">this</span>.appId);</span><br><span class="line">            paramMap.put(<span class="string">"body"</span>, payBaseModel.getTitle());</span><br><span class="line">            paramMap.put(<span class="string">"mch_id"</span>, <span class="keyword">this</span>.mchId);</span><br><span class="line">            <span class="comment">//后面返回给app时的nonceStr需要与这里的一致</span></span><br><span class="line">            String nonceStr = WXPayUtil.generateNonceStr();</span><br><span class="line">            paramMap.put(<span class="string">"nonce_str"</span>, nonceStr);</span><br><span class="line">            paramMap.put(<span class="string">"sign_type"</span>, WXPayConstants.MD5);</span><br><span class="line">            <span class="keyword">if</span> (!StringUtils.isEmpty(payBaseModel.getAttach())) &#123;</span><br><span class="line">                paramMap.put(<span class="string">"attach"</span>, payBaseModel.getAttach());</span><br><span class="line">            &#125;</span><br><span class="line">            paramMap.put(<span class="string">"out_trade_no"</span>, payBaseModel.getOutTradeNo());</span><br><span class="line">            <span class="comment">//微信支付必须乘以100</span></span><br><span class="line">            paramMap.put(<span class="string">"total_fee"</span>, <span class="keyword">new</span> BigDecimal(payBaseModel.getTradeMoney()).multiply(<span class="keyword">new</span> BigDecimal(<span class="string">"100"</span>)).intValue() + <span class="string">""</span>);</span><br><span class="line">            <span class="comment">//获取用户真实ip</span></span><br><span class="line">            paramMap.put(<span class="string">"spbill_create_ip"</span>, payBaseModel.getRealIp());</span><br><span class="line">            Date currDate = <span class="keyword">new</span> Date();</span><br><span class="line">            <span class="comment">//订单生成时间</span></span><br><span class="line">            paramMap.put(<span class="string">"time_start"</span>, DateUtil.formatDate(currDate, <span class="string">"yyyyMMddHHmmss"</span>));</span><br><span class="line">            <span class="comment">//订单失效时间</span></span><br><span class="line">            paramMap.put(<span class="string">"time_expire"</span>, DateUtil.formatDate(DateUtil.addDate(currDate, Calendar.MINUTE, <span class="keyword">this</span>.orderTimeOut), </span><br><span class="line">                    <span class="string">"yyyyMMddHHmmss"</span>));</span><br><span class="line">            <span class="comment">//异步回调</span></span><br><span class="line">            paramMap.put(<span class="string">"notify_url"</span>, payBaseModel.getNotifyUrl());</span><br><span class="line">            <span class="comment">//支付类型</span></span><br><span class="line">            <span class="comment">//app支付</span></span><br><span class="line">            paramMap.put(<span class="string">"trade_type"</span>, <span class="string">"APP"</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            paramMap.put(<span class="string">"sign"</span>, WXPayUtil.generateSignature(paramMap, <span class="keyword">this</span>.appKey, WXPayConstants.SignType.MD5));</span><br><span class="line">            LOGGER.info(<span class="string">"**********************微信支付参数集合:"</span> + paramMap + <span class="string">"**************************************************"</span>);</span><br><span class="line">            String xmlString = WXPayUtil.mapToXml(paramMap);</span><br><span class="line">            String entityString = PayUtil.post(<span class="keyword">this</span>.url,xmlString,ContentTypeEnum.TextXml.getContentType());</span><br><span class="line">            LOGGER.info(<span class="string">"**********************微信支付统一下单接口返回数据:"</span> + entityString + <span class="string">"**************************************************"</span>);</span><br><span class="line">            Map&lt;String, String&gt; wxXmlMap = WXPayUtil.xmlToMap(entityString);</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                2  此处组装返回给前端的参数集合</span></span><br><span class="line"><span class="comment">                */</span></span><br><span class="line">            <span class="comment">//组装返回给前端的数据</span></span><br><span class="line">            <span class="comment">//app支付   服务端返回App所需数据</span></span><br><span class="line">            resultMap.put(<span class="string">"appid"</span>, <span class="keyword">this</span>.appId);</span><br><span class="line">            resultMap.put(<span class="string">"noncestr"</span>, nonceStr);</span><br><span class="line">            resultMap.put(<span class="string">"partnerid"</span>, <span class="keyword">this</span>.partnerId);</span><br><span class="line">            resultMap.put(<span class="string">"prepayid"</span>, wxXmlMap.get(<span class="string">"prepay_id"</span>));</span><br><span class="line">            <span class="comment">//官方暂时规定为固定值</span></span><br><span class="line">            resultMap.put(<span class="string">"package"</span>, <span class="string">"Sign=WXPay"</span>);</span><br><span class="line">            resultMap.put(<span class="string">"timestamp"</span>, System.currentTimeMillis() / <span class="number">1000</span> + <span class="string">""</span>);</span><br><span class="line">            <span class="comment">//再次生成签名</span></span><br><span class="line">            resultMap.put(<span class="string">"sign"</span>, WXPayUtil.generateSignature(resultMap, <span class="keyword">this</span>.appKey, WXPayConstants.SignType.MD5));</span><br><span class="line">            resultMap.put(<span class="string">"out_trade_no"</span>, payBaseModel.getOutTradeNo());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            LOGGER.error(<span class="string">"\n********************请求微信统一下单接口异常********************"</span>,e);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> resultMap;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="WxWebPayStrategy"><a href="#WxWebPayStrategy" class="headerlink" title="WxWebPayStrategy"></a>WxWebPayStrategy</h3><p>由于微信小程序支付的请求逻辑和公众号内支付基本一致，唯一不同的就是appid和appSecret不同(appSecret用于公众号内和小程序内或者用户的openId，即使同一商家，公众号和小程序的appID和appSecret也不一致，而由此获得的同一个用户的openID也不一致），因此可以和公众号内使用相同的逻辑。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.github.wxpay.sdk.WXPayConstants;</span><br><span class="line"><span class="keyword">import</span> com.github.wxpay.sdk.WXPayUtil;</span><br><span class="line"><span class="keyword">import</span> com.tubitu.util.date.DateUtil;</span><br><span class="line"><span class="keyword">import</span> com.tubitu.util.http.ContentTypeEnum;</span><br><span class="line"><span class="keyword">import</span> com.tubitu.util.pay.IPayStrategy;</span><br><span class="line"><span class="keyword">import</span> com.tubitu.util.pay.PayConstant;</span><br><span class="line"><span class="keyword">import</span> com.tubitu.util.pay.PayUtil;</span><br><span class="line"><span class="keyword">import</span> com.tubitu.util.pay.model.PayBaseModel;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.lang3.StringUtils;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> java.math.BigDecimal;</span><br><span class="line"><span class="keyword">import</span> java.net.URLEncoder;</span><br><span class="line"><span class="keyword">import</span> java.util.Calendar;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="comment">//微信公众号/网页支付</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WxWebPayStrategy</span> <span class="keyword">implements</span> <span class="title">IPayStrategy</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> String url;</span><br><span class="line">    <span class="keyword">private</span> String appId;</span><br><span class="line">    <span class="keyword">private</span> String mchId;</span><br><span class="line">    <span class="keyword">private</span> String appKey;</span><br><span class="line">    <span class="keyword">private</span> String openId;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> orderTimeOut;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WxWebPayStrategy</span><span class="params">(String url, String appId, String mchId, String appKey, String openId, <span class="keyword">int</span> orderTimeOut)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.url = url;</span><br><span class="line">        <span class="keyword">this</span>.appId = appId;</span><br><span class="line">        <span class="keyword">this</span>.mchId = mchId;</span><br><span class="line">        <span class="keyword">this</span>.appKey = appKey;</span><br><span class="line">        <span class="keyword">this</span>.openId = openId;</span><br><span class="line">        <span class="keyword">this</span>.orderTimeOut = orderTimeOut;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Logger LOGGER = LoggerFactory.getLogger(WxWebPayStrategy.class);</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Map&lt;String, String&gt; <span class="title">excutePayOrder</span><span class="params">(PayBaseModel payBaseModel)</span> </span>&#123;</span><br><span class="line">        LOGGER.debug(<span class="string">"\n********************微信网页支付参数\n"</span> + payBaseModel.toString() + <span class="string">"\n********************"</span>);</span><br><span class="line">        Map&lt;String, String&gt; resultMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        Map&lt;String, String&gt; preParamMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        String nonceStr = WXPayUtil.generateNonceStr();</span><br><span class="line">        preParamMap.put(<span class="string">"appid"</span>, <span class="keyword">this</span>.appId);</span><br><span class="line">        preParamMap.put(<span class="string">"mch_id"</span>, <span class="keyword">this</span>.mchId);</span><br><span class="line">        preParamMap.put(<span class="string">"nonce_str"</span>, nonceStr);</span><br><span class="line">        preParamMap.put(<span class="string">"body"</span>, payBaseModel.getTitle());</span><br><span class="line">        preParamMap.put(<span class="string">"out_trade_no"</span>, payBaseModel.getOutTradeNo());</span><br><span class="line">        Date currDate = <span class="keyword">new</span> Date();</span><br><span class="line">        <span class="comment">//订单生成时间</span></span><br><span class="line">        preParamMap.put(<span class="string">"time_start"</span>, DateUtil.formatDate(currDate, <span class="string">"yyyyMMddHHmmss"</span>));</span><br><span class="line">        <span class="comment">//订单失效时间</span></span><br><span class="line">        preParamMap.put(<span class="string">"time_expire"</span>, DateUtil.formatDate(DateUtil.addDate(currDate, Calendar.MINUTE, <span class="keyword">this</span>.orderTimeOut),</span><br><span class="line">                <span class="string">"yyyyMMddHHmmss"</span>));</span><br><span class="line">        preParamMap.put(<span class="string">"total_fee"</span>, <span class="keyword">new</span> BigDecimal(payBaseModel.getTradeMoney()).multiply(<span class="keyword">new</span> BigDecimal(<span class="string">"100"</span>)).intValue() + <span class="string">""</span>);</span><br><span class="line">        preParamMap.put(<span class="string">"spbill_create_ip"</span>, payBaseModel.getRealIp());</span><br><span class="line">        LOGGER.debug(<span class="string">"************************spbill_create_ip"</span> + preParamMap.get(<span class="string">"spbill_create_ip"</span>) + <span class="string">"************************************"</span>);</span><br><span class="line">        preParamMap.put(<span class="string">"notify_url"</span>, payBaseModel.getNotifyUrl());</span><br><span class="line">        <span class="keyword">if</span> (StringUtils.isNotEmpty(payBaseModel.getAttach())) &#123;</span><br><span class="line">            preParamMap.put(<span class="string">"attach"</span>, payBaseModel.getAttach());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (StringUtils.isNotEmpty(<span class="keyword">this</span>.openId)) &#123;</span><br><span class="line">            <span class="comment">//公众号支付 或者 小程序</span></span><br><span class="line">            preParamMap.put(<span class="string">"openid"</span>, <span class="keyword">this</span>.openId);</span><br><span class="line">            preParamMap.put(<span class="string">"trade_type"</span>, <span class="string">"JSAPI"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//h5 页面支付</span></span><br><span class="line">            preParamMap.put(<span class="string">"trade_type"</span>, <span class="string">"MWEB"</span>);</span><br><span class="line">            <span class="comment">//需要注意的是H5 页面支付微信需要下面的场景信息，在最终页面提交支付请求的时候拿此处的referer里的数据与提交状态比对</span></span><br><span class="line">            preParamMap.put(<span class="string">"scene_info"</span>, <span class="string">"&#123;\"h5_info\": &#123;\"type\":\"Wap\",\"wap_url\": "</span> + payBaseModel.getReferer() + <span class="string">","</span> + <span class="string">"\"wap_name\":"</span> + <span class="string">" "</span> + <span class="string">"\"兔比兔\"&#125;&#125;"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            preParamMap.put(<span class="string">"sign"</span>, WXPayUtil.generateSignature(preParamMap, PayConstant.WX_APP_KEY));</span><br><span class="line">            String entityString = PayUtil.post(<span class="keyword">this</span>.url, WXPayUtil.mapToXml(preParamMap), ContentTypeEnum.TextXml</span><br><span class="line">                    .getContentType());</span><br><span class="line">            Map&lt;String, String&gt; wxXmlMap = WXPayUtil.xmlToMap(entityString);</span><br><span class="line">                    <span class="comment">/*</span></span><br><span class="line"><span class="comment">                    2  此处组装返回给前端的参数集合</span></span><br><span class="line"><span class="comment">                    */</span></span><br><span class="line">            LOGGER.debug(<span class="string">"**********************微信支付统一下单接口返回数据:"</span> + wxXmlMap +</span><br><span class="line">                    <span class="string">"**************************************************"</span>);</span><br><span class="line">            <span class="keyword">if</span> (StringUtils.isEmpty(<span class="keyword">this</span>.openId)) &#123;</span><br><span class="line">                String mwebUrl = wxXmlMap.get(<span class="string">"mweb_url"</span>) + <span class="string">"&amp;redirect_url="</span> + URLEncoder.encode(payBaseModel.getReturnUrl(),</span><br><span class="line">                        PayConstant.DEFAULT_CHARSET);</span><br><span class="line">                LOGGER.debug(<span class="string">"*****************  mweb_url = "</span> + mwebUrl + <span class="string">" ************************************************"</span>);</span><br><span class="line">                wxXmlMap.put(<span class="string">"mweb_url"</span>, mwebUrl);</span><br><span class="line">                resultMap.putAll(wxXmlMap);</span><br><span class="line">                resultMap.put(<span class="string">"code"</span>, <span class="number">100000</span> + <span class="string">""</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                resultMap.put(<span class="string">"appId"</span>, <span class="keyword">this</span>.appId);</span><br><span class="line">                resultMap.put(<span class="string">"timeStamp"</span>, System.currentTimeMillis() / <span class="number">1000</span> + <span class="string">""</span>);</span><br><span class="line">                resultMap.put(<span class="string">"nonceStr"</span>, nonceStr);</span><br><span class="line">                resultMap.put(<span class="string">"package"</span>, <span class="string">"prepay_id="</span> + wxXmlMap.get(<span class="string">"prepay_id"</span>));</span><br><span class="line">                resultMap.put(<span class="string">"signType"</span>, WXPayConstants.MD5);</span><br><span class="line">                resultMap.put(<span class="string">"paySign"</span>, WXPayUtil.generateSignature(resultMap, <span class="keyword">this</span>.appKey));</span><br><span class="line">                resultMap.put(<span class="string">"code"</span>, <span class="number">100000</span> + <span class="string">""</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            LOGGER.error(<span class="string">"\n********************请求微信统一下单接口异常********************"</span>,e);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> resultMap;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Http请求"><a href="#Http请求" class="headerlink" title="Http请求"></a>Http请求</h2><p>自己封装的用HttpClient发送Http请求的工具类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">post</span><span class="params">(String url, String stringEntity, String ContentType)</span></span>&#123;</span><br><span class="line">    String result = <span class="string">""</span>;</span><br><span class="line">    CloseableHttpClient httpClient = HttpClients.createDefault();</span><br><span class="line">    CloseableHttpResponse response = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        HttpPost httpPost = <span class="keyword">new</span> HttpPost(url);</span><br><span class="line">        RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(<span class="number">8000</span>).setConnectTimeout(<span class="number">6000</span>).build();</span><br><span class="line">        httpPost.setConfig(requestConfig);</span><br><span class="line">        StringEntity entity = <span class="keyword">new</span> StringEntity(stringEntity, PayConstant.DEFAULT_CHARSET);</span><br><span class="line">        httpPost.addHeader(<span class="string">"Content-Type"</span>, ContentType);</span><br><span class="line">        httpPost.addHeader(<span class="string">"User-Agent"</span>, <span class="string">"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)"</span>);</span><br><span class="line">        httpPost.setEntity(entity);</span><br><span class="line">        response = httpClient.execute(httpPost);</span><br><span class="line">        <span class="comment">//读取响应体转化为字符串  建议：确定目标地址发出有限长度的响应时，使用该方法</span></span><br><span class="line">        HttpEntity responseEntiry = response.getEntity();</span><br><span class="line">        <span class="comment">//不然使用流的方式好些</span></span><br><span class="line">        <span class="comment">/* if (entity != null) &#123;</span></span><br><span class="line"><span class="comment">            InputStream inputStream = entity.getContent();</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));</span></span><br><span class="line"><span class="comment">            String line = "";</span></span><br><span class="line"><span class="comment">            while ((line = bufferedReader.readLine()) != null) &#123;</span></span><br><span class="line"><span class="comment">                System.out.println(line);</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">            &#125;</span></span><br><span class="line"><span class="comment">        &#125;*/</span></span><br><span class="line">        result = EntityUtils.toString(responseEntiry, PayConstant.DEFAULT_CHARSET);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        LOGGER.error(<span class="string">"\n******************http post error**********************"</span>,e);</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            httpClient.close();</span><br><span class="line">            response.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            LOGGER.error(<span class="string">"\n********************close httpclient/response error********************"</span>,e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="策略枚举"><a href="#策略枚举" class="headerlink" title="策略枚举"></a>策略枚举</h2><p>枚举暴露给客户端，以生成不同策略。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> PayAlgorithm &#123;</span><br><span class="line">    <span class="comment">//支付宝客户端</span></span><br><span class="line">    ALI_APP,</span><br><span class="line">    <span class="comment">//支付宝页面端</span></span><br><span class="line">    ALI_WEB,</span><br><span class="line">    <span class="comment">//微信客户端</span></span><br><span class="line">    WX_APP,</span><br><span class="line">    <span class="comment">//微信页面端</span></span><br><span class="line">    WX_WEB,</span><br><span class="line">    <span class="comment">//微信小程序</span></span><br><span class="line">    WX_XCX;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="策略工厂"><a href="#策略工厂" class="headerlink" title="策略工厂"></a>策略工厂</h2><p>工厂创建策略时，需要传入策略所需的一些配置参数，本文中商户只有一个，因此只有一个创建默认商户的支付策略。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//支付工厂类，可以创建默认支付客户端，也可以创建自定义账户客户端</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PayFactory</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//创建默认支付客户端</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IPayStrategy <span class="title">createDefaultTubituStrategy</span><span class="params">(PayAlgorithm algorithm, String openId)</span></span>&#123;</span><br><span class="line">        IPayStrategy iPayStrategy = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">switch</span> (algorithm)&#123;</span><br><span class="line">            <span class="keyword">case</span> ALI_APP:</span><br><span class="line">                iPayStrategy = <span class="keyword">new</span> AliAppPayStrategy(PayConstant.ALI_ORDER_URL,PayConstant.ALI_APP_ID,PayConstant</span><br><span class="line">                        .ALI_PRIVATE_KEY,PayConstant.ALI_PUBLIC_KEY,<span class="number">30</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> ALI_WEB:</span><br><span class="line">                iPayStrategy = <span class="keyword">new</span> AliWebPayStrategy(PayConstant.ALI_ORDER_URL,PayConstant.ALI_APP_ID,PayConstant</span><br><span class="line">                        .ALI_PRIVATE_KEY,PayConstant.ALI_PUBLIC_KEY,<span class="number">30</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> WX_APP:</span><br><span class="line">                iPayStrategy = <span class="keyword">new</span> WxAppPayStrategy(PayConstant.WX_UNIFIEDORDER_URL,PayConstant.WX_APP_ID,</span><br><span class="line">                        PayConstant.WX_MCH_ID,PayConstant.WX_APP_KEY,PayConstant.WX_PARTNER_ID,<span class="number">30</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> WX_WEB:</span><br><span class="line">                iPayStrategy = <span class="keyword">new</span> WxWebPayStrategy(PayConstant.WX_UNIFIEDORDER_URL,PayConstant.WX_H5_APPID,</span><br><span class="line">                        PayConstant.WX_H5_MCHID,PayConstant.WX_APP_KEY,openId,<span class="number">30</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> WX_XCX:</span><br><span class="line">                iPayStrategy = <span class="keyword">new</span> WxWebPayStrategy(PayConstant.WX_UNIFIEDORDER_URL,PayConstant.WX_XCX_APPID,</span><br><span class="line">                        PayConstant.WX_H5_MCHID,PayConstant.WX_APP_KEY,openId,<span class="number">30</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> iPayStrategy;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="场景调用"><a href="#场景调用" class="headerlink" title="场景调用"></a>场景调用</h2><p>首先通过工厂创建指定策略，然后执行接口里的方法，Java能够动态绑定对应实现类。<br>以下代码适用于在controller里调用策略返回支付参数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">IPayStrategy strategy = PayFactory.createDefaultTubituStrategy(PayAlgorithm.WX_WEB,&quot;&quot;);</span><br><span class="line">PayBaseModel payBaseModel = new PayBaseModel(商品描述,回调接口,交易金额,商户订单编号,支付完跳转页面);</span><br><span class="line">Map&lt;String,String&gt; resultMap = strategy.excutePayOrder(payBaseModel);</span><br></pre></td></tr></table></figure></p>
+<p>需要注意的是，小程序支付和公众号内支付需要首先获取openId，所以中间需要一系列重定向和参数。<br><img src="/2018/12/24/pay/2.jpg" alt=""></p>
+<p>由于设置<code>redirect_url</code>后,回跳指定页面的操作可能发生在：</p>
+<ol>
+<li>微信支付中间页调起微信收银台后超过5秒</li>
+<li>用户点击“取消支付“或支付完成后点“完成”按钮。因此无法保证页面回跳时，支付流程已结束，所以商户设置的redirect_url地址不能自动执行查单操作，应让用户去点击按钮触发查单操作。</li>
+</ol>
+<h1 id="前端代码"><a href="#前端代码" class="headerlink" title="前端代码"></a>前端代码</h1><h2 id="公众号内支付"><a href="#公众号内支付" class="headerlink" title="公众号内支付"></a>公众号内支付</h2><h3 id="第一种方式"><a href="#第一种方式" class="headerlink" title="第一种方式"></a>第一种方式</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">onBridgeReady</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">   WeixinJSBridge.invoke(</span><br><span class="line">      <span class="string">'getBrandWCPayRequest'</span>, &#123;</span><br><span class="line">         <span class="string">"appId"</span>:<span class="string">"wx2421b1c4370ec43b"</span>,     <span class="comment">//公众号名称，由商户传入     </span></span><br><span class="line">         <span class="string">"timeStamp"</span>:<span class="string">"1395712654"</span>,         <span class="comment">//时间戳，自1970年以来的秒数     </span></span><br><span class="line">         <span class="string">"nonceStr"</span>:<span class="string">"e61463f8efa94090b1f366cccfbbb444"</span>, <span class="comment">//随机串     </span></span><br><span class="line">         <span class="string">"package"</span>:<span class="string">"prepay_id=u802345jgfjsdfgsdg888"</span>,     </span><br><span class="line">         <span class="string">"signType"</span>:<span class="string">"MD5"</span>,         <span class="comment">//微信签名方式：     </span></span><br><span class="line">         <span class="string">"paySign"</span>:<span class="string">"70EA570631E4BB79628FBCA90534C63FF7FADD89"</span> <span class="comment">//微信签名 </span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">if</span>(res.err_msg == <span class="string">"get_brand_wcpay_request:ok"</span> )&#123;</span><br><span class="line">      <span class="comment">// 使用以上方式判断前端返回,微信团队郑重提示：</span></span><br><span class="line">            <span class="comment">//res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。</span></span><br><span class="line">            <span class="comment">//此处可看作支付可能成功，跳转到成功页面</span></span><br><span class="line">            <span class="built_in">window</span>.location.replace(<span class="string">"index.html"</span>);</span><br><span class="line">      &#125; </span><br><span class="line">   &#125;); </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> WeixinJSBridge == <span class="string">"undefined"</span>)&#123;</span><br><span class="line">   <span class="keyword">if</span>( <span class="built_in">document</span>.addEventListener )&#123;</span><br><span class="line">       <span class="built_in">document</span>.addEventListener(<span class="string">'WeixinJSBridgeReady'</span>, onBridgeReady, <span class="literal">false</span>);</span><br><span class="line">   &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">document</span>.attachEvent)&#123;</span><br><span class="line">       <span class="built_in">document</span>.attachEvent(<span class="string">'WeixinJSBridgeReady'</span>, onBridgeReady); </span><br><span class="line">       <span class="built_in">document</span>.attachEvent(<span class="string">'onWeixinJSBridgeReady'</span>, onBridgeReady);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">   onBridgeReady();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="第二种方式"><a href="#第二种方式" class="headerlink" title="第二种方式"></a>第二种方式</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">wx.config(&#123;</span><br><span class="line">    debug: <span class="literal">true</span>, <span class="comment">// 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。</span></span><br><span class="line">    appId: <span class="string">''</span>, <span class="comment">// 必填，企业号的唯一标识，此处填写企业号corpid</span></span><br><span class="line">    timestamp: , <span class="comment">// 必填，生成签名的时间戳</span></span><br><span class="line">    nonceStr: <span class="string">''</span>, <span class="comment">// 必填，生成签名的随机串</span></span><br><span class="line">    signature: <span class="string">''</span>,<span class="comment">// 必填，签名，见附录1</span></span><br><span class="line">    jsApiList: [] <span class="comment">// 必填，需要使用的JS接口列表，所有JS接口列表见附录2</span></span><br><span class="line">&#125;);</span><br><span class="line">wx.ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">// config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。</span></span><br><span class="line">&#125;);</span><br><span class="line">wx.chooseWXPay(&#123;</span><br><span class="line">    appId: <span class="string">'wx23841cce7185b550'</span>,</span><br><span class="line">    timestamp: <span class="string">'1461300911'</span>, <span class="comment">// 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符</span></span><br><span class="line">    nonceStr: <span class="string">'5719aeafb587f'</span>, <span class="comment">// 支付签名随机串，不长于 32 位</span></span><br><span class="line">    package: <span class="string">'prepay_id=wx20160422125512b7d2205c9c0913643939'</span>, <span class="comment">// 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）</span></span><br><span class="line">    signType: <span class="string">'MD5'</span>, <span class="comment">// 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'</span></span><br><span class="line">    paySign: <span class="string">'5DAB1DDABE1AD34E8FF3386AE971B727'</span>, <span class="comment">// 支付签名</span></span><br><span class="line">    success: <span class="function"><span class="keyword">function</span>(<span class="params">res</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 支付成功后的回调函数</span></span><br><span class="line">    <span class="keyword">if</span> (res.errMsg == <span class="string">"chooseWXPay:ok"</span>) &#123;</span><br><span class="line">    <span class="comment">//支付成功</span></span><br><span class="line">    alert(<span class="string">'支付成功'</span>);</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">    alert(res.errMsg);</span><br><span class="line">    &#125;</span><br><span class="line">        &#125;,  </span><br><span class="line">    cancel: <span class="function"><span class="keyword">function</span>(<span class="params">res</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//支付取消</span></span><br><span class="line">    alert(<span class="string">'支付取消'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+<p>这里可以看到公众号内支付实际上有两种方式，第一种是jsapi的模式，微信浏览器内部有jsapi直接可以调用，第二种为js-sdk的方式，但是两种方式都需要引入微信的js。<br>http：//res.wx.qq.com/js/jwexin-1.2.0.js</p>
+<p>第二种方式可以看到多了一个signature的签名参数，大概提一下如何获取：</p>
+<ol>
+<li>获取AccessToken</li>
+<li>获取jsapi_ticket</li>
+<li>生成signature</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//获取微信token</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getAccessToken</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//获取token</span></span><br><span class="line">    String tokenParam = <span class="string">"grant_type=client_credential&amp;appid="</span> + WxPayConfig.APPID + <span class="string">"&amp;secret="</span></span><br><span class="line">            + WxPayConfig.APPSECRET;</span><br><span class="line">    <span class="comment">//这一步的发送请求工具类请自己实现</span></span><br><span class="line">    String tokenJsonStr = HttpUtil.sendGET(<span class="string">"https://api.weixin.qq.com/cgi-bin/token"</span>, tokenParam);</span><br><span class="line">    Map&lt;String,String&gt; tokenMap = JSONObject.fromObject(tokenJsonStr);</span><br><span class="line">    System.out.println(tokenMap);</span><br><span class="line">    <span class="comment">// 获取access_token</span></span><br><span class="line">    String access_token = (String) tokenMap.get(<span class="string">"access_token"</span>);</span><br><span class="line">    <span class="keyword">return</span> access_token;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//获取jsapi_ticket</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getJsApiTicket</span><span class="params">(String accessToken)</span></span>&#123;</span><br><span class="line">    String ticketParam = <span class="string">"access_token="</span> + accessToken + <span class="string">"&amp;type=jsapi"</span>;</span><br><span class="line">    String ticketJsonStr = HttpUtil.sendGET(<span class="string">"https://api.weixin.qq.com/cgi-bin/ticket/getticket"</span>, ticketParam);</span><br><span class="line">    Map&lt;String,String&gt; ticketMap = JSONObject.fromObject(ticketJsonStr);</span><br><span class="line">    <span class="comment">// 获取jsapi_ticket</span></span><br><span class="line">    String ticket = (String) ticketMap.get(<span class="string">"ticket"</span>);</span><br><span class="line">    <span class="keyword">return</span> ticket;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//生成signature</span></span><br><span class="line">String url = PayConstant.PAY_DOMAIN;<span class="comment">//微信授权的网址 这个要看微信公众号设置</span></span><br><span class="line">String signValue = <span class="string">"jsapi_ticket="</span> + ticket + <span class="string">"&amp;noncestr="</span> + noncestr + <span class="string">"×tamp="</span> + timestamp</span><br><span class="line">            + <span class="string">"&amp;url="</span> + url;</span><br><span class="line">String signature = Sha1Util.getSha1((signValue))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getSha1</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (str == <span class="keyword">null</span> || str.length() == <span class="number">0</span>) &#123;</span><br><span class="line">	    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="keyword">char</span> hexDigits[] = &#123;<span class="string">'0'</span>, <span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>, <span class="string">'4'</span>, <span class="string">'5'</span>, <span class="string">'6'</span>, <span class="string">'7'</span>, <span class="string">'8'</span>, <span class="string">'9'</span>,<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>, <span class="string">'e'</span>, <span class="string">'f'</span>&#125;;</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		MessageDigest mdTemp = MessageDigest.getInstance(<span class="string">"SHA1"</span>);</span><br><span class="line">		mdTemp.update(str.getBytes(<span class="string">"GBK"</span>));</span><br><span class="line">		<span class="keyword">byte</span>[] md = mdTemp.digest();</span><br><span class="line">		<span class="keyword">int</span> j = md.length;</span><br><span class="line">		<span class="keyword">char</span> buf[] = <span class="keyword">new</span> <span class="keyword">char</span>[j * <span class="number">2</span>];</span><br><span class="line">		<span class="keyword">int</span> k = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; j; i++) &#123;</span><br><span class="line">			<span class="keyword">byte</span> byte0 = md[i];</span><br><span class="line">			buf[k++] = hexDigits[byte0 &gt;&gt;&gt; <span class="number">4</span> &amp; <span class="number">0xf</span>];</span><br><span class="line">			buf[k++] = hexDigits[byte0 &amp; <span class="number">0xf</span>];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> String(buf);</span><br><span class="line">	&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="回调函数"><a href="#回调函数" class="headerlink" title="回调函数"></a>回调函数</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//处理微信回调请求</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Map&lt;String, String&gt; <span class="title">resolveWXPayResponse</span><span class="params">(HttpServletRequest request, String appkey)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    LOGGER.info(<span class="string">"***************************************处理微信回调request域********************************************"</span>);</span><br><span class="line">    ByteArrayOutputStream outSteam = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">    InputStream inStream = request.getInputStream();</span><br><span class="line">    <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">    <span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> ((len = inStream.read(buffer)) != -<span class="number">1</span>) &#123;</span><br><span class="line">        outSteam.write(buffer, <span class="number">0</span>, len);</span><br><span class="line">    &#125;</span><br><span class="line">    outSteam.close();</span><br><span class="line">    inStream.close();</span><br><span class="line">    String result = <span class="keyword">new</span> String(outSteam.toByteArray(), PayConstant.DEFAULT_CHARSET);</span><br><span class="line">    LOGGER.info(<span class="string">"***************************************微信返回结果"</span> + result + <span class="string">"********************************************"</span>);</span><br><span class="line">    Map&lt;String, String&gt; resultMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    <span class="keyword">if</span> (!StringUtils.isEmpty(result)) &#123;</span><br><span class="line">        Map&lt;String, String&gt; map = WXPayUtil.xmlToMap(result);</span><br><span class="line">        <span class="comment">//验签</span></span><br><span class="line">        <span class="keyword">if</span> (WXPayUtil.isSignatureValid(map, appkey, WXPayConstants.SignType.MD5)) &#123;</span><br><span class="line">            String attach = map.get(<span class="string">"attach"</span>);</span><br><span class="line">            LOGGER.info(<span class="string">"***************************************微信自定义参数"</span> + attach + <span class="string">"********************************************"</span>);</span><br><span class="line">            LOGGER.info(<span class="string">"***************************************商户订单号    ："</span> + map.get(<span class="string">"out_trade_no"</span>) + <span class="string">"********************************************"</span>);</span><br><span class="line">            resultMap = map;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            resultMap.put(<span class="string">"return_code"</span>, <span class="string">"FAIL"</span>);</span><br><span class="line">            resultMap.put(<span class="string">"return_msg"</span>, <span class="string">"验签失败"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> resultMap;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//处理支付宝回调请求</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Map&lt;String, String&gt; <span class="title">resolveAliPayResponse</span><span class="params">(HttpServletRequest request)</span> <span class="keyword">throws</span> UnsupportedEncodingException, AlipayApiException </span>&#123;</span><br><span class="line">    Map&lt;String, String&gt; result = <span class="keyword">new</span> HashMap();</span><br><span class="line">    LOGGER.info(<span class="string">"***************************************处理支付宝回调request域********************************************"</span>);</span><br><span class="line">    <span class="comment">//1.从支付宝回调的request域中取值</span></span><br><span class="line">    Map&lt;String, String[]&gt; requestParams = request.getParameterMap();</span><br><span class="line">    <span class="keyword">for</span> (Iterator&lt;String&gt; iter = requestParams.keySet().iterator(); iter.hasNext(); ) &#123;</span><br><span class="line">        String name = iter.next();</span><br><span class="line">        String[] values = requestParams.get(name);</span><br><span class="line">        String valueStr = <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; values.length; i++) &#123;</span><br><span class="line">            valueStr = (i == values.length - <span class="number">1</span>) ? valueStr + values[i] : valueStr + values[i] + <span class="string">","</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        result.put(name, valueStr);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//2.签名验证(对支付宝返回的数据验证，确定是支付宝返回的)</span></span><br><span class="line">    <span class="keyword">boolean</span> signVerified;</span><br><span class="line">    <span class="comment">//2.1调用SDK验证签名</span></span><br><span class="line">    signVerified = AlipaySignature.rsaCheckV1(result, PayConstant.ALI_PUBLIC_KEY, PayConstant.DEFAULT_CHARSET, PayConstant.ALI_DEFAULT_SIGNTYPE);</span><br><span class="line">    <span class="keyword">if</span> (signVerified) &#123;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于设置<code>redirect_url</code>后，回跳指定页面的操作可能发生在：</p>
+<ol>
+<li>微信支付中间页调起微信收银台后超过5秒</li>
+<li>用户点击“取消支付“或支付完成后点“完成”按钮。因此无法保证页面回跳时，支付流程已结束，所以商户设置的redirect_url地址不能自动执行查单操作，应让用户去点击按钮触发查单操作</li>
+</ol>
+<h1 id="微信公众号支付"><a href="#微信公众号支付" class="headerlink" title="微信公众号支付"></a>微信公众号支付</h1><p><a href="https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1" target="_blank" rel="noopener">官方文档</a><br>微信网页支付时序图：<br><img src="/2018/12/24/pay/3.png" alt=""></p>
+<p>需要准备：</p>
+<ul>
+<li><a href="https://mp.weixin.qq.com/" target="_blank" rel="noopener">微信公众平台已认证的服务号</a>，并且需要开通微信支付该能（必须是企业才有资格申请，找产品或运营去申请）</li>
+<li><a href="https://pay.weixin.qq.com" target="_blank" rel="noopener">微信商户平台账号</a></li>
+<li>一个正式的应用服务器，并且注册域名，微信支付涉及的私密数据比较多，不允许使用natapp，花生壳之类的内网穿透工具实现，需要有正式的服务器环境，并且要注册域名，不能使用IP。正确的地址示例：<code>http://www.wjy.com</code></li>
+<li>相关配置<ul>
+<li>配置支付授权目录，登录商户平台-&gt;产品中心—&gt;开发配置-&gt;支付配置<br>在项目根路径下，以及web目录下的页面都有支付权限，如果不在该路径的页面，则无法调用支付功能。注：是前端页面的地址<br>若页面地址为：<code>http://mywexx.xxxx.com/web/pay.html</code><br>则需要配置为：<code>http://mywexx.xxxx.com/web/</code></li>
+<li>设置API密钥，登录商户平台——&gt;账户中心——&gt;API安全——&gt;API密钥</li>
+<li>配置网页授权域名，登录公众平台——&gt;公众号设置——&gt;功能设置<br>配置网页授权域名主要用于获取用户的openId，需要识别这是哪个人，这个域名必须和<code>获取用户授权</code>时的接口一致。注：是前端页面的地址<br>然后按照提示，将文件下载并上传到<code>网页授权域名</code>目录下，并且在浏览器，测试访问，<code>http://www.baidu.com/你的文件名.txt</code>看到一串字符串，证明成功。(可以通过nginx访问该文件)<br>若对openID不了解的同学可先参考微信公众号开发文档：<a href="https://mp.weixin.qq.com/wiki" target="_blank" rel="noopener">https://mp.weixin.qq.com/wiki</a></li>
+<li>配置JS接口安全域名：要让我们的页面中弹出输入密码的窗口，需要使用微信提供的JS-SDK工具，如果不配置JS接口安全域名，你的页面无法使用JS-SDK。</li>
+<li>设置IP白名单：登录公众平台-&gt;基本配置-&gt;IP白名单，然后根据提示添加，这里同时添加两个，<br>一个是本机的外网ip(通过百度搜索<code>IP</code>即可查看)，另外一个是服务器的ip地址。<br>必须设置IP白名单，因为在IP白名单内的IP来源，获取access_token接口才可调用成功。注：是后台的ip地址</li>
+</ul>
+</li>
+</ul>
+<p>公众号开通微信支付，是在微信商户平台完成的，绑定完成后，可以在公众号看到绑定的商户号。<a href="https://pay.weixin.qq.com/static/pay_setting/appid_protocol.shtml" target="_blank" rel="noopener">这是绑定教程</a><br>可以先找商户平台所有者(超级管理员)，把自己的微信绑定为管理员：顶部点击账号中心-&gt;左侧找到员工账号管理-&gt;右侧找到管理员，点击新增账号-&gt;然后可能需要安装安全控件。<br>安装控件之后，可能需要重启浏览器，才能检测到安全控件，所以需要重新登录，然后发送验证，就成功在本机上安装安全控件了。安装好控件之后，就可以将自己的微信号绑定为管理员了。<br>注意提交的时候，需要输入<code>操作密码</code>，该密码不是商户平台的登录密码，是操作密码。<br>根据<a href="https://pay.weixin.qq.com/static/pay_setting/appid_protocol.shtml" target="_blank" rel="noopener">绑定教程</a>，输入公众号的appID后，可以在绑定的公众号-&gt;商户号管理，看到待关联商户号，可以确认以及后续步骤，即可成功关联。</p>
+<p>商户的API密钥：商户平台账户中心-&gt;API安全-&gt;往下拉找到<code>API密钥</code>-&gt;如果没有设置过，可以重置，不过这个需要自己设置，我随便找了个32密码生成填进去了，这个密码要记录在项目中，调用微信接口时要用到。</p>
+<p>登录微信公众平台，拉到页面最下边，在左侧找到开发一栏，点击基本配置，需要点击确认申请开通，然后就可以看到AppID和其他配置信息。<br>AppSecret需要向该公众号的管理员申请开通，30分钟内通过即可，然后输入该公众号密码，即可查看到AppSecret，按照页面提示存储好AppSecret，并进行后续操作。</p>
+<p>此处是账号模板,请参考：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">微信公众平台：账户：con*******om 登录密码 ******</span><br><span class="line">公众APPID：wx15*********a8</span><br><span class="line">APPSECEPT : c210***************892d7</span><br><span class="line">微信商户平台：账户：149**********6742 登录密码：******</span><br><span class="line">商户ID：14******42</span><br><span class="line">API密钥：5d5************b35b</span><br></pre></td></tr></table></figure></p>
+<p>至此，需要的四大参数都找到了。可以先<a href="https://mp.weixin.qq.com/debug/" target="_blank" rel="noopener">测试一下</a>我们的配置是否有问题，如果返回<code>Request successful</code>，以及<code>access_token</code>和<code>expires_in</code>，说明配置没问题。</p>
+<p>我们直接把微信官方提供的一堆util，放到项目中，懒得打jar包了。</p>
+<h2 id="获取用户授权"><a href="#获取用户授权" class="headerlink" title="获取用户授权"></a>获取用户授权</h2><p>在确保微信公众账号拥有授权作用域（scope参数）的权限的前提下（服务号获得高级接口后，默认拥有scope参数中的snsapi_base和snsapi_userinfo），引导关注者打开如下页面：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">https://open.weixin.qq.com/connect/oauth2/authorize</span><br><span class="line">?appid=APPID</span><br><span class="line">&amp;redirect_uri=REDIRECT_URI</span><br><span class="line">&amp;response_type=code</span><br><span class="line">&amp;scope=SCOPE</span><br><span class="line">&amp;state=STATE#wechat_redirect</span><br></pre></td></tr></table></figure></p>
+<p>参数解析：<br>appid：公众号的唯一标识<br>redirect_uri：授权后重定向的回调链接地址，这个地址和前端要，请使用urlEncode对链接进行处理，注意这个回调地址不能带端口，只能是80，也就是说只能是域名<br>response_type：返回类型，请填写code，写死<br>scope：应用授权作用域，snsapi_base （不弹出授权页面，直接跳转，只能获取用户openid），snsapi_userinfo （弹出授权页面，可通过openid拿到昵称、性别、所在地。并且，即使在未关注的情况下，只要用户授权，也能获取其信息）<br>state：重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值，最多128字节<br><code>#wechat_redirect</code>：无论直接打开还是做页面302重定向时候，必须带此参数</p>
+<p>若提示“该链接无法访问”，请检查参数是否填写错误，是否拥有scope参数对应的授权作用域权限。<br>尤其注意，由于授权操作安全等级较高，所以在发起授权请求时，微信会对授权链接做正则强匹配校验，如果链接的参数顺序不对，授权页面将无法正常访问。</p>
+<p>这一步其实就是引导用户打开授权页面，如果用户同意授权，页面将跳转至<code>redirect_uri/?code=CODE&amp;state=STATE</code>。<br>code说明：code作为换取access_token的票据，每次用户授权带上的code将不一样，code只能使用一次，5分钟未被使用自动过期。<br>由于公众号的secret和获取到的access_token安全级别都非常高，必须只保存在服务器，不允许传给客户端。后续刷新access_token、通过access_token获取用户信息等步骤，也必须从服务器发起。<br>既然必须从服务器发起，所以后台接口如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: wjy</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>: 微信公众号支付入口：指引用户授权，获取code</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"wxAuthorization"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> ModelAndView <span class="title">weiXinPublicPay</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	LOGGER.debug(<span class="string">"*************获取code***********************************************"</span>);</span><br><span class="line">	ModelAndView mv = <span class="keyword">new</span> ModelAndView();</span><br><span class="line">	String rediretUrl = PayUtil.getProjectUrl(<span class="keyword">this</span>.request) + <span class="string">"zjx/api/pay/perPay"</span>;</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		String url = <span class="string">"https://open.weixin.qq.com/connect/oauth2/authorize?"</span></span><br><span class="line">				+ <span class="string">"appid="</span> + PayConstant.WX_H5_APPID</span><br><span class="line">				+ <span class="string">"&amp;redirect_uri="</span> + URLEncoder.encode(rediretUrl, PayConstant.DEFAULT_CHARSET)</span><br><span class="line">				+ <span class="string">"&amp;response_type=code&amp;scope=snsapi_base&amp;state=123#wechat_redirect"</span>;</span><br><span class="line">				<span class="comment">//这里必须是重定向</span></span><br><span class="line">		mv.setViewName(<span class="string">"redirect:"</span> + url);</span><br><span class="line">	&#125; <span class="keyword">catch</span> (UnsupportedEncodingException e) &#123;</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line">	LOGGER.debug(<span class="string">"**********重定向到微信"</span> + mv.getViewName() + <span class="string">"******************************************"</span>);</span><br><span class="line">	<span class="keyword">return</span> mv;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注意上边的<code>redirect_uri</code>，可以是前台地址也可以是后台接口，反正微信会把code拼接到<code>redirect_uri</code>的地址栏后边。<br>若是前台地址，让前端在地址栏获取<code>code</code>参数，然后再次调用<code>perPay</code>预支付接口，并传递<code>code</code>参数，后台通过<code>@requestParam</code>获取前端传递的code参数。<br>若是后台地址，我们直接在接口上用<code>@requestParam</code>获取code参数，然后通过code换取<code>access_token</code>和<code>openid</code>。<br>这两地方法的区别是，<code>redirect_uri</code>填写前台地址，会多跳一次页面，然后前台再把code传回来，<code>redirect_uri</code>填写后台地址，就不用前端传递code参数，<br>过程是：</p>
+<ul>
+<li>授权接口重定向到微信</li>
+<li>微信重定向你指定的<code>redirect_uri</code>，并在地址栏带上code</li>
+<li>前端通过code请求预支付接口<br>code作为换取access_token的票据，每次用户授权带上的code将不一样，code只能使用一次，5分钟未被使用自动过期，所以不能缓存。</li>
+</ul>
+<p>预支付接口只需要用户的openid，一个用户对于一个公众号的openid是不会变的，所以没必要非要在请求预支付的时候才通过code换取openid，可以在进入公众号就获取授权，然后获取openid，<br>然后让前端缓存在本地，或是通过接口存到数据库中，这样在请求预支付接口时，直接传递存储好的openid就好了。</p>
+<p>调用预支付接口代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span> 公众号支付(JSAPI)</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> Map</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"perPay"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Map <span class="title">perPay</span><span class="params">(@RequestParam(<span class="string">"openid"</span>)</span> String openid) </span>&#123;</span><br><span class="line">        LOGGER.info(<span class="string">"&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;openid是 "</span> + openid +<span class="string">"&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span>);</span><br><span class="line">        Map&lt;String, String&gt; resultMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//生成订单编号</span></span><br><span class="line">            <span class="keyword">int</span> number = (<span class="keyword">int</span>)((Math.random()*<span class="number">9</span>)*<span class="number">1000</span>);<span class="comment">//随机数</span></span><br><span class="line">            DateFormat dateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyyMMddHHmmss"</span>);<span class="comment">//时间</span></span><br><span class="line">            String orderNo = dateFormat.format(<span class="keyword">new</span> Date()) + number;</span><br><span class="line">            <span class="comment">//拼接统一下单地址参数</span></span><br><span class="line">            Map&lt;String, String&gt; paraMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">            paraMap.put(<span class="string">"appid"</span>, PayConstant.WX_H5_APPID);</span><br><span class="line">            paraMap.put(<span class="string">"mch_id"</span>, PayConstant.WX_H5_MCHID);</span><br><span class="line">            paraMap.put(<span class="string">"body"</span>, <span class="string">"最美课本支付测试"</span>);</span><br><span class="line">            paraMap.put(<span class="string">"nonce_str"</span>,WXPayUtil.generateNonceStr());</span><br><span class="line">            paraMap.put(<span class="string">"openid"</span>, openid);</span><br><span class="line">            paraMap.put(<span class="string">"out_trade_no"</span>, orderNo);</span><br><span class="line">            paraMap.put(<span class="string">"spbill_create_ip"</span>,HttpUtil.getIpAddr(<span class="keyword">this</span>.request));</span><br><span class="line">            paraMap.put(<span class="string">"total_fee"</span>,<span class="keyword">new</span> BigDecimal(<span class="string">"0.01"</span>).multiply(<span class="keyword">new</span> BigDecimal(<span class="string">"100"</span>)).intValue() + <span class="string">""</span>);</span><br><span class="line">            paraMap.put(<span class="string">"trade_type"</span>, <span class="string">"JSAPI"</span>);</span><br><span class="line">            paraMap.put(<span class="string">"notify_url"</span>, PayUtil.getProjectUrl(<span class="keyword">this</span>.request) + <span class="string">"zjx/api/wxNotify"</span>);</span><br><span class="line">            paraMap.put(<span class="string">"sign"</span>, WXPayUtil.generateSignature(paraMap, PayConstant.WX_H5_APP_KEY));<span class="comment">//和下面sign方法一致，不是说参数一致。</span></span><br><span class="line">            <span class="comment">//将所有参数(map)转xml格式</span></span><br><span class="line">            String xml = WXPayUtil.mapToXml(paraMap);</span><br><span class="line">            LOGGER.info(<span class="string">"*******************请求微信参数"</span>+xml);</span><br><span class="line">            <span class="comment">//发送post请求"统一下单接口"返回预支付id：prepay_id</span></span><br><span class="line">            String wxReturnStr = PayUtil.post(PayConstant.WX_UNIFIEDORDER_URL, xml, ContentTypeEnum.TextXml.getContentType());</span><br><span class="line"></span><br><span class="line">            Map&lt;String, String&gt; wxXmlMap = WXPayUtil.xmlToMap(wxReturnStr);</span><br><span class="line">            LOGGER.info(<span class="string">"**********************微信统一下单接口返回数据:"</span> + wxXmlMap + <span class="string">"*****************************************"</span>);</span><br><span class="line">            <span class="comment">//组装返回给前端的数据</span></span><br><span class="line">            resultMap.put(<span class="string">"appId"</span>, PayConstant.WX_H5_APPID);</span><br><span class="line">            resultMap.put(<span class="string">"timeStamp"</span>, WXPayUtil.getCurrentTimestamp()+<span class="string">""</span>);</span><br><span class="line">            resultMap.put(<span class="string">"nonceStr"</span>, WXPayUtil.generateNonceStr());</span><br><span class="line">            resultMap.put(<span class="string">"signType"</span>, <span class="string">"MD5"</span>);</span><br><span class="line">            resultMap.put(<span class="string">"package"</span>, <span class="string">"prepay_id="</span> + wxXmlMap.get(<span class="string">"prepay_id"</span>));</span><br><span class="line">			<span class="comment">//注意这里的签名方法需要和上边paramMap中sign的方法一致，app_key也必须一致</span></span><br><span class="line">            resultMap.put(<span class="string">"paySign"</span>, WXPayUtil.generateSignature(resultMap, PayConstant.WX_H5_APP_KEY));</span><br><span class="line">            LOGGER.info(<span class="string">"**********************返回给前端的数据:"</span> + resultMap + <span class="string">"*****************************************"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> resultMap;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>支付成功的回调：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"wxBuySpaceNotify"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">wxBuySpaceNotify</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		Map&lt;String, String&gt; map = PayUtil.resolveWXPayResponse(<span class="keyword">this</span>.request, PayConstant.WX_H5_APP_KEY);</span><br><span class="line">		LOGGER.info(<span class="string">"****************微信支付回调参数:"</span> + JSONObject.toJSONString(map) + <span class="string">"***************************"</span>);</span><br><span class="line">		<span class="keyword">if</span> (map.size() &gt;= <span class="number">2</span>) &#123;</span><br><span class="line">			<span class="comment">//执行回调逻辑</span></span><br><span class="line">			map = payService.buySpaceCallback(map);</span><br><span class="line">			<span class="comment">//内部逻辑是否执行成功</span></span><br><span class="line">			<span class="keyword">int</span> resultCode = Integer.valueOf(map.get(<span class="string">"dealSuccess"</span>));</span><br><span class="line">			map.clear();</span><br><span class="line">			<span class="keyword">if</span> (resultCode == <span class="number">1</span>) &#123;</span><br><span class="line">				<span class="comment">//处理成功</span></span><br><span class="line">				map.put(<span class="string">"return_code"</span>, <span class="string">"SUCCESS"</span>);</span><br><span class="line">				LOGGER.info(<span class="string">"\n********************微信支付回调成功********************"</span>);</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				map.put(<span class="string">"return_code"</span>, <span class="string">"FAIL"</span>);</span><br><span class="line">				map.put(<span class="string">"return_msg"</span>, <span class="string">"业务处理失败"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			response.getWriter().write(WXPayUtil.mapToXml(map));</span><br><span class="line">			response.getWriter().flush();</span><br><span class="line">			response.getWriter().close();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">		<span class="comment">//告诉微信业务失败</span></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Map&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">			map.put(<span class="string">"return_code"</span>, <span class="string">"FAIL"</span>);</span><br><span class="line">			map.put(<span class="string">"return_msg"</span>, <span class="string">"业务处理失败"</span>);</span><br><span class="line">			response.getWriter().write(WXPayUtil.mapToXml(map));</span><br><span class="line">			response.getWriter().flush();</span><br><span class="line">			response.getWriter().close();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e1) &#123;</span><br><span class="line">			LOGGER.info(<span class="string">"\n********************微信支付回调响应异常********************"</span>, e);</span><br><span class="line">		&#125;</span><br><span class="line">		LOGGER.info(<span class="string">"\n********************微信支付回调异常********************"</span>, e);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>关键就这两个方法，一个预支付，微信返回perpay_id，你返回给前端，前端通过perpay_id调起支付组件，若完成支付，微信会回调你设置的notify_url地址，这就是你支付成功的回调地址。<br>你要在回调方法里写一些业务相关的逻辑，比如：更改订单状态为已支付，以及赠送会员等后续操作。</p>
+<p><a href="https://www.jianshu.com/p/9c322b1a5274" target="_blank" rel="noopener">公众号支付参考1</a><br><a href="https://blog.csdn.net/javaYouCome/article/details/79473743" target="_blank" rel="noopener">公众号支付参考2</a></p>
+<h1 id="微信app支付"><a href="#微信app支付" class="headerlink" title="微信app支付"></a>微信app支付</h1><p><a href="https://pay.weixin.qq.com/index.php/core/home/login?return_url=%2F" target="_blank" rel="noopener">官网</a><br><a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=8_1" target="_blank" rel="noopener">开发文档</a></p>
+<p><img src="/2018/12/24/pay/4.png" alt="微信支付时序图"><br>微信这图做的，老子真想骂街。</p>
+<p>必要参数：<br>appid：微信开放平台审核通过的应用APPID（请登录open.weixin.qq.com查看，注意与公众号的APPID不同）<br>mch_id：微信支付分配的商户号<br>nonce_str：随机字符串<br>body：内容<br>out_trade_no：商户订单号<br>fee_type：货币类型<br>total_fee：总金额<br>spbill_create_ip：终端IP(一般为服务器本机:127.0.0.1)<br>notify_url：回调url<br>trade_type：交易类型(APP)<br>这些参数生成签名，参数注释参考官方文档。<br>将生成的签名连同这些参数一起生成xml报文请求统一下单api。</p>
+<p>统一下单api成功后会返回prepayid(预支付交易会话标识)，将<br><code>appid，prepayid，partnerid(商户号)，package(Sign=WXPay)，noncestr，timestamp</code><br>这些参数再次进行签名，再将签名，连同这些参数发送到app端供其调用完成。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">@ResponseBody</span><br><span class="line">@PostMapping(&quot;appBuySapcePerPay&quot;)</span><br><span class="line">public ResponseUtil appBuySapcePerPay(@RequestBody Map&lt;String,String&gt; paramMap) &#123;</span><br><span class="line">	LOGGER.info(&quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;前端请求参数是 &quot; + paramMap +&quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&quot;);</span><br><span class="line">	Map&lt;String, String&gt; resultMap = new HashMap&lt;&gt;();</span><br><span class="line">	ResponseUtil response = ResponseUtil.success();</span><br><span class="line">	CodeEnum code = CodeEnum.FAIL;</span><br><span class="line">	try &#123;</span><br><span class="line">		Token token = TokenUtil.getToken(request.getHeader(&quot;token&quot;));</span><br><span class="line">		//验证前端传的价格是否正确</span><br><span class="line">		Integer price = Integer.parseInt(paramMap.get(&quot;price&quot;));</span><br><span class="line">		AssertUtil.assertValidate(code,CodeEnum.ERROR_2001.getCode(),&quot;购买空间价格错误&quot;,price.equals(sapcePrice));</span><br><span class="line"></span><br><span class="line">		//前端传过来的订单号</span><br><span class="line">		String orderNo = paramMap.get(&quot;order_no&quot;);</span><br><span class="line">		//生成订单</span><br><span class="line">		orderNo = generateSpaceOrder(paramMap, token, price, orderNo, 1);</span><br><span class="line"></span><br><span class="line">		//拼接统一下单地址参数(共10个必须参数)</span><br><span class="line">		Map&lt;String, String&gt; toWxMap = new HashMap&lt;&gt;();</span><br><span class="line">		toWxMap.put(&quot;appid&quot;, PayConstant.PARENT_APP_WX_APPID);</span><br><span class="line">		toWxMap.put(&quot;mch_id&quot;, PayConstant.WX_H5_MCHID);</span><br><span class="line">		toWxMap.put(&quot;nonce_str&quot;,WXPayUtil.generateNonceStr());</span><br><span class="line">		toWxMap.put(&quot;body&quot;, &quot;最美课本-孩子空间VIP&quot;);</span><br><span class="line">		toWxMap.put(&quot;out_trade_no&quot;, orderNo);</span><br><span class="line">		toWxMap.put(&quot;spbill_create_ip&quot;,HttpUtil.getIpAddr(this.request));</span><br><span class="line">		toWxMap.put(&quot;total_fee&quot;,new BigDecimal(price).multiply(new BigDecimal(&quot;100&quot;)).intValue() + &quot;&quot;);</span><br><span class="line">		toWxMap.put(&quot;trade_type&quot;, &quot;APP&quot;);</span><br><span class="line">		//接收微信支付异步通知回调地址，通知url必须为直接可访问的url，不能携带参数。</span><br><span class="line">		toWxMap.put(&quot;notify_url&quot;, PayUtil.getProjectUrl(this.request) + &quot;zjx/api/pay/wxBuySpaceNotify&quot;);</span><br><span class="line">		LOGGER.info(&quot;************支付成功回调地址是:&quot;+PayUtil.getProjectUrl(this.request) + &quot;zjx/api/pay/wxBuySpaceNotify&quot;);</span><br><span class="line">		toWxMap.put(&quot;sign&quot;, WXPayUtil.generateSignature(toWxMap, PayConstant.WX_H5_APP_KEY));</span><br><span class="line"></span><br><span class="line">		//将所有参数(map)转xml格式</span><br><span class="line">		String xml = WXPayUtil.mapToXml(toWxMap);</span><br><span class="line">		LOGGER.info(&quot;*******************请求微信参数&quot;+xml);</span><br><span class="line">		//调用微信统一下单接口，返回预支付id：prepay_id</span><br><span class="line">		String wxReturnStr = PayUtil.post(PayConstant.WX_UNIFIEDORDER_URL, xml, ContentTypeEnum.TextXml.getContentType());</span><br><span class="line">		//将微信返回数据格式化成map</span><br><span class="line">		Map&lt;String, String&gt; wxXmlMap = WXPayUtil.xmlToMap(wxReturnStr);</span><br><span class="line">		LOGGER.info(&quot;**********************微信统一下单接口返回数据:&quot; + wxXmlMap + &quot;*****************************************&quot;);</span><br><span class="line"></span><br><span class="line">		// todo</span><br><span class="line">		//组装返回给前端的数据</span><br><span class="line">		resultMap.put(&quot;appid&quot;, PayConstant.PARENT_APP_WX_APPID);</span><br><span class="line">		resultMap.put(&quot;partnerid&quot;, PayConstant.WX_H5_MCHID);</span><br><span class="line">		resultMap.put(&quot;prepayid&quot;, wxXmlMap.get(&quot;prepay_id&quot;));</span><br><span class="line">		resultMap.put(&quot;package&quot;, &quot;Sign=WXPay&quot;);</span><br><span class="line">		resultMap.put(&quot;nonceStr&quot;, WXPayUtil.generateNonceStr());</span><br><span class="line">		resultMap.put(&quot;timeStamp&quot;, WXPayUtil.getCurrentTimestamp()+&quot;&quot;);</span><br><span class="line">		resultMap.put(&quot;sign&quot;, WXPayUtil.generateSignature(resultMap, PayConstant.WX_H5_APP_KEY));</span><br><span class="line">		resultMap.put(&quot;order_no&quot;, orderNo);</span><br><span class="line"></span><br><span class="line">		LOGGER.info(&quot;**********************返回给前端的数据:&quot; + resultMap + &quot;*****************************************&quot;);</span><br><span class="line">		response.setData(resultMap);</span><br><span class="line"></span><br><span class="line">		//订单记录redis，12小时自动过期</span><br><span class="line">		stringRedisTemplate.opsForValue().set(orderNo, &quot;sapceOrder&quot;, 60 * 60 * 12, TimeUnit.SECONDS);</span><br><span class="line">	&#125; catch (Exception e) &#123;</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">		response.setCode(code);</span><br><span class="line">		response.setMessage(e.getMessage());</span><br><span class="line">	&#125;</span><br><span class="line">	return response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>预支付接口就是这样，和公众号支付基本一致，只是参数有些不同。<br>预支付接口调用成功后，需要编写支付成功回调接口，微信会主动调用我们在预支付接口中设置好的url，即<code>notify_url</code>。<br>微信会将：商户订单号,微信支付订单号发送给我们，我们可以通过这些来完成业务逻辑。</p>
+<p><a href="https://www.jianshu.com/p/54f73fea5986" target="_blank" rel="noopener">参考1</a><br><a href="https://blog.csdn.net/u012552275/article/details/78758571" target="_blank" rel="noopener">参考2</a><br><a href="https://www.cnblogs.com/zhanglingbing/p/9073217.html" target="_blank" rel="noopener">参考3</a><br><a href="https://www.cnblogs.com/xxss/p/10244513.html" target="_blank" rel="noopener">参考4</a></p>
+<h1 id="支付宝支付"><a href="#支付宝支付" class="headerlink" title="支付宝支付"></a>支付宝支付</h1><h2 id="app支付宝支付"><a href="#app支付宝支付" class="headerlink" title="app支付宝支付"></a>app支付宝支付</h2><p><a href="https://docs.open.alipay.com/204" target="_blank" rel="noopener">官方文档</a><br>支付宝的文档真的一目了然，比微信强太多…<br><a href="https://blog.csdn.net/shuaishuaidewo/article/details/88641913" target="_blank" rel="noopener">参考</a></p>
+<h1 id="苹果支付"><a href="#苹果支付" class="headerlink" title="苹果支付"></a>苹果支付</h1><p><a href="https://developer.apple.com/library/archive/releasenotes/General/ValidateAppStoreReceipt/Chapters/ValidateRemotely.html#//apple_ref/doc/uid/TP40010573-CH104-SW4" target="_blank" rel="noopener">苹果支付官方文档</a><br>只要你在苹果系统购买APP中虚拟物品（虚拟货币，VIP充值等），必须通过内购方式进行支付，苹果和商家进行三七开。<br><img src="/2018/12/24/pay/5.png" alt=""><br>和支付宝、微信支付不同，唤起支付到付款完成，这个动作，都是由前端自己处理就可以了，不需要在支付前通过服务端拿到签名等信息。<br>支付成功后，苹果服务器会给前端一串东西，前端再把这串东西，传给自己的服务端，服务端拿到这串东西再到苹果服务器验证，根据返回内容验证是否通过，如果通过证明前端是真的有支付发生。服务端根据和前端约定好的支付内容解析获取自己的数据，处理自己的业务逻辑就可以了。</p>
+<p>前端支付成功后，拿到参数：{“receipt-data” : “MIIVDAYJKoZIhvcNAQcCoIIU/T…”}，将参数传给我们自己的服务器，由我们向苹果服务器发送post请求。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@RequestMapping(value = &quot;/apple/verify&quot;, method = RequestMethod.POST)</span><br><span class="line">public BaseResponse&lt;Object&gt; appleVerify(String data) &#123;</span><br><span class="line">	//data = &#123;&quot;receipt-data&quot; : &quot;MIIVDAYJKoZIhvcNAQcCoIIU/T...&quot;&#125;</span><br><span class="line">	// 苹果支付沙箱验证地址</span><br><span class="line">	String url = &quot;https://sandbox.itunes.apple.com/verifyReceipt&quot;;</span><br><span class="line">	// 苹果支付正式验证地址</span><br><span class="line">	// String url = &quot;https://buy.itunes.apple.com/verifyReceipt&quot;;</span><br><span class="line">	JSONObject param = JSON.parseObject(data);</span><br><span class="line">	JSONObject result = this.sendPost(url, param);</span><br><span class="line">	log.info(&quot;order apple notify result: &#123;&#125;&quot;, result);</span><br><span class="line">	Integer status = result.getInteger(&quot;status&quot;);//0 成功的</span><br><span class="line">	//处理自己的订单业务逻辑</span><br><span class="line">	//...</span><br><span class="line">	//返回</span><br><span class="line">	return new BaseResponse&lt;Object&gt;(status == 0 ? &quot;SUCCESS&quot; : &quot;FAIL&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>status状态码</p>
+<ul>
+<li>0 SUCCESS</li>
+<li>21000 App Store不能读取你提供的JSON对象</li>
+<li>21002 receipt-data域的数据有问题</li>
+<li>21003 receipt无法通过验证</li>
+<li>21004 提供的shared secret不匹配你账号中的shared secret</li>
+<li>21005 receipt服务器当前不可用</li>
+<li>21006 receipt合法，但是订阅已过期。服务器接收到这个状态码时，receipt数据仍然会解码并一起发送</li>
+<li>21007 receipt是Sandbox receipt，但却发送至生产系统的验证服务</li>
+<li>21008 receipt是生产receipt，但却发送至Sandbox环境的验证服务</li>
+</ul>
+<p>status为0(成功)时，返回的数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;environment&quot;: &quot;Sandbox&quot;,</span><br><span class="line">    &quot;receipt&quot;: &#123;</span><br><span class="line">        &quot;in_app&quot;: [</span><br><span class="line">            &#123;</span><br><span class="line">                &quot;transaction_id&quot;: &quot;1000000514154331&quot;,</span><br><span class="line">                &quot;original_purchase_date&quot;: &quot;2019-03-28 06:40:18 Etc/GMT&quot;,</span><br><span class="line">                &quot;quantity&quot;: &quot;1&quot;,</span><br><span class="line">                &quot;original_transaction_id&quot;: &quot;1000000514154331&quot;,</span><br><span class="line">                &quot;purchase_date_pst&quot;: &quot;2019-03-27 23:40:18 America/Los_Angeles&quot;,</span><br><span class="line">                &quot;original_purchase_date_ms&quot;: &quot;1553755218000&quot;,</span><br><span class="line">                &quot;purchase_date_ms&quot;: &quot;1553755218000&quot;,</span><br><span class="line">                &quot;product_id&quot;: &quot;ERSHUAI18&quot;,//18是钱，具体格式和前端约定。服务端把约定字符串（ERSHUAI）去掉，剩下的数字（18）就是业务逻辑需要的金额</span><br><span class="line">                &quot;original_purchase_date_pst&quot;: &quot;2019-03-27 23:40:18 America/Los_Angeles&quot;,</span><br><span class="line">                &quot;is_trial_period&quot;: &quot;false&quot;,</span><br><span class="line">                &quot;purchase_date&quot;: &quot;2019-03-28 06:40:18 Etc/GMT&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        ],</span><br><span class="line">        &quot;adam_id&quot;: 0,</span><br><span class="line">        &quot;receipt_creation_date&quot;: &quot;2019-03-28 08:21:40 Etc/GMT&quot;,</span><br><span class="line">        &quot;original_application_version&quot;: &quot;1.0&quot;,</span><br><span class="line">        &quot;app_item_id&quot;: 0,</span><br><span class="line">        &quot;original_purchase_date_ms&quot;: &quot;1375340400000&quot;,</span><br><span class="line">        &quot;request_date_ms&quot;: &quot;1553761302654&quot;,</span><br><span class="line">        &quot;original_purchase_date_pst&quot;: &quot;2013-08-01 00:00:00 America/Los_Angeles&quot;,</span><br><span class="line">        &quot;original_purchase_date&quot;: &quot;2013-08-01 07:00:00 Etc/GMT&quot;,</span><br><span class="line">        &quot;receipt_creation_date_pst&quot;: &quot;2019-03-28 01:21:40 America/Los_Angeles&quot;,</span><br><span class="line">        &quot;receipt_type&quot;: &quot;ProductionSandbox&quot;,</span><br><span class="line">        &quot;bundle_id&quot;: &quot;com.ershuai.blog&quot;,</span><br><span class="line">        &quot;receipt_creation_date_ms&quot;: &quot;1553761300000&quot;,</span><br><span class="line">        &quot;request_date&quot;: &quot;2019-03-28 08:21:42 Etc/GMT&quot;,</span><br><span class="line">        &quot;version_external_identifier&quot;: 0,</span><br><span class="line">        &quot;request_date_pst&quot;: &quot;2019-03-28 01:21:42 America/Los_Angeles&quot;,</span><br><span class="line">        &quot;download_id&quot;: 0,</span><br><span class="line">        &quot;application_version&quot;: &quot;1.0.1&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;status&quot;: 0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://www.jianshu.com/p/976fc6090cfa" target="_blank" rel="noopener">参考</a><br><a href="https://blog.csdn.net/shuai825644975/article/details/88872103" target="_blank" rel="noopener">参考</a><br><a href="https://blog.csdn.net/jianzhonghao/article/details/79343887" target="_blank" rel="noopener">参考</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/pay/" rel="tag"># pay</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/21/Hashtable/" rel="next" title="Hashtable">
+                <i class="fa fa-chevron-left"></i> Hashtable
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/25/git/" rel="prev" title="git">
+                git <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#设计思路"><span class="nav-number">1.</span> <span class="nav-text">设计思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#maven依赖"><span class="nav-number">2.</span> <span class="nav-text">maven依赖</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关键类"><span class="nav-number">3.</span> <span class="nav-text">关键类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#策略接口"><span class="nav-number">3.1.</span> <span class="nav-text">策略接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#业务参数类"><span class="nav-number">3.2.</span> <span class="nav-text">业务参数类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四种支付策略"><span class="nav-number">3.3.</span> <span class="nav-text">四种支付策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AliAppPayStrategy"><span class="nav-number">3.3.1.</span> <span class="nav-text">AliAppPayStrategy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AliWebPayStrategy"><span class="nav-number">3.3.2.</span> <span class="nav-text">AliWebPayStrategy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WxAppPayStrategy"><span class="nav-number">3.3.3.</span> <span class="nav-text">WxAppPayStrategy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WxWebPayStrategy"><span class="nav-number">3.3.4.</span> <span class="nav-text">WxWebPayStrategy</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Http请求"><span class="nav-number">3.4.</span> <span class="nav-text">Http请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#策略枚举"><span class="nav-number">3.5.</span> <span class="nav-text">策略枚举</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#策略工厂"><span class="nav-number">3.6.</span> <span class="nav-text">策略工厂</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#场景调用"><span class="nav-number">3.7.</span> <span class="nav-text">场景调用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#前端代码"><span class="nav-number">4.</span> <span class="nav-text">前端代码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#公众号内支付"><span class="nav-number">4.1.</span> <span class="nav-text">公众号内支付</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一种方式"><span class="nav-number">4.1.1.</span> <span class="nav-text">第一种方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二种方式"><span class="nav-number">4.1.2.</span> <span class="nav-text">第二种方式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#回调函数"><span class="nav-number">5.</span> <span class="nav-text">回调函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#微信公众号支付"><span class="nav-number">6.</span> <span class="nav-text">微信公众号支付</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#获取用户授权"><span class="nav-number">6.1.</span> <span class="nav-text">获取用户授权</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#微信app支付"><span class="nav-number">7.</span> <span class="nav-text">微信app支付</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#支付宝支付"><span class="nav-number">8.</span> <span class="nav-text">支付宝支付</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#app支付宝支付"><span class="nav-number">8.1.</span> <span class="nav-text">app支付宝支付</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#苹果支付"><span class="nav-number">9.</span> <span class="nav-text">苹果支付</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="简介Jenkins是一个开源的自动部署服务器，提供了上百个插件用于自动构建、部署、发布任意项目。本文描述的是Jenkins本地部署以及远程部署等功能的实现。这是jenkins中文网 安装部署Jenkins主要有三种安装方式，yum安装、使用官方docker镜像和官方war包，放到tomcat中直接运行。我们采用比较熟悉的方式进行安装，即将Jenkins部署在Tomcat容器中，无需任何配置，直接启">
+<meta name="keywords" content="部署">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jenkins">
+<meta property="og:url" content="https://jingyao066.gitee.io/2018/12/09/jenkins/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="简介Jenkins是一个开源的自动部署服务器，提供了上百个插件用于自动构建、部署、发布任意项目。本文描述的是Jenkins本地部署以及远程部署等功能的实现。这是jenkins中文网 安装部署Jenkins主要有三种安装方式，yum安装、使用官方docker镜像和官方war包，放到tomcat中直接运行。我们采用比较熟悉的方式进行安装，即将Jenkins部署在Tomcat容器中，无需任何配置，直接启">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/09/jenkins/1.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/09/jenkins/2.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/09/jenkins/3.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/09/jenkins/4.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/09/jenkins/5.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/09/jenkins/6.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/09/jenkins/7.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/09/jenkins/8.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/09/jenkins/9.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/09/jenkins/10.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/09/jenkins/11.png">
+<meta property="og:updated_time" content="2020-04-07T05:49:44.449Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Jenkins">
+<meta name="twitter:description" content="简介Jenkins是一个开源的自动部署服务器，提供了上百个插件用于自动构建、部署、发布任意项目。本文描述的是Jenkins本地部署以及远程部署等功能的实现。这是jenkins中文网 安装部署Jenkins主要有三种安装方式，yum安装、使用官方docker镜像和官方war包，放到tomcat中直接运行。我们采用比较熟悉的方式进行安装，即将Jenkins部署在Tomcat容器中，无需任何配置，直接启">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2018/12/09/jenkins/1.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2018/12/09/jenkins/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Jenkins | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2018/12/09/jenkins/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Jenkins
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-09 16:54:53" itemprop="dateCreated datePublished" datetime="2018-12-09T16:54:53+08:00">2018-12-09</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-04-07 13:49:44" itemprop="dateModified" datetime="2020-04-07T13:49:44+08:00">2020-04-07</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2018/12/09/jenkins/" class="leancloud_visitors" data-flag-title="Jenkins">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Jenkins是一个开源的自动部署服务器，提供了上百个插件用于自动构建、部署、发布任意项目。本文描述的是Jenkins本地部署以及远程部署等功能的实现。<br><a href="https://jenkins.io/zh/" target="_blank" rel="noopener">这是jenkins中文网</a></p>
+<h1 id="安装部署"><a href="#安装部署" class="headerlink" title="安装部署"></a>安装部署</h1><p>Jenkins主要有三种安装方式，yum安装、使用官方docker镜像和官方war包，放到tomcat中直接运行。我们采用比较熟悉的方式进行安装，即将Jenkins部署在Tomcat容器中，无需任何配置，直接启动tomcat即可。</p>
+<p>安装tomcat和jdk这里不再赘述。<br><a href="https://jenkins.io/download/" target="_blank" rel="noopener">官网下载</a><br>左侧列表是稳定版，右侧是开发版，这里我们下载左侧列表的稳定版。找到适合自己系统的版本下载，这里我下载<code>Generic Java package (.war)</code>，通用的java-war包。<br>下载并上传到tomcat的webapps目录下，将war包更名为<code>ROOT.war</code>，然后启动tomcat，<code>./startup.sh</code></p>
+<h1 id="docker版的Jenkins"><a href="#docker版的Jenkins" class="headerlink" title="docker版的Jenkins"></a>docker版的Jenkins</h1><p>要使用docker镜像，首先安装docker，本文默认已经安装docker。我们可以到<a href="https://jenkins.io/download/" target="_blank" rel="noopener">Jenkins官网</a>寻找docker镜像地址。<br>注意：官方jenkins镜像本身自带openjdk。<br>找到<code>Download jenkins xxx for</code>下边的<code>docker</code>，点击后会跳转到docker hub，该网站是docker的官方镜像仓库，就像github是代码仓库一个道理。</p>
+<p>网页右侧可以看到Jenkins的docker下载命令：<br><code>docker pull jenkins/jenkins</code></p>
+<p>等待下载完成，输入命令查看下载完成的镜像：<br><code>docker images</code></p>
+<p>可以看到jenkins已经被下载到服务器。镜像下载完成，下面就要开始启动容器了。<br>启动容器前，建议大家仔细阅读前面寻找镜像时<a href="https://github.com/jenkinsci/docker/blob/master/README.md" target="_blank" rel="noopener">Docker Hub上关于jenkins镜像的详细说明</a>。<br>启动之前，我们还需要在宿主机创建一个目录，一会方便镜像挂载。<br><code>mkdir /home/jenkins</code><br>还要给创建的目录赋予权限，这一步是必须的，否则启动镜像会报错：<br><code>chmod 777 /home/jenkins</code><br>在镜像文档里，我们知道Jenkins访问的默认端口号是8080，这里我改成9999，另外还需要暴露一个tcp的端口号50000。我们使用如下命令启动Jenkins镜像。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker run --name jenkins -d \</span><br><span class="line">-v /usr/local/src:/share \</span><br><span class="line">-v /home/jenkins:/var/jenkins_home \</span><br><span class="line">-v /etc/localtime:/etc/localtime \</span><br><span class="line">-p 9999:8080 -p 50000:50000 \</span><br><span class="line">jenkins</span><br></pre></td></tr></table></figure></p>
+<p>这里逐条解释下各参数的意义。</p>
+<ul>
+<li><code>-d</code>后台运行镜像</li>
+<li><code>-p 9999:8080</code> 将镜像的8080端口映射到服务器的9999端口</li>
+<li><code>-p 50000:50000</code> 将镜像的50000端口映射到服务器的50000端口</li>
+<li><code>-v /usr/local/src:/share</code> 将<code>/usr/local/src</code>目录作为共享文件夹，方便向docker容器中传输安装包等。</li>
+<li><code>-v /home/jenkins:/var/jenkins_home</code> /var/jenkins_home目录为jenkins工作目录，我们将硬盘上的一个目录挂载到这个位置，方便后续更新镜像后继续使用原来的工作目录。</li>
+<li><code>-v /etc/localtime:/etc/localtime</code> 让容器使用和服务器同样的时间设置。</li>
+<li><code>--name jenkins</code> 给容器起一个别名</li>
+<li><code>jenkins</code> 指定一个镜像，这个必须，否则会报错，建议直接填写<code>IMAGE</code>，就是类似<code>f32b4bb22e4d</code>，而不是名字。</li>
+</ul>
+<p>启动后输入命令docker ps -a查看所有容器，可以看到jenkins已成功启动。<br>在浏览器输入ip+端口进入Jenkins登录页面。页面会提示你到服务器的指定位置获取初始化密码。<br>进入jenkins容器：<code>docker exec -it jenkins /bin/bash</code><br>查看密码：<code>cat /var/jenkins_home/secrets/initialAdminPassword</code><br>把密码复制到浏览器，然后和正常安装步骤一致。</p>
+<h2 id="生成SSHKey"><a href="#生成SSHKey" class="headerlink" title="生成SSHKey"></a>生成SSHKey</h2><p>这里再补充一章说明如何生成SSHKey。容器从github上面下载代码的时候需要用到。因为咱们这个Jenkins是基于docker的，不是直接安装在服务器上，这里有很大的不同。<br>要生成容器的SSHKey，首先要先进入容器<br><code>docker exec -it jenkins /bin/bash</code><br>进入容器后生成sshkey<br><code>ssh-keygen -t rsa -C &quot;123@qq.com&quot;</code><br>在容器内输入exit离开容器，使用如下命令获取公钥<br><code>tail /var/lib/docker/volumes/jenkins/_data/.ssh/id_rsa.pub</code><br><a href="https://www.jianshu.com/p/0391e225e4a6" target="_blank" rel="noopener">参考地址</a></p>
+<h2 id="后续步骤"><a href="#后续步骤" class="headerlink" title="后续步骤"></a>后续步骤</h2><p>因为这里jenkins的环境是独立的，也就是说无法使用宿主机的jdk/maven等环境，所以如果我们想通过jenkins部署服务，还需要其他的配置。<br><a href="https://blog.csdn.net/weixin_43577800/article/details/84844438" target="_blank" rel="noopener">据说可以将宿主机的目录挂载到jenkins镜像</a>，然后在镜像里可以使用宿主机的环境，如jdk,maven等，有时间尝试一下。</p>
+<ul>
+<li><p>必须已root方式进入容器<br><code>docker exec -it --user root &lt;container id&gt; /bin/bash</code></p>
+</li>
+<li><p>也可以普通进入，再切换root，不过也需要提前再root用户下设置好密码。<br>root用户进入容器之后，设置密码：<br><code>sudo passwd</code><br>连续输入两次密码就可以了。</p>
+</li>
+<li><p>先查看容器是什么操作系统，直接试指令，<code>yum</code>或<code>apt-get</code>，哪个说<code>command not found</code>，就不用哪个。<br>发现<code>apt-get可用</code>，那么必须先升级<code>apt-get</code>：<code>apt-get update</code>，反之要升级<code>yum</code>：<code>yum update</code></p>
+</li>
+<li><p>安装vim<br><code>apt-get install vim</code></p>
+</li>
+<li><p>安装sudo<br><code>apt-get install sudo</code></p>
+</li>
+<li><p>安装maven，参考<code>linux</code>中的maven安装。<br>因为前边挂载了宿主机的<code>/usr/local/src</code>文件夹，我们可以把maven的安装包和jdk的安装包都上传到宿主机，然后在容器中直接就可以看到，然后采用普通方式安装。</p>
+</li>
+<li><p>可选是否卸载自带的openjdk，不卸载Openjdk也可以直接安装oracle的jdk，然后修改<code>/etc/profile</code>的环境变量。</p>
+</li>
+</ul>
+<h1 id="Jenkins配置"><a href="#Jenkins配置" class="headerlink" title="Jenkins配置"></a>Jenkins配置</h1><p>访问Jenkins地址，初次进入会要求输入密码，密码已经显示在页面中。<br>一般情况下，Linux上存储密码的位置：<br><code>/root/.jenkins/secrets/initialAdminPassword</code><br>windows下密码的位置：<br><code>C:\Users\59923\.jenkins\secrets\initialAdminPassword</code></p>
+<p>找到该文件复制里面的内容，进入到初始化页面，然后安装插件，这里不推荐<code>Install suggested plugins(安装推荐插件)</code>，因为会安装很多我们用不到的插件，而且巨慢。<br>按照提示输入内容，管理员的用户名密码等要牢记。最后点击完成，就进入到了jenkins的控制台。长时间没反应，请重启jenkins。</p>
+<h1 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h1><ul>
+<li>选择左侧列表的<code>Manage Jenkins</code></li>
+<li>然后在右侧列表找到<code>Manage Plugins</code></li>
+<li>在右侧可以看到上边有四个选项卡，我们选择<code>Avaliable</code><br>  这里我们需要安装三个插件：<ul>
+<li>maven集成插件：Maven Integration</li>
+<li>Jenkins语言插件（可选）：Locale</li>
+<li>远程部署插件：Publish Over SSH</li>
+</ul>
+</li>
+</ul>
+<p>然后选择<code>install without restart</code>。<br>如果安装了语言插件，还配置成中文才可以，点击左上角的Jenkins图标返回主页，再次进入Jenkins配置页面，选择系统设置Configure System，找到local配置，输入：ZH_cn<br>简体中文为ZH_cn，英文为EN_us，然后勾选Ignore brower preference and force this language to all users。</p>
+<h2 id="安装插件提速"><a href="#安装插件提速" class="headerlink" title="安装插件提速"></a>安装插件提速</h2><p>看到好多加速Jenkins安装插件速度的文章，大多数教程中都是在插件配置里使用<br><code>https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json</code><br>替换原来的官方的json，我们来看看清华源拉下来的是什么 这里使用官方的下载插件的url全局搜索。<br>这里我们发现，每个插件下载路径依旧没有改变，变的只是这个json是从清华源下来的，其内写死的插件下载地址是没有变的，还是从官网下载！<br>所以无论是更换还是没更换镜像json，下载插件的速度其实是没有变的！这真是令人心痛！💔​<br>以上的配置Json其实在Jenkins的工作目录中。<br>进入更新配置位置<br><code>cd /root/.jenkins/updates</code></p>
+<p><code>vim default.json</code><br>这个Json文件与上边的配置文件是相同的</p>
+<p>这里wiki和github的文档不用改，我们就可以成功修改这个配置<br>使用vim的命令，如下，替换所有插件下载的url<br><code>:1,$s/http:\/\/updates.jenkins-ci.org\/download/https:\/\/mirrors.tuna.tsinghua.edu.cn\/jenkins/g</code><br>替换连接测试url<br><code>:1,$s/http:\/\/www.google.com/https:\/\/www.baidu.com/g</code><br>进入vim先输入：然后再粘贴上边的：后边的命令，注意不要写两个冒号！<br>保存退出，并重启jenkins。</p>
+<p>方式二：使用sed<br><code>$ sed -i &#39;s/http:\/\/updates.jenkins-ci.org\/download/https:\/\/mirrors.tuna.tsinghua.edu.cn\/jenkins/g&#39; default.json &amp;&amp; sed -i &#39;s/http:\/\/www.google.com/https:\/\/www.baidu.com/g&#39; default.json</code><br>这是直接修改的配置文件，如果前边Jenkins用sudo启动的话，那么这里的两个sed前均需要加上sudo。<br>重启Jenkins，安装插件试试，简直超速。</p>
+<p><a href="https://www.cnblogs.com/hellxz/p/jenkins_install_plugins_faster.html" target="_blank" rel="noopener">安装插件提速参考</a></p>
+<h1 id="持续集成配置"><a href="#持续集成配置" class="headerlink" title="持续集成配置"></a>持续集成配置</h1><p>服务器需要安装：jdk、git、maven，安装好之后，需要在jenkins中进行配置。</p>
+<p>系统管理 -&gt;全局工具配置<br>Manage Jenkins -&gt; Global Tool Configuration</p>
+<p>然后填入本机git/maven/jdk的安装路径。<br>jdk:<br>不要勾选自动安装，因为我们已经手动安装好，这里只需要填写<code>JAVA_HOME</code>即可，别名可不填。<br><code>/usr/local/jdk1.8.0_211</code></p>
+<p>git:<br>不勾选自动安装，只填写<code>Path to Git executable</code><br><code>git</code></p>
+<p>maven:<br>不勾选自动安装，只填写<code>MAVEN_HOME</code><br><code>/usr/local/maven</code></p>
+<h2 id="本地部署"><a href="#本地部署" class="headerlink" title="本地部署"></a>本地部署</h2><p>本地部署是指：部署运行在本机的服务，若项目部署在其他服务器，则需要远程部署。</p>
+<p>在主页选择新建任务，选择构建一个自由风格的软件项目。需要说明的是，由于公司项目结构为父子项目<br><img src="/2018/12/09/jenkins/1.png" alt=""><br>所有的子项目都在tubitu_project一个代码仓库里，如果配置了webhook(作用是接收远程仓库push的提交信息)的话，任何一个子项目的代码推送，<br>都会导致所有服务的自动重启，而由于公司没有正规的代码提交审查流程，所以如果提交错误代码，会导致所有服务一同崩溃，<br>因此，推荐每一个服务都是一个单独的部署任务，提交代码后只需要更新提交代码的服务即可。最终结果如下：<br><img src="/2018/12/09/jenkins/2.png" alt=""></p>
+<p>配置流程：<br>首先新建一个任务，选择<code>构建maven项目</code>，输入名称，然后进入配置页面。<br>注意，如果没有安装上边提到的maven插件，这里是看不到<code>构建maven项目</code>选项的。</p>
+<p>也可以选<code>一个自由风格的软件</code></p>
+<ol>
+<li><p>General选项卡：<br>勾选<code>丢弃旧的构建</code>，策略只能默认。</p>
+<ul>
+<li>保持构建天数</li>
+<li>保持构建的最大个数<br>Jenkins会自动删除第一项之前的安装包，节约服务器空间。</li>
+</ul>
+</li>
+<li><p>源码管理：<br>勾选git，<code>Repository URL</code>输入远程仓库地址，<code>Credentials</code>添加个人远程仓库的账户密码。<br>(注：这里建议使用公司公用的账户密码，避免员工离职或更改密码带来不必要的麻烦)</p>
+</li>
+<li><p>构建触发器<br>勾选：Build whenever a SNAPSHOT dependency is built（触发远程构建 (例如,使用脚本)）</p>
+</li>
+<li><p>构建环境<br>勾选：Add timestamps to the Console Output（非必选）</p>
+</li>
+</ol>
+<p>注意：<code>构建maven项目</code>和<code>构建自由风格的软件</code>，这里的选项是不一样的。</p>
+<ol start="5">
+<li><p>Pre Steps<br>不用选</p>
+</li>
+<li><p>Build(构建)<br>Root POM：默认</p>
+</li>
+</ol>
+<p>Goals and options：<code>clean install -pl tubitu_service_api -am</code><br>注意更改模块的名称。其中-pl 代表打包指定module，可以<code>-pl module_name -pl module_name</code>指定打包多个项目，-am 代表自动打包指定module所依赖的模块。</p>
+<ol start="7">
+<li><p>Post Steps<br>勾选Run only if build succeeds</p>
+</li>
+<li><p>点击Add post-build step，然后选择执行shell，这里一步是重中之重。<br>可以先随便用个指令实验一下：<br><code>ifconfig</code></p>
+</li>
+</ol>
+<p>然后点击保存，点击构建，看jenkins控制台是否输入了服务器的ip地址。</p>
+<p>完整的更新项目shell脚本：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#首先停止项目</span></span><br><span class="line">pid=`ps -ef | grep zjx_admin-1.0.0.jar | grep -v grep | awk <span class="string">'&#123;print $2&#125;'</span>`</span><br><span class="line"><span class="keyword">if</span> [ -n <span class="string">"<span class="variable">$pid</span>"</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">   <span class="built_in">kill</span> -9 <span class="variable">$pid</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#删除旧的项目，注意更改此处的jar包名称</span></span><br><span class="line">rm -rf /usr/<span class="built_in">local</span>/zjx/admin/zjx_admin-0.0.1-SNAPSHOT.jar</span><br><span class="line"></span><br><span class="line"><span class="comment">#清除并打包指定项目，-am表示连同依赖模块一同打包</span></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$WORKSPACE</span></span><br><span class="line">mvn clean package -pl zjx_admin -am</span><br><span class="line"></span><br><span class="line"><span class="comment">#复制Jenkins工作空间里的项目(打包好)到指定目录下</span></span><br><span class="line">cp <span class="variable">$WORKSPACE</span>/zjx_admin/target/zjx_admin-0.0.1-SNAPSHOT.jar /usr/<span class="built_in">local</span>/zjx/admin/</span><br><span class="line"></span><br><span class="line"><span class="comment">#授权，该步骤可以省略</span></span><br><span class="line">chmod u+x /usr/<span class="built_in">local</span>/zjx/admin/zjx_admin-0.0.1-SNAPSHOT.jar</span><br><span class="line"></span><br><span class="line"><span class="comment">#指定log日志位置，并通过java -jar启动项目</span></span><br><span class="line">BUILD_ID=donKillme nohup java -jar -Dspring.profiles.active=dev &gt;/usr/<span class="built_in">local</span>/zjx/service/logs/zjx.log /usr/<span class="built_in">local</span>/zjx/admin/zjx_admin-0.0.1-SNAPSHOT.jar &amp;</span><br></pre></td></tr></table></figure></p>
+<p>两种打印日志的设置<br><code>&gt;/usr/local/zjx/service/logs/zjx.log</code><br>下边这种死活打不出日志，不知道为啥。<br><code>-Dlogging.file=/usr/local/zjx/admin/logs/zjx.log</code></p>
+<p>2019/12/13更新：<br>终于知道为啥不能打印日志了。其实上述两种方式都可以打印日志，只不过我是分布式应用，提供者有多个，但是同时向一个日志文件中写日志。<br>所以造成了死锁问题，多个程序都在争抢日志文件的锁，然后导致谁都无法写入。<br>解决办法：<br>每个服务，单独配置日志文件。</p>
+<p>这个-D是 java命令的参数-D。意指加入全局属性，比如-Djdbc.driver=<jdbc driver="" classpath="">表示在程序里可用System.getProperty(“jdbc.driver”)获得<jdbc driver="" classpath="">，以此类推。<br><code>-Dspring.profiles.active=dev</code>：指定启动配置文件，可以用来区分测试环境和生产环境。</jdbc></jdbc></p>
+<p><code>BUILD_ID=dontKillme</code>：指的是不要杀死最后一步启动项目产生的子进程。<br><a href="https://wiki.jenkins.io/display/JENKINS/ProcessTreeKiller" target="_blank" rel="noopener">官网说明</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">To reliably kill processes spawned by a job during a build, Jenkins contains a bit of native code to list up such processes and kill them. </span><br><span class="line">This is tested on several platforms and architectures, but if you find a show-stopper problem because of this, </span><br><span class="line">you can disable this feature by setting a Java property named &quot;hudson.util.ProcessTree.disable&quot; to the value &quot;true&quot;.</span><br></pre></td></tr></table></figure></p>
+<p>译：为了可靠地终止构建过程中滋生出来的进程，Jenkins包含了一系列的本地代码去查出这些子进程并且杀死它们。这个已经在一些平台上进行了测试，如果你发现由此引发的停止显示的问题，你可以设置名为“hudson.util.ProcessTree.disable” 的java property为true来禁止使用ProcessTreeKiller自动杀死。<br>通常情况下，我们保持官方默认配置，所以推荐使用BUILD_ID=dontKillme 表示该进程不是由Jenkins来生成，也就不会被ProcessTreeKiller杀死。</p>
+<p>然后回到首页，点击任务列表项右侧的图标：表盘上有个绿色小箭头，或者点击模块名旁的小箭头，点击立即构建。点击<code>#1</code>，1这个数字每次构建都会+1，代表该模块的构建次数。<br>鼠标悬浮在该项上，点击向下的小箭头，点击控制台输出，可以看到正在构建或已经完成构建的linux控制台信息。</p>
+<p>构建过程中可以看到构建进度：<br><img src="/2018/12/09/jenkins/3.png" alt=""><br><code>#10</code>代表第十次构建，鼠标移到10旁边，即可查看控制台输入的构建和启动信息。看到<code>Finshed：SUCCESS</code>，表示构建完成。</p>
+<p>此时返回到Jenkins主页，可以看到S下的一列圆形图标，<br>蓝色：成功<br>灰色：尚未构建<br>红色：构建失败<br>黄色：不稳定构建(Jenkins不确定状态)</p>
+<p>W下有天气图标，代表近期构建状态：<br>小太阳：近期成功<br>多云：少数失败，以此类推</p>
+<h2 id="远程部署"><a href="#远程部署" class="headerlink" title="远程部署"></a>远程部署</h2><p>远程部署是由于项目所有的服务并不都部署在本机，有可能部署在其他服务器，所以需要远程部署。</p>
+<p>远程部署需要配置远程服务器的ip地址和用户凭证。<br>返回主页，点击系统管理，然后点击系统设置，在Publish over SSH下找到SSH Servers，点击新增，分别配置好IP地址和用户名密码：<br><img src="/2018/12/09/jenkins/4.png" alt=""></p>
+<p>这里Remote Directory为Jenkins默认远程根目录，点击高级，勾选使用用户密码，并输入密码，然后点击Test Configuration测试是否连接成功：<br><img src="/2018/12/09/jenkins/5.png" alt=""></p>
+<p>新建一个任务tubitu_service_mall，前面基本保持一致，但是在Post Steps时，不再选择执行脚本，而是选择send files or execute commands over SSH。<br><img src="/2018/12/09/jenkins/6.png" alt=""><br>name选择上一步配置好的远程服务器，Source files默认会以本地当前任务的Jenkins工作空间+任务名为根路径，所以Source files只能配置相对路径，而Jenkins每一个任务默认的工作空间为/root/.jenkins/workspace/任务名，所以高i任务在本文中的工作空间全路径即为：/root/.jenkins/workspace/tubitu_service_mall，而由于构建依赖的pom文件又是父项目的pom文件，所以Source files为tubitu_service_mall/target/<em>.jar，</em>代表所有的jar包。</p>
+<p>Remove prefix代表传输到远程时需要移除的前缀：即移除到远程时会自动移除tubitu_service_mall/target/，只保留文件名。Remote directory代表传输到的目标路径。</p>
+<p>注意：这个目标路径也是相对路径，相对的是你在一开始配置SSH server时Remote Directory的目录，由于本文配置的是/，所以实际传输的远程目录为/usr/local/meilong/mall，如果一开始配置的是/usr/local/meilong，那么这里只需要配置Remote directory为mall。 </p>
+<p>Exec command执行的脚本内容为：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#restart.sh</span></span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">APP_PATH=/usr/<span class="built_in">local</span>/meilong/mall</span><br><span class="line">APP_NAME=tubitu_service_mall-1.0.0.jar</span><br><span class="line">LOG_FILE=<span class="variable">$APP_PATH</span>/logs/tubitu.log</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Restarting <span class="variable">$APP_NAME</span> SpringBoot Application"</span></span><br><span class="line">pid=`ps -ef | grep <span class="variable">$APP_NAME</span> | grep -v grep | awk <span class="string">'&#123;print $2&#125;'</span>`</span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"><span class="keyword">if</span> [ -n <span class="string">"<span class="variable">$pid</span>"</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">   <span class="built_in">kill</span> -9 <span class="variable">$pid</span></span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"关闭进程："</span><span class="variable">$pid</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"> </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"授予当前用户权限"</span></span><br><span class="line">chmod u+x <span class="variable">$APP_PATH</span>/<span class="variable">$APP_NAME</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"执行....."</span></span><br><span class="line">nohup java -jar -Dlogging.file=<span class="variable">$LOG_FILE</span> <span class="variable">$APP_PATH</span>/<span class="variable">$APP_NAME</span> &gt;&gt; /dev/null &amp;</span><br><span class="line">respid=`ps -ef | grep <span class="variable">$APP_NAME</span> | grep -v grep | awk <span class="string">'&#123;print $2&#125;'</span>`</span><br><span class="line"><span class="keyword">if</span> [ -n <span class="string">"<span class="variable">$respid</span>"</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"启动成功，进程号：<span class="variable">$respid</span>"</span></span><br><span class="line">    <span class="built_in">exit</span> 0</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"启动失败"</span></span><br><span class="line">    <span class="built_in">exit</span> 1</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure></p>
+<p>需要注意的是第8行，之所以要执行第8行，是因为Jenkins在执行远程脚本时，它是不会携带本机环境变量的，所以执行java会报command not found的错导致构建失败，解决办法有两个：</p>
+<p>执行java命令时输入java的全路径，本文为/usr/local/jdk1.8.0_161/bin/java;<br>执行该脚本时，脚本内调用source /etc/profile，当然前提是在profile里配置java的环境变量。<br>如果没有遇到command not found的错，那么可以不加第8行。</p>
+<p>推荐在Transfers里的高级选项里勾选[Flatten files]，代表扁平化传输文件，即只传输文件而不建立远程目录，避免创建一堆杂乱目录，前提是远程目录自己已经手动创建。</p>
+<p>3.综合部署<br>综合部署：建立一个公共服务，其中包括项目中所有的模块，实现一键部署、启动所有模块。<br>本地部署+远程部署，基本步骤与前面两种应用一致，不再赘述，只贴出配置。<br><img src="/2018/12/09/jenkins/7.png" alt=""><br><img src="/2018/12/09/jenkins/8.png" alt=""></p>
+<h1 id="权限分配"><a href="#权限分配" class="headerlink" title="权限分配"></a>权限分配</h1><p>考虑到Jenkins中的模块可能需要交给不同的人去维护，例如h5、后台系统、api等等，我们可以给不同的账号分配不同的角色，实现权限分配。</p>
+<p>安装插件：Role-based Authorization Strategy<br>进入到全局安全配置，启用该插件：<br><img src="/2018/12/09/jenkins/9.png" alt=""></p>
+<p>然后进入到系统管理，此时出现了Manage And Assign Roles的选项，首先选择manage roles。比如我想新增一个前端的角色，这个前端角色只能看到前端的构建任务，输入h5，点击新增，然后勾选全部/overall里的Read选项，该选项必选，否则会提示该角色没有所有的读取权限。</p>
+<p>然后新增一个项目权限，也命名为h5，Pattern里写正则，h5_.*代表显示所有以h5_开头的构建项目，选择任务里的Build，Configure，Read，启用该角色对于任务的构建，配置和读权限，点击save。</p>
+<p>然后在Jenkins的用户管理里新建一个用户，命名为h5，我这里的全名为tubitu_h5：<br><img src="/2018/12/09/jenkins/10.png" alt=""></p>
+<p>最后返回到Manage And Assign Roles主界面，选择Assign roles分配角色。<br><img src="/2018/12/09/jenkins/11.png" alt=""></p>
+<p>User/group to add框里输入h5（不需要输入全名，Jenkins会根据userId来找，userId=h5），然后点击Add，并勾选刚刚新建的h5的角色。</p>
+<p>注销当前用户，使用h5用户登录，只能看到h5_的任务。</p>
+<p>如果不小心分配错了权限，可以到jenkins的主目录下，例如Linux上的/root/.jenkins/目录下有一个config.xml文件，修改authorizationStrategy为hudson.security.FullControlOnceLoggedInAuthorizationStrategy，即可禁用基于角色的权限策略：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;useSecurity&gt;true&lt;/useSecurity&gt;</span><br><span class="line">  &lt;authorizationStrategy class=&quot;hudson.security.FullControlOnceLoggedInAuthorizationStrategy&quot;&gt;</span><br><span class="line">    &lt;denyAnonymousReadAccess&gt;true&lt;/denyAnonymousReadAccess&gt;</span><br><span class="line">  &lt;/authorizationStrategy&gt;</span><br><span class="line">  &lt;securityRealm class=&quot;hudson.security.HudsonPrivateSecurityRealm&quot;&gt;</span><br><span class="line">    &lt;disableSignup&gt;true&lt;/disableSignup&gt;</span><br><span class="line">    &lt;enableCaptcha&gt;false&lt;/enableCaptcha&gt;</span><br><span class="line">  &lt;/securityRealm&gt;</span><br></pre></td></tr></table></figure></p>
+<h1 id="jenkins卸载"><a href="#jenkins卸载" class="headerlink" title="jenkins卸载"></a>jenkins卸载</h1><p>因为我们使用的是tomcat运行jenkins.war的方式，所以：</p>
+<ol>
+<li><p>停止tomcat<br><code>./shutdown.sh</code></p>
+</li>
+<li><p>删除ROOT<br><code>rm -rf ROOT</code></p>
+</li>
+<li><p>删除jenkins工作空间<br><code>cd /root</code></p>
+</li>
+</ol>
+<p>查看jenkins是否在root下面<br><code>ls</code></p>
+<p>发现有，直接删除<br><code>rm -rf .jenkins</code></p>
+<ol start="4">
+<li>清除缓存</li>
+</ol>
+<h1 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Jenkins detected that you appear to be running more than one instance of Jenkins that share the same home directory &apos;/root/.jenkins’. This greatly confuses Jenkins and you will likely experience strange behaviors, so please correct the situation.</span><br></pre></td></tr></table></figure>
+<p>译：Jenkins检测到，您似乎正在运行多个Jenkins实例，这些实例共享相同的主目录“/root/. Jenkins”。这让jenkins非常困惑，你可能会经历奇怪的行为，所以请纠正这种情况。</p>
+<p>解决：重装</p>
+<h1 id="jenkins占用服务器硬盘过大"><a href="#jenkins占用服务器硬盘过大" class="headerlink" title="jenkins占用服务器硬盘过大"></a>jenkins占用服务器硬盘过大</h1><p>jenkins在服务器跑了一个月了，8个服务，每天都要构建几次，今天发现mysql不能插入数据了，报磁盘空间不足。第一反应就是jenkins的问题。<br>先查看linux服务器的磁盘使用状况：<code>df -h</code></p>
+<p>jenkins的文件都存储在<code>/root/.jenkins</code>，使用指令查看文件夹大小<code>du -sh</code>，发现占了86G，天哪…我硬盘一共才95G，再加上其他程序占用的内存，直接就100%使用了。</p>
+<p>解决：<br>先把<code>.jenkins/jobs</code>文件夹直接删掉，就这个文件夹占了85G，然后再mkdir一个。<br>然后删掉<code>.jenkins/workspace</code>删掉，mkdir一个，这个也占了1G多。<br>在配置时，一定要选择<code>丢弃旧的构建</code>，并且<code>保持构建的天数</code>和<code>保持构建的最大个数</code>一定要写，反正我都写1。</p>
+<h1 id="自动化脚本错误"><a href="#自动化脚本错误" class="headerlink" title="自动化脚本错误"></a>自动化脚本错误</h1><h2 id="cannot-create-regular-file-xxx，Permission-denied"><a href="#cannot-create-regular-file-xxx，Permission-denied" class="headerlink" title="cannot create regular file xxx，Permission denied"></a>cannot create regular file xxx，Permission denied</h2><ul>
+<li>查看自己是谁<code>whoami</code></li>
+<li>如果不是root用户，需要在cp前加上<code>sudo</code>，注意这里我已经提前安装了sudu。</li>
+</ul>
+<h1 id="We-trust-you-have-received-the-usual-lecture-from-the-local-System"><a href="#We-trust-you-have-received-the-usual-lecture-from-the-local-System" class="headerlink" title="We trust you have received the usual lecture from the local System"></a>We trust you have received the usual lecture from the local System</h1><p>不是root用户，使用<code>sudo</code>时，出现该问题。<br>编辑/etc/sudoers文件<br><code>vim /etc/sudoers</code><br>找到这行：<br><code>root ALL=(ALL) ALL</code><br>在起下面添加<code>xxx ALL=(ALL) ALL</code>(这里的xxx是你的用户名)，然后强制保存退出，因为该文件是只读文件，也可以在修改之前更改该文件的读写权限。</p>
+<p>然而还是不行，迷之错误，改变思路，给jenkins-workspace下的jar包赋予权限：<br><code>chmod u+x $WORKSPACE/target/archive-1.0.jar</code><br>然后就可以直接使用<code>cp</code>指令，然而只是Terminal可以使用，jenkins的脚本还是无法使用，我日…<br>暂时放弃，使用tomcat安装jenkins…</p>
+<h1 id="重装jenkins"><a href="#重装jenkins" class="headerlink" title="重装jenkins"></a>重装jenkins</h1><p>删除安装jenkins用户的主目录（~）下的（.jenkins）文件夹，然后重启，就可以重新配置jenkins</p>
+<h1 id="jenkins指定spring-boot的配置文件"><a href="#jenkins指定spring-boot的配置文件" class="headerlink" title="jenkins指定spring boot的配置文件"></a>jenkins指定spring boot的配置文件</h1><p>在启动脚本加如下代码：<br><code>-Dspring.profiles.active=dev</code></p>
+<h1 id="jenkins配置分布式应用时日志文件问题。"><a href="#jenkins配置分布式应用时日志文件问题。" class="headerlink" title="jenkins配置分布式应用时日志文件问题。"></a>jenkins配置分布式应用时日志文件问题。</h1><p>现在分布式应用结构为：<br>admin和api为消费者，其他user、video等提供者。提供者有多个，但是同时向一个日志文件中写入日志。<br>所以造成了死锁问题，多个程序都在争抢日志文件的锁，然后导致谁都无法写入。<br>解决办法：<br>每个服务，单独配置日志文件。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/部署/" rel="tag"># 部署</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/09/SOA/" rel="next" title="SOA">
+                <i class="fa fa-chevron-left"></i> SOA
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/09/IO/" rel="prev" title="IO">
+                IO <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装部署"><span class="nav-number">2.</span> <span class="nav-text">安装部署</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#docker版的Jenkins"><span class="nav-number">3.</span> <span class="nav-text">docker版的Jenkins</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#生成SSHKey"><span class="nav-number">3.1.</span> <span class="nav-text">生成SSHKey</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后续步骤"><span class="nav-number">3.2.</span> <span class="nav-text">后续步骤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Jenkins配置"><span class="nav-number">4.</span> <span class="nav-text">Jenkins配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装插件"><span class="nav-number">5.</span> <span class="nav-text">安装插件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装插件提速"><span class="nav-number">5.1.</span> <span class="nav-text">安装插件提速</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#持续集成配置"><span class="nav-number">6.</span> <span class="nav-text">持续集成配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#本地部署"><span class="nav-number">6.1.</span> <span class="nav-text">本地部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#远程部署"><span class="nav-number">6.2.</span> <span class="nav-text">远程部署</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#权限分配"><span class="nav-number">7.</span> <span class="nav-text">权限分配</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#jenkins卸载"><span class="nav-number">8.</span> <span class="nav-text">jenkins卸载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#错误处理"><span class="nav-number">9.</span> <span class="nav-text">错误处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#jenkins占用服务器硬盘过大"><span class="nav-number">10.</span> <span class="nav-text">jenkins占用服务器硬盘过大</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自动化脚本错误"><span class="nav-number">11.</span> <span class="nav-text">自动化脚本错误</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#cannot-create-regular-file-xxx，Permission-denied"><span class="nav-number">11.1.</span> <span class="nav-text">cannot create regular file xxx，Permission denied</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#We-trust-you-have-received-the-usual-lecture-from-the-local-System"><span class="nav-number">12.</span> <span class="nav-text">We trust you have received the usual lecture from the local System</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重装jenkins"><span class="nav-number">13.</span> <span class="nav-text">重装jenkins</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#jenkins指定spring-boot的配置文件"><span class="nav-number">14.</span> <span class="nav-text">jenkins指定spring boot的配置文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#jenkins配置分布式应用时日志文件问题。"><span class="nav-number">15.</span> <span class="nav-text">jenkins配置分布式应用时日志文件问题。</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

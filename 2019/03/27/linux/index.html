@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="环境搭建jdk可以选择卸载系统自带的OpenJDK以及相关的java文件，不卸载也没关系，直接修改/etc/profile即可。检查是否安装了jdk：java -version可能已经安装openJDK，这里需要先卸载掉：rpm -qa | grep java命令说明：rpm：管理套件-qa：使用询问模式，查询所有套件grep：查找文件里符合条件的字符串java：查找包含java字符串的文件 把在">
+<meta name="keywords" content="linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux">
+<meta property="og:url" content="https://jingyao066.gitee.io/2019/03/27/linux/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="环境搭建jdk可以选择卸载系统自带的OpenJDK以及相关的java文件，不卸载也没关系，直接修改/etc/profile即可。检查是否安装了jdk：java -version可能已经安装openJDK，这里需要先卸载掉：rpm -qa | grep java命令说明：rpm：管理套件-qa：使用询问模式，查询所有套件grep：查找文件里符合条件的字符串java：查找包含java字符串的文件 把在">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/03/27/linux/1.png">
+<meta property="og:updated_time" content="2020-04-07T05:49:44.450Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux">
+<meta name="twitter:description" content="环境搭建jdk可以选择卸载系统自带的OpenJDK以及相关的java文件，不卸载也没关系，直接修改/etc/profile即可。检查是否安装了jdk：java -version可能已经安装openJDK，这里需要先卸载掉：rpm -qa | grep java命令说明：rpm：管理套件-qa：使用询问模式，查询所有套件grep：查找文件里符合条件的字符串java：查找包含java字符串的文件 把在">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2019/03/27/linux/1.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2019/03/27/linux/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>linux | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2019/03/27/linux/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">linux
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-27 16:11:40" itemprop="dateCreated datePublished" datetime="2019-03-27T16:11:40+08:00">2019-03-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-04-07 13:49:44" itemprop="dateModified" datetime="2020-04-07T13:49:44+08:00">2020-04-07</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/03/27/linux/" class="leancloud_visitors" data-flag-title="linux">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><h2 id="jdk"><a href="#jdk" class="headerlink" title="jdk"></a>jdk</h2><p>可以选择卸载系统自带的OpenJDK以及相关的java文件，不卸载也没关系，直接修改<code>/etc/profile</code>即可。<br>检查是否安装了jdk：<br><code>java -version</code><br>可能已经安装openJDK，这里需要先卸载掉：<br><code>rpm -qa | grep java</code><br>命令说明：<br>rpm：管理套件<br>-qa：使用询问模式，查询所有套件<br>grep：查找文件里符合条件的字符串<br>java：查找包含java字符串的文件</p>
+<p>把在检查出的列表中前缀带<code>java</code>的文件全部删除。<br>完整的删除文件的命令，在命令窗口键入：<br><code>rpm -e --nodeps java-1.8.0-openjdk-1.8.0.102-4.b14.el7.x86_64</code><br>命令介绍：<br>rpm：管理套件<br>-e：删除指定的套件<br>–nodeps：不验证套件档的相互关联性</p>
+<p>检查是否删除成功，再次输入：<br><code>java -version</code><br><code>command not found</code><br>代表删除成功，如果还没有删除，则用<code>yum -y remove</code>去删除他们。</p>
+<h3 id="普通方式安装JDK"><a href="#普通方式安装JDK" class="headerlink" title="普通方式安装JDK"></a>普通方式安装JDK</h3><p><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank" rel="noopener">官网下载jdk1.8linux安装包</a><br>下载<code>Linux64...x64.tar.gz</code>这个包，只有这一个包符合我们的要求。<br>下载完通过FileZilla上传到服务器的理想位置，我上传到<code>/usr/local/src</code>。<br>然后再复制到<code>/usr/local</code>，这里是我们的安装位置。<code>cp jdk-8u144-linux-x64.tar.gz /usr/local</code><br>解压：<code>tar -zxvf jdk-8u144-linux-x64.tar.gz</code><br>删除JDK压缩包：<code>rm -f jdk-8u144-linux-x64.tar.gz</code><br>编辑全局变量：<code>vim /etc/profile</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#java environment</span><br><span class="line">export JAVA_HOME=/usr/local/jdk1.8.0_211</span><br><span class="line">export CLASSPATH=.:$&#123;JAVA_HOME&#125;/jre/lib/rt.jar:$&#123;JAVA_HOME&#125;/lib/dt.jar:$&#123;JAVA_HOME&#125;/lib/tools.jar</span><br><span class="line">export PATH=$PATH:$&#123;JAVA_HOME&#125;/bin</span><br></pre></td></tr></table></figure></p>
+<p>注意修改为自己的jdk安装路径，然后保存退出。<br>让刚刚设置的环境变量生效<code>source /etc/profile</code><br>检查是否配置成功<code>java -version</code>，出现版本号证明成功。<br>注意：JDK安装在哪个用户下，就是给哪个用户使用。<br><a href="https://www.cnblogs.com/sxdcgaq8080/p/7492426.html" target="_blank" rel="noopener">参考地址</a></p>
+<h3 id="docker安装JDK"><a href="#docker安装JDK" class="headerlink" title="docker安装JDK"></a>docker安装JDK</h3><ol>
+<li>安装docker(过程略)</li>
+<li><p>下载centos镜像<br><code>sudo docker pull centos:centos7</code></p>
+</li>
+<li><p><a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">下载jdk1.8</a>，并上传到/usr/local/src目录，然后解压</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cd /usr/local/src</span><br><span class="line">$ sudo tar zxf jdk-8u201-linux-x64.tar.gz</span><br><span class="line">$ sudo ls</span><br><span class="line">jdk1.8.0_201  jdk-8u201-linux-x64.tar.gz</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>创建Dockerfile<br>先在/usr/local目录下创建jdk目录，并将/usr/local/src下的jdk-8u201-linux-x64.tar.gz复制到/usr/local/jdk目录下，然后在/usr/local/jdk目录下创建Dockerfile文件。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mkdir /usr/local/jdk</span><br><span class="line">$ sudo cd /usr/local/jdk</span><br><span class="line">$ sudo cd /usr/local/jdk</span><br><span class="line">$ sudo cp ../src/jdk-8u201-linux-x64.tar.gz ./</span><br><span class="line">$ sudo ls</span><br><span class="line">jdk-8u201-linux-x64.tar.gz</span><br><span class="line">$ sudo vi Dockerfile</span><br><span class="line">FROM centos:centos7</span><br><span class="line">MAINTAINER tom</span><br><span class="line">RUN mkdir /usr/local/jdk</span><br><span class="line">WORKDIR /usr/local/jdk</span><br><span class="line">ADD jdk-8u201-linux-x64.tar.gz /usr/local/jdk</span><br><span class="line"></span><br><span class="line">ENV JAVA_HOME /usr/local/jdk/jdk1.8.0_201</span><br><span class="line">ENV JRE_HOME /usr/local/jdk/jdk1.8.0_201/jre</span><br><span class="line">ENV PATH $JAVA_HOME/bin:$PATH</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>注意：</p>
+<ul>
+<li>修改上边指令中jdk的名称</li>
+<li>jdk拷贝到dockerfile同级目录，如果在其它目录拷贝的时候可能出现找不到目录错误</li>
+<li>使用ADD指令会直接对jdk-8u144-linux-x64.tar.gz进行解压缩，不用再单独的tar解压jdk了</li>
+<li>很多地方都是使用的Dockerfile这种固定名称，其实创建的时候可以通过 -f 来指定dockerfile</li>
+</ul>
+<ol start="5">
+<li>使用Dockerfile创建镜像<br><code>sudo docker build -t jdk1.8 .</code></li>
+</ol>
+<p>如果文件名不是<code>Dockerfile</code>，需要指定别名：<br><code>docker build -t jdk-8u144：20180619 . -f jdkdockerfile</code></p>
+<p>注意：</p>
+<ul>
+<li><code>-t</code>指定镜像的名称和tag； </li>
+<li>使用-f 指定要使用的dockerfile，如果不指定会寻找当前目录名为Dockerfile的文件</li>
+<li>上面有个 . ,这个表示当前目录，必不可少的</li>
+</ul>
+<ol start="6">
+<li><p>在镜像仓库中查看是否构建成功<br><code>docker images</code><br>可以看到仓库中已经有jdk镜像</p>
+</li>
+<li><p>运行创建的镜像<br><code>docker run -d -it jdk1.8 /bin/bash</code></p>
+</li>
+</ol>
+<p>创建容器的时候一定要使用 -it /bin/bash这种方式，要不然jdk的容器起不来。</p>
+<ol start="8">
+<li>进入jdk容器，查看是否安装正确（即查看安装之后的目录）<br><code>docker exec -it jdk1.8 /bin/bash</code></li>
+</ol>
+<p><a href="https://www.jianshu.com/p/59e0a8828b3b" target="_blank" rel="noopener">其他参考</a></p>
+<h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><h3 id="docker安装mysql"><a href="#docker安装mysql" class="headerlink" title="docker安装mysql"></a>docker安装mysql</h3><p>查看docker仓库中的mysql版本：<br><code>docker search mysql</code><br><a href="https://hub.docker.com/search/?isAutomated=0&amp;isOfficial=0&amp;page=1&amp;pullCount=0&amp;q=mysql&amp;starCount=0" target="_blank" rel="noopener">可从DockerHub上查看可下载的mysql版本</a><br><a href="https://hub.docker.com/_/mysql/" target="_blank" rel="noopener">也可参照dockerHub上mysql的文档来安装</a></p>
+<p>我们下载5.7版本：<br><code>docker pull mysql:5.7</code></p>
+<p><a href="https://www.runoob.com/docker/docker-install-mysql.html" target="_blank" rel="noopener">也可以通过Dockerfile构建mysql</a></p>
+<p>查看docker镜像：<br><code>docker images | grep mysql</code></p>
+<p>根据镜像说明可知：<br>默认的配置文件是：/etc/mysql/my.cnf<br>默认的数据目录是：/var/lib/mysql</p>
+<p>可以先简单构建一次mysql：<br><code>docker run -d --name mysql --rm -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql:5.7</code></p>
+<p>进入容器，查看my.cnf：<br><code>docker exec -it mysql bash</code><br><code>cat /etc/mysql/my.cnf</code></p>
+<p>通过查看mysql容器中的my.cnf可以发现，主配置文件my.cnf加载了宿主机 /etc/mysql/conf.d 文件夹下所有的配置。<br>这个路径只是默认的，我们可以在构建容器时，手动指定data文件夹和conf文件的位置。<br>所以如果想要自定义配置，只需在我们理想的目录创建 .cnf 文件，并在构建容器时指定配置文件的路径即可(新建的文件可以任意起名，但保证后缀名是 .cnf)。</p>
+<p>创建将要映射到容器中的目录以及.cnf文件，然后再创建容器。<br>在宿主机中创建文件夹 mysql，并分别创建 data 目录和 conf 目录。新建配置文件 my.cnf，并写入如下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">server-id = 1 #服务Id唯一</span><br><span class="line">port = 3306</span><br><span class="line">log-error    = /var/log/mysql/error.log</span><br><span class="line">#只能用IP地址</span><br><span class="line">skip_name_resolve </span><br><span class="line">#数据库默认字符集</span><br><span class="line">character-set-server = utf8mb4</span><br><span class="line">#数据库字符集对应一些排序等规则 </span><br><span class="line">collation-server = utf8mb4_general_ci</span><br><span class="line">#设置client连接mysql时的字符集,防止乱码</span><br><span class="line">init_connect=&apos;SET NAMES utf8mb4&apos;</span><br><span class="line">#最大连接数</span><br><span class="line">max_connections = 1000</span><br></pre></td></tr></table></figure></p>
+<p>补一个比较完整的配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">[client]</span><br><span class="line">default-character-set = utf8mb4</span><br><span class="line">[mysql]</span><br><span class="line">default-character-set = utf8mb4</span><br><span class="line">[mysqld]</span><br><span class="line">#服务Id唯一</span><br><span class="line">server-id = 1</span><br><span class="line">port = 3306</span><br><span class="line">log-error = /var/log/mysql/error.log</span><br><span class="line"></span><br><span class="line">#只能用IP地址</span><br><span class="line">skip_name_resolve</span><br><span class="line"></span><br><span class="line">character-set-client-handshake = FALSE</span><br><span class="line"></span><br><span class="line">#数据库默认字符集</span><br><span class="line">character-set-server = utf8mb4</span><br><span class="line"></span><br><span class="line">#数据库字符集对应一些排序等规则</span><br><span class="line">collation-server = utf8mb4_general_ci</span><br><span class="line"></span><br><span class="line">#设置client连接mysql时的字符集,防止乱码</span><br><span class="line">init_connect=&apos;SET NAMES utf8mb4&apos;</span><br><span class="line"></span><br><span class="line">#最大连接数</span><br><span class="line">max_connections = 1000</span><br><span class="line"></span><br><span class="line">#解决only_full_group_by问题</span><br><span class="line">sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION</span><br><span class="line"></span><br><span class="line">#时区</span><br><span class="line">default-time_zone = &apos;+8:00&apos;</span><br><span class="line"></span><br><span class="line">#内存监控</span><br><span class="line">performance_schema_instrument =&apos;memory%=counted&apos;</span><br><span class="line"></span><br><span class="line">#慢查询日志</span><br><span class="line">#slow_query_log= on</span><br><span class="line">#long_quert_time= 2</span><br><span class="line">#slow-query-log-file = /home/mysql-slow-log.log</span><br></pre></td></tr></table></figure></p>
+<p>接下来分别映射数据库目录和配置文件目录，启动容器：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run --name mysql -d \</span><br><span class="line">-v /usr/local/mysql/conf:/etc/mysql/conf.d \</span><br><span class="line">-v /usr/local/mysql/data:/var/lib/mysql \</span><br><span class="line">-p 3306:3306 \</span><br><span class="line">-e MYSQL_ROOT_PASSWORD=123456 mysql:5.7</span><br></pre></td></tr></table></figure></p>
+<p>命令说明：<br><code>-p 3306:3306</code>：将容器的3306端口映射到主机的3306端口<br><code>-v /usr/local/mysql/conf:/etc/mysql/conf.d</code>：将主机<code>/usr/local/mysql/conf</code>目录挂载到容器的<code>/etc/mysql/conf.d</code><br><code>-e MYSQL_ROOT_PASSWORD=123456</code>：初始化root用户的密码<br><code>--rm</code>：容器退出时就能够自动清理容器内部的文件系统，就是如果你退出容器，这个容器就删除了，需要重新docker run …<br><code>-d</code>：后台运行容器，并返回容器ID<br><code>imageID</code>: mysql镜像ID</p>
+<p>使用容器客户端连接：<br><code>docker exec -it mysql mysql -uroot -p123</code></p>
+<p>查看容器启动情况：<br><code>docker ps -a</code></p>
+<p>如果服务器开放了3306端口，那么现在可以通过navicat远程连接mysql了。</p>
+<h3 id="普通方式安装"><a href="#普通方式安装" class="headerlink" title="普通方式安装"></a>普通方式安装</h3><p><a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="noopener">官网下载mysql安装包</a><br>拉到页面下方，下拉选<code>Select Operating System</code>，选择<code>Linux-Generic</code>，<code>Select OS Version</code>选择64位。如果不想下载8.0，<br>可以选择右侧的<code>Looking for the latest GA version?</code>，会出现mysql5.7版本。<br>下载最下边的<code>Linux - Generic (glibc 2.12) (x86, 64-bit), TAR</code>，下载完，上传到linux服务器<code>/usr/local/src</code>位置。<br>或使用wget获取安装包：<br><code>wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.28-linux-glibc2.12-x86_64.tar.gz</code></p>
+<p>解压缩：<code>tar -zxvf mysql-5.7...</code><br>重命名：<code>mv mysql-5.7... mysql</code><br>在mysql根目录创建data文件夹：<code>mkdir data</code><br>创建mysql的用户组和用户，并对mysql目录设置用户组和用户：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">groupadd mysql</span><br><span class="line">useradd mysql -g mysql</span><br><span class="line">cd mysql</span><br><span class="line">pwd:/usr/local/mysql</span><br><span class="line">chown -R mysql .</span><br><span class="line">chgrp -R mysql .</span><br></pre></td></tr></table></figure></p>
+<p>初始化mysql并启动mysql服务：<br><code>cd /usr/local/mysql</code></p>
+<p>初始化：<br><code>./bin/mysqld --initialize --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data</code></p>
+<p>报错：<br><code>error while loading shared libraries: libnuma.so.1: cannot open shared object file: No such file or directory</code></p>
+<p>如果已经安装了libnuma.so.1，先执行<br><code>yum remove libnuma.so.1</code></p>
+<p>然后安装64位版本：<br><code>yum -y install numactl.x86_64</code></p>
+<p>还是上边的报错，执行：<br><code>yum install -y libaio</code><br>或执行：<br><code>yum install -y libaio.so.1</code></p>
+<p>然后执行上边的初始化指令，最后提示如下初始化成功：<br><code>A temporary password is generated for root@localhost: C(tSgbIuh4yy</code><br>最后提示的是默认的密码。</p>
+<p>然后修改下权限，把除了data外的所有mysql文件的权限都设置为root：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chown -R root .</span><br><span class="line">chown -R mysql data</span><br></pre></td></tr></table></figure></p>
+<p>然后修改mysql配置文件（如果没有自己创建）：<br><code>vi /etc/my.cnf</code><br>或是这么找：<code>find / -type f -name &#39;my.cnf&#39;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">basedir=/usr/local/mysql</span><br><span class="line">datadir=/usr/local/mysql/data</span><br><span class="line">socket=/usr/local/mysql/tmp/mysql.sock</span><br><span class="line"></span><br><span class="line"># 取消密码验证，一会改完密码这段还要注释掉</span><br><span class="line">skip-grant-tables</span><br><span class="line"></span><br><span class="line">#服务Id唯一</span><br><span class="line">server-id = 1</span><br><span class="line">port = 3306</span><br><span class="line">log-error = /var/log/mysql/error.log</span><br><span class="line"></span><br><span class="line">#只能用IP地址</span><br><span class="line">skip_name_resolve</span><br><span class="line"></span><br><span class="line">character-set-client-handshake = FALSE</span><br><span class="line"></span><br><span class="line">#数据库默认字符集</span><br><span class="line">character-set-server = utf8mb4</span><br><span class="line"></span><br><span class="line">#数据库字符集对应一些排序等规则</span><br><span class="line">collation-server = utf8mb4_general_ci</span><br><span class="line"></span><br><span class="line">#设置client连接mysql时的字符集,防止乱码</span><br><span class="line">init_connect=&apos;SET NAMES utf8mb4&apos;</span><br><span class="line"></span><br><span class="line">#最大连接数</span><br><span class="line">max_connections = 1000</span><br><span class="line"></span><br><span class="line">#解决only_full_group_by问题</span><br><span class="line">sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION</span><br><span class="line"></span><br><span class="line">#时区</span><br><span class="line">default-time_zone = &apos;+8:00&apos;</span><br><span class="line"></span><br><span class="line">#内存监控</span><br><span class="line">performance_schema_instrument =&apos;memory%=counted&apos;</span><br><span class="line"></span><br><span class="line">#慢查询日志</span><br><span class="line">#slow_query_log= on</span><br><span class="line">#long_quert_time= 2</span><br><span class="line">#slow-query-log-file = /home/mysql-slow-log.log</span><br><span class="line"></span><br><span class="line">[client]</span><br><span class="line">socket=/usr/local/mysql/tmp/mysql.sock</span><br><span class="line">default-character-set = utf8mb4</span><br><span class="line"></span><br><span class="line">[mysqld_safe]</span><br><span class="line">#log-error=/var/log/mariadb/mariadb.log</span><br><span class="line">#pid-file=/var/run/mariadb/mariadb.pid</span><br><span class="line">basedir=/usr/local/mysql</span><br><span class="line">datadir=/usr/local/mysql/data</span><br><span class="line">socket=/usr/local/mysql/tmp/mysql.sock</span><br><span class="line">port=3306</span><br><span class="line">sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES</span><br><span class="line"></span><br><span class="line">#</span><br><span class="line"># include all files from the config directory</span><br><span class="line">#</span><br><span class="line">!includedir /etc/my.cnf.d</span><br></pre></td></tr></table></figure>
+<p>basedir就是mysql根目录，datadir就是上面在mysql根目录中新建的data文件夹。<br>socket我在mysql根目录中新建了一个tmp文件夹，然后这里就指向了它，mysql.sock这个文件在启动mysql时会自动创建，所以只要新建tmp文件夹就行了。 </p>
+<p>修改tmp文件夹权限：<br><code>chown -R mysql:mysql tmp</code></p>
+<p>将mysql加入服务<br><code>cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysql</code><br>开机启动<br><code>chkconfig mysql on</code><br>启动mysql<br><code>service mysql start</code></p>
+<p>还有一些启动方式作为参考：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#/etc/init.d/mysql start  或者  ./bin/mysqld_safe&amp;</span><br><span class="line">#/etc/init.d/mysql stop   或者  ./bin/mysqladmin -u root -p shutdown</span><br></pre></td></tr></table></figure></p>
+<p>可以使用<code>./bin/mysqld_safe&amp;</code>命令启动mysql服务，启动后检查下<code>ps -ef|grep mysql</code>检查下是否启动<br>启动：<br><code>./bin/mysqld_safe&amp;</code><br>见到如下内容说明启动成功：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[1] 30706</span><br><span class="line">[root@VM_0_12_centos mysql-5.7]# Logging to &apos;/usr/local/mysql-5.7/data/VM_0_12_centos.err&apos;.</span><br><span class="line">2019-06-09T01:55:28.047197Z mysqld_safe Starting mysqld daemon with databases from /usr/local/mysql-5.7/data</span><br></pre></td></tr></table></figure></p>
+<p>输入bg后台运行，然后再运行<code>ps -ef|grep mysql</code>检查可以看到mysql已经启动了。</p>
+<p>连接mysql：<br><code>/usr/local/mysql/bin/mysql -u root -p</code></p>
+<p>报错：<br><code>mysql: [ERROR] unknown variable &#39;symbolic-links=0&#39;</code></p>
+<p>查看my.cnf文件，文件中<br><code># Disabling symbolic-links is recommended to prevent assorted security risks symbolic-links=0</code><br>应该是分两行展示了，修改该行为一行显示。</p>
+<p>再次链接Mysql(由于/etc/my.cnf中设置了取消密码验证，所以此处密码直接回车即可)：<br><code>/usr/local/mysql/bin/mysql -u root -p</code></p>
+<p>输入默认密码报错：<br><code>Can&#39;t connect to local MySQL server through socket &#39;/usr/local/mysql-5.7/tmp/mysql.sock&#39; (2)</code><br>此时需要检查配置文件<code>vi /etc/my.cnf</code>，socket文件路径是否正确，tmp文件夹是否已经创建。</p>
+<p>成功登录mysql，执行sql报错：<br><code>You must reset your password using ALTER USER statement before executing this statement.</code></p>
+<p>设置密码：<br>操作mysql数据库<br><code>use mysql;</code></p>
+<p>修改root用户的密码：<br><code>update user set authentication_string=password(&#39;你的密码&#39;) where user=&#39;root&#39;;</code><br><code>flush privileges;</code><br><code>exit;</code></p>
+<p>将/etc/my.cnf中的skip-grant-tables删除，然后登录再次设置密码（不知道为啥如果不再次设置密码就操作不了数据库了）<br><code>/usr/local/mysql/bin/mysql -u root -p</code></p>
+<p>执行如下sql：<br><code>alter user &#39;root&#39;@&#39;localhost&#39; identified by &#39;修改后的密码&#39;;</code><br>注意mysql_5.7之前的版本需要把<code>authentication_string</code>替换为：<code>password</code></p>
+<p>允许远程连接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/mysql/bin/mysql -u root -p</span><br><span class="line">use mysql;</span><br><span class="line">update user set host=&apos;%&apos; where user = &apos;root&apos;;</span><br><span class="line">flush privileges;</span><br><span class="line">eixt;</span><br></pre></td></tr></table></figure></p>
+<p>添加快捷方式(可选)<br><code>ln -s /usr/local/mysql/bin/mysql /usr/bin</code></p>
+<p>忘记root密码怎么办？<br>编辑配置文件：<code>vi /etc/my.cnf</code></p>
+<p>在[mysqld]下面添加一条命令：<code>skip-grant-tables</code><br>保存退出，开始修改root密码：</p>
+<p>进入MySql控制台（直接按回车，这时不需要输入root密码。）<br><code>mysql -uroot -p</code></p>
+<p>切换到mysql数据库<br><code>mysql&gt;use mysql;</code></p>
+<p>修改mysql数据库中root的密码<br><code>update user set authentication_string=password(“填入新密码”) where user=‘root’;</code></p>
+<p>刷新mysql权限<br><code>flush privileges;</code></p>
+<p>退出<br><code>exit;</code></p>
+<p>再次vi /etc/my.cnf。把skip-grant-tables删除掉。保存退出。完成MySql root密码的修改。</p>
+<p>为root用户赋予权限：<br><code>grant all privileges on *.* to &#39;root&#39;@&#39;%&#39; identified by &#39;root&#39; with grant option;</code><br>注意修改identified by后边的密码。</p>
+<p>可能会报错：<br><code>Your password does not satisfy the current policy requirements</code></p>
+<p>这时修改密码级别：<br><code>set global validate_password_policy=0;</code><br><code>set global validate_password_length=4;</code></p>
+<p>然后执行赋权语句成功，刷新权限：<br><code>flush privileges;</code></p>
+<p>重启mysql服务：<br><code>service mysql restart</code></p>
+<p><a href="https://www.cnblogs.com/daemon-/p/9009360.html" target="_blank" rel="noopener">参考地址</a></p>
+<h3 id="windows安装mysql-8-0"><a href="#windows安装mysql-8-0" class="headerlink" title="windows安装mysql_8.0"></a>windows安装mysql_8.0</h3><ol>
+<li><a href="https://www.mysql.com/downloads/" target="_blank" rel="noopener">官网下载</a></li>
+<li>点击MySQL Community Edition (GPL) 下面的download，位于页面最下边。</li>
+<li>点击MySQL Community Server (GPL)下面的download</li>
+<li><p>页面最下边的有三种安装包。<br>安装版  .msi结尾的<br>Windows (x86, 64-bit), ZIP Archive 免安装版，解压即可。<br>Windows (x86, 64-bit), ZIP Archive Debug Binaries &amp; Test Suite，带工具包版本。<br>这里下载第二个，免安装版，下载之后解压到你想要的位置。</p>
+</li>
+<li><p>在解压的根目录新建一个 my.ini 的文件，然后加入以下内容：（basedir datadir 这两个的值一定要改成你自己的目录地址）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[mysql]</span><br><span class="line"># 设置mysql客户端默认字符集</span><br><span class="line">default-character-set=utf8</span><br><span class="line"></span><br><span class="line">[mysqld] </span><br><span class="line"># 设置3306端口</span><br><span class="line">port = 3306</span><br><span class="line"># 设置mysql的安装目录</span><br><span class="line">basedir=D:\install\mysql-8.0.15-winx64</span><br><span class="line"># 设置mysql数据库的数据的存放目录</span><br><span class="line">datadir=D:\install\mysql-8.0.15-winx64\data</span><br><span class="line"># 允许最大连接数</span><br><span class="line">max_connections=200</span><br><span class="line"># 服务端使用的字符集默认为8比特编码的latin1字符集</span><br><span class="line">character-set-server=utf8</span><br><span class="line"># 创建新表时将使用的默认存储引擎</span><br><span class="line">default-storage-engine=INNODB</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加环境变量<br>我的电脑右键属性–&gt;高级系统设置–&gt;环境变量–&gt;系统变量中找到Path–&gt;点击编辑–&gt;新建 加入Mysql的bin目录路径；</p>
+</li>
+<li><p>在mysql的bin目录以管理员身份运行cmd，以此输入<br><code>mysqld --install</code>安装<br><code>mysqld --initialize</code>初始化<br><code>net start mysql</code>运行<br>初始化后在Mysql的根目录会生成 data 数据库文件夹，如果启动服务失败，很有可能就是这个data文件夹有问题，删掉重新执行上边的步骤。</p>
+</li>
+<li><p>登陆mysql<br><code>mysql -u root -p</code><br>此时需要输入mysql的默认密码，在mysql的安装目录下搜索*.err，以文本形式打开可以看到一些内容：<br>搜索文本<code>A temporary password is generated for root@localhost:</code><br>localhost冒号之后的就是mysql的默认密码，复制，在cmd窗口右键，将密码黏贴，回车，登录成功。</p>
+</li>
+<li><p>登录成功后必须修改密码才能进行其他操作。<br><code>ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED WITH mysql_native_password BY &#39;你的新密码&#39;;</code></p>
+</li>
+<li><p>配置远程连接mysql：<br>在mysql的bin目录下执行：<br><code>mysql -u root -p密码</code><br><code>use mysql;</code><br><code>update user set host=&#39;%&#39; where user =&#39;root&#39;;</code>修改连接权限<br><code>update user set plugin=&#39;mysql_native_password&#39; where user =&#39;root&#39;;</code>更改加密方式：<br><code>flush privileges;</code>执行刷新权限</p>
+</li>
+</ol>
+<h2 id="tomcat"><a href="#tomcat" class="headerlink" title="tomcat"></a>tomcat</h2><p>官网下载：<br><a href="https://tomcat.apache.org/download-90.cgi" target="_blank" rel="noopener">https://tomcat.apache.org/download-90.cgi</a><br>找到Core下的tar.gz包下载并上传到/usr/local 目录下。</p>
+<p>到usr/local目录下解压：<br><code>tar -zxvf apache-tomcat-9.0.1.tar.gz</code></p>
+<p>tomcat默认端口是8080，这里为了防止和其他任务端口冲突，我们将端口修改为合适的端口。<br>cd到/tomcat/conf，<code>vi server.xml</code>，找到<code>Connector port=&quot;8080&quot;</code>的位置，修改为恰当的端口。</p>
+<p>cd到tomcat的bin目录下：<br><code>cd ../bin</code>，启动tomcat<code>./startup.sh</code>，看到日志末尾<code>Tomcat started</code>，说明tomcat启动成功。</p>
+<p>查看tomcat日志：<br><code>tail -f logs/catalina.out</code></p>
+<p>若远程无法访问，可能需要在阿里云控制台添加端口白名单。或者是防火墙</p>
+<h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><p>先确认是否安装了git：<br><code>rpm -qa|grep git</code><br>如果安装了需要先卸载：<br><code>rpm -e --nodeps git  或者  rpm -e git</code></p>
+<p>安装：<br><code>yum install git</code><br>再使用 rpm -qa|grep git 来查看是否已经安装好了Git。</p>
+<p>或使用指令查看是否安装成功：<br><code>git --version</code></p>
+<h2 id="maven"><a href="#maven" class="headerlink" title="maven"></a>maven</h2><ol>
+<li>到理想目录下载maven：<br><code>wget http://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz</code></li>
+<li>解压：<br><code>tar -zxvf apache-maven-3.3.9-bin.tar.gz</code></li>
+<li>改下名，方便后面操作：<br><code>mv apache-maven-3.3.9 maven</code></li>
+<li>配置环境变量<br><code>vim /etc/profile</code>，在合适的位置添加如下内容：<br><code>M2_HOME=/usr/local/maven</code><br><code>export PATH=${M2_HOME}/bin:${PATH}</code><br>修改为自己maven的安装路径</li>
+</ol>
+<p>然后使配置文件生效：<br><code>source /etc/profile</code></p>
+<ol start="5">
+<li>检查是否安装成功<br><code>mvn -v</code><br>出现版本号：<code>Apache Maven 3.3.9...</code>，证明安装成功。</li>
+</ol>
+<h3 id="windows安装maven"><a href="#windows安装maven" class="headerlink" title="windows安装maven"></a>windows安装maven</h3><p>提前安装好jdk。</p>
+<p><a href="http://maven.apache.org/download.cgi" target="_blank" rel="noopener">官网下载zip包</a><br>解压到理想的路径</p>
+<p>添加M2_HOME环境变量<br>值为maven的安装路径</p>
+<p>添加MAVEN_HOME环境变量<br>值为maven的安装路径</p>
+<p>编辑系统变量<code>PATH</code>，在末尾添加<br><code>%M2_HOME%\bin</code><br><code>%MAVEN_HOME%\bin</code></p>
+<p>验证<br>打开cmd，<code>mvn -v</code>，显示版本号证明配置成功！</p>
+<h2 id="zookeeper"><a href="#zookeeper" class="headerlink" title="zookeeper"></a>zookeeper</h2><p><a href="http://mirror.bit.edu.cn/apache/zookeeper/" target="_blank" rel="noopener">下载地址</a><br>下载stable版本。</p>
+<p>将下载好的.gz解压并复制到想要的位置。如：/usr/local/install 或 /home/wjy/install</p>
+<p>在zk的根目录创建两个文件夹data和data_log，分别用来存放zk的数据以及日志。然后进入到data目录，使用pwd指令查看并复制data目录的绝对路径。</p>
+<p>进入zookeeper的conf目录下，复制zoo_sample.cfg为zoo.cfg<br><code>cp zoo_sample.cfg zoo.cfg</code></p>
+<p>然后编辑zoo.cfg，修改或新增下面两行配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dataDir=/home/wjy/install/zookeeper-3.4.13/data</span><br><span class="line">dataLogDir=/home/wjy/install/zookeeper-3.4.13/data_log</span><br></pre></td></tr></table></figure></p>
+<p>保存并退出。</p>
+<p>zoo.cfg只存放了单机的配置，想配置集群需要在最后面加上其他服务器的ip和端口。</p>
+<p>到zk的bin目录下启动：<br><code>./zkServer.sh start</code></p>
+<p>查看状态<br><code>./zkServer.sh status</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ZooKeeper JMX enabled by default</span><br><span class="line">Using config: /home/wjy/install/zookeeper-3.4.13/bin/../conf/zoo.cfg</span><br><span class="line">Mode: standalone</span><br></pre></td></tr></table></figure></p>
+<p>出现上边的状态说明启动成功。<br>standalone：单机</p>
+<h3 id="docker安装"><a href="#docker安装" class="headerlink" title="docker安装"></a>docker安装</h3><ul>
+<li>查看zookeeper镜像<br><code>docker search zookeeper</code></li>
+<li>拉取镜像<br><code>docker pull zookeeper</code></li>
+<li>构建zookeeper容器<br><code>docker run --name=zookeeper -p 2181:2181 -d --privileged zookeeper</code></li>
+</ul>
+<p>–name：指定容器别名为zookeeper<br>-p: 指定端口映射，格式为：主机(宿主)端口:容器端口<br>-d: 后台运行容器，并返回容器ID<br>-v /mysoft/zookeeper/data/:/data/ ：将宿主机的目录挂在到该镜像</p>
+<h2 id="redis"><a href="#redis" class="headerlink" title="redis"></a>redis</h2><p><a href="https://redis.io/" target="_blank" rel="noopener">https://redis.io/</a><br>官网下载，解压并复制到想要的位置 /home/wjy/install</p>
+<p>cd到redis根目录下，执行<br><code>make</code><br>报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">net.c:36:23: fatal error: sys/types.h: No such file or directory(没有那个文件或目录)</span><br><span class="line">...</span><br><span class="line">adlist.c:32:20: fatal error: stdlib.h: No such file or directory</span><br></pre></td></tr></table></figure></p>
+<p>原因是缺少文件，执行以下命令后再次make：<br><code>sudo apt-get install libc6-dev</code></p>
+<p>还是报错:<br><code>zmalloc.h:50:31: fatal error: jemalloc/jemalloc.h: No such file or directory</code></p>
+<p>原因是libc不是默认的分配器，在make后添加参数解决：<br><code>sudo make MALLOC=libc</code></p>
+<p>等待执行完成，到redis/src目录下，执行<br><code>./redis-server</code><br>出现端口号和进程PID，证明启动成功。</p>
+<p>通过上边的指令启动redis，<code>ctrl+c</code>推出窗口，redis也会关闭，可以在指令后加上<code>&amp;</code><br><code>./redis-server &amp;</code><br>按ctrl + C 可退出redis 启动窗口，此时redis　并不会关闭，而是会再后台运行，可通过命令查看: ps aux | grep redis</p>
+<p>停止redis报错<code>NOAUTH Authentication required</code></p>
+<h3 id="停止redis"><a href="#停止redis" class="headerlink" title="停止redis"></a>停止redis</h3><p>通过源码安装的redis，只能通过这种方式停止，或使用<code>kill -9</code><br><code>./redis-cli -h 你的ip -p 6379 -a 你的密码 shutdown</code></p>
+<h3 id="给redis添加密码"><a href="#给redis添加密码" class="headerlink" title="给redis添加密码"></a>给redis添加密码</h3><ul>
+<li>临时密码(redis重启之后会失效)<br>首先启动redis服务，然后进入redis：<br><code>redis-cli -p 6379</code></li>
+</ul>
+<p>查看当前redis有没有设置密码：<br><code>config get requirepass</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1) &quot;requirepass&quot;</span><br><span class="line">2) &quot;&quot;</span><br></pre></td></tr></table></figure></p>
+<p>为以上显示说明没有密码，那么现在来设置密码：<br><code>config set requirepass 123456</code></p>
+<p>提示ok，再次查看当前redis就提示需要密码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; config get requirepass</span><br><span class="line">(error) NOAUTH Authentication required.</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>永久方式<br>修改redis根目录下的<code>redis.conf</code>文件：<br><code>vi redis.conf</code></li>
+</ul>
+<p>查找字符串：<br>命令模式下输入<code>“/字符串”</code>，例如“/Section 3”。<br>如果查找下一个，按“n”即可。<br><code>/requirepass foobared</code></p>
+<p>在该行下面输入：<br><code>requirepass 123456</code><br>123456是你的密码</p>
+<p>问题：修改并重启redis之后发现配置并没有生效，原来启动时还需要指定配置文件。<br><code>./redis-server ../redis.conf &amp;</code>，然后<code>bg</code><br>这样才算是指定了刚才修改的配置文件。</p>
+<p>至于windows下的redis配置文件，同理。</p>
+<h3 id="配置远程链接redis"><a href="#配置远程链接redis" class="headerlink" title="配置远程链接redis"></a>配置远程链接redis</h3><ul>
+<li>将<code>redis.conf</code>中的<code>bind 127.0.0.1</code>注释掉，或改成<code>0.0.0.0</code></li>
+<li>找到<code>protected-mode</code>，后边默认是<code>yes</code>，改成<code>no</code><br>重启redis。</li>
+</ul>
+<p>在windows的cmd或mac的终端输入<br><code>redis-cli -h 你的服务器ip -p 6379 -a 你的密码</code></p>
+<p>远程连接成功。如果还是连不上，请检查你服务器的安全组，是否开放了6379端口。</p>
+<h3 id="docker安装redis"><a href="#docker安装redis" class="headerlink" title="docker安装redis"></a>docker安装redis</h3><ul>
+<li>搜索redis镜像<br><code>docker search redis</code></li>
+<li>拉取官方镜像<br><code>docker pull redis</code></li>
+<li>检查是否成功<br><code>docker images</code></li>
+<li>配置data、conf<br><code>mkdir /usr/local/docker/redis/data</code><br><code>mkdir /usr/local/docker/redis/conf</code></li>
+</ul>
+<p>修改redis.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#bind 127.0.0.1</span><br><span class="line">protected-mode no</span><br><span class="line">appendonly yes</span><br><span class="line">requirepass yourpassword</span><br></pre></td></tr></table></figure></p>
+<p>protected-mode：在没有显示定义 bind 地址（即监听全网断），又没有设置密码 requirepass时，只允许本地回环 127.0.0.1 访问</p>
+<ul>
+<li><p>构建redis容器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run \</span><br><span class="line">-p 6379:6379 \ # 端口映射 宿主机:容器</span><br><span class="line">-v /usr/local/docker/redis/data:/data \ # 映射数据目录 rw 为读写</span><br><span class="line">-v /usr/local/docker/redis/conf/redis.conf:/etc/redis/redis.conf \ # 挂载配置文件 ro 为readonly</span><br><span class="line">--privileged=true \ # 给与一些权限</span><br><span class="line">--name redis \ # 给容器起个名字</span><br><span class="line">-d docker.io/redis:latest redis-server /etc/redis/redis.conf # deamon 运行 服务使用指定的配置文件</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看运行是否成功<br><code>docker ps -a</code></p>
+</li>
+<li><p>进入Docker容器redis的客户端<br><code>docker exec -it 容器ID redis-cli</code></p>
+</li>
+<li>查看设置的密码是否成功<br><code>auth 刚才设置的密码</code></li>
+</ul>
+<h2 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h2><p>下载Nginx及相关组件<br>Linux系统是Centos 6.5 64位，如果不是root用户，切换到root用户下安装<br><code>su root</code><br>输入密码，密码不显示。</p>
+<p>首先安装所需依赖：<br><code>yum -y install gcc gcc-c++ make libtool zlib zlib-devel openssl openssl-devel pcre pcre-devel</code></p>
+<p>进入理想目录准备下载：<br><code>cd /usr/local/src</code></p>
+<p>下载nginx tar包：<br><code>wget http://nginx.org/download/nginx-1.17.8.tar.gz</code></p>
+<p>上边的版本号可能不是最新的，可以去<a href="http://nginx.org/download/" target="_blank" rel="noopener">官网</a>找最新的安装包。<br>注意列表不是有序的，现在是2020年，我在页面搜索2020，就可以看到最近发布的安装包，然后把上边的<code>nginx-1.17.8.tar.gz</code>替换成新的安装包名字。</p>
+<p>解包：<br><code>tar -xvf nginx-1.17.8.tar.g</code></p>
+<p>进入nginx目录：<br><code>cd nginx-1.10.2</code></p>
+<p>安装：<br><code>./configure &amp;&amp; make &amp;&amp; make install</code></p>
+<p>执行完，会在源码同一层生成名为nginx的目录。</p>
+<p>启动nginx<br>先找一下nginx安装到什么位置上了<br><code>whereis nginx</code><br><code>nginx: /usr/local/nginx</code></p>
+<p>进入nginx目录并启动：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/nginx/sbin</span><br><span class="line">./nginx</span><br></pre></td></tr></table></figure></p>
+<p>停止nginx：<code>./nginx -s stop</code></p>
+<p><a href="https://www.cnblogs.com/taiyonghai/p/6728707.html" target="_blank" rel="noopener">参考1</a><br><a href="https://www.cnblogs.com/bluestorm/p/4574688.html" target="_blank" rel="noopener">参考2</a></p>
+<p>make报错：<br><code>make: *** No rule to make target</code>build’, needed by <code>default&#39;. Stop.</code><br>更新yum<br><code>yum update</code></p>
+<p>安装前置库<br><code>yum install -y gcc pcre pcre-devel openssl openssl-devel gd gd-devel</code></p>
+<p>进入nginx根目录重新编译一次参数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">./configure \</span><br><span class="line"></span><br><span class="line">--prefix=/usr/local/nginx \</span><br><span class="line"></span><br><span class="line">--pid-path=/usr/local/nginx/run \</span><br><span class="line"></span><br><span class="line">--user=nginx \</span><br><span class="line"></span><br><span class="line">--group=nginx \</span><br><span class="line"></span><br><span class="line">--with-http_ssl_module \</span><br><span class="line"></span><br><span class="line">--with-http_flv_module \</span><br><span class="line"></span><br><span class="line">--with-http_stub_status_module \</span><br><span class="line"></span><br><span class="line">--with-http_gzip_static_module \</span><br><span class="line"></span><br><span class="line">--with-pcre \</span><br><span class="line"></span><br><span class="line">--with-http_image_filter_module \</span><br><span class="line"></span><br><span class="line">--with-debug \</span><br></pre></td></tr></table></figure></p>
+<p>ok了。</p>
+<p><a href="https://blog.csdn.net/cailongbiaoyuli/article/details/84348866" target="_blank" rel="noopener">make报错参考</a></p>
+<h2 id="solr"><a href="#solr" class="headerlink" title="solr"></a>solr</h2><p><a href="https://lucene.apache.org/solr/downloads.html" target="_blank" rel="noopener">官网下载最新的solr</a><br>下载Binary releases-zip包，下载后上传到服务器<code>/usr/local/src</code>，cp到<code>/usr/local</code>下，解压<code>unzip solr-8.2.0.zip</code>。<br>进入bin目录，执行<code>./solr -start</code></p>
+<p>提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">*** [WARN] ***  Your Max Processes Limit is currently 63473. </span><br><span class="line"> It should be set to 65000 to avoid operational disruption. </span><br><span class="line"> If you no longer wish to see this warning, set SOLR_ULIMIT_CHECKS to false in your profile or solr.in.sh</span><br><span class="line">WARNING: Starting Solr as the root user is a security risk and not considered best practice. Exiting.</span><br><span class="line">         Please consult the Reference Guide. To override this check, start with argument &apos;-force&apos;</span><br></pre></td></tr></table></figure></p>
+<p>根据提示再次执行：<br><code>./solr start -force</code><br>最后提示：<br><code>Started Solr server on port 8983 (pid=27222). Happy searching!</code><br>证明启动成功，打开服务器访问：<br><code>你的ip:8983</code><br>就可以看到solr的web页面了。</p>
+<p>如果不能访问，可能是你服务器的端口没开，请设置服务器的安全组。</p>
+<h3 id="创建core"><a href="#创建core" class="headerlink" title="创建core"></a>创建core</h3><p>选择左侧CoreAdmin，再选择Add Core，输入核心的名称和实例路径，后边三个默认就好。<br>点击Add Core提交信息，这里我遇到了一个错误信息，如下：<br><code>Can&#39;t find resource &#39;solrconfig.xml&#39; in classpath orc</code><br>意思是在核心目录下找不到相应的配置文件，解决办法：将下面路径的conf文件夹copy到新创建的core目录下 /usr/local/solr-8.0.0/server/solr/new_core。<br><code>/usr/local/solr-8.2.0/server/solr/configsets/_default</code><br>执行复制命令<br><code>cp -r conf ../../new_core/</code><br>然后再去创建，就成功了。</p>
+<h3 id="给solr添加访问密码"><a href="#给solr添加访问密码" class="headerlink" title="给solr添加访问密码"></a>给solr添加访问密码</h3><p>昨天因为没给solr添加访问密码，导致服务器被挖矿病毒攻击，服务器无法访问，数据库无法访问。还好今天把数据恢复了。</p>
+<p>创建并编辑文件<br><code>vim /usr/local/solr-8.2.0/server/etc/verify.properties</code><br>输入如下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#用户名 密码 权限</span><br><span class="line">user:pass,admin</span><br></pre></td></tr></table></figure></p>
+<p>也可以配置多用户：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#用户名 密码 权限</span><br><span class="line">user: pass,admin</span><br><span class="line">user1: pass,admin</span><br><span class="line">user3: pass,admin</span><br></pre></td></tr></table></figure></p>
+<p>继续编辑文件<br><code>vim /usr/local/solr-8.2.0/server/contexts/solr-jetty-context.xml</code><br>初始文件内容如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE Configure PUBLIC &quot;-//Jetty//Configure//EN&quot; &quot;http://www.eclipse.org/jetty/configure_9_0.dtd&quot;&gt;</span><br><span class="line">&lt;Configure class=&quot;org.eclipse.jetty.webapp.WebAppContext&quot;&gt;</span><br><span class="line">  &lt;Set name=&quot;contextPath&quot;&gt;&lt;Property name=&quot;hostContext&quot; default=&quot;/solr&quot;/&gt;&lt;/Set&gt;</span><br><span class="line">  &lt;Set name=&quot;war&quot;&gt;&lt;Property name=&quot;jetty.base&quot;/&gt;/solr-webapp/webapp&lt;/Set&gt;</span><br><span class="line">  &lt;Set name=&quot;defaultsDescriptor&quot;&gt;&lt;Property name=&quot;jetty.base&quot;/&gt;/etc/webdefault.xml&lt;/Set&gt;</span><br><span class="line">  &lt;Set name=&quot;extractWAR&quot;&gt;false&lt;/Set&gt;</span><br><span class="line">&lt;/Configure&gt;</span><br></pre></td></tr></table></figure></p>
+<p>添加如下内容，注意要写在Configure标签中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;Get name=&quot;securityHandler&quot;&gt;</span><br><span class="line"> &lt;Set name=&quot;loginService&quot;&gt;</span><br><span class="line">	 &lt;New class=&quot;org.eclipse.jetty.security.HashLoginService&quot;&gt;</span><br><span class="line">		&lt;Set name=&quot;name&quot;&gt;verify—name&lt;/Set&gt;</span><br><span class="line">		&lt;Set name=&quot;config&quot;&gt;&lt;SystemProperty name=&quot;jetty.home&quot; default=&quot;.&quot;/&gt;/etc/verify.properties&lt;/Set&gt;</span><br><span class="line">	 &lt;/New&gt;</span><br><span class="line"> &lt;/Set&gt;</span><br><span class="line">&lt;/Get&gt;</span><br></pre></td></tr></table></figure></p>
+<p>继续编辑文件<br><code>vim /usr/local/solr-8.2.0/server/solr-webapp/webapp/WEB-INF/web.xml</code></p>
+<p>找到如下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- Get rid of error message --&gt;</span><br><span class="line">&lt;security-constraint&gt;</span><br><span class="line">  &lt;web-resource-collection&gt;</span><br><span class="line">    &lt;web-resource-name&gt;Disable TRACE&lt;/web-resource-name&gt;</span><br><span class="line">    &lt;url-pattern&gt;/&lt;/url-pattern&gt;</span><br><span class="line">    &lt;http-method&gt;TRACE&lt;/http-method&gt;</span><br><span class="line">  &lt;/web-resource-collection&gt;</span><br><span class="line">  &lt;auth-constraint/&gt;</span><br><span class="line">&lt;/security-constraint&gt;</span><br><span class="line">&lt;security-constraint&gt;</span><br><span class="line">  &lt;web-resource-collection&gt;</span><br><span class="line">    &lt;web-resource-name&gt;Enable everything but TRACE&lt;/web-resource-name&gt;</span><br><span class="line">    &lt;url-pattern&gt;/&lt;/url-pattern&gt;</span><br><span class="line">    &lt;http-method-omission&gt;TRACE&lt;/http-method-omission&gt;</span><br><span class="line">  &lt;/web-resource-collection&gt;</span><br><span class="line">&lt;/security-constraint&gt;</span><br></pre></td></tr></table></figure></p>
+<p>在下边添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;security-constraint&gt;</span><br><span class="line">&lt;web-resource-collection&gt;</span><br><span class="line">  &lt;web-resource-name&gt;Solr&lt;/web-resource-name&gt;</span><br><span class="line">  &lt;url-pattern&gt;/&lt;/url-pattern&gt;</span><br><span class="line">&lt;/web-resource-collection&gt;   </span><br><span class="line"> &lt;auth-constraint&gt;      </span><br><span class="line">	&lt;role-name&gt;admin&lt;/role-name&gt; </span><br><span class="line"> &lt;/auth-constraint&gt; </span><br><span class="line">&lt;/security-constraint&gt;</span><br><span class="line"> </span><br><span class="line">&lt;login-config&gt;      </span><br><span class="line">	&lt;auth-method&gt;BASIC&lt;/auth-method&gt; </span><br><span class="line">	&lt;realm-name&gt;verify-name&lt;/realm-name&gt;   </span><br><span class="line">&lt;/login-config&gt;</span><br></pre></td></tr></table></figure></p>
+<p>然后启动solr，就会让输入用户名密码了。</p>
+<p>另外也可以通过solr地址中加入用户名密码的方式登录，直接进入主界面,地址如下：<br><code>http://user:pass@localhost:8088/solr/</code></p>
+<h1 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h1><h2 id="apache下载文件"><a href="#apache下载文件" class="headerlink" title="apache下载文件"></a>apache下载文件</h2><p><img src="/2019/03/27/linux/1.png" alt=""></p>
+<ol>
+<li>找到apache的安装目录，httpd目录</li>
+<li>进入到conf.d目录下</li>
+<li>删掉welcome.conf<br><code>rm –rf welcome.conf</code></li>
+<li>回到apache的安装目录下，进入到conf 文件夹下</li>
+<li>查看httpd.conf文件(里面有默认访问页面的路径)<br><code>vi httpd.conf</code><br>找到这个：<br><code>DocumentRoot &quot;/var/www/html&quot;</code><br>这个是你apache默认的访问页面，进入到这个文件夹<br>这个文件夹下的内容会被显示到apahce的默认访问页里，把你想要下载的东西打包成压缩文件，传到这个文件夹下，就可以通过ip访问下载了。</li>
+</ol>
+<h2 id="磁盘满了"><a href="#磁盘满了" class="headerlink" title="磁盘满了"></a>磁盘满了</h2><p>nginx启动报错：<br><code>nginx: [crit] pwrite() &quot;/usr/local/nginx/logs/nginx.pid&quot; failed (28: No space left on device)</code><br>磁盘满了，查一下<br><code>df -h</code></p>
+<p>查看所有路径下大于100M的文件<br><code>find / -size +100M |xargs ls -lh</code><br>大部分情况是因为某些日志把磁盘写满了。</p>
+<p>清空文件内容几种方式：<br><code>echo &gt; filename</code><br><code>echo &quot;&quot; &gt; filename</code><br><code>&gt; filename</code><br><code>: &gt; filename</code><br><code>cat /dev/null &gt; filename</code></p>
+<h1 id="直接用java-jar-xxx-jar，当退出或关闭shell时，程序就会停止掉。"><a href="#直接用java-jar-xxx-jar，当退出或关闭shell时，程序就会停止掉。" class="headerlink" title="直接用java -jar xxx.jar，当退出或关闭shell时，程序就会停止掉。"></a>直接用java -jar xxx.jar，当退出或关闭shell时，程序就会停止掉。</h1><p><code>java -jar xxx.jar &amp;</code><br><code>nohup java -jar xxxx.jar &amp;</code></p>
+<h1 id="环境部署步骤"><a href="#环境部署步骤" class="headerlink" title="环境部署步骤"></a>环境部署步骤</h1><ol>
+<li>安装jdk</li>
+<li>安装docker</li>
+<li>通过docker安装mysql</li>
+<li>通过docker安装zookeeper</li>
+<li>安装redis</li>
+<li>安装tomcat(为了安装jenkins)</li>
+<li>war包安装jenkins</li>
+<li>安装maven</li>
+<li>安装git</li>
+<li>安装nginx</li>
+</ol>
+<h1 id="阿里云升级https"><a href="#阿里云升级https" class="headerlink" title="阿里云升级https"></a>阿里云升级https</h1><h2 id="申请证书"><a href="#申请证书" class="headerlink" title="申请证书"></a>申请证书</h2><p>登录阿里云-&gt;控制台-&gt;产品与服务-&gt;安全（云盾）-&gt;SSL证书(应用安全)-&gt;购买证书-&gt;免费型DV SSL-&gt;购买并支付(这里支付0.00，就是不用花钱)<br>然后回到控制台-&gt;SSL证书(应用安全)，可以看到刚才购买的免费SSL证书。</p>
+<ul>
+<li>点击右侧的证书申请，填写申请人的详细信息，然后点击下一步，进入证书验证信息页面。在这个界面可以看到三个值：记录类型、主机记录和记录值。</li>
+<li>找到你的域名供应商控制台，我的是腾讯云，进入控制台，在左上角<code>云产品</code>的下拉列表搜索<code>云解析</code>，进入会看到你的域名，点击右侧的解析，点击左上角的<code>添加记录</code></li>
+<li>根据提示分别填入上边的三个信息，然后确认保存，解析记录添加成功。</li>
+<li>回到阿里云，点击验证，成功会提示：已经成功提交到CA公司，请您保持电话畅通，并及时查阅邮箱中来自CA公司的电子邮件。</li>
+<li>安静的等待审核通过，一般十分钟就通过了，审核通过后会在ssl证书页面看到证书的状态是<code>已签发</code>。</li>
+<li><p>点击右侧的下载，根据自己的服务器类型选择证书下载，我下载nginx版本，顺便打开帮助文档，<a href="https://help.aliyun.com/knowledge_detail/95491.html" target="_blank" rel="noopener">按照文档来</a>。</p>
+</li>
+<li><p>在Nginx的安装目录下创建cert目录，并且将下载的全部文件拷贝到cert目录中，注意这里先解压再上传到服务器，应该是两个文件，分别是.key和.pem结尾的。</p>
+</li>
+<li>打开<code>nginx.conf</code>配置文件，做如下配置：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">	listen 80 default backlog=2048;</span><br><span class="line">	listen       443 ssl;</span><br><span class="line">	server_name  api.zjxk12.com;</span><br><span class="line"></span><br><span class="line">	# ssl开头的都是证书配置</span><br><span class="line">	ssl_certificate      /usr/local/nginx/cert/api.zjxk12.com.pem;</span><br><span class="line">	ssl_certificate_key  /usr/local/nginx/cert/api.zjxk12.com.key;</span><br><span class="line">	ssl_session_cache    shared:SSL:1m;</span><br><span class="line">	ssl_session_timeout  5m;</span><br><span class="line">	ssl_ciphers  ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;</span><br><span class="line">	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">	ssl_prefer_server_ciphers  on;</span><br><span class="line"></span><br><span class="line">	# 端口转发</span><br><span class="line">	location / &#123;</span><br><span class="line">		proxy_pass http://api.zjxk12.com:8000;</span><br><span class="line">		index  index.html index.htm;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	location ~.txt&#123;</span><br><span class="line">		root /usr/local/src;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	error_page   500 502 503 504  /50x.html;</span><br><span class="line">	location = /50x.html &#123;</span><br><span class="line">		root   html;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>ssl开头的都是证书配置，要按照规定写，其他参数根据自己需求填写。<br>填完之后启动nginx报错：<br><code>nginx: [emerg] the &quot;ssl&quot; parameter requires ngx_http_ssl_module in /usr/local/nginx/conf/nginx.conf:105</code><br>原因也很简单，nginx缺少http_ssl_module模块，编译安装的时候带上–with-http_ssl_module配置就行了，但是现在的情况是我的nginx已经安装过了，怎么添加模块，其实也很简单，往下看： 做个说明：我的nginx的安装目录是/usr/local/nginx这个目录，我的源码包在/usr/local/src/nginx-1.6.2目录</p>
+<p>Nginx开启SSL模块<br>切换到源码包：<br><code>cd /usr/local/src/nginx-1.11.3</code><br>查看nginx原有的模块<br><code>/usr/local/nginx/sbin/nginx -V</code><br>在configure arguments:后面显示的原有的configure参数如下：<br><code>--prefix=/usr/local/nginx --with-http_stub_status_module</code><br>那么我们的新配置信息就应该这样写：<br><code>./configure --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module</code><br>报错：<code>./configure: error: SSL modules require the OpenSSL library.</code><br>那就安装它：<br><code>yum -y install openssl openssl-devel</code><br>然后继续执行上边的命令，就成功了。</p>
+<p>上面的命令运行完，再执行：<br><code>make</code><br>这里不要进行make install，否则就是覆盖安装<br>然后备份原有已安装好的nginx<br><code>cp /usr/local/nginx/sbin/nginx /usr/local/nginx/sbin/nginx.bak</code></p>
+<p>停止nginx，先找到进程号：<br><code>netstat -nltp|grep 80</code><br><code>kill 13589</code></p>
+<p>然后将刚刚编译好的nginx覆盖掉原有的nginx（这个时候nginx要停止状态）<br><code>cp ./objs/nginx /usr/local/nginx/sbin/</code><br>提示：<code>cp overwrite...?</code><br>此时输入<code>y</code>，然后回车，直接回车则不执行任何操作。</p>
+<p>然后启动nginx，在nginx的sbin目录下执行<br><code>./nginx</code></p>
+<p>通过命令查看是否已经加入成功<br><code>/usr/local/nginx/sbin/nginx -V</code></p>
+<p><a href="https://www.cnblogs.com/ghjbk/p/6744131.html" target="_blank" rel="noopener">参考地址</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/27/mybatis/" rel="next" title="mybatis">
+                <i class="fa fa-chevron-left"></i> mybatis
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/27/结婚十年被绿的彻底/" rel="prev" title="结婚十年被绿的彻底">
+                结婚十年被绿的彻底 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#环境搭建"><span class="nav-number">1.</span> <span class="nav-text">环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#jdk"><span class="nav-number">1.1.</span> <span class="nav-text">jdk</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#普通方式安装JDK"><span class="nav-number">1.1.1.</span> <span class="nav-text">普通方式安装JDK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker安装JDK"><span class="nav-number">1.1.2.</span> <span class="nav-text">docker安装JDK</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql"><span class="nav-number">1.2.</span> <span class="nav-text">mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker安装mysql"><span class="nav-number">1.2.1.</span> <span class="nav-text">docker安装mysql</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#普通方式安装"><span class="nav-number">1.2.2.</span> <span class="nav-text">普通方式安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#windows安装mysql-8-0"><span class="nav-number">1.2.3.</span> <span class="nav-text">windows安装mysql_8.0</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tomcat"><span class="nav-number">1.3.</span> <span class="nav-text">tomcat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git"><span class="nav-number">1.4.</span> <span class="nav-text">git</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#maven"><span class="nav-number">1.5.</span> <span class="nav-text">maven</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#windows安装maven"><span class="nav-number">1.5.1.</span> <span class="nav-text">windows安装maven</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zookeeper"><span class="nav-number">1.6.</span> <span class="nav-text">zookeeper</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker安装"><span class="nav-number">1.6.1.</span> <span class="nav-text">docker安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#redis"><span class="nav-number">1.7.</span> <span class="nav-text">redis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#停止redis"><span class="nav-number">1.7.1.</span> <span class="nav-text">停止redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#给redis添加密码"><span class="nav-number">1.7.2.</span> <span class="nav-text">给redis添加密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置远程链接redis"><span class="nav-number">1.7.3.</span> <span class="nav-text">配置远程链接redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker安装redis"><span class="nav-number">1.7.4.</span> <span class="nav-text">docker安装redis</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx"><span class="nav-number">1.8.</span> <span class="nav-text">nginx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#solr"><span class="nav-number">1.9.</span> <span class="nav-text">solr</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建core"><span class="nav-number">1.9.1.</span> <span class="nav-text">创建core</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#给solr添加访问密码"><span class="nav-number">1.9.2.</span> <span class="nav-text">给solr添加访问密码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#技巧"><span class="nav-number">2.</span> <span class="nav-text">技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#apache下载文件"><span class="nav-number">2.1.</span> <span class="nav-text">apache下载文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#磁盘满了"><span class="nav-number">2.2.</span> <span class="nav-text">磁盘满了</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#直接用java-jar-xxx-jar，当退出或关闭shell时，程序就会停止掉。"><span class="nav-number">3.</span> <span class="nav-text">直接用java -jar xxx.jar，当退出或关闭shell时，程序就会停止掉。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#环境部署步骤"><span class="nav-number">4.</span> <span class="nav-text">环境部署步骤</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#阿里云升级https"><span class="nav-number">5.</span> <span class="nav-text">阿里云升级https</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#申请证书"><span class="nav-number">5.1.</span> <span class="nav-text">申请证书</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

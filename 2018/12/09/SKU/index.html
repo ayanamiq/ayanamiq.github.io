@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="SKU淘宝购买商品时，商品有很多不同的属性和属性值，如：颜色：白色、黑色、蓝色、紫色…尺寸：170、175、180、185…买衣服时，通常会发现，白色-175库存20件，但是白色-180有30件，而且价格可能还不同，这是因为后台sku设置的价格和库存。后台设置SKU的界面 SKU相关表设计商品表 goods1234567891011121314151617181920212223242526CRE">
+<meta name="keywords" content="设计思路">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SKU">
+<meta property="og:url" content="https://jingyao066.gitee.io/2018/12/09/SKU/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="SKU淘宝购买商品时，商品有很多不同的属性和属性值，如：颜色：白色、黑色、蓝色、紫色…尺寸：170、175、180、185…买衣服时，通常会发现，白色-175库存20件，但是白色-180有30件，而且价格可能还不同，这是因为后台sku设置的价格和库存。后台设置SKU的界面 SKU相关表设计商品表 goods1234567891011121314151617181920212223242526CRE">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/09/SKU/1.jpg">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/09/SKU/2.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/09/SKU/3.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/09/SKU/4.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/09/SKU/5.png">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.279Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SKU">
+<meta name="twitter:description" content="SKU淘宝购买商品时，商品有很多不同的属性和属性值，如：颜色：白色、黑色、蓝色、紫色…尺寸：170、175、180、185…买衣服时，通常会发现，白色-175库存20件，但是白色-180有30件，而且价格可能还不同，这是因为后台sku设置的价格和库存。后台设置SKU的界面 SKU相关表设计商品表 goods1234567891011121314151617181920212223242526CRE">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2018/12/09/SKU/1.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2018/12/09/SKU/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>SKU | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2018/12/09/SKU/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SKU
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-09 22:52:56" itemprop="dateCreated datePublished" datetime="2018-12-09T22:52:56+08:00">2018-12-09</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2018/12/09/SKU/" class="leancloud_visitors" data-flag-title="SKU">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="SKU"><a href="#SKU" class="headerlink" title="SKU"></a>SKU</h1><p><img src="/2018/12/09/SKU/1.jpg" alt=""><br>淘宝购买商品时，商品有很多不同的属性和属性值，如：<br>颜色：白色、黑色、蓝色、紫色…<br>尺寸：170、175、180、185…<br>买衣服时，通常会发现，白色-175库存20件，但是白色-180有30件，<br>而且价格可能还不同，这是因为后台sku设置的价格和库存。<br>后台设置SKU的界面<br><img src="/2018/12/09/SKU/2.png" alt=""></p>
+<h1 id="SKU相关表设计"><a href="#SKU相关表设计" class="headerlink" title="SKU相关表设计"></a>SKU相关表设计</h1><p>商品表 goods<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `goods` (</span><br><span class="line">  `id` int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `goods_name` varchar(100) DEFAULT NULL COMMENT &apos;商品名称&apos;,</span><br><span class="line">  `cover_img` varchar(255) DEFAULT NULL COMMENT &apos;封面图&apos;,</span><br><span class="line">  `sales_volume` int(11) DEFAULT NULL COMMENT &apos;销量(前台显示用，售出后程序累加)&apos;,</span><br><span class="line">  `stock_no` int(11) DEFAULT NULL COMMENT &apos;商品库存&apos;,</span><br><span class="line">  `price` decimal(10,2) DEFAULT NULL COMMENT &apos;价格(只前台显示用)&apos;,</span><br><span class="line">  `classify_id` int(11) DEFAULT NULL COMMENT &apos;分类id(子级分类id)&apos;,</span><br><span class="line">  `status` int(11) DEFAULT &apos;1&apos; COMMENT &apos;商品状态(0：下线  1：上线)&apos;,</span><br><span class="line">  `is_free_delivery` int(2) DEFAULT NULL COMMENT &apos;是否包邮(0:否 1：是)&apos;,</span><br><span class="line">  `type` int(11) DEFAULT &apos;1&apos; COMMENT &apos;类型(预留字段)&apos;,</span><br><span class="line">  `goods_detail` text CHARACTER SET utf8mb4 COMMENT &apos;商品详情&apos;,</span><br><span class="line">  `seller_id` int(11) DEFAULT NULL COMMENT &apos;商家id&apos;,</span><br><span class="line">  `audit_status` int(4) NOT NULL DEFAULT &apos;0&apos; COMMENT &apos;审核状态。0待审核，1通过，2未通过，3封禁&apos;,</span><br><span class="line">  `audit_opinion` varchar(50) DEFAULT NULL COMMENT &apos;审核原因&apos;,</span><br><span class="line">  `video_url` varchar(200) DEFAULT NULL COMMENT &apos;商品视频&apos;,</span><br><span class="line">  `create_time` datetime DEFAULT NULL COMMENT &apos;创建时间&apos;,</span><br><span class="line">  `is_hot` varchar(2) DEFAULT &apos;0&apos; COMMENT &apos;是否热销(0：否  1：是)&apos;,</span><br><span class="line">  `is_new` int(11) DEFAULT &apos;0&apos; COMMENT &apos;是否最新上架(0:否 1：是)&apos;,</span><br><span class="line">  `is_explode` int(255) DEFAULT &apos;0&apos; COMMENT &apos;是否爆品(0：否  1：是)&apos;,</span><br><span class="line">  `is_home` varchar(2) DEFAULT &apos;0&apos; COMMENT &apos;是否首页推荐(0:否 1：是)&apos;,</span><br><span class="line">  `home_sort` varchar(10) DEFAULT NULL COMMENT &apos;首页推荐排序(废弃字段，暂停使用)&apos;,</span><br><span class="line">  `del_flag` int(2) DEFAULT &apos;0&apos; COMMENT &apos;删除标识( 0未删除；1已删除)&apos;,</span><br><span class="line">  PRIMARY KEY (`id`) USING BTREE,</span><br><span class="line">  KEY `index_status_type` (`status`,`type`) USING BTREE</span><br><span class="line">) ENGINE=InnoDB AUTO_INCREMENT=7872 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT=&apos;商品表&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>sku表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `goods_sku` (</span><br><span class="line">  `id` int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `sku_name` varchar(100) CHARACTER SET utf8 DEFAULT NULL COMMENT &apos;SKU名字&apos;,</span><br><span class="line">  `goods_id` int(11) DEFAULT NULL COMMENT &apos;商品id&apos;,</span><br><span class="line">  `discount` float DEFAULT NULL COMMENT &apos;折扣&apos;,</span><br><span class="line">  `price` decimal(10,2) DEFAULT NULL COMMENT &apos;价钱&apos;,</span><br><span class="line">  `sell_price` decimal(10,2) DEFAULT NULL COMMENT &apos;折后价格&apos;,</span><br><span class="line">  `weight` double(10,2) DEFAULT NULL COMMENT &apos;商品毛重&apos;,</span><br><span class="line">  `stock` int(11) DEFAULT NULL COMMENT &apos;库存&apos;,</span><br><span class="line">  `expressage` decimal(10,2) DEFAULT NULL COMMENT &apos;快递费&apos;,</span><br><span class="line">  `status` int(11) DEFAULT NULL COMMENT &apos;状态&apos;,</span><br><span class="line">  `sku_group_id` varchar(100) CHARACTER SET utf8 DEFAULT NULL COMMENT &apos;组合后的skuid,用逗号分隔&apos;,</span><br><span class="line">  `create_time` datetime DEFAULT NULL COMMENT &apos;添加时间&apos;,</span><br><span class="line">  PRIMARY KEY (`id`) USING BTREE,</span><br><span class="line">  KEY `index_goods_id` (`goods_id`) USING BTREE</span><br><span class="line">) ENGINE=InnoDB AUTO_INCREMENT=19545 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT=&apos;sku表&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>商品属性表 goods_property<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `goods_property` (</span><br><span class="line">  `id` int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `seller_id` int(11) DEFAULT NULL COMMENT &apos;商家id&apos;,</span><br><span class="line">  `property_name` varchar(255) DEFAULT NULL COMMENT &apos;属性名&apos;,</span><br><span class="line">  PRIMARY KEY (`id`) USING BTREE</span><br><span class="line">) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT=&apos;商品属性表&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>商品属性值表 goods_property_val<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `goods_property_val` (</span><br><span class="line">  `id` int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `seller_id` int(11) DEFAULT NULL COMMENT &apos;商家id&apos;,</span><br><span class="line">  `property_id` int(11) DEFAULT NULL COMMENT &apos;属性id&apos;,</span><br><span class="line">  `property_val` varchar(255) DEFAULT NULL COMMENT &apos;属性值&apos;,</span><br><span class="line">  PRIMARY KEY (`id`) USING BTREE</span><br><span class="line">) ENGINE=InnoDB AUTO_INCREMENT=20176 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT=&apos;商品属性值表&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>商品属性和属性值中间表 goods_pro_val<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `goods_pro_val` (</span><br><span class="line">  `id` int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `goods_id` int(11) DEFAULT NULL COMMENT &apos;商品id&apos;,</span><br><span class="line">  `property_id` int(11) DEFAULT NULL COMMENT &apos;属性id&apos;,</span><br><span class="line">  `property_val_id` int(11) DEFAULT NULL COMMENT &apos;属性值id&apos;,</span><br><span class="line">  `property_name` varchar(100) DEFAULT NULL COMMENT &apos;属性名字&apos;,</span><br><span class="line">  `property_val` varchar(100) DEFAULT NULL COMMENT &apos;属性值&apos;,</span><br><span class="line">  PRIMARY KEY (`id`) USING BTREE,</span><br><span class="line">  KEY `index_goods_id` (`goods_id`) USING BTREE</span><br><span class="line">) ENGINE=InnoDB AUTO_INCREMENT=6775 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT=&apos;商品-属性-属性值&gt;中间表&apos;;</span><br></pre></td></tr></table></figure></p>
+<h1 id="后台操作流程"><a href="#后台操作流程" class="headerlink" title="后台操作流程"></a>后台操作流程</h1><p>添加sku之前，需要先添加属性和属性值，因为sku是根据多种属性值组合构成的。<br>添加商品属性作为单独的模块，在此不在赘述。</p>
+<p>1.选择属性<br><img src="/2018/12/09/SKU/3.png" alt=""><br>2.已选属性<br><img src="/2018/12/09/SKU/4.png" alt=""><br>3.生成sku<br><img src="/2018/12/09/SKU/5.png" alt=""></p>
+<p>4.提交</p>
+<h1 id="JS代码"><a href="#JS代码" class="headerlink" title="JS代码"></a>JS代码</h1><h2 id="定义全局下标"><a href="#定义全局下标" class="headerlink" title="定义全局下标"></a>定义全局下标</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//所有已经存在的属性和属性值json</span><br><span class="line">var propertyJson;</span><br><span class="line">//用来保存选中的属性值</span><br><span class="line">var attrValue_arr = [];</span><br><span class="line">//属性名字参数下标</span><br><span class="line">var attrNameIndex = 0;</span><br><span class="line">//sku属性下标</span><br><span class="line">var skuIndex = 0;</span><br><span class="line">//拼接后的SKU最终结果,以数组形式保存</span><br><span class="line">var skuArr = [];</span><br></pre></td></tr></table></figure>
+<h2 id="选择属性"><a href="#选择属性" class="headerlink" title="选择属性"></a>选择属性</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line">//选择属性</span><br><span class="line">function choosePro(propertyId, propertyName, onOff,isFirst) &#123;</span><br><span class="line">    //检测该属性是否存在</span><br><span class="line">    var isExists = false;</span><br><span class="line">    $(&quot;.attrName&quot;).each(function () &#123;</span><br><span class="line">        if ($(this).val() == propertyId) &#123;</span><br><span class="line">            isExists = true;</span><br><span class="line">            if(isFirst)&#123;</span><br><span class="line">                return;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                layer.msg(&apos;该属性已存在&apos;);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    if (isExists) &#123;</span><br><span class="line">        $(&apos;#myModal&apos;).modal(&apos;hide&apos;);</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    $.each(propertyJson.gpList, function (key, value) &#123;</span><br><span class="line">        if (propertyName == value.propertyName) &#123;</span><br><span class="line">            if (value.proValList.length == 0) &#123;</span><br><span class="line">                layer.msg(&apos;该属性下没有属性值&apos;);</span><br><span class="line">                $(&apos;#myModal&apos;).modal(&apos;hide&apos;);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">            //属性值参数下标</span><br><span class="line">            var attrValueIndex = 0;</span><br><span class="line">            //循环属性下面的属性值集合</span><br><span class="line">            var vhtml = &quot;&lt;div class=&apos;formControls col-8&apos;&gt;&quot;;</span><br><span class="line">            $.each(value.proValList, function (key, i) &#123;</span><br><span class="line">                vhtml += &quot;&lt;input name=&apos;proList[&quot; + attrNameIndex + &quot;].proValList[&quot; + attrValueIndex + &quot;].propertyVal&apos; &quot; +</span><br><span class="line">                    &quot;class=&apos;attrName&quot; + value.id + &quot;&apos; onclick=&apos;createSku()&apos;  type=&apos;checkbox&apos; data-value=&apos;&quot; + i.propertyVal + &quot;&apos; &quot; +</span><br><span class="line">                    &quot;data-id=&apos;&quot; + i.id + &quot;&apos; value=&apos;&quot; + i.propertyVal + &quot;&apos;/&gt;&quot; + i.propertyVal+</span><br><span class="line">                    &quot;&lt;input name=&apos;proList[&quot; + attrNameIndex + &quot;].id&apos; type=&apos;hidden&apos; value=&apos;&quot; + value.id + &quot;&apos; /&gt;&quot; +</span><br><span class="line">                    &quot;&lt;input name=&apos;proList[&quot; + attrNameIndex + &quot;].proValList[&quot; + attrValueIndex + &quot;].id&apos; type=&apos;hidden&apos; value=&apos;&quot; + i.id + &quot;&apos; /&gt;&quot;;</span><br><span class="line">                attrValueIndex++;</span><br><span class="line">            &#125;)</span><br><span class="line">            vhtml += &quot;&lt;/div&gt;&quot;;</span><br><span class="line">            //为每一个属性拼接一个删除按钮</span><br><span class="line">            if (onOff) &#123;</span><br><span class="line">                vhtml += &quot;&lt;div class=&apos;formControls col-2&apos;&gt;&quot; +</span><br><span class="line">                    &quot;&lt;span class=&apos;l&apos; style=&apos;padding-left: 20px;&apos;&gt;&lt;a href=&apos;javascript:;&apos; class=&apos;btn btn-danger radius&apos; onclick=&apos;delPro(this)&apos;&gt;删除属性&lt;/a&gt;&lt;/span&gt;&quot; +</span><br><span class="line">                    &quot;&lt;/div&gt;&quot;;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                vhtml += &quot;&lt;div class=&apos;formControls col-2&apos;&gt;&quot; +</span><br><span class="line">                    &quot;&lt;span class=&apos;l&apos; style=&apos;padding-left: 20px;&apos;&gt;&lt;a href=&apos;javascript:;&apos; class=&apos;btn btn-danger radius&apos; onclick=javascript:layer.msg(&apos;不能删除!&apos;);&gt;删除属性&lt;/a&gt;&lt;/span&gt;&quot; +</span><br><span class="line">                    &quot;&lt;/div&gt;&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">            //data 代表了属性实体类</span><br><span class="line">            //属性名字</span><br><span class="line">            var shtml = &quot;&lt;label class=&apos;form-label col-2&apos;&gt;&quot; + value.propertyName + &quot;&lt;/label&gt;&quot;</span><br><span class="line">                + &quot;&lt;input type=&apos;hidden&apos; class=&apos;attrName&apos; value=&apos;&quot; + value.id + &quot;&apos; /&gt;&quot;</span><br><span class="line">                + &quot;&lt;input type=&apos;hidden&apos; name=&apos;proList[&quot; + attrNameIndex + &quot;].propertyName&apos; value=&apos;&quot; + value.propertyName + &quot;&apos; /&gt;&quot;</span><br><span class="line">                + &quot;&lt;input type=&apos;hidden&apos; name=&apos;proList[&quot; + attrNameIndex + &quot;].propertyId&apos; value=&apos;&quot; + value.id + &quot;&apos; /&gt;&quot;</span><br><span class="line">                //属性值</span><br><span class="line">                + vhtml;</span><br><span class="line">            shtml += &quot;&lt;div class=&apos;formControls col-12&apos;&gt;&lt;/div&gt;&quot;;</span><br><span class="line">            //参数下标+1</span><br><span class="line">            attrNameIndex++;</span><br><span class="line">            //将拼接好的div放到属性div里</span><br><span class="line">            $(&quot;#choosePro&quot;).append(shtml);</span><br><span class="line">            //关闭弹出层</span><br><span class="line">            if (onOff) &#123;</span><br><span class="line">                $(&apos;#myModal&apos;).modal(&apos;hide&apos;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line">//删除已选属性</span><br><span class="line">function delPro(obj) &#123;</span><br><span class="line">    var btn = $(obj).parent().parent();</span><br><span class="line">    for (var i = 0; i &lt; 5; i++) &#123;</span><br><span class="line">        $(btn).prev().remove();</span><br><span class="line">    &#125;</span><br><span class="line">    $(btn).remove();</span><br><span class="line">    //重置属性下标</span><br><span class="line">    attrNameIndex = 0;</span><br><span class="line">    createSku();</span><br><span class="line">&#125;</span><br><span class="line">//获取商品属性和属性值list</span><br><span class="line">function searchProperty() &#123;</span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">        url: &quot;/goods/getInfoBySellerId&quot;,</span><br><span class="line">        type: &quot;post&quot;,</span><br><span class="line">        dataType: &quot;json&quot;,</span><br><span class="line">        async:false,</span><br><span class="line">        success: function (res) &#123;</span><br><span class="line">            propertyJson = res;</span><br><span class="line">        &#125;,</span><br><span class="line">        error: function () &#123;</span><br><span class="line">            talert(1, &quot;网络错误&quot;, function () &#123;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="点击属性生成SKU"><a href="#点击属性生成SKU" class="headerlink" title="点击属性生成SKU"></a>点击属性生成SKU</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">//根据选择的属性值生成SKU</span><br><span class="line">function createSku() &#123;</span><br><span class="line">    // attrNameIndex = 0;</span><br><span class="line">    attrValue_arr = [];</span><br><span class="line">    skuArr = [];</span><br><span class="line">    skuIndex = 0;</span><br><span class="line">    //首先获取添加了几个属性</span><br><span class="line">    var attrName_arr = $(&quot;.attrName&quot;);</span><br><span class="line"></span><br><span class="line">    for (var i = 0; i &lt; attrName_arr.length; i++) &#123;</span><br><span class="line">        //获取所有选中的属性值，返回一个数组，并将数组push进外层数组</span><br><span class="line">        var attrckeck = $(&quot;input[class=&apos;attrName&quot; + $(attrName_arr[i]).val() + &quot;&apos;]:checked&quot;);</span><br><span class="line">        if (attrckeck.length &gt; 0) &#123;</span><br><span class="line">            attrValue_arr.push(attrckeck);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (attrValue_arr.length == 0) &#123;</span><br><span class="line">        $(&quot;#sku_body&quot;).empty();</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //递归方式生成已选中的所有属性的组合（笛卡尔积）</span><br><span class="line">    //思路为 已第一个组选中的属性值为根，与其他所有已选中的属性值进行拼接</span><br><span class="line">    //因为属性值会出现多组，所以采用递归方式进行拼接</span><br><span class="line">    //将每一次循环的结果作为参数传递至下一次循环里</span><br><span class="line">    for (var i = 0; i &lt; attrValue_arr[0].length; i++) &#123;</span><br><span class="line">        //只选择了一个属性</span><br><span class="line">        if (attrValue_arr.length == 1) &#123;</span><br><span class="line">            for (var i = 0; i &lt; attrValue_arr[0].length; i++) &#123;</span><br><span class="line">                skuArr.push(&#123;</span><br><span class="line">                    &apos;attrValue&apos;: $(attrValue_arr[0][i]).attr(&quot;data-value&quot;),</span><br><span class="line">                    &apos;attrId&apos;: $(attrValue_arr[0][i]).attr(&quot;data-id&quot;)</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            var forArray = [attrValue_arr[0][i]];</span><br><span class="line">            concatSku(forArray, 1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //将拼接好的SKU属性显示</span><br><span class="line">    //获取页面中已有的SKU，如果已经的将不在进行拼接</span><br><span class="line">    var skuHtml = &quot;&quot;;</span><br><span class="line">    for (var i = 0; i &lt; skuArr.length; i++) &#123;</span><br><span class="line">        skuHtml += &quot;&lt;tr class=&apos;text-c&apos;&gt;&quot;</span><br><span class="line">            + &quot;&lt;td&gt;&quot; + skuArr[i].attrValue + &quot;&lt;/td&gt;&quot;</span><br><span class="line">            + &quot;&lt;input type=&apos;hidden&apos; name=&apos;goodsSkuList[&quot; + skuIndex + &quot;].skuName&apos; value=&apos;&quot; + skuArr[i].attrValue + &quot;&apos; /&gt;&quot;</span><br><span class="line">            + &quot;&lt;input type=&apos;hidden&apos; name=&apos;goodsSkuList[&quot; + skuIndex + &quot;].skuGroupId&apos; value=&apos;&quot; + skuArr[i].attrId + &quot;&apos; /&gt;&quot;</span><br><span class="line">            + &quot;&lt;td&gt;&lt;input name=&apos;goodsSkuList[&quot; + skuIndex + &quot;].price&apos; type=&apos;number&apos; class=&apos;form-control&apos;/&gt;&lt;/td&gt;&quot;</span><br><span class="line">            + &quot;&lt;td&gt;&lt;input name=&apos;goodsSkuList[&quot; + skuIndex + &quot;].sellPrice&apos; type=&apos;number&apos; class=&apos;form-control&apos;/&gt;&lt;/td&gt;&quot;</span><br><span class="line">            + &quot;&lt;td&gt;&lt;input name=&apos;goodsSkuList[&quot; + skuIndex + &quot;].stock&apos; type=&apos;number&apos; class=&apos;form-control&apos; /&gt;&lt;/td&gt;&quot;</span><br><span class="line">            + &quot;&lt;td&gt;&lt;input name=&apos;goodsSkuList[&quot; + skuIndex + &quot;].weight&apos; type=&apos;number&apos; class=&apos;form-control&apos; /&gt;&lt;/td&gt;&quot;</span><br><span class="line">            + &quot;&lt;/tr&gt;&quot;;</span><br><span class="line">        skuIndex++;</span><br><span class="line">    &#125;</span><br><span class="line">    $(&quot;#sku_body&quot;).html(skuHtml);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">//拼接属性值</span><br><span class="line">//forArray 上一次循环的结果数组（已拼接好的）</span><br><span class="line">//计数变量，记录本次要循环外层数组中的哪一个数组</span><br><span class="line">function concatSku(forArray, forIndex) &#123;</span><br><span class="line">    var forResult = [];</span><br><span class="line">    //如果计数变量+1没有超出外层数组长度，则证明没有循环完毕</span><br><span class="line">    if (forIndex + 1 &lt;= attrValue_arr.length) &#123;</span><br><span class="line">        for (var i = 0; i &lt; forArray.length; i++) &#123;</span><br><span class="line">            var attrValue = $(forArray[i]).attr(&quot;data-value&quot;);</span><br><span class="line">            var attrId = $(forArray[i]).attr(&quot;data-id&quot;);</span><br><span class="line">            if (forIndex == 1 || attrValue_arr.length == 1) &#123;</span><br><span class="line">                attrValue += &quot;-&quot;;</span><br><span class="line">                attrId += &quot;,&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">            if (attrValue == undefined) &#123;</span><br><span class="line">                attrValue = forArray[i].attrValue;</span><br><span class="line">                attrId = forArray[i].attrId;</span><br><span class="line">            &#125;</span><br><span class="line">            for (var j = 0; j &lt; attrValue_arr[forIndex].length; j++) &#123;</span><br><span class="line">                var nextAttrValue = $(attrValue_arr[forIndex][j]).attr(&quot;data-value&quot;);</span><br><span class="line">                var nextAttrId = $(attrValue_arr[forIndex][j]).attr(&quot;data-id&quot;);</span><br><span class="line">                var ary;</span><br><span class="line">                //将拼接属性值的结果push到结果集数组中</span><br><span class="line">                if (forIndex + 1 == attrValue_arr.length) &#123;</span><br><span class="line">                    ary = &#123;&apos;attrValue&apos;: attrValue + nextAttrValue, &apos;attrId&apos;: attrId + nextAttrId&#125;</span><br><span class="line">                    //forResult.push(attrValue + &quot;-&quot; + nextAttrValue);</span><br><span class="line">                    forResult.push(ary);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    ary = &#123;&apos;attrValue&apos;: attrValue + nextAttrValue + &quot;-&quot;, &apos;attrId&apos;: attrId + nextAttrId + &quot;,&quot;&#125;</span><br><span class="line">                    //forResult.push(attrValue + &quot;-&quot; + nextAttrValue+&quot;-&quot;);</span><br><span class="line">                    forResult.push(ary);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        //本次循环完毕后将计数变量+1，以便下次使用</span><br><span class="line">        forIndex++;</span><br><span class="line">        //递归调用</span><br><span class="line">        concatSku(forResult, forIndex);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        skuArr = skuArr.concat(forArray);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>属性是pojo，级联的name属性。<br>属性级联<br><code>name=&#39;proList[&quot; + attrNameIndex + &quot;].proValList[&quot; + attrValueIndex + &quot;].propertyVal&#39;</code></p>
+<p>sku级联<br><code>name=&#39;goodsSkuList[&quot; + skuIndex + &quot;].skuName&#39;</code></p>
+<p>所以ajax提交一定要<br><code>var dataParam = $(&quot;#addForm&quot;).serializeArray();</code></p>
+<p>级联提交的难点在于，数组下标的控制。如果只是生成的话，还可以，但是如果涉及到回显后修改，以及删除，下标就不好玩了。注意吧，自己组装数据非常麻烦。</p>
+<h2 id="生成sku的代码，还有回显代码"><a href="#生成sku的代码，还有回显代码" class="headerlink" title="生成sku的代码，还有回显代码"></a>生成sku的代码，还有回显代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">function initGoods() &#123;</span><br><span class="line">    //获取商品id</span><br><span class="line">    var goodsId = $(&quot;#goodsId&quot;).val();</span><br><span class="line">    if (goodsId != null &amp;&amp; goodsId != &apos;&apos;) &#123;</span><br><span class="line">        $.ajax(&#123;</span><br><span class="line">            url: &quot;/goods/goods/getJsonGoodsInfo?id=&quot;+goodsId,</span><br><span class="line">            type: &apos;post&apos;,</span><br><span class="line">            async: false,</span><br><span class="line">            success: function (data) &#123;</span><br><span class="line">                //循环回显该商品已有属性</span><br><span class="line">                $.each(data.pvList, function (key,i) &#123;</span><br><span class="line">                    choosePro(i.propertyId, i.propertyName, false,true);</span><br><span class="line">                    checkCheckBox(data.pvList);</span><br><span class="line">                &#125;)</span><br><span class="line">                //将拼接好的SKU属性显示</span><br><span class="line">                var skuHtml = &quot;&quot;;</span><br><span class="line">                for (var i = 0; i &lt; data.goodsSkuList.length; i++) &#123;</span><br><span class="line">                    skuHtml += &quot;&lt;tr class=&apos;text-c&apos;&gt;&quot;</span><br><span class="line">                        + &quot;&lt;td&gt;&quot; + data.goodsSkuList[i].skuName + &quot;&lt;/td&gt;&quot;</span><br><span class="line">                        + &quot;&lt;input type=&apos;hidden&apos; name=&apos;goodsSkuList[&quot; + skuIndex + &quot;].skuName&apos; class=&apos;hiddenSkuName&apos;  value=&apos;&quot; + data.goodsSkuList[i].skuName + &quot;&apos; /&gt;&quot;</span><br><span class="line">                        + &quot;&lt;input type=&apos;hidden&apos; name=&apos;goodsSkuList[&quot; + skuIndex + &quot;].skuGroupId&apos;   value=&apos;&quot; + data.goodsSkuList[i].skuGroupId + &quot;&apos; /&gt;&quot;</span><br><span class="line">                        + &quot;&lt;td&gt;&lt;input name=&apos;goodsSkuList[&quot; + skuIndex + &quot;].price&apos; value=&apos;&quot; + data.goodsSkuList[i].price + &quot;&apos; type=&apos;number&apos; class=&apos;form-control&apos;/&gt;&lt;/td&gt;&quot;</span><br><span class="line">                        + &quot;&lt;td&gt;&lt;input name=&apos;goodsSkuList[&quot; + skuIndex + &quot;].sellPrice&apos; value=&apos;&quot; + data.goodsSkuList[i].sellPrice + &quot;&apos; type=&apos;number&apos; class=&apos;form-control&apos;/&gt;&lt;/td&gt;&quot;</span><br><span class="line">                        + &quot;&lt;td&gt;&lt;input name=&apos;goodsSkuList[&quot; + skuIndex + &quot;].stock&apos; value=&apos;&quot; + data.goodsSkuList[i].stock + &quot;&apos; type=&apos;number&apos; class=&apos;form-control&apos; /&gt;&lt;/td&gt;&quot;</span><br><span class="line">                        + &quot;&lt;td&gt;&lt;input name=&apos;goodsSkuList[&quot; + skuIndex + &quot;].weight&apos; value=&apos;&quot; + data.goodsSkuList[i].weight + &quot;&apos; type=&apos;number&apos; class=&apos;form-control&apos; /&gt;&lt;/td&gt;&quot;</span><br><span class="line">                        + &quot;&lt;/tr&gt;&quot;;</span><br><span class="line">                    skuIndex++;</span><br><span class="line">                &#125;</span><br><span class="line">                $(&quot;#sku_body&quot;).html(skuHtml);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//将已选中的属性值设置为选中</span><br><span class="line">function checkCheckBox(proValList)&#123;</span><br><span class="line">    //获取当前所有属性</span><br><span class="line">    $(&quot;input[type=&apos;checkbox&apos;]&quot;).each(function()&#123;</span><br><span class="line">        var proValCb = $(this);</span><br><span class="line">        $.each(proValList,function(key,i)&#123;</span><br><span class="line">            if($(proValCb).attr(&quot;data-id&quot;) == i.propertyValId)&#123;</span><br><span class="line">                $(proValCb).prop(&quot;checked&quot;,true);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line">$(document).ready(function () &#123;</span><br><span class="line">        searchProperty();</span><br><span class="line">        //回显商品信息</span><br><span class="line">        initGoods();</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<p>发现类似实现方式，可做参考：<br><a href="https://www.cnblogs.com/purediy/archive/2012/12/02/2798454.html" target="_blank" rel="noopener">https://www.cnblogs.com/purediy/archive/2012/12/02/2798454.html</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/设计思路/" rel="tag"># 设计思路</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/09/IO/" rel="next" title="IO">
+                <i class="fa fa-chevron-left"></i> IO
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/10/后台角色授权菜单功能的实现/" rel="prev" title="后台角色授权菜单功能的实现">
+                后台角色授权菜单功能的实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SKU"><span class="nav-number">1.</span> <span class="nav-text">SKU</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SKU相关表设计"><span class="nav-number">2.</span> <span class="nav-text">SKU相关表设计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后台操作流程"><span class="nav-number">3.</span> <span class="nav-text">后台操作流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JS代码"><span class="nav-number">4.</span> <span class="nav-text">JS代码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义全局下标"><span class="nav-number">4.1.</span> <span class="nav-text">定义全局下标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择属性"><span class="nav-number">4.2.</span> <span class="nav-text">选择属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#点击属性生成SKU"><span class="nav-number">4.3.</span> <span class="nav-text">点击属性生成SKU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成sku的代码，还有回显代码"><span class="nav-number">4.4.</span> <span class="nav-text">生成sku的代码，还有回显代码</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="activiti官网 核心7大接口，28张表7大接口  RepositoryService：提供一系列管理流程部署和流程定义的API。 RuntimeService：在流程运行时对流程实例进行管理与控制。 TaskService：对流程任务进行管理，例如任务提醒、任务完成和创建任务等。 IdentityService：提供对流程角色数据进行管理的API，这些角色数据包括用户组、用户及它们之间的关系">
+<meta name="keywords" content="other">
+<meta property="og:type" content="article">
+<meta property="og:title" content="workflow">
+<meta property="og:url" content="https://jingyao066.gitee.io/2019/10/23/workflow/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="activiti官网 核心7大接口，28张表7大接口  RepositoryService：提供一系列管理流程部署和流程定义的API。 RuntimeService：在流程运行时对流程实例进行管理与控制。 TaskService：对流程任务进行管理，例如任务提醒、任务完成和创建任务等。 IdentityService：提供对流程角色数据进行管理的API，这些角色数据包括用户组、用户及它们之间的关系">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/23/workflow/1.jpg">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/23/workflow/2.jpg">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/23/workflow/3.jpg">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/23/workflow/4.jpg">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/23/workflow/5.jpg">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/23/workflow/6.jpg">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/23/workflow/7.jpg">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/23/workflow/8.jpg">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/23/workflow/9.jpg">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/23/workflow/10.jpg">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/23/workflow/11.jpg">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/23/workflow/12.jpg">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/23/workflow/13.jpg">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/23/workflow/14.jpg">
+<meta property="og:updated_time" content="2019-10-23T07:57:21.189Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="workflow">
+<meta name="twitter:description" content="activiti官网 核心7大接口，28张表7大接口  RepositoryService：提供一系列管理流程部署和流程定义的API。 RuntimeService：在流程运行时对流程实例进行管理与控制。 TaskService：对流程任务进行管理，例如任务提醒、任务完成和创建任务等。 IdentityService：提供对流程角色数据进行管理的API，这些角色数据包括用户组、用户及它们之间的关系">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2019/10/23/workflow/1.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2019/10/23/workflow/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>workflow | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2019/10/23/workflow/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">workflow
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-23 10:53:04 / 修改时间：15:57:21" itemprop="dateCreated datePublished" datetime="2019-10-23T10:53:04+08:00">2019-10-23</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/10/23/workflow/" class="leancloud_visitors" data-flag-title="workflow">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="activiti"><a href="#activiti" class="headerlink" title="activiti"></a>activiti</h1><p><a href="https://www.activiti.org/" target="_blank" rel="noopener">官网</a></p>
+<h2 id="核心7大接口，28张表"><a href="#核心7大接口，28张表" class="headerlink" title="核心7大接口，28张表"></a>核心7大接口，28张表</h2><p><strong>7大接口</strong><br><img src="/2019/10/23/workflow/1.jpg" alt=""></p>
+<ul>
+<li>RepositoryService：提供一系列管理流程部署和流程定义的API。</li>
+<li>RuntimeService：在流程运行时对流程实例进行管理与控制。</li>
+<li>TaskService：对流程任务进行管理，例如任务提醒、任务完成和创建任务等。</li>
+<li>IdentityService：提供对流程角色数据进行管理的API，这些角色数据包括用户组、用户及它们之间的关系。</li>
+<li>ManagementService：提供对流程引擎进行管理和维护的服务。</li>
+<li>HistoryService：对流程的历史数据进行操作，包括查询、删除这些历史数据。</li>
+<li>FormService：表单服务。</li>
+</ul>
+<p><strong>28张表</strong><br><img src="/2019/10/23/workflow/2.jpg" alt=""></p>
+<ul>
+<li>act_ge_ 通用数据表，ge是general的缩写</li>
+<li>act_hi_ 历史数据表，hi是history的缩写，对应HistoryService接口</li>
+<li>act_id_ 身份数据表，id是identity的缩写，对应IdentityService接口</li>
+<li>act_re_ 流程存储表，re是repository的缩写，对应RepositoryService接口，存储流程部署和流程定义等静态数据</li>
+<li>act_ru_ 运行时数据表，ru是runtime的缩写，对应RuntimeService接口和TaskService接口，存储流程实例和用户任务等动态数据</li>
+</ul>
+<h2 id="创建BPMN业务流程模型"><a href="#创建BPMN业务流程模型" class="headerlink" title="创建BPMN业务流程模型"></a>创建BPMN业务流程模型</h2><ol>
+<li>将Activiti提供的流程设计器应用activiti-app.war部署到Tomcat的webapps目录。</li>
+<li>创建新的MySql数据库。修改activiti-app\WEB-INF\classes\META-INF\activiti-app目录下的activiti-app.properties配置文件，默认使用H2内存数据库，创建的模型重启后会丢失，改成使用MySql数据库。作者：jessehua</li>
+<li>浏览器访问<a href="http://localhost:8080/activiti-app，登录账户：admin：test" target="_blank" rel="noopener">http://localhost:8080/activiti-app，登录账户：admin：test</a></li>
+<li>创建一个请假审批流程图<br><img src="/2019/10/23/workflow/3.jpg" alt=""><br>给每个用户任务指派候选组（有权限执行当前任务的角色）<br><img src="/2019/10/23/workflow/4.jpg" alt=""><br><img src="/2019/10/23/workflow/5.jpg" alt=""><br>排他网关设置条件分支表达式<br><img src="/2019/10/23/workflow/6.jpg" alt=""><br><img src="/2019/10/23/workflow/7.jpg" alt=""><br>导出流程图为.bpmn20.xml文件<br><img src="/2019/10/23/workflow/8.jpg" alt=""></li>
+</ol>
+<h2 id="Spring-Boot与Activiti-6-0整合"><a href="#Spring-Boot与Activiti-6-0整合" class="headerlink" title="Spring Boot与Activiti 6.0整合"></a>Spring Boot与Activiti 6.0整合</h2><ol>
+<li><p>pom文件中添加依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.activiti&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;activiti-spring-boot-starter-basic&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;6.0.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将导出的.bpmn20.xml文件拷贝到项目文件夹/resources/processes下</p>
+</li>
+<li>application.properties文件添加配置项<br><code>spring.activiti.database-schema-update=true</code><br>databaseSchemaUpdate配置项可以设置流程引擎启动和关闭时数据库执行的策略。<br>databaseSchemaUpdate有以下四个值：</li>
+</ol>
+<ul>
+<li>false：false为默认值，设置为该值后，Activiti在启动时，会对比数据库表中保存的版本，如果没有表或者版本不匹配时，将在启动时抛出异常。</li>
+<li>true：设置为该值后，Activiti会对数据库中所有的表进行更新，如果表不存在，则Activiti会自动创建。</li>
+<li>create-drop：Activiti启动时，会执行数据库表的创建操作，在Activiti关闭时，执行数据库表的删除操作。</li>
+<li>drop-create：Activiti启动时，执行数据库表的删除操作在Activiti关闭时，会执行数据库表的创建操作。</li>
+</ul>
+<ol start="4">
+<li><p>启动应用，会在数据库里创建28张表，表创建好之后停止应用。application.properties文件修改配置项<br>#每次应用启动不检查Activiti数据表是否存在及版本号是否匹配，提升应用启动速度<br><code>spring.activiti.database-schema-update=false</code></p>
+</li>
+<li><p>application.properties文件增加配置项<br>#保存历史数据级别设置为full最高级别，便于历史数据的追溯<br><code>spring.activiti.history-level=full</code><br>对于历史数据，保存到何种粒度，Activiti提供了history-level属性对其进行配置。history-level属性有点像log4j的日志输出级别，该属性有以下四个值：</p>
+</li>
+</ol>
+<ul>
+<li>none：不保存任何的历史数据，因此，在流程执行过程中，这是最高效的。</li>
+<li>activity：级别高于none，保存流程实例与流程行为，其他数据不保存。</li>
+<li>audit：除activity级别会保存的数据外，还会保存全部的流程任务及其属性。audit为history的默认值。</li>
+<li>full：保存历史数据的最高级别，除了会保存audit级别的数据外，还会保存其他全部流程相关的细节数据，包括一些流程参数等。</li>
+</ul>
+<ol start="6">
+<li>完成以上步骤，就可以在程序中使用自动注入的方式，使用Activiti的7大接口。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line">private RuntimeService runtimeService;</span><br><span class="line">@Autowired</span><br><span class="line">private TaskService taskService;</span><br><span class="line">@Autowired</span><br><span class="line">private IdentityService identityService;</span><br><span class="line">@Autowired</span><br><span class="line">private RepositoryService repositoryService;</span><br><span class="line">@Autowired</span><br><span class="line">private ProcessEngine processEngine;</span><br><span class="line">@Autowired</span><br><span class="line">private HistoryService historyService;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="项目中的用户、角色与Activiti中的用户、用户组整合"><a href="#项目中的用户、角色与Activiti中的用户、用户组整合" class="headerlink" title="项目中的用户、角色与Activiti中的用户、用户组整合"></a>项目中的用户、角色与Activiti中的用户、用户组整合</h2><p>每个项目都有自己的用户、角色表，Activiti也有自己的用户、用户组表。因此项目中的用户、角色与Activiti中的用户、用户组要做整合。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//项目中每创建一个新用户，对应的要创建一个Activiti用户</span><br><span class="line">//两者的userId和userName一致</span><br><span class="line">User admin=identityService.newUser(&quot;1&quot;);</span><br><span class="line">admin.setLastName(&quot;admin&quot;);</span><br><span class="line">identityService.saveUser(admin);</span><br><span class="line"></span><br><span class="line">//项目中每创建一个角色，对应的要创建一个Activiti用户组</span><br><span class="line">Group adminGroup=identityService.newGroup(&quot;1&quot;);</span><br><span class="line">adminGroup.setName(&quot;admin&quot;);</span><br><span class="line">identityService.saveGroup(adminGroup);</span><br><span class="line"></span><br><span class="line">//用户与用户组关系绑定</span><br><span class="line">identityService.createMembership(&quot;1&quot;,&quot;1&quot;);</span><br></pre></td></tr></table></figure></p>
+<h2 id="请假审批流程"><a href="#请假审批流程" class="headerlink" title="请假审批流程"></a>请假审批流程</h2><ol>
+<li>请假申请和请假审批数据库表设计<br>表设计原则：流程数据和业务数据相分离。Activiti相关表只负责流程的跳转、走向等。流程中产生的业务表单数据、审批意见、附件等存储在开发人员定义的业务表中。流程数据和业务数据之间通过processInstanceId(流程实例ID)和业务数据主键相互关联。<br>为什么不使用Activiti相关表来存储表单数据和附件？<br><img src="/2019/10/23/workflow/9.jpg" alt=""><br>Activiti为了应用的灵活性和通用性采用了纵表的方式存储表单数据。假设一条请假申请表单数据有10个字段，那就需要10条记录存储原本横表只需要一条记录存储的数据。采用纵表的方式会有如下问题：</li>
+</ol>
+<ul>
+<li>会有大量的冗余数据并且数据量会急剧的增长</li>
+<li>查询语句复杂，查询效率低</li>
+<li>尤其不适合做后期的统计报表分析<br><img src="/2019/10/23/workflow/10.jpg" alt=""></li>
+</ul>
+<p>Activiti存储附件使用Blob数据格式，文件存储在数据库里，数据库的数据文件会变得超大，不利于数据库备份和迁移。</p>
+<p>请假申请表：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>空</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>form_id</td>
+<td>varchar(32)</td>
+<td>否</td>
+<td>表单id</td>
+</tr>
+<tr>
+<td>process_instance_id</td>
+<td>varchar(64)</td>
+<td>否</td>
+<td>activiti流程实例id</td>
+</tr>
+<tr>
+<td>user_id</td>
+<td>int(11)</td>
+<td>否</td>
+<td>用户id</td>
+</tr>
+<tr>
+<td>days</td>
+<td>tinyint(3)</td>
+<td>否</td>
+<td>请假天数</td>
+</tr>
+<tr>
+<td>begin_date</td>
+<td>datetime</td>
+<td>否</td>
+<td>开始日期</td>
+</tr>
+<tr>
+<td>end_date</td>
+<td>datetime</td>
+<td>否</td>
+<td>结束日期</td>
+</tr>
+<tr>
+<td>vacation_type</td>
+<td>tinyint(3)</td>
+<td>否</td>
+<td>请假类型：0带薪假，1病假，2事假</td>
+</tr>
+<tr>
+<td>reason</td>
+<td>varchar(200)</td>
+<td>是</td>
+<td>请假原因</td>
+</tr>
+<tr>
+<td>process_status</td>
+<td>tinyint(3)</td>
+<td>否</td>
+<td>流程状态：0申请，1审批中，已完成</td>
+</tr>
+<tr>
+<td>create_time</td>
+<td>datetime</td>
+<td>否</td>
+<td>创建时间</td>
+</tr>
+<tr>
+<td>update_time</td>
+<td>datetime</td>
+<td>否</td>
+<td>更新时间</td>
+</tr>
+</tbody>
+</table>
+<p>请假审批表：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>空</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>audit_id</td>
+<td>varchar(32)</td>
+<td>否</td>
+<td>审批id</td>
+</tr>
+<tr>
+<td>process_instance_id</td>
+<td>varchar(64)</td>
+<td>否</td>
+<td>activiti流程实例id</td>
+</tr>
+<tr>
+<td>task_id</td>
+<td>varchar(64)</td>
+<td>否</td>
+<td>activiti任务id</td>
+</tr>
+<tr>
+<td>user_id</td>
+<td>int(11)</td>
+<td>否</td>
+<td>用户id</td>
+</tr>
+<tr>
+<td>audit_result</td>
+<td>tinyint(3)</td>
+<td>否</td>
+<td>审批结果：0不通过，1通过</td>
+</tr>
+<tr>
+<td>comment</td>
+<td>varchar(500)</td>
+<td>是</td>
+<td>审批意见</td>
+</tr>
+<tr>
+<td>audit_time</td>
+<td>datetime</td>
+<td>否</td>
+<td>审批日期</td>
+</tr>
+</tbody>
+</table>
+<ol start="2">
+<li><p>填写请假申请表单，启动流程实例<br><img src="/2019/10/23/workflow/11.jpg" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">//启动流程实例，字符串&quot;vacation&quot;是BPMN模型文件里process元素的id</span><br><span class="line">ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(&quot;vacation&quot;);</span><br><span class="line">//流程实例启动后，流程会跳转到请假申请节点</span><br><span class="line">Task vacationApply = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();</span><br><span class="line">//设置请假申请任务的执行人</span><br><span class="line">taskService.setAssignee(vacationApply.getId(), req.getUserId().toString());</span><br><span class="line"></span><br><span class="line">//设置流程参数：请假天数和表单ID</span><br><span class="line">//流程引擎会根据请假天数days&gt;3判断流程走向</span><br><span class="line">//formId是用来将流程数据和表单数据关联起来</span><br><span class="line">Map&lt;String, Object&gt; args = new HashMap&lt;&gt;();</span><br><span class="line">args.put(&quot;days&quot;, req.getDays());</span><br><span class="line">args.put(&quot;formId&quot;, formId);</span><br><span class="line"></span><br><span class="line">//完成请假申请任务</span><br><span class="line">taskService.complete(vacationApply.getId(), args);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>待审批列表<br><img src="/2019/10/23/workflow/12.jpg" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">//查出当前登录用户所在的用户组</span><br><span class="line">List&lt;Group&gt; groups = identityService.createGroupQuery()</span><br><span class="line">        .groupMember(String.valueOf(userId)).list();</span><br><span class="line">List&lt;String&gt; groupNames = groups.stream()</span><br><span class="line">        .map(group -&gt; group.getName()).collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line">//查询用户组的待审批请假流程列表</span><br><span class="line">List&lt;Task&gt; tasks = taskService.createTaskQuery()</span><br><span class="line">        .processDefinitionKey(&quot;vacation&quot;)</span><br><span class="line">        .taskCandidateGroupIn(groupNames)</span><br><span class="line">        .listPage(pageNum - 1, pageSize);</span><br><span class="line"></span><br><span class="line">//根据流程实例ID查询请假申请表单数据</span><br><span class="line">List&lt;String&gt; processInstanceIds = tasks.stream()</span><br><span class="line">        .map(task -&gt; task.getProcessInstanceId())</span><br><span class="line">        .collect(Collectors.toList());</span><br><span class="line">List&lt;VacationApplyBasicPO&gt; vacationApplyList = </span><br><span class="line">        vacationRepository.getVacationApplyList(processInstanceIds);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>请假审批功能<br><img src="/2019/10/23/workflow/13.jpg" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">//查询当前审批节点</span><br><span class="line">Task vacationAudit = taskService.createTaskQuery()</span><br><span class="line">        .taskId(req.getTaskId()).singleResult();</span><br><span class="line"></span><br><span class="line">if (req.getAuditResult() == 1) &#123;//审批通过</span><br><span class="line">    //设置流程参数：审批ID</span><br><span class="line">    Map&lt;String, Object&gt; args = new HashMap&lt;&gt;();</span><br><span class="line">    args.put(&quot;auditId&quot;, auditId);</span><br><span class="line"></span><br><span class="line">    //设置审批任务的执行人</span><br><span class="line">    taskService.claim(vacationAudit.getId(), req.getUserId().toString());</span><br><span class="line">    //完成审批任务</span><br><span class="line">    taskService.complete(vacationAudit.getId(), args);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    //审批不通过，结束流程</span><br><span class="line">    runtimeService.deleteProcessInstance(vacationAudit.getProcessInstanceId(), auditId);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看流程图功能<br><img src="/2019/10/23/workflow/14.jpg" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">//controller层代码</span><br><span class="line">@RequestMapping(value = &quot;/image&quot;, method = RequestMethod.GET)</span><br><span class="line">public void image(HttpServletResponse response,</span><br><span class="line"> @RequestParam String processInstanceId) &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        InputStream is = vacationService.getDiagram(processInstanceId);</span><br><span class="line">        if (is == null)</span><br><span class="line">            return;</span><br><span class="line"></span><br><span class="line">        response.setContentType(&quot;image/png&quot;);</span><br><span class="line"></span><br><span class="line">        BufferedImage image = ImageIO.read(is);</span><br><span class="line">        OutputStream out = response.getOutputStream();</span><br><span class="line">        ImageIO.write(image, &quot;png&quot;, out);</span><br><span class="line"></span><br><span class="line">        is.close();</span><br><span class="line">        out.close();</span><br><span class="line">    &#125; catch (Exception ex) &#123;</span><br><span class="line">        logger.error(&quot;查看流程图失败&quot;, ex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//service层代码</span><br><span class="line">@Override</span><br><span class="line">public InputStream getDiagram(String processInstanceId) &#123;</span><br><span class="line">    //获得流程实例</span><br><span class="line">    ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()</span><br><span class="line">            .processInstanceId(processInstanceId).singleResult();</span><br><span class="line">    String processDefinitionId = StringUtils.EMPTY;</span><br><span class="line">    if (processInstance == null) &#123;</span><br><span class="line">        //查询已经结束的流程实例</span><br><span class="line">        HistoricProcessInstance processInstanceHistory =</span><br><span class="line">                historyService.createHistoricProcessInstanceQuery()</span><br><span class="line">                        .processInstanceId(processInstanceId).singleResult();</span><br><span class="line">        if (processInstanceHistory == null)</span><br><span class="line">            return null;</span><br><span class="line">        else</span><br><span class="line">            processDefinitionId = processInstanceHistory.getProcessDefinitionId();</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        processDefinitionId = processInstance.getProcessDefinitionId();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //使用宋体</span><br><span class="line">    String fontName = &quot;宋体&quot;;</span><br><span class="line">    //获取BPMN模型对象</span><br><span class="line">    BpmnModel model = repositoryService.getBpmnModel(processDefinitionId);</span><br><span class="line">    //获取流程实例当前的节点，需要高亮显示</span><br><span class="line">    List&lt;String&gt; currentActs = Collections.EMPTY_LIST;</span><br><span class="line">    if (processInstance != null)</span><br><span class="line">        currentActs = runtimeService.getActiveActivityIds(processInstance.getId());</span><br><span class="line"></span><br><span class="line">    return processEngine.getProcessEngineConfiguration()</span><br><span class="line">            .getProcessDiagramGenerator()</span><br><span class="line">            .generateDiagram(model, &quot;png&quot;, currentActs, new ArrayList&lt;String&gt;(),</span><br><span class="line">                    fontName, fontName, fontName, null, 1.0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><a href="https://www.jianshu.com/p/701056e672a4" target="_blank" rel="noopener">参考地址</a></p>
+<p><a href="https://www.cnblogs.com/runtimeexception/p/8961395.html" target="_blank" rel="noopener">其他学习activiti的博文</a><br><a href="https://www.jianshu.com/p/33085a975e47" target="_blank" rel="noopener">其他学习activiti的博文</a><br><a href="https://www.cnblogs.com/handsome1013/p/9681288.html" target="_blank" rel="noopener">其他学习activiti的博文</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/other/" rel="tag"># other</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/21/Search engine/" rel="next" title="Search engine">
+                <i class="fa fa-chevron-left"></i> Search engine
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/01/08/sharding-sphere/" rel="prev" title="sharding_sphere">
+                sharding_sphere <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#activiti"><span class="nav-number">1.</span> <span class="nav-text">activiti</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#核心7大接口，28张表"><span class="nav-number">1.1.</span> <span class="nav-text">核心7大接口，28张表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建BPMN业务流程模型"><span class="nav-number">1.2.</span> <span class="nav-text">创建BPMN业务流程模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Boot与Activiti-6-0整合"><span class="nav-number">1.3.</span> <span class="nav-text">Spring Boot与Activiti 6.0整合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目中的用户、角色与Activiti中的用户、用户组整合"><span class="nav-number">1.4.</span> <span class="nav-text">项目中的用户、角色与Activiti中的用户、用户组整合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#请假审批流程"><span class="nav-number">1.5.</span> <span class="nav-text">请假审批流程</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

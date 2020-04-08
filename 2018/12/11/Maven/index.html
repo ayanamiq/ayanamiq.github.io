@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="概念：Maven用于叙述项目间的依赖关系。通俗讲，就是通过pom.xml文件的配置获取jar包，而不用手动去添加jar包。当然maven还有其他功能，如：构建项目 如果需要使用pom.xml来获取jar包，那么首先该项目就必须为maven项目，maven项目可以这样去想，就是在java项目和web项目的上面包裹了一层maven，本质上java项目还是java项目，web项目还是web项目，但是包裹">
+<meta name="keywords" content="Maven">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Maven">
+<meta property="og:url" content="https://jingyao066.gitee.io/2018/12/11/Maven/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="概念：Maven用于叙述项目间的依赖关系。通俗讲，就是通过pom.xml文件的配置获取jar包，而不用手动去添加jar包。当然maven还有其他功能，如：构建项目 如果需要使用pom.xml来获取jar包，那么首先该项目就必须为maven项目，maven项目可以这样去想，就是在java项目和web项目的上面包裹了一层maven，本质上java项目还是java项目，web项目还是web项目，但是包裹">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/11/Maven/1.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/11/Maven/2.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/11/Maven/3.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/11/Maven/4.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/11/Maven/5.png">
+<meta property="og:updated_time" content="2020-04-07T05:49:44.444Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Maven">
+<meta name="twitter:description" content="概念：Maven用于叙述项目间的依赖关系。通俗讲，就是通过pom.xml文件的配置获取jar包，而不用手动去添加jar包。当然maven还有其他功能，如：构建项目 如果需要使用pom.xml来获取jar包，那么首先该项目就必须为maven项目，maven项目可以这样去想，就是在java项目和web项目的上面包裹了一层maven，本质上java项目还是java项目，web项目还是web项目，但是包裹">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2018/12/11/Maven/1.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2018/12/11/Maven/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Maven | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2018/12/11/Maven/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Maven
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-11 11:41:35" itemprop="dateCreated datePublished" datetime="2018-12-11T11:41:35+08:00">2018-12-11</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-04-07 13:49:44" itemprop="dateModified" datetime="2020-04-07T13:49:44+08:00">2020-04-07</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2018/12/11/Maven/" class="leancloud_visitors" data-flag-title="Maven">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h1><p>Maven用于叙述项目间的依赖关系。通俗讲，就是通过pom.xml文件的配置获取jar包，而不用手动去添加jar包。<br>当然maven还有其他功能，如：构建项目</p>
+<p>如果需要使用pom.xml来获取jar包，那么首先该项目就必须为maven项目，maven项目可以这样去想，<br>就是在java项目和web项目的上面包裹了一层maven，本质上java项目还是java项目，web项目还是web项目，但是包裹了maven之后，就可以使用maven提供的一些功能了(通过pom.xml添加jar包)。</p>
+<p>如何通过pom.xml获取想要的jar包呢？<br>pom.xml获取junit的jar包的编写。<br><img src="/2018/12/11/Maven/1.png" alt=""><br>为什么通过groupId、artifactId、version三个属性就能定位一个jar包？</p>
+<p>加入上面的pom.xml文件属于A项目，那么A项目肯定是一个maven项目，通过上面这三个属性能够找到junit对应版本的jar包，那么junit项目肯定也是一个maven项目，junit的maven项目中的pom.xml文件就会有三个标识符，比如像下图这样，然后别的maven项目就能通过这三个属性来找到junit项目的jar包了。所以，在每个创建的maven项目时都会要求写上这三个属性值的。<br><img src="/2018/12/11/Maven/2.png" alt=""></p>
+<h1 id="仓库概念"><a href="#仓库概念" class="headerlink" title="仓库概念"></a>仓库概念</h1><p>通过pom.xml中的配置，就能够获取到想要的jar包，这些jar包存放在<strong>仓库</strong>中。<br>仓库有三种：本地仓库、第三方仓库、中央仓库</p>
+<h2 id="本地仓库"><a href="#本地仓库" class="headerlink" title="本地仓库"></a>本地仓库</h2><p>Maven会将工程中依赖的构建(jar包)从远程下载到本机的一个目录下管理，每台电脑默认的仓库在<br><code>C:\Users\Administrator\.m2\repository</code></p>
+<p>可以通过修改setting.xml中的配置，来修改仓库的位置，以及jar包的下载源。</p>
+<ul>
+<li><p>修改仓库位置：<br>找到localRepository标签，将路径修改为想要修改的路径。</p>
+</li>
+<li><p>修改jar包下载源：<br>找到mirror标签，修改为阿里的源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;mirror&gt;</span><br><span class="line">  &lt;id&gt;alimaven&lt;/id&gt;</span><br><span class="line">  &lt;mirrorOf&gt;central&lt;/mirrorOf&gt;</span><br><span class="line">  &lt;name&gt;aliyun maven&lt;/name&gt;</span><br><span class="line">  &lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public/&lt;/url&gt;</span><br><span class="line">&lt;/mirror&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>idea是自带maven插件的，无需自行安装，也可以修改仓库位置以及镜像源。<br><code>ctrl+alt+s -&gt; maven</code><br>最下面两行分别是setting.xml文件以及仓库位置。</p>
+<h2 id="第三方仓库"><a href="#第三方仓库" class="headerlink" title="第三方仓库"></a>第三方仓库</h2><p>又称为内部仓库，也叫私服，一般是公司自己创建的，只内部使用，减少外部访问和下载的频率。<br>一般公司可能会创建这种第三方仓库，保证项目开发时，项目所需用的jar都从该仓库中拿，每个人的版本就都一样。</p>
+<h2 id="中央仓库"><a href="#中央仓库" class="headerlink" title="中央仓库"></a>中央仓库</h2><p><a href="http://repo1.maven.org/maven2" target="_blank" rel="noopener">Maven内置了远程公用仓库</a><br>这个公共仓库是由Maven自己维护，里面有大量的常用类库，并包含了世界上大部分流行的开源项目构件，目前以java为主。<br>工程依赖的jar包如果本地仓库没有，默认从中央仓库下载。</p>
+<p>jar包获取顺序总结：<br>本地 -&gt; 私服(若有) -&gt;中央仓库<br>中央仓库获取的Jar包后，会先下载到本地，然后还是从本地仓库获取</p>
+<h1 id="使用命令行管理maven项目"><a href="#使用命令行管理maven项目" class="headerlink" title="使用命令行管理maven项目"></a>使用命令行管理maven项目</h1><h2 id="创建maven-java项目"><a href="#创建maven-java项目" class="headerlink" title="创建maven java项目"></a>创建maven java项目</h2><p>自己创建一个文件夹，在该文件夹下按shift+右击，点开使用命令行模式，这样创建的maven[java]项目就在该文件夹下了。<br>命令：<br><code>mvn archetype:create -DgroupId=com.wuhao.maven.quickstart -DartifactId=simple -DarchetypeArtifactId=maven-archetype-quickstart</code><br>mvn：核心命令<br>archetype:create：创建项目，现在maven高一点的版本都弃用了create命令而使用generate命令了。<br>-DgroupId=com.wuhao.maven.quickstart ：创建该maven项目时的groupId是什么，该作用在上面已经解释了。一般使用包名的写法。因为包名是用公司的域名的反写，独一无二<br>-DartifactId=simple：创建该maven项目时的artifactId是什么，就是项目名称<br>-DarchetypeArtifactId=maven-archetype-quickstart：表示创建的是[maven]java项目<br>运行的前提：需要联网，必须上网下载一个小文件</p>
+<p>创建成功后会提示：build success！<br>在当前文件夹下会生成一个simple的文件夹，这就是maven java项目</p>
+<h2 id="maven-java项目结构"><a href="#maven-java项目结构" class="headerlink" title="maven java项目结构"></a>maven java项目结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">simple</span><br><span class="line">---pom.xml：核心配置，根目录下</span><br><span class="line">---src</span><br><span class="line">------main　　　　　　</span><br><span class="line">---------java：java源码目录</span><br><span class="line">---------resources：java配置文件目录</span><br><span class="line">------test</span><br><span class="line">---------java：测试源码目录</span><br><span class="line">---------resources：测试配置目录</span><br><span class="line">---target：src/main/java下的源代码就会编译成.class文件放入target目录中，target就是输出目录</span><br></pre></td></tr></table></figure>
+<h2 id="创建-maven-javaWeb-项目"><a href="#创建-maven-javaWeb-项目" class="headerlink" title="创建 maven javaWeb 项目"></a>创建 maven javaWeb 项目</h2><p>命令：<br><code>mvn archetype:create -DgroupId=com.wuhao.maven.quickstart -DartifactId=myWebApp -DarchetypeArtifactId=maven-archetype-webapp -Dversion=0.0.1-snapshot</code><br>其他都差不多，创建maven web项目的话 -DarchetypeArtifactId=maven-archetype-webapp 比创建java项目多了一个 -Dversion=0.01-snapshot， 在创建java项目的时候也可以加上这个，如果不写，会默认帮我们加上1.0-snapshot。</p>
+<p>创建成功后会提示：build success！<br>在当前文件夹下会生成一个simple的文件夹，这就是maven javaWeb项目</p>
+<h2 id="maven-web项目结构"><a href="#maven-web项目结构" class="headerlink" title="maven web项目结构"></a>maven web项目结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">pom.xml：核心配置</span><br><span class="line">src/main/java：java源码</span><br><span class="line">src/main/resources：java配置</span><br><span class="line">src/main/webapp：myeclipse web项目中 WebRoot目录</span><br><span class="line">   |-- WEB-INF</span><br><span class="line">       |-- web.xml</span><br><span class="line">src/test：测试</span><br><span class="line">target：输出目录</span><br></pre></td></tr></table></figure>
+<h2 id="命令操作maven-java或web项目"><a href="#命令操作maven-java或web项目" class="headerlink" title="命令操作maven java或web项目"></a>命令操作maven java或web项目</h2><p>编译：mvn compile　　–src/main/java目录java源码编译生成class （target目录下）<br>测试：mvn test　　　　–src/test/java 目录编译<br>清理：mvn clean　　　 –删除target目录，也就是将class文件等删除<br>打包：mvn package　　–生成压缩文件：java项目#jar包；web项目#war包，也是放在target目录下<br>安装：mvn install　　　–将压缩文件(jar或者war)上传到本地仓库<br>部署|发布：mvn deploy　　–将压缩文件上传私服</p>
+<h2 id="使用命令操作maven-java项目"><a href="#使用命令操作maven-java项目" class="headerlink" title="使用命令操作maven java项目"></a>使用命令操作maven java项目</h2><p>注意：使用命令时，必须在maven java项目的根目录下，及可以看到pom.xml<br>描述：将maven java项目打包上传到本地仓库供别人调用<br>命令：<code>mvn install</code></p>
+<p>在本地仓库中查看是否有该项目<br>D:\java\maven\repository\com\wuhao\maven\quickstart\simple\1.0-SNAPSHOT<br><img src="/2018/12/11/Maven/3.png" alt=""></p>
+<p>通过在本地仓库中的目录可以发现为什么通过groupId、artifactId、version可以定位到仓库中得jar包，也可以知道为什么groupId要使用公司域名的反写(因为这样唯一，不会与别的项目重名导致查找到的内容不精确)</p>
+<h2 id="maven项目的完整生命周期，当执行生命周期后面命令时，前面步骤的命令自动执行"><a href="#maven项目的完整生命周期，当执行生命周期后面命令时，前面步骤的命令自动执行" class="headerlink" title="maven项目的完整生命周期，当执行生命周期后面命令时，前面步骤的命令自动执行"></a>maven项目的完整生命周期，当执行生命周期后面命令时，前面步骤的命令自动执行</h2><p><img src="/2018/12/11/Maven/4.png" alt=""><br>红色标记字体的意思就是当我们直接使用mvn install命令对项目进行上传至本地仓库时，那么前面所有的步骤将会自动执行，比如源代码的编译，打包等等。</p>
+<h2 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h2><p><code>mvn eclipse:eclipse</code>：maven java或web项目转换Eclipse工程<br><code>mvn eclipse:clean</code>：清除eclipse设置信息，又从eclipse工程转换为maven原生项目了<br><code>mvn idea:idea</code>：转idea<br><code>mvn idea:clean</code>：又转回来</p>
+<h1 id="pom-xml的依赖关系讲解-重点"><a href="#pom-xml的依赖关系讲解-重点" class="headerlink" title="pom.xml的依赖关系讲解(重点)"></a>pom.xml的依赖关系讲解(重点)</h1><p>之前一直在使用pom.xml中找jar包最关键的三个属性，groupId、artifactId、version，应该有些印象了，也知道为什么通过这三个能找到对应的jar包。</p>
+<h2 id="如何获取坐标-也就是三个关键属性值"><a href="#如何获取坐标-也就是三个关键属性值" class="headerlink" title="如何获取坐标(也就是三个关键属性值)"></a>如何获取坐标(也就是三个关键属性值)</h2><h3 id="方式1：使用网站搜索-从中央仓库拿"><a href="#方式1：使用网站搜索-从中央仓库拿" class="headerlink" title="方式1：使用网站搜索[从中央仓库拿]"></a>方式1：使用网站搜索[从中央仓库拿]</h3><ol>
+<li>百度搜索关键字<code>maven repository</code></li>
+<li>输入关键字查询获得需要内容，确定需要版本</li>
+<li>获得坐标</li>
+</ol>
+<h2 id="依赖-坐标-的常见配置"><a href="#依赖-坐标-的常见配置" class="headerlink" title="依赖(坐标)的常见配置"></a>依赖(坐标)的常见配置</h2><p>看下图，dependency下的属性配置，全部有9个，讲其中的7个。<br><img src="/2018/12/11/Maven/5.png" alt=""></p>
+<p>type：依赖的类型，比如是jar包还是war包等，默认为jar，表示依赖的jar包<br>optional：标记依赖是否可选。默认值false<br>exclusions：排除传递依赖，解决jar冲突问题<br>依赖传递的意思就是，A项目 依赖 B项目，B项目 依赖 C项目，当使用A项目时，就会把B也给加载进来，这是传递依赖，依次类推，C也会因此给加载进来。<br>这个有依赖传递有好处，也有坏处，坏处就是jar包的冲突问题，比如，A 依赖 B(B的版本为1)，C 依赖 B(B的版本为2)，<br>如果一个项目同时需要A和C，那么A,C都会传递依赖将B给加载进来，问题就在这里，两个B的版本不一样，<br>将两个都加载进去就会引起冲突，这时候就需要使用exclusions这个属性配置了。maven也会有一个机制避免两个都加载进去，<br>maven 默认配置在前面的优先使用，但是我们还是需要使用exclusions来配置更合理。</p>
+<p>scope：依赖范围，意思就是通过pom.xml加载进来的jar包，来什么范围内使用生效，范围包括编译时，运行时，测试时。scope包含下面的值：</p>
+<ul>
+<li>compile：默认值，如果选择此值，表示编译、测试和运行都使用当前jar</li>
+<li>test：表示只在测试时当前jar生效，在别的范围内就不能使用该jar包。</li>
+<li>runtime，表示测试和运行时使用当前jar，编译时不用该jar包。例如：JDBC驱动。</li>
+<li>provided，表示编译和测试时使用当前jar，运行时不在使用该jar了。例如：servlet-api、jsp-api等。【必须填写】</li>
+<li>system:表示我们自己手动加入的jar包，不属于maven仓库(本地，第三方等)，属于别得类库的这样的jar包，只在编译和测试期生效，运行时无效。一般不用</li>
+</ul>
+<h2 id="依赖调节原则"><a href="#依赖调节原则" class="headerlink" title="依赖调节原则"></a>依赖调节原则</h2><p>这个就是maven解决传递依赖时jar包冲突问题的方法，按照两种原则，上面已经介绍了一种了，就是下面的第二原则<br>第一原则：路径近者优先原则<br>A–&gt;B–&gt;C–&gt;D–&gt;X(1.6)<br>E–&gt;D–&gt;X(2.0)<br>使用X(2.0)，因为其路径更近</p>
+<p>第二原则：第一声明者优先原则。就是如果路径相同，maven 默认配置在前面的优先使用<br>A–&gt;B –&gt; X(1.6)<br>C–&gt;D–&gt; X(2.0)<br>这样就是路径相同，那么如果A在前面，C在后面，则使用X(1.6)<br>maven会先根据第一原则进行选择，第一原则不成，则按第二原则处理。</p>
+<p><a href="https://www.cnblogs.com/whgk/p/7121336.html" target="_blank" rel="noopener">maven对父工程与子模块的拆分和聚合，参考这里</a></p>
+<p><a href="https://www.cnblogs.com/whgk/p/7112560.html" target="_blank" rel="noopener">本文参考</a></p>
+<h1 id="maven引入本地jar包的方法"><a href="#maven引入本地jar包的方法" class="headerlink" title="maven引入本地jar包的方法"></a>maven引入本地jar包的方法</h1><ul>
+<li>将jar包复制到项目中，建议放到<code>/src/main/resources/lib</code>下。</li>
+<li>在pom.xml中加入配置<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;com.aspose&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;aspose-words&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;19.10&lt;/version&gt;</span><br><span class="line">	&lt;scope&gt;system&lt;/scope&gt;</span><br><span class="line">	&lt;systemPath&gt;$&#123;basedir&#125;/src/main/resources/lib/aspose-words-19.10-jdk17.jar&lt;/systemPath&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="不使用maven导包"><a href="#不使用maven导包" class="headerlink" title="不使用maven导包"></a>不使用maven导包</h1><p>Porject Structure-&gt;Libraries<br>点击左上角的加号，选择<code>java</code>，然后一层层找到你项目中的jar包。</p>
+<h1 id="使用dependency引入的jar包Linux上失效"><a href="#使用dependency引入的jar包Linux上失效" class="headerlink" title="使用dependency引入的jar包Linux上失效"></a>使用dependency引入的jar包Linux上失效</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;aspose-slides&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;aspose-slides&lt;/artifactId&gt;</span><br><span class="line">	&lt;scope&gt;system&lt;/scope&gt;</span><br><span class="line">	&lt;version&gt;19.6&lt;/version&gt;</span><br><span class="line">	&lt;systemPath&gt;$&#123;basedir&#125;/src/main/resources/lib/aspose-slides-19.6.jar&lt;/systemPath&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>system scope引入的包，在使用jar-with-dependencies打包时将不会被包含，就是如果我<code>maven install</code>打包，这个打不进去。到时候调用的时候就会报：<code>classNotFound</code>。</p>
+<p>执行命令<br>windows:<br><code>mvn install:install-file -DgroupId=aspose-words -DartifactId=aspose-words -Dversion=16.8 -Dpackaging=jar -Dfile=E:\work\aspose-cells-18.9.jar</code></p>
+<p>linux:<br><code>mvn install:install-file -DgroupId=aspose-words -DartifactId=aspose-words -Dversion=16.8 -Dpackaging=jar -Dfile=/usr/local/src/aspose-words-16.8.0-jdk16.jar</code><br><code>mvn install:install-file -DgroupId=aspose-slides -DartifactId=aspose-slides -Dversion=19.6 -Dpackaging=jar -Dfile=/usr/local/src/aspose-slides-19.6.jar</code><br><code>mvn install:install-file -DgroupId=aspose-cells -DartifactId=aspose-cells -Dversion=18.9 -Dpackaging=jar -Dfile=/usr/local/src/aspose-cells-18.9.jar</code><br>区别只是路径不同，注意修改groupId、artifactId、version和file后的路径。</p>
+<p>然后使用时，在pom中添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">   &lt;groupId&gt;alipay&lt;/groupId&gt;</span><br><span class="line">   &lt;artifactId&gt;alipay-trade-sdk&lt;/artifactId&gt;</span><br><span class="line">   &lt;version&gt;1.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这里的groupId、artifactId、version，随便写，只需要和上边命令中的参数一致即可。</p>
+<p><a href="https://blog.csdn.net/mingjie1212/article/details/78395744" target="_blank" rel="noopener">参考1</a><br><a href="https://blog.csdn.net/hhb200766/article/details/42168819" target="_blank" rel="noopener">参考2</a></p>
+<h1 id="卸载jar包"><a href="#卸载jar包" class="headerlink" title="卸载jar包"></a>卸载jar包</h1><p>上边使用<code>mvn install:install-file</code>安装了本地的jar包，现在卸载它。</p>
+<ul>
+<li>第一步,从Maven本地仓库删除jar<br>//清除某个jar<br><code>mvn dependency:purge-local-repository -DmanualInclude=&quot;groupId:artifactId&quot;</code></li>
+</ul>
+<p>//清除多个属于不同groupId的jar<br><code>mvn dependency:purge-local-repository -DmanualInclude=&quot;groupId1:artifactId1,groupId2:artifactId2,...&quot;</code></p>
+<ul>
+<li>第二步,阻止Maven对已删除的jar进行reResolve<br><code>mvn dependency:purge-local-repository -DreResolve=false</code></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Maven/" rel="tag"># Maven</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/10/IDEA-debug调试技巧/" rel="next" title="IDEA-debug调试技巧">
+                <i class="fa fa-chevron-left"></i> IDEA-debug调试技巧
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/16/ArrayList/" rel="prev" title="ArrayList">
+                ArrayList <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概念："><span class="nav-number">1.</span> <span class="nav-text">概念：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#仓库概念"><span class="nav-number">2.</span> <span class="nav-text">仓库概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#本地仓库"><span class="nav-number">2.1.</span> <span class="nav-text">本地仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三方仓库"><span class="nav-number">2.2.</span> <span class="nav-text">第三方仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中央仓库"><span class="nav-number">2.3.</span> <span class="nav-text">中央仓库</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用命令行管理maven项目"><span class="nav-number">3.</span> <span class="nav-text">使用命令行管理maven项目</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建maven-java项目"><span class="nav-number">3.1.</span> <span class="nav-text">创建maven java项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#maven-java项目结构"><span class="nav-number">3.2.</span> <span class="nav-text">maven java项目结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-maven-javaWeb-项目"><span class="nav-number">3.3.</span> <span class="nav-text">创建 maven javaWeb 项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#maven-web项目结构"><span class="nav-number">3.4.</span> <span class="nav-text">maven web项目结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令操作maven-java或web项目"><span class="nav-number">3.5.</span> <span class="nav-text">命令操作maven java或web项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用命令操作maven-java项目"><span class="nav-number">3.6.</span> <span class="nav-text">使用命令操作maven java项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#maven项目的完整生命周期，当执行生命周期后面命令时，前面步骤的命令自动执行"><span class="nav-number">3.7.</span> <span class="nav-text">maven项目的完整生命周期，当执行生命周期后面命令时，前面步骤的命令自动执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他命令"><span class="nav-number">3.8.</span> <span class="nav-text">其他命令</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#pom-xml的依赖关系讲解-重点"><span class="nav-number">4.</span> <span class="nav-text">pom.xml的依赖关系讲解(重点)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何获取坐标-也就是三个关键属性值"><span class="nav-number">4.1.</span> <span class="nav-text">如何获取坐标(也就是三个关键属性值)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方式1：使用网站搜索-从中央仓库拿"><span class="nav-number">4.1.1.</span> <span class="nav-text">方式1：使用网站搜索[从中央仓库拿]</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#依赖-坐标-的常见配置"><span class="nav-number">4.2.</span> <span class="nav-text">依赖(坐标)的常见配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#依赖调节原则"><span class="nav-number">4.3.</span> <span class="nav-text">依赖调节原则</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#maven引入本地jar包的方法"><span class="nav-number">5.</span> <span class="nav-text">maven引入本地jar包的方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#不使用maven导包"><span class="nav-number">6.</span> <span class="nav-text">不使用maven导包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用dependency引入的jar包Linux上失效"><span class="nav-number">7.</span> <span class="nav-text">使用dependency引入的jar包Linux上失效</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#卸载jar包"><span class="nav-number">8.</span> <span class="nav-text">卸载jar包</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

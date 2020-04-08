@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="TreeSet介绍TreeSet 是一个有序的集合，它的作用是提供有序的Set集合。它继承于AbstractSet抽象类，实现了NavigableSet, Cloneable, java.io.Serializable接口。TreeSet 继承于AbstractSet，所以它是一个Set集合，具有Set的属性和方法。TreeSet 实现了NavigableSet接口，意味着它支持一系列的导航方法。">
+<meta name="keywords" content="集合,Set">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TreeSet">
+<meta property="og:url" content="https://jingyao066.gitee.io/2019/04/03/TreeSet/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="TreeSet介绍TreeSet 是一个有序的集合，它的作用是提供有序的Set集合。它继承于AbstractSet抽象类，实现了NavigableSet, Cloneable, java.io.Serializable接口。TreeSet 继承于AbstractSet，所以它是一个Set集合，具有Set的属性和方法。TreeSet 实现了NavigableSet接口，意味着它支持一系列的导航方法。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/04/03/TreeSet/1.jpg">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.291Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TreeSet">
+<meta name="twitter:description" content="TreeSet介绍TreeSet 是一个有序的集合，它的作用是提供有序的Set集合。它继承于AbstractSet抽象类，实现了NavigableSet, Cloneable, java.io.Serializable接口。TreeSet 继承于AbstractSet，所以它是一个Set集合，具有Set的属性和方法。TreeSet 实现了NavigableSet接口，意味着它支持一系列的导航方法。">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2019/04/03/TreeSet/1.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2019/04/03/TreeSet/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>TreeSet | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2019/04/03/TreeSet/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">TreeSet
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-03 11:53:50" itemprop="dateCreated datePublished" datetime="2019-04-03T11:53:50+08:00">2019-04-03</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/04/03/TreeSet/" class="leancloud_visitors" data-flag-title="TreeSet">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="TreeSet介绍"><a href="#TreeSet介绍" class="headerlink" title="TreeSet介绍"></a>TreeSet介绍</h1><p>TreeSet 是一个有序的集合，它的作用是提供有序的Set集合。它继承于AbstractSet抽象类，实现了NavigableSet<e>, Cloneable, java.io.Serializable接口。<br>TreeSet 继承于AbstractSet，所以它是一个Set集合，具有Set的属性和方法。<br>TreeSet 实现了NavigableSet接口，意味着它支持一系列的导航方法。比如查找与指定目标最匹配项。<br>TreeSet 实现了Cloneable接口，意味着它能被克隆。<br>TreeSet 实现了java.io.Serializable接口，意味着它支持序列化。</e></p>
+<p>TreeSet是基于TreeMap实现的。TreeSet中的元素支持2种排序方式：自然排序 或者 根据创建TreeSet 时提供的 Comparator 进行排序。这取决于使用的构造方法。<br>TreeSet为基本操作（add、remove 和 contains）提供受保证的 log(n) 时间开销。<br>另外，TreeSet是非同步的。 它的iterator 方法返回的迭代器是fail-fast的。</p>
+<h1 id="TreeSet构造函数"><a href="#TreeSet构造函数" class="headerlink" title="TreeSet构造函数"></a>TreeSet构造函数</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 默认构造函数。使用该构造函数，TreeSet中的元素按照自然排序进行排列。</span><br><span class="line">TreeSet()</span><br><span class="line"></span><br><span class="line">// 创建的TreeSet包含collection</span><br><span class="line">TreeSet(Collection&lt;? extends E&gt; collection)</span><br><span class="line"></span><br><span class="line">// 指定TreeSet的比较器</span><br><span class="line">TreeSet(Comparator&lt;? super E&gt; comparator)</span><br><span class="line"></span><br><span class="line">// 创建的TreeSet包含set</span><br><span class="line">TreeSet(SortedSet&lt;E&gt; set)</span><br></pre></td></tr></table></figure>
+<h1 id="TreeSet的API"><a href="#TreeSet的API" class="headerlink" title="TreeSet的API"></a>TreeSet的API</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">boolean                   add(E object)</span><br><span class="line">boolean                   addAll(Collection&lt;? extends E&gt; collection)</span><br><span class="line">void                      clear()</span><br><span class="line">Object                    clone()</span><br><span class="line">boolean                   contains(Object object)</span><br><span class="line">E                         first()</span><br><span class="line">boolean                   isEmpty()</span><br><span class="line">E                         last()</span><br><span class="line">E                         pollFirst()</span><br><span class="line">E                         pollLast()</span><br><span class="line">E                         lower(E e)</span><br><span class="line">E                         floor(E e)</span><br><span class="line">E                         ceiling(E e)</span><br><span class="line">E                         higher(E e)</span><br><span class="line">boolean                   remove(Object object)</span><br><span class="line">int                       size()</span><br><span class="line">Comparator&lt;? super E&gt;     comparator()</span><br><span class="line">Iterator&lt;E&gt;               iterator()</span><br><span class="line">Iterator&lt;E&gt;               descendingIterator()</span><br><span class="line">SortedSet&lt;E&gt;              headSet(E end)</span><br><span class="line">NavigableSet&lt;E&gt;           descendingSet()</span><br><span class="line">NavigableSet&lt;E&gt;           headSet(E end, boolean endInclusive)</span><br><span class="line">SortedSet&lt;E&gt;              subSet(E start, E end)</span><br><span class="line">NavigableSet&lt;E&gt;           subSet(E start, boolean startInclusive, E end, boolean endInclusive)</span><br><span class="line">NavigableSet&lt;E&gt;           tailSet(E start, boolean startInclusive)</span><br><span class="line">SortedSet&lt;E&gt;              tailSet(E start)</span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ul>
+<li>TreeSet是有序的Set集合，因此支持add、remove、get等方法。</li>
+<li>和NavigableSet一样，TreeSet的导航方法大致可以区分为两类，一类时提供元素项的导航方法，返回某个元素；另一类时提供集合的导航方法，返回某个集合。<br>lower、floor、ceiling 和 higher 分别返回小于、小于等于、大于等于、大于给定元素的元素，如果不存在这样的元素，则返回 null。</li>
+</ul>
+<h1 id="TreeSet数据结构"><a href="#TreeSet数据结构" class="headerlink" title="TreeSet数据结构"></a>TreeSet数据结构</h1><p>TreeSet的继承关系<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">java.lang.Object</span><br><span class="line">   ↳     java.util.AbstractCollection&lt;E&gt;</span><br><span class="line">         ↳     java.util.AbstractSet&lt;E&gt;</span><br><span class="line">               ↳     java.util.TreeSet&lt;E&gt;</span><br><span class="line"></span><br><span class="line">public class TreeSet&lt;E&gt; extends AbstractSet&lt;E&gt;</span><br><span class="line">    implements NavigableSet&lt;E&gt;, Cloneable, java.io.Serializable&#123;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>TreeSet与Collection关系如下图：<br><img src="/2019/04/03/TreeSet/1.jpg" alt=""><br>从图中可以看出：</p>
+<ul>
+<li>TreeSet继承于AbstractSet，并且实现了NavigableSet接口。</li>
+<li>TreeSet的本质是一个”有序的，并且没有重复元素”的集合，它是通过TreeMap实现的。TreeSet中含有一个”NavigableMap类型的成员变量”m，而m实际上是”TreeMap的实例”。</li>
+</ul>
+<h1 id="TreeSet源码解析"><a href="#TreeSet源码解析" class="headerlink" title="TreeSet源码解析"></a>TreeSet源码解析</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br></pre></td><td class="code"><pre><span class="line">package java.util;</span><br><span class="line"></span><br><span class="line">public class TreeSet&lt;E&gt; extends AbstractSet&lt;E&gt;</span><br><span class="line">    implements NavigableSet&lt;E&gt;, Cloneable, java.io.Serializable</span><br><span class="line">&#123;</span><br><span class="line">    // NavigableMap对象</span><br><span class="line">    private transient NavigableMap&lt;E,Object&gt; m;</span><br><span class="line"></span><br><span class="line">    // TreeSet是通过TreeMap实现的，</span><br><span class="line">    // PRESENT是键-值对中的值。</span><br><span class="line">    private static final Object PRESENT = new Object();</span><br><span class="line"></span><br><span class="line">    // 不带参数的构造函数。创建一个空的TreeMap</span><br><span class="line">    public TreeSet() &#123;</span><br><span class="line">        this(new TreeMap&lt;E,Object&gt;());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 将TreeMap赋值给 &quot;NavigableMap对象m&quot;</span><br><span class="line">    TreeSet(NavigableMap&lt;E,Object&gt; m) &#123;</span><br><span class="line">        this.m = m;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 带比较器的构造函数。</span><br><span class="line">    public TreeSet(Comparator&lt;? super E&gt; comparator) &#123;</span><br><span class="line">        this(new TreeMap&lt;E,Object&gt;(comparator));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 创建TreeSet，并将集合c中的全部元素都添加到TreeSet中</span><br><span class="line">    public TreeSet(Collection&lt;? extends E&gt; c) &#123;</span><br><span class="line">        this();</span><br><span class="line">        // 将集合c中的元素全部添加到TreeSet中</span><br><span class="line">        addAll(c);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 创建TreeSet，并将s中的全部元素都添加到TreeSet中</span><br><span class="line">    public TreeSet(SortedSet&lt;E&gt; s) &#123;</span><br><span class="line">        this(s.comparator());</span><br><span class="line">        addAll(s);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回TreeSet的顺序排列的迭代器。</span><br><span class="line">    // 因为TreeSet时TreeMap实现的，所以这里实际上时返回TreeMap的“键集”对应的迭代器</span><br><span class="line">    public Iterator&lt;E&gt; iterator() &#123;</span><br><span class="line">        return m.navigableKeySet().iterator();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回TreeSet的逆序排列的迭代器。</span><br><span class="line">    // 因为TreeSet时TreeMap实现的，所以这里实际上时返回TreeMap的“键集”对应的迭代器</span><br><span class="line">    public Iterator&lt;E&gt; descendingIterator() &#123;</span><br><span class="line">        return m.descendingKeySet().iterator();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回TreeSet的大小</span><br><span class="line">    public int size() &#123;</span><br><span class="line">        return m.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回TreeSet是否为空</span><br><span class="line">    public boolean isEmpty() &#123;</span><br><span class="line">        return m.isEmpty();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回TreeSet是否包含对象(o)</span><br><span class="line">    public boolean contains(Object o) &#123;</span><br><span class="line">        return m.containsKey(o);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 添加e到TreeSet中</span><br><span class="line">    public boolean add(E e) &#123;</span><br><span class="line">        return m.put(e, PRESENT)==null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 删除TreeSet中的对象o</span><br><span class="line">    public boolean remove(Object o) &#123;</span><br><span class="line">        return m.remove(o)==PRESENT;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 清空TreeSet</span><br><span class="line">    public void clear() &#123;</span><br><span class="line">        m.clear();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 将集合c中的全部元素添加到TreeSet中</span><br><span class="line">    public  boolean addAll(Collection&lt;? extends E&gt; c) &#123;</span><br><span class="line">        // Use linear-time version if applicable</span><br><span class="line">        if (m.size()==0 &amp;&amp; c.size() &gt; 0 &amp;&amp;</span><br><span class="line">            c instanceof SortedSet &amp;&amp;</span><br><span class="line">            m instanceof TreeMap) &#123;</span><br><span class="line">            SortedSet&lt;? extends E&gt; set = (SortedSet&lt;? extends E&gt;) c;</span><br><span class="line">            TreeMap&lt;E,Object&gt; map = (TreeMap&lt;E, Object&gt;) m;</span><br><span class="line">            Comparator&lt;? super E&gt; cc = (Comparator&lt;? super E&gt;) set.comparator();</span><br><span class="line">            Comparator&lt;? super E&gt; mc = map.comparator();</span><br><span class="line">            if (cc==mc || (cc != null &amp;&amp; cc.equals(mc))) &#123;</span><br><span class="line">                map.addAllForTreeSet(set, PRESENT);</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return super.addAll(c);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回子Set，实际上是通过TreeMap的subMap()实现的。</span><br><span class="line">    public NavigableSet&lt;E&gt; subSet(E fromElement, boolean fromInclusive,</span><br><span class="line">                                  E toElement,   boolean toInclusive) &#123;</span><br><span class="line">        return new TreeSet&lt;E&gt;(m.subMap(fromElement, fromInclusive,</span><br><span class="line">                                       toElement,   toInclusive));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回Set的头部，范围是：从头部到toElement。</span><br><span class="line">    // inclusive是是否包含toElement的标志</span><br><span class="line">    public NavigableSet&lt;E&gt; headSet(E toElement, boolean inclusive) &#123;</span><br><span class="line">        return new TreeSet&lt;E&gt;(m.headMap(toElement, inclusive));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回Set的尾部，范围是：从fromElement到结尾。</span><br><span class="line">    // inclusive是是否包含fromElement的标志</span><br><span class="line">    public NavigableSet&lt;E&gt; tailSet(E fromElement, boolean inclusive) &#123;</span><br><span class="line">        return new TreeSet&lt;E&gt;(m.tailMap(fromElement, inclusive));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回子Set。范围是：从fromElement(包括)到toElement(不包括)。</span><br><span class="line">    public SortedSet&lt;E&gt; subSet(E fromElement, E toElement) &#123;</span><br><span class="line">        return subSet(fromElement, true, toElement, false);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回Set的头部，范围是：从头部到toElement(不包括)。</span><br><span class="line">    public SortedSet&lt;E&gt; headSet(E toElement) &#123;</span><br><span class="line">        return headSet(toElement, false);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回Set的尾部，范围是：从fromElement到结尾(不包括)。</span><br><span class="line">    public SortedSet&lt;E&gt; tailSet(E fromElement) &#123;</span><br><span class="line">        return tailSet(fromElement, true);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回Set的比较器</span><br><span class="line">    public Comparator&lt;? super E&gt; comparator() &#123;</span><br><span class="line">        return m.comparator();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回Set的第一个元素</span><br><span class="line">    public E first() &#123;</span><br><span class="line">        return m.firstKey();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回Set的最后一个元素</span><br><span class="line">    public E first() &#123;</span><br><span class="line">    public E last() &#123;</span><br><span class="line">        return m.lastKey();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回Set中小于e的最大元素</span><br><span class="line">    public E lower(E e) &#123;</span><br><span class="line">        return m.lowerKey(e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回Set中小于/等于e的最大元素</span><br><span class="line">    public E floor(E e) &#123;</span><br><span class="line">        return m.floorKey(e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回Set中大于/等于e的最小元素</span><br><span class="line">    public E ceiling(E e) &#123;</span><br><span class="line">        return m.ceilingKey(e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回Set中大于e的最小元素</span><br><span class="line">    public E higher(E e) &#123;</span><br><span class="line">        return m.higherKey(e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 获取第一个元素，并将该元素从TreeMap中删除。</span><br><span class="line">    public E pollFirst() &#123;</span><br><span class="line">        Map.Entry&lt;E,?&gt; e = m.pollFirstEntry();</span><br><span class="line">        return (e == null)? null : e.getKey();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 获取最后一个元素，并将该元素从TreeMap中删除。</span><br><span class="line">    public E pollLast() &#123;</span><br><span class="line">        Map.Entry&lt;E,?&gt; e = m.pollLastEntry();</span><br><span class="line">        return (e == null)? null : e.getKey();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 克隆一个TreeSet，并返回Object对象</span><br><span class="line">    public Object clone() &#123;</span><br><span class="line">        TreeSet&lt;E&gt; clone = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            clone = (TreeSet&lt;E&gt;) super.clone();</span><br><span class="line">        &#125; catch (CloneNotSupportedException e) &#123;</span><br><span class="line">            throw new InternalError();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        clone.m = new TreeMap&lt;E,Object&gt;(m);</span><br><span class="line">        return clone;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // java.io.Serializable的写入函数</span><br><span class="line">    // 将TreeSet的“比较器、容量，所有的元素值”都写入到输出流中</span><br><span class="line">    private void writeObject(java.io.ObjectOutputStream s)</span><br><span class="line">        throws java.io.IOException &#123;</span><br><span class="line">        s.defaultWriteObject();</span><br><span class="line"></span><br><span class="line">        // 写入比较器</span><br><span class="line">        s.writeObject(m.comparator());</span><br><span class="line"></span><br><span class="line">        // 写入容量</span><br><span class="line">        s.writeInt(m.size());</span><br><span class="line"></span><br><span class="line">        // 写入“TreeSet中的每一个元素”</span><br><span class="line">        for (Iterator i=m.keySet().iterator(); i.hasNext(); )</span><br><span class="line">            s.writeObject(i.next());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // java.io.Serializable的读取函数：根据写入方式读出</span><br><span class="line">    // 先将TreeSet的“比较器、容量、所有的元素值”依次读出</span><br><span class="line">    private void readObject(java.io.ObjectInputStream s)</span><br><span class="line">        throws java.io.IOException, ClassNotFoundException &#123;</span><br><span class="line">        // Read in any hidden stuff</span><br><span class="line">        s.defaultReadObject();</span><br><span class="line"></span><br><span class="line">        // 从输入流中读取TreeSet的“比较器”</span><br><span class="line">        Comparator&lt;? super E&gt; c = (Comparator&lt;? super E&gt;) s.readObject();</span><br><span class="line"></span><br><span class="line">        TreeMap&lt;E,Object&gt; tm;</span><br><span class="line">        if (c==null)</span><br><span class="line">            tm = new TreeMap&lt;E,Object&gt;();</span><br><span class="line">        else</span><br><span class="line">            tm = new TreeMap&lt;E,Object&gt;(c);</span><br><span class="line">        m = tm;</span><br><span class="line"></span><br><span class="line">        // 从输入流中读取TreeSet的“容量”</span><br><span class="line">        int size = s.readInt();</span><br><span class="line"></span><br><span class="line">        // 从输入流中读取TreeSet的“全部元素”</span><br><span class="line">        tm.readTreeSet(size, s, PRESENT);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // TreeSet的序列版本号</span><br><span class="line">    private static final long serialVersionUID = -2479143000061671589L;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>总结：</p>
+<ul>
+<li>TreeSet实际上是TreeMap实现的。当我们构造TreeSet时；若使用不带参数的构造函数，则TreeSet的使用自然比较器；若用户需要使用自定义的比较器，则需要使用带比较器的参数。</li>
+<li>TreeSet是非线程安全的。</li>
+<li>TreeSet实现java.io.Serializable的方式。当写入到输出流时，依次写入“比较器、容量、全部元素”；当读出输入流时，再依次读取。</li>
+</ul>
+<h1 id="TreeSet遍历方式"><a href="#TreeSet遍历方式" class="headerlink" title="TreeSet遍历方式"></a>TreeSet遍历方式</h1><h2 id="Iterator顺序遍历"><a href="#Iterator顺序遍历" class="headerlink" title="Iterator顺序遍历"></a>Iterator顺序遍历</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for(Iterator iter = set.iterator(); iter.hasNext(); ) &#123; </span><br><span class="line">    iter.next();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Iterator逆序遍历"><a href="#Iterator逆序遍历" class="headerlink" title="Iterator逆序遍历"></a>Iterator逆序遍历</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 假设set是TreeSet对象</span><br><span class="line">for(Iterator iter = set.descendingIterator(); iter.hasNext(); ) &#123; </span><br><span class="line">    iter.next();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="for-each遍历HashSet"><a href="#for-each遍历HashSet" class="headerlink" title="for-each遍历HashSet"></a>for-each遍历HashSet</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 假设set是TreeSet对象，并且set中元素是String类型</span><br><span class="line">String[] arr = (String[])set.toArray(new String[0]);</span><br><span class="line">for (String str:arr)</span><br><span class="line">    System.out.printf(&quot;for each : %s\n&quot;, str);</span><br></pre></td></tr></table></figure>
+<p><strong>TreeSet不支持快速随机遍历，只能通过迭代器进行遍历</strong></p>
+<h1 id="TreeSet使用示例"><a href="#TreeSet使用示例" class="headerlink" title="TreeSet使用示例"></a>TreeSet使用示例</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">import java.util.*;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @desc TreeSet的API测试</span><br><span class="line"> *</span><br><span class="line"> * @author skywang</span><br><span class="line"> * @email kuiwu-wang@163.com</span><br><span class="line"> */</span><br><span class="line">public class TreeSetTest &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        testTreeSetAPIs();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    // 测试TreeSet的api</span><br><span class="line">    public static void testTreeSetAPIs() &#123;</span><br><span class="line">        String val;</span><br><span class="line"></span><br><span class="line">        // 新建TreeSet</span><br><span class="line">        TreeSet tSet = new TreeSet();</span><br><span class="line">        // 将元素添加到TreeSet中</span><br><span class="line">        tSet.add(&quot;aaa&quot;);</span><br><span class="line">        // Set中不允许重复元素，所以只会保存一个“aaa”</span><br><span class="line">        tSet.add(&quot;aaa&quot;);</span><br><span class="line">        tSet.add(&quot;bbb&quot;);</span><br><span class="line">        tSet.add(&quot;eee&quot;);</span><br><span class="line">        tSet.add(&quot;ddd&quot;);</span><br><span class="line">        tSet.add(&quot;ccc&quot;);</span><br><span class="line">        System.out.println(&quot;TreeSet:&quot;+tSet);</span><br><span class="line"></span><br><span class="line">        // 打印TreeSet的实际大小</span><br><span class="line">        System.out.printf(&quot;size : %d\n&quot;, tSet.size());</span><br><span class="line"></span><br><span class="line">        // 导航方法</span><br><span class="line">        // floor(小于、等于)</span><br><span class="line">        System.out.printf(&quot;floor bbb: %s\n&quot;, tSet.floor(&quot;bbb&quot;));</span><br><span class="line">        // lower(小于)</span><br><span class="line">        System.out.printf(&quot;lower bbb: %s\n&quot;, tSet.lower(&quot;bbb&quot;));</span><br><span class="line">        // ceiling(大于、等于)</span><br><span class="line">        System.out.printf(&quot;ceiling bbb: %s\n&quot;, tSet.ceiling(&quot;bbb&quot;));</span><br><span class="line">        System.out.printf(&quot;ceiling eee: %s\n&quot;, tSet.ceiling(&quot;eee&quot;));</span><br><span class="line">        // ceiling(大于)</span><br><span class="line">        System.out.printf(&quot;higher bbb: %s\n&quot;, tSet.higher(&quot;bbb&quot;));</span><br><span class="line">        // subSet()</span><br><span class="line">        System.out.printf(&quot;subSet(aaa, true, ccc, true): %s\n&quot;, tSet.subSet(&quot;aaa&quot;, true, &quot;ccc&quot;, true));</span><br><span class="line">        System.out.printf(&quot;subSet(aaa, true, ccc, false): %s\n&quot;, tSet.subSet(&quot;aaa&quot;, true, &quot;ccc&quot;, false));</span><br><span class="line">        System.out.printf(&quot;subSet(aaa, false, ccc, true): %s\n&quot;, tSet.subSet(&quot;aaa&quot;, false, &quot;ccc&quot;, true));</span><br><span class="line">        System.out.printf(&quot;subSet(aaa, false, ccc, false): %s\n&quot;, tSet.subSet(&quot;aaa&quot;, false, &quot;ccc&quot;, false));</span><br><span class="line">        // headSet()</span><br><span class="line">        System.out.printf(&quot;headSet(ccc, true): %s\n&quot;, tSet.headSet(&quot;ccc&quot;, true));</span><br><span class="line">        System.out.printf(&quot;headSet(ccc, false): %s\n&quot;, tSet.headSet(&quot;ccc&quot;, false));</span><br><span class="line">        // tailSet()</span><br><span class="line">        System.out.printf(&quot;tailSet(ccc, true): %s\n&quot;, tSet.tailSet(&quot;ccc&quot;, true));</span><br><span class="line">        System.out.printf(&quot;tailSet(ccc, false): %s\n&quot;, tSet.tailSet(&quot;ccc&quot;, false));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        // 删除“ccc”</span><br><span class="line">        tSet.remove(&quot;ccc&quot;);</span><br><span class="line">        // 将Set转换为数组</span><br><span class="line">        String[] arr = (String[])tSet.toArray(new String[0]);</span><br><span class="line">        for (String str:arr)</span><br><span class="line">            System.out.printf(&quot;for each : %s\n&quot;, str);</span><br><span class="line"></span><br><span class="line">        // 打印TreeSet</span><br><span class="line">        System.out.printf(&quot;TreeSet:%s\n&quot;, tSet);</span><br><span class="line"></span><br><span class="line">        // 遍历TreeSet</span><br><span class="line">        for(Iterator iter = tSet.iterator(); iter.hasNext(); ) &#123;</span><br><span class="line">            System.out.printf(&quot;iter : %s\n&quot;, iter.next());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 删除并返回第一个元素</span><br><span class="line">        val = (String)tSet.pollFirst();</span><br><span class="line">        System.out.printf(&quot;pollFirst=%s, set=%s\n&quot;, val, tSet);</span><br><span class="line"></span><br><span class="line">        // 删除并返回最后一个元素</span><br><span class="line">        val = (String)tSet.pollLast();</span><br><span class="line">        System.out.printf(&quot;pollLast=%s, set=%s\n&quot;, val, tSet);</span><br><span class="line"></span><br><span class="line">        // 清空HashSet</span><br><span class="line">        tSet.clear();</span><br><span class="line"></span><br><span class="line">        // 输出HashSet是否为空</span><br><span class="line">        System.out.printf(&quot;%s\n&quot;, tSet.isEmpty()?&quot;set is empty&quot;:&quot;set is not empty&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/集合/" rel="tag"># 集合</a>
+          
+            <a href="/tags/Set/" rel="tag"># Set</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/03/HashSet/" rel="next" title="HashSet">
+                <i class="fa fa-chevron-left"></i> HashSet
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/03/Iterator和Enumeration比较/" rel="prev" title="Iterator和Enumeration比较">
+                Iterator和Enumeration比较 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#TreeSet介绍"><span class="nav-number">1.</span> <span class="nav-text">TreeSet介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TreeSet构造函数"><span class="nav-number">2.</span> <span class="nav-text">TreeSet构造函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TreeSet的API"><span class="nav-number">3.</span> <span class="nav-text">TreeSet的API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TreeSet数据结构"><span class="nav-number">4.</span> <span class="nav-text">TreeSet数据结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TreeSet源码解析"><span class="nav-number">5.</span> <span class="nav-text">TreeSet源码解析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TreeSet遍历方式"><span class="nav-number">6.</span> <span class="nav-text">TreeSet遍历方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Iterator顺序遍历"><span class="nav-number">6.1.</span> <span class="nav-text">Iterator顺序遍历</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Iterator逆序遍历"><span class="nav-number">6.2.</span> <span class="nav-text">Iterator逆序遍历</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#for-each遍历HashSet"><span class="nav-number">6.3.</span> <span class="nav-text">for-each遍历HashSet</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TreeSet使用示例"><span class="nav-number">7.</span> <span class="nav-text">TreeSet使用示例</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

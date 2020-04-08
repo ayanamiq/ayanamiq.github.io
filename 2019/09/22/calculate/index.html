@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="BigDecimalBigDecimal初始化这里对比了两种形式，第一种直接value写数字的值，第二种用string来表示1234567BigDecimal num1 = new BigDecimal(0.005);BigDecimal num2 = new BigDecimal(1000000);BigDecimal num3 = new BigDecimal(-1000000);//尽量用字">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="calculate">
+<meta property="og:url" content="https://jingyao066.gitee.io/2019/09/22/calculate/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="BigDecimalBigDecimal初始化这里对比了两种形式，第一种直接value写数字的值，第二种用string来表示1234567BigDecimal num1 = new BigDecimal(0.005);BigDecimal num2 = new BigDecimal(1000000);BigDecimal num3 = new BigDecimal(-1000000);//尽量用字">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-12-17T09:37:09.127Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="calculate">
+<meta name="twitter:description" content="BigDecimalBigDecimal初始化这里对比了两种形式，第一种直接value写数字的值，第二种用string来表示1234567BigDecimal num1 = new BigDecimal(0.005);BigDecimal num2 = new BigDecimal(1000000);BigDecimal num3 = new BigDecimal(-1000000);//尽量用字">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2019/09/22/calculate/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>calculate | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2019/09/22/calculate/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">calculate
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-22 20:34:00" itemprop="dateCreated datePublished" datetime="2019-09-22T20:34:00+08:00">2019-09-22</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-12-17 17:37:09" itemprop="dateModified" datetime="2019-12-17T17:37:09+08:00">2019-12-17</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/09/22/calculate/" class="leancloud_visitors" data-flag-title="calculate">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="BigDecimal"><a href="#BigDecimal" class="headerlink" title="BigDecimal"></a>BigDecimal</h1><h2 id="BigDecimal初始化"><a href="#BigDecimal初始化" class="headerlink" title="BigDecimal初始化"></a>BigDecimal初始化</h2><p>这里对比了两种形式，第一种直接value写数字的值，第二种用string来表示<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">BigDecimal num1 = <span class="keyword">new</span> BigDecimal(<span class="number">0.005</span>);</span><br><span class="line">BigDecimal num2 = <span class="keyword">new</span> BigDecimal(<span class="number">1000000</span>);</span><br><span class="line">BigDecimal num3 = <span class="keyword">new</span> BigDecimal(-<span class="number">1000000</span>);</span><br><span class="line"><span class="comment">//尽量用字符串的形式初始化</span></span><br><span class="line">BigDecimal num12 = <span class="keyword">new</span> BigDecimal(<span class="string">"0.005"</span>);</span><br><span class="line">BigDecimal num22 = <span class="keyword">new</span> BigDecimal(<span class="string">"1000000"</span>);</span><br><span class="line">BigDecimal num32 = <span class="keyword">new</span> BigDecimal(<span class="string">"-1000000"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>我们对其进行加减乘除绝对值的运算。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//加法</span></span><br><span class="line">BigDecimal result1 = num1.add(num2);</span><br><span class="line">BigDecimal result12 = num12.add(num22);</span><br><span class="line"></span><br><span class="line"><span class="comment">//减法</span></span><br><span class="line">BigDecimal result2 = num1.subtract(num2);</span><br><span class="line">BigDecimal result22 = num12.subtract(num22);</span><br><span class="line"></span><br><span class="line"><span class="comment">//乘法</span></span><br><span class="line">BigDecimal result3 = num1.multiply(num2);</span><br><span class="line">BigDecimal result32 = num12.multiply(num22);</span><br><span class="line"></span><br><span class="line"><span class="comment">//绝对值</span></span><br><span class="line">BigDecimal result4 = num3.abs();</span><br><span class="line">BigDecimal result42 = num32.abs();</span><br><span class="line"></span><br><span class="line"><span class="comment">//除法</span></span><br><span class="line">BigDecimal result5 = num2.divide(num1,<span class="number">20</span>,BigDecimal.ROUND_HALF_UP);</span><br><span class="line">BigDecimal result52 = num22.divide(num12,<span class="number">20</span>,BigDecimal.ROUND_HALF_UP);</span><br></pre></td></tr></table></figure></p>
+<p>我把result全部输出可以看到结果，这里出现了差异，这也是为什么初始化建议使用string的原因。</p>
+<p>※ 注意：</p>
+<ul>
+<li>System.out.println()中的数字默认是double类型的，double类型小数计算不精准。</li>
+<li>使用BigDecimal类构造方法传入double类型时，计算的结果也是不精确的！<br>因为不是所有的浮点数都能够被精确的表示成一个double 类型值，有些浮点数值不能够被精确的表示成 double 类型值，因此它会被表示成与它最接近的 double 类型的值。必须改用传入String的构造方法。这一点在BigDecimal类的构造方法注释中有说明。</li>
+</ul>
+<h2 id="除法divide-参数使用"><a href="#除法divide-参数使用" class="headerlink" title="除法divide()参数使用"></a>除法divide()参数使用</h2><p>使用除法函数在divide的时候要设置各种参数，要精确的小数位数和舍入模式，不然会出现报错。<br>我们可以看到divide函数配置的参数如下：<br><code>即为 （BigDecimal divisor 除数， int scale 精确小数位，  int roundingMode 舍入模式）</code><br>可以看到舍入模式有很多种BigDecimal.ROUND_XXXX_XXX, 具体都是什么意思呢。</p>
+<p>八种舍入模式解释如下</p>
+<ul>
+<li><p>ROUND_UP<br>舍入远离零的舍入模式。<br>在丢弃非零部分之前始终增加数字(始终对非零舍弃部分前面的数字加1)。<br>注意，此舍入模式始终不会减少计算值的大小。</p>
+</li>
+<li><p>ROUND_DOWN<br>接近零的舍入模式。<br>在丢弃某部分之前始终不增加数字(从不对舍弃部分前面的数字加1，即截短)。<br>注意，此舍入模式始终不会增加计算值的大小。</p>
+</li>
+<li><p>ROUND_CEILING<br>接近正无穷大的舍入模式。<br>如果 BigDecimal 为正，则舍入行为与 ROUND_UP 相同;<br>如果为负，则舍入行为与 ROUND_DOWN 相同。<br>注意，此舍入模式始终不会减少计算值。</p>
+</li>
+<li><p>ROUND_FLOOR<br>接近负无穷大的舍入模式。<br>如果 BigDecimal 为正，则舍入行为与 ROUND_DOWN 相同;<br>如果为负，则舍入行为与 ROUND_UP 相同。<br>注意，此舍入模式始终不会增加计算值。</p>
+</li>
+<li><p>ROUND_HALF_UP<br>向“最接近的”数字舍入，如果与两个相邻数字的距离相等，则为向上舍入的舍入模式。<br>如果舍弃部分 &gt;= 0.5，则舍入行为与 ROUND_UP 相同;否则舍入行为与 ROUND_DOWN 相同。<br>注意，这是我们大多数人在小学时就学过的舍入模式(四舍五入)。</p>
+</li>
+<li><p>ROUND_HALF_DOWN<br>向“最接近的”数字舍入，如果与两个相邻数字的距离相等，则为上舍入的舍入模式。<br>如果舍弃部分 &gt; 0.5，则舍入行为与 ROUND_UP 相同;否则舍入行为与 ROUND_DOWN 相同(五舍六入)。</p>
+</li>
+<li><p>ROUND_HALF_EVEN<br>向“最接近的”数字舍入，如果与两个相邻数字的距离相等，则向相邻的偶数舍入。<br>如果舍弃部分左边的数字为奇数，则舍入行为与 ROUND_HALF_UP 相同;<br>如果为偶数，则舍入行为与 ROUND_HALF_DOWN 相同。<br>注意，在重复进行一系列计算时，此舍入模式可以将累加错误减到最小。<br>此舍入模式也称为“银行家舍入法”，主要在美国使用。四舍六入，五分两种情况。<br>如果前一位为奇数，则入位，否则舍去。<br>以下例子为保留小数点1位，那么这种舍入方式下的结果。<br>1.15&gt;1.2 1.25&gt;1.2</p>
+</li>
+<li><p>ROUND_UNNECESSARY<br>断言请求的操作具有精确的结果，因此不需要舍入。<br>如果对获得精确结果的操作指定此舍入模式，则抛出ArithmeticException。</p>
+</li>
+</ul>
+<h2 id="BigDecimal比较大小"><a href="#BigDecimal比较大小" class="headerlink" title="BigDecimal比较大小"></a>BigDecimal比较大小</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">BigDecimal a = <span class="keyword">new</span> BigDecimal (<span class="number">1</span>);</span><br><span class="line">BigDecimal b = <span class="keyword">new</span> BigDecimal (<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用compareTo方法比较</span></span><br><span class="line"><span class="comment">//注意：a、b均不能为null，否则会报空指针</span></span><br><span class="line">System.out.println(a.compareTo(b));</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(a.compareTo(b) == -<span class="number">1</span>)&#123;</span><br><span class="line">	System.out.println(<span class="string">"a小于b"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(a.compareTo(b) == <span class="number">0</span>)&#123;</span><br><span class="line">	System.out.println(<span class="string">"a等于b"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(a.compareTo(b) == <span class="number">1</span>)&#123;</span><br><span class="line">	System.out.println(<span class="string">"a大于b"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/22/spring-boot/" rel="next" title="spring boot">
+                <i class="fa fa-chevron-left"></i> spring boot
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/28/windows/" rel="prev" title="windows">
+                windows <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#BigDecimal"><span class="nav-number">1.</span> <span class="nav-text">BigDecimal</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#BigDecimal初始化"><span class="nav-number">1.1.</span> <span class="nav-text">BigDecimal初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#除法divide-参数使用"><span class="nav-number">1.2.</span> <span class="nav-text">除法divide()参数使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BigDecimal比较大小"><span class="nav-number">1.3.</span> <span class="nav-text">BigDecimal比较大小</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

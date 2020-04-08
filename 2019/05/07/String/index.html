@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="String简介String 是java中的字符串，它继承于CharSequence。String类所包含的API接口非常多。为了便于今后的使用，我对String的API进行了分类，并都给出的演示程序。 String 和 CharSequence 关系：String 继承于CharSequence，也就是说String也是CharSequence类型。CharSequence是一个接口，它只包括l">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="String">
+<meta property="og:url" content="https://jingyao066.gitee.io/2019/05/07/String/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="String简介String 是java中的字符串，它继承于CharSequence。String类所包含的API接口非常多。为了便于今后的使用，我对String的API进行了分类，并都给出的演示程序。 String 和 CharSequence 关系：String 继承于CharSequence，也就是说String也是CharSequence类型。CharSequence是一个接口，它只包括l">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/05/07/String/1.jpg">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.288Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="String">
+<meta name="twitter:description" content="String简介String 是java中的字符串，它继承于CharSequence。String类所包含的API接口非常多。为了便于今后的使用，我对String的API进行了分类，并都给出的演示程序。 String 和 CharSequence 关系：String 继承于CharSequence，也就是说String也是CharSequence类型。CharSequence是一个接口，它只包括l">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2019/05/07/String/1.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2019/05/07/String/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>String | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2019/05/07/String/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">String
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-07 15:30:07" itemprop="dateCreated datePublished" datetime="2019-05-07T15:30:07+08:00">2019-05-07</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/05/07/String/" class="leancloud_visitors" data-flag-title="String">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="String简介"><a href="#String简介" class="headerlink" title="String简介"></a>String简介</h1><p>String 是java中的字符串，它继承于CharSequence。<br>String类所包含的API接口非常多。为了便于今后的使用，我对String的API进行了分类，并都给出的演示程序。</p>
+<p>String 和 CharSequence 关系：<br>String 继承于CharSequence，也就是说String也是CharSequence类型。<br>CharSequence是一个接口，它只包括length(), charAt(int index), subSequence(int start, int end)这几个API接口。除了String实现了CharSequence之外，StringBuffer和StringBuilder也实现了CharSequence接口。<br>需要说明的是，CharSequence就是字符序列，String、StringBuilder和StringBuffer本质上都是通过字符数组实现的。</p>
+<p>StringBuilder 和 StringBuffer 的区别：<br>StringBuilder 和 StringBuffer都是可变的字符序列。它们都继承于AbstractStringBuilder，实现了CharSequence接口。<br>但是，StringBuilder是非线程安全的，而StringBuffer是线程安全的。</p>
+<p>它们之间的关系图如下：<br><img src="/2019/05/07/String/1.jpg" alt=""></p>
+<h1 id="String函数列表"><a href="#String函数列表" class="headerlink" title="String函数列表"></a>String函数列表</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span>    <span class="title">String</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span>    <span class="title">String</span><span class="params">(String original)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span>    <span class="title">String</span><span class="params">(<span class="keyword">char</span>[] value)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span>    <span class="title">String</span><span class="params">(<span class="keyword">char</span>[] value, <span class="keyword">int</span> offset, <span class="keyword">int</span> count)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span>    <span class="title">String</span><span class="params">(<span class="keyword">byte</span>[] bytes)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span>    <span class="title">String</span><span class="params">(<span class="keyword">byte</span>[] bytes, <span class="keyword">int</span> offset, <span class="keyword">int</span> length)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span>    <span class="title">String</span><span class="params">(<span class="keyword">byte</span>[] ascii, <span class="keyword">int</span> hibyte)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span>    <span class="title">String</span><span class="params">(<span class="keyword">byte</span>[] ascii, <span class="keyword">int</span> hibyte, <span class="keyword">int</span> offset, <span class="keyword">int</span> count)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span>    <span class="title">String</span><span class="params">(<span class="keyword">byte</span>[] bytes, String charsetName)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span>    <span class="title">String</span><span class="params">(<span class="keyword">byte</span>[] bytes, <span class="keyword">int</span> offset, <span class="keyword">int</span> length, String charsetName)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span>    <span class="title">String</span><span class="params">(<span class="keyword">byte</span>[] bytes, Charset charset)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span>    <span class="title">String</span><span class="params">(<span class="keyword">byte</span>[] bytes, <span class="keyword">int</span> offset, <span class="keyword">int</span> length, Charset charset)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span>    <span class="title">String</span><span class="params">(<span class="keyword">int</span>[] codePoints, <span class="keyword">int</span> offset, <span class="keyword">int</span> count)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span>    <span class="title">String</span><span class="params">(StringBuffer buffer)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span>    <span class="title">String</span><span class="params">(StringBuilder builder)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">char</span>    <span class="title">charAt</span><span class="params">(<span class="keyword">int</span> index)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span>    <span class="title">codePointAt</span><span class="params">(<span class="keyword">int</span> index)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span>    <span class="title">codePointBefore</span><span class="params">(<span class="keyword">int</span> index)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span>    <span class="title">codePointCount</span><span class="params">(<span class="keyword">int</span> beginIndex, <span class="keyword">int</span> endIndex)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span>    <span class="title">compareTo</span><span class="params">(String anotherString)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span>    <span class="title">compareToIgnoreCase</span><span class="params">(String str)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String    <span class="title">concat</span><span class="params">(String str)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span>    <span class="title">contains</span><span class="params">(CharSequence s)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span>    <span class="title">contentEquals</span><span class="params">(StringBuffer sb)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span>    <span class="title">contentEquals</span><span class="params">(CharSequence cs)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String    <span class="title">copyValueOf</span><span class="params">(<span class="keyword">char</span>[] data, <span class="keyword">int</span> offset, <span class="keyword">int</span> count)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String    <span class="title">copyValueOf</span><span class="params">(<span class="keyword">char</span>[] data)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span>    <span class="title">endsWith</span><span class="params">(String suffix)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span>    <span class="title">equals</span><span class="params">(Object anObject)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span>    <span class="title">equalsIgnoreCase</span><span class="params">(String anotherString)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String    <span class="title">format</span><span class="params">(String format, Object[] args)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String    <span class="title">format</span><span class="params">(Locale l, String format, Object[] args)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span>    <span class="title">hashCode</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span>    <span class="title">indexOf</span><span class="params">(<span class="keyword">int</span> ch)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span>    <span class="title">indexOf</span><span class="params">(<span class="keyword">int</span> ch, <span class="keyword">int</span> fromIndex)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span>    <span class="title">indexOf</span><span class="params">(String str)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span>    <span class="title">indexOf</span><span class="params">(String str, <span class="keyword">int</span> fromIndex)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String    <span class="title">intern</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span>    <span class="title">lastIndexOf</span><span class="params">(<span class="keyword">int</span> ch)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span>    <span class="title">lastIndexOf</span><span class="params">(<span class="keyword">int</span> ch, <span class="keyword">int</span> fromIndex)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span>    <span class="title">lastIndexOf</span><span class="params">(String str)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span>    <span class="title">lastIndexOf</span><span class="params">(String str, <span class="keyword">int</span> fromIndex)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span>    <span class="title">length</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span>    <span class="title">matches</span><span class="params">(String regex)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span>    <span class="title">offsetByCodePoints</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">int</span> codePointOffset)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span>    <span class="title">regionMatches</span><span class="params">(<span class="keyword">int</span> toffset, String other, <span class="keyword">int</span> ooffset, <span class="keyword">int</span> len)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span>    <span class="title">regionMatches</span><span class="params">(<span class="keyword">boolean</span> ignoreCase, <span class="keyword">int</span> toffset, String other, <span class="keyword">int</span> ooffset, <span class="keyword">int</span> len)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String    <span class="title">replace</span><span class="params">(<span class="keyword">char</span> oldChar, <span class="keyword">char</span> newChar)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String    <span class="title">replace</span><span class="params">(CharSequence target, CharSequence replacement)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String    <span class="title">replaceAll</span><span class="params">(String regex, String replacement)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String    <span class="title">replaceFirst</span><span class="params">(String regex, String replacement)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String[]    <span class="title">split</span><span class="params">(String regex, <span class="keyword">int</span> limit)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String[]    <span class="title">split</span><span class="params">(String regex)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span>    <span class="title">startsWith</span><span class="params">(String prefix, <span class="keyword">int</span> toffset)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span>    <span class="title">startsWith</span><span class="params">(String prefix)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> CharSequence    <span class="title">subSequence</span><span class="params">(<span class="keyword">int</span> beginIndex, <span class="keyword">int</span> endIndex)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String    <span class="title">substring</span><span class="params">(<span class="keyword">int</span> beginIndex)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String    <span class="title">substring</span><span class="params">(<span class="keyword">int</span> beginIndex, <span class="keyword">int</span> endIndex)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">char</span>[]    <span class="title">toCharArray</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String    <span class="title">toLowerCase</span><span class="params">(Locale locale)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String    <span class="title">toLowerCase</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String    <span class="title">toString</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String    <span class="title">toUpperCase</span><span class="params">(Locale locale)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String    <span class="title">toUpperCase</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String    <span class="title">trim</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String    <span class="title">valueOf</span><span class="params">(Object obj)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String    <span class="title">valueOf</span><span class="params">(<span class="keyword">char</span>[] data)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String    <span class="title">valueOf</span><span class="params">(<span class="keyword">char</span>[] data, <span class="keyword">int</span> offset, <span class="keyword">int</span> count)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String    <span class="title">valueOf</span><span class="params">(<span class="keyword">boolean</span> b)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String    <span class="title">valueOf</span><span class="params">(<span class="keyword">char</span> c)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String    <span class="title">valueOf</span><span class="params">(<span class="keyword">int</span> i)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String    <span class="title">valueOf</span><span class="params">(<span class="keyword">long</span> l)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String    <span class="title">valueOf</span><span class="params">(<span class="keyword">float</span> f)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String    <span class="title">valueOf</span><span class="params">(<span class="keyword">double</span> d)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span>    <span class="title">getBytes</span><span class="params">(<span class="keyword">int</span> srcBegin, <span class="keyword">int</span> srcEnd, <span class="keyword">byte</span>[] dst, <span class="keyword">int</span> dstBegin)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">byte</span>[]    <span class="title">getBytes</span><span class="params">(String charsetName)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">byte</span>[]    <span class="title">getBytes</span><span class="params">(Charset charset)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">byte</span>[]    <span class="title">getBytes</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span>    <span class="title">getChars</span><span class="params">(<span class="keyword">int</span> srcBegin, <span class="keyword">int</span> srcEnd, <span class="keyword">char</span>[] dst, <span class="keyword">int</span> dstBegin)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span>    <span class="title">isEmpty</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<p>此处省略CharSequence和String源码。</p>
+<h1 id="CharSequence示例"><a href="#CharSequence示例" class="headerlink" title="CharSequence示例"></a>CharSequence示例</h1><p>下面通过示例，演示CharSequence的使用方法！<br>源码如下(CharSequenceTest.java):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * CharSequence 演示程序</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> skywang</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">import</span> java.nio.charset.Charset;</span><br><span class="line"><span class="keyword">import</span> java.io.UnsupportedEncodingException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CharSequenceTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        testCharSequence();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * CharSequence 测试程序</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testCharSequence</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"-------------------------------- testCharSequence -----------------------------"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1. CharSequence的子类String</span></span><br><span class="line">        String str = <span class="string">"abcdefghijklmnopqrstuvwxyz"</span>;</span><br><span class="line">        System.out.println(<span class="string">"1. String"</span>);</span><br><span class="line">        System.out.printf(<span class="string">"   %-30s=%d\n"</span>, <span class="string">"str.length()"</span>, str.length());</span><br><span class="line">        System.out.printf(<span class="string">"   %-30s=%c\n"</span>, <span class="string">"str.charAt(5)"</span>, str.charAt(<span class="number">5</span>));</span><br><span class="line">        String substr = (String)str.subSequence(<span class="number">0</span>,<span class="number">5</span>);</span><br><span class="line">        System.out.printf(<span class="string">"   %-30s=%s\n"</span>, <span class="string">"str.subSequence(0,5)"</span>, substr.toString());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. CharSequence的子类StringBuilder</span></span><br><span class="line">        StringBuilder strbuilder = <span class="keyword">new</span> StringBuilder(<span class="string">"abcdefghijklmnopqrstuvwxyz"</span>);</span><br><span class="line">        System.out.println(<span class="string">"2. StringBuilder"</span>);</span><br><span class="line">        System.out.printf(<span class="string">"   %-30s=%d\n"</span>, <span class="string">"strbuilder.length()"</span>, strbuilder.length());</span><br><span class="line">        System.out.printf(<span class="string">"   %-30s=%c\n"</span>, <span class="string">"strbuilder.charAt(5)"</span>, strbuilder.charAt(<span class="number">5</span>));</span><br><span class="line">        <span class="comment">// 注意：StringBuilder的subSequence()返回的是，实际上是一个String对象！</span></span><br><span class="line">        String substrbuilder = (String)strbuilder.subSequence(<span class="number">0</span>,<span class="number">5</span>);</span><br><span class="line">        System.out.printf(<span class="string">"   %-30s=%s\n"</span>, <span class="string">"strbuilder.subSequence(0,5)"</span>, substrbuilder.toString());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. CharSequence的子类StringBuffer</span></span><br><span class="line">        StringBuffer strbuffer = <span class="keyword">new</span> StringBuffer(<span class="string">"abcdefghijklmnopqrstuvwxyz"</span>);</span><br><span class="line">        System.out.println(<span class="string">"3. StringBuffer"</span>);</span><br><span class="line">        System.out.printf(<span class="string">"   %-30s=%d\n"</span>, <span class="string">"strbuffer.length()"</span>, strbuffer.length());</span><br><span class="line">        System.out.printf(<span class="string">"   %-30s=%c\n"</span>, <span class="string">"strbuffer.charAt(5)"</span>, strbuffer.charAt(<span class="number">5</span>));</span><br><span class="line">        <span class="comment">// 注意：StringBuffer的subSequence()返回的是，实际上是一个String对象！</span></span><br><span class="line">        String substrbuffer = (String)strbuffer.subSequence(<span class="number">0</span>,<span class="number">5</span>);</span><br><span class="line">        System.out.printf(<span class="string">"   %-30s=%s\n"</span>, <span class="string">"strbuffer.subSequence(0,5)"</span>, substrbuffer.toString());</span><br><span class="line"></span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">-------------------------------- testCharSequence -----------------------------</span><br><span class="line">1. String</span><br><span class="line">   str.length()                  =26</span><br><span class="line">   str.charAt(5)                 =f</span><br><span class="line">   str.subSequence(0,5)          =abcde</span><br><span class="line">2. StringBuilder</span><br><span class="line">   strbuilder.length()           =26</span><br><span class="line">   strbuilder.charAt(5)          =f</span><br><span class="line">   strbuilder.subSequence(0,5)   =abcde</span><br><span class="line">3. StringBuffer</span><br><span class="line">   strbuffer.length()            =26</span><br><span class="line">   strbuffer.charAt(5)           =f</span><br><span class="line">   strbuffer.subSequence(0,5)    =abcde</span><br></pre></td></tr></table></figure></p>
+<h1 id="String-构造函数"><a href="#String-构造函数" class="headerlink" title="String 构造函数"></a>String 构造函数</h1><p>下面通过示例，演示String的各种构造函数的使用方法！<br>源码如下(StringContructorTest.java):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * String 构造函数演示程序</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> skywang</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">import</span> java.nio.charset.Charset;</span><br><span class="line"><span class="keyword">import</span> java.io.UnsupportedEncodingException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringContructorTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        testStringConstructors() ;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * String 构造函数测试程序</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testStringConstructors</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">"-------------------------------- testStringConstructors -----------------------"</span>);</span><br><span class="line"></span><br><span class="line">            String str01 = <span class="keyword">new</span> String();</span><br><span class="line">            String str02 = <span class="keyword">new</span> String(<span class="string">"String02"</span>);</span><br><span class="line">            String str03 = <span class="keyword">new</span> String(<span class="keyword">new</span> <span class="keyword">char</span>[]&#123;<span class="string">'s'</span>,<span class="string">'t'</span>,<span class="string">'r'</span>,<span class="string">'0'</span>,<span class="string">'3'</span>&#125;);</span><br><span class="line">            String str04 = <span class="keyword">new</span> String(<span class="keyword">new</span> <span class="keyword">char</span>[]&#123;<span class="string">'s'</span>,<span class="string">'t'</span>,<span class="string">'r'</span>,<span class="string">'0'</span>,<span class="string">'4'</span>&#125;, <span class="number">1</span>, <span class="number">3</span>);          <span class="comment">// 1表示起始位置，3表示个数</span></span><br><span class="line">            String str05 = <span class="keyword">new</span> String(<span class="keyword">new</span> <span class="keyword">byte</span>[]&#123;<span class="number">0x61</span>, <span class="number">0x62</span>, <span class="number">0x63</span>, <span class="number">0x64</span>, <span class="number">0x65</span>&#125;);       <span class="comment">// 0x61在ASC表中，对应字符"a"; 1表示起始位置，3表示长度</span></span><br><span class="line">            String str06 = <span class="keyword">new</span> String(<span class="keyword">new</span> <span class="keyword">byte</span>[]&#123;<span class="number">0x61</span>, <span class="number">0x62</span>, <span class="number">0x63</span>, <span class="number">0x64</span>, <span class="number">0x65</span>&#125;, <span class="number">1</span>, <span class="number">3</span>); <span class="comment">// 0x61在ASC表中，对应字符"a"; 1表示起始位置，3表示长度</span></span><br><span class="line">            String str07 = <span class="keyword">new</span> String(<span class="keyword">new</span> <span class="keyword">byte</span>[]&#123;<span class="number">0x61</span>, <span class="number">0x62</span>, <span class="number">0x63</span>, <span class="number">0x64</span>, <span class="number">0x65</span>&#125;, <span class="number">0</span>);       <span class="comment">// 0x61在ASC表中，对应字符"a";0，表示“高字节”</span></span><br><span class="line">            String str08 = <span class="keyword">new</span> String(<span class="keyword">new</span> <span class="keyword">byte</span>[]&#123;<span class="number">0x61</span>, <span class="number">0x62</span>, <span class="number">0x63</span>, <span class="number">0x64</span>, <span class="number">0x65</span>&#125;, <span class="number">0</span>, <span class="number">1</span>, <span class="number">3</span>); <span class="comment">// 0x61在ASC表中，对应字符"a"; 0，表示“高字节”；1表示起始位置，3表示长度</span></span><br><span class="line">            String str09 = <span class="keyword">new</span> String(<span class="keyword">new</span> <span class="keyword">byte</span>[]&#123;(<span class="keyword">byte</span>)<span class="number">0xe5</span>, (<span class="keyword">byte</span>)<span class="number">0xad</span>, (<span class="keyword">byte</span>)<span class="number">0x97</span>, <span class="comment">/* 字-对应的utf-8编码 */</span> </span><br><span class="line">                                                 (<span class="keyword">byte</span>)<span class="number">0xe7</span>, (<span class="keyword">byte</span>)<span class="number">0xac</span>, (<span class="keyword">byte</span>)<span class="number">0xa6</span>, <span class="comment">/* 符-对应的utf-8编码 */</span> </span><br><span class="line">                                                 (<span class="keyword">byte</span>)<span class="number">0xe7</span>, (<span class="keyword">byte</span>)<span class="number">0xbc</span>, (<span class="keyword">byte</span>)<span class="number">0x96</span>, <span class="comment">/* 编-对应的utf-8编码 */</span> </span><br><span class="line">                                                 (<span class="keyword">byte</span>)<span class="number">0xe7</span>, (<span class="keyword">byte</span>)<span class="number">0xa0</span>, (<span class="keyword">byte</span>)<span class="number">0x81</span>, <span class="comment">/* 码-对应的utf-8编码 */</span> &#125;, </span><br><span class="line">                                      <span class="number">0</span>, <span class="number">12</span>, <span class="string">"utf-8"</span>);  <span class="comment">// 0表示起始位置，12表示长度。</span></span><br><span class="line">            String str10 = <span class="keyword">new</span> String(<span class="keyword">new</span> <span class="keyword">byte</span>[]&#123;(<span class="keyword">byte</span>)<span class="number">0x5b</span>, (<span class="keyword">byte</span>)<span class="number">0x57</span>, <span class="comment">/* 字-对应的utf-16编码 */</span> </span><br><span class="line">                                                 (<span class="keyword">byte</span>)<span class="number">0x7b</span>, (<span class="keyword">byte</span>)<span class="number">0x26</span>, <span class="comment">/* 符-对应的utf-16编码 */</span> </span><br><span class="line">                                                 (<span class="keyword">byte</span>)<span class="number">0x7f</span>, (<span class="keyword">byte</span>)<span class="number">0x16</span>, <span class="comment">/* 编-对应的utf-16编码 */</span> </span><br><span class="line">                                                 (<span class="keyword">byte</span>)<span class="number">0x78</span>, (<span class="keyword">byte</span>)<span class="number">0x01</span>, <span class="comment">/* 码-对应的utf-16编码 */</span> &#125;, </span><br><span class="line">                                      <span class="number">0</span>, <span class="number">8</span>, <span class="string">"utf-16"</span>);  <span class="comment">// 0表示起始位置，8表示长度。</span></span><br><span class="line">            String str11 = <span class="keyword">new</span> String(<span class="keyword">new</span> <span class="keyword">byte</span>[]&#123;(<span class="keyword">byte</span>)<span class="number">0xd7</span>, (<span class="keyword">byte</span>)<span class="number">0xd6</span>, <span class="comment">/* 字-对应的gb2312编码  */</span> </span><br><span class="line">                                                 (<span class="keyword">byte</span>)<span class="number">0xb7</span>, (<span class="keyword">byte</span>)<span class="number">0xfb</span>, <span class="comment">/* 符-对应的gb2312编码 */</span> </span><br><span class="line">                                                 (<span class="keyword">byte</span>)<span class="number">0xb1</span>, (<span class="keyword">byte</span>)<span class="number">0xe0</span>, <span class="comment">/* 编-对应的gb2312编码 */</span> </span><br><span class="line">                                                 (<span class="keyword">byte</span>)<span class="number">0xc2</span>, (<span class="keyword">byte</span>)<span class="number">0xeb</span>, <span class="comment">/* 码-对应的gb2312编码 */</span> &#125;, </span><br><span class="line">                                      Charset.forName(<span class="string">"gb2312"</span>)); </span><br><span class="line">            String str12 = <span class="keyword">new</span> String(<span class="keyword">new</span> <span class="keyword">byte</span>[]&#123;(<span class="keyword">byte</span>)<span class="number">0xd7</span>, (<span class="keyword">byte</span>)<span class="number">0xd6</span>, <span class="comment">/* 字-对应的gbk编码 */</span> </span><br><span class="line">                                                 (<span class="keyword">byte</span>)<span class="number">0xb7</span>, (<span class="keyword">byte</span>)<span class="number">0xfb</span>, <span class="comment">/* 符-对应的gbk编码 */</span> </span><br><span class="line">                                                 (<span class="keyword">byte</span>)<span class="number">0xb1</span>, (<span class="keyword">byte</span>)<span class="number">0xe0</span>, <span class="comment">/* 编-对应的gbk编码 */</span> </span><br><span class="line">                                                 (<span class="keyword">byte</span>)<span class="number">0xc2</span>, (<span class="keyword">byte</span>)<span class="number">0xeb</span>, <span class="comment">/* 码-对应的gbk编码 */</span> &#125;, </span><br><span class="line">                                      <span class="number">0</span>, <span class="number">8</span>, Charset.forName(<span class="string">"gbk"</span>)); </span><br><span class="line">            String str13 = <span class="keyword">new</span> String(<span class="keyword">new</span> <span class="keyword">int</span>[] &#123;<span class="number">0x5b57</span>, <span class="number">0x7b26</span>, <span class="number">0x7f16</span>, <span class="number">0x7801</span>&#125;, <span class="number">0</span>, <span class="number">4</span>);  <span class="comment">// "字符编码"(\u5b57是‘字’的unicode编码)。0表示起始位置，4表示长度。</span></span><br><span class="line">            String str14 = <span class="keyword">new</span> String(<span class="keyword">new</span> StringBuffer(<span class="string">"StringBuffer"</span>));</span><br><span class="line">            String str15 = <span class="keyword">new</span> String(<span class="keyword">new</span> StringBuilder(<span class="string">"StringBuilder"</span>));</span><br><span class="line"></span><br><span class="line">            System.out.printf(<span class="string">" str01=%s \n str02=%s \n str03=%s \n str04=%s \n str05=%s \n str06=%s \n str07=%s \n str08=%s\n str09=%s\n str10=%s\n str11=%s\n str12=%s\n str13=%s\n str14=%s\n str15=%s\n"</span>,</span><br><span class="line">                    str01, str02, str03, str04, str05, str06, str07, str08, str09, str10, str11, str12, str13, str14, str15);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            System.out.println();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (UnsupportedEncodingException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">-------------------------------- testStringConstructors -----------------------</span><br><span class="line"> str01= </span><br><span class="line"> str02=String02 </span><br><span class="line"> str03=str03 </span><br><span class="line"> str04=tr0 </span><br><span class="line"> str05=abcde </span><br><span class="line"> str06=bcd </span><br><span class="line"> str07=abcde </span><br><span class="line"> str08=bcd</span><br><span class="line"> str09=字符编码</span><br><span class="line"> str10=字符编码</span><br><span class="line"> str11=字符编码</span><br><span class="line"> str12=字符编码</span><br><span class="line"> str13=字符编码</span><br><span class="line"> str14=StringBuffer</span><br><span class="line"> str15=StringBuilder</span><br></pre></td></tr></table></figure></p>
+<h1 id="String-将各种对象转换成String的API"><a href="#String-将各种对象转换成String的API" class="headerlink" title="String 将各种对象转换成String的API"></a>String 将各种对象转换成String的API</h1><p>源码如下(StringValueTest.java):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * String value相关示例</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> skywang</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringValueTest</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        testValueAPIs() ;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * String 的valueOf()演示程序</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testValueAPIs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"-------------------------------- testValueAPIs --------------------------------"</span>);</span><br><span class="line">        <span class="comment">// 1. String    valueOf(Object obj)</span></span><br><span class="line">        <span class="comment">//  实际上，返回的是obj.toString();</span></span><br><span class="line">        HashMap map = <span class="keyword">new</span> HashMap();</span><br><span class="line">        map.put(<span class="string">"1"</span>, <span class="string">"one"</span>);</span><br><span class="line">        map.put(<span class="string">"2"</span>, <span class="string">"two"</span>);</span><br><span class="line">        map.put(<span class="string">"3"</span>, <span class="string">"three"</span>);</span><br><span class="line">        System.out.printf(<span class="string">"%-50s = %s\n"</span>, <span class="string">"String.valueOf(map)"</span>, String.valueOf(map));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2.String    valueOf(boolean b)</span></span><br><span class="line">        System.out.printf(<span class="string">"%-50s = %s\n"</span>, <span class="string">"String.valueOf(true)"</span>, String.valueOf(<span class="keyword">true</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3.String    valueOf(char c)</span></span><br><span class="line">        System.out.printf(<span class="string">"%-50s = %s\n"</span>, <span class="string">"String.valueOf('m')"</span>, String.valueOf(<span class="string">'m'</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4.String    valueOf(int i)</span></span><br><span class="line">        System.out.printf(<span class="string">"%-50s = %s\n"</span>, <span class="string">"String.valueOf(96)"</span>, String.valueOf(<span class="number">96</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 5.String    valueOf(long l)</span></span><br><span class="line">        System.out.printf(<span class="string">"%-50s = %s\n"</span>, <span class="string">"String.valueOf(12345L)"</span>, String.valueOf(<span class="number">12345L</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 6.String    valueOf(float f)</span></span><br><span class="line">        System.out.printf(<span class="string">"%-50s = %s\n"</span>, <span class="string">"String.valueOf(1.414f)"</span>, String.valueOf(<span class="number">1.414f</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 7.String    valueOf(double d)</span></span><br><span class="line">        System.out.printf(<span class="string">"%-50s = %s\n"</span>, <span class="string">"String.valueOf(3.14159d)"</span>, String.valueOf(<span class="number">3.14159</span>d));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 8.String    valueOf(char[] data)</span></span><br><span class="line">        System.out.printf(<span class="string">"%-50s = %s\n"</span>, <span class="string">"String.valueOf(new char[]&#123;'s','k','y'&#125;)"</span>, String.valueOf(<span class="keyword">new</span> <span class="keyword">char</span>[]&#123;<span class="string">'s'</span>,<span class="string">'k'</span>,<span class="string">'y'</span>&#125;));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 9.String    valueOf(char[] data, int offset, int count)</span></span><br><span class="line">        System.out.printf(<span class="string">"%-50s = %s\n"</span>, <span class="string">"String.valueOf(new char[]&#123;'s','k','y'&#125;, 0, 2)"</span>, String.valueOf(<span class="keyword">new</span> <span class="keyword">char</span>[]&#123;<span class="string">'s'</span>,<span class="string">'k'</span>,<span class="string">'y'</span>&#125;, <span class="number">0</span>, <span class="number">2</span>));</span><br><span class="line"></span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">-------------------------------- testValueAPIs --------------------------------</span><br><span class="line">String.valueOf(map)                                = &#123;3=three, 2=two, 1=one&#125;</span><br><span class="line">String.valueOf(true)                               = true</span><br><span class="line">String.valueOf(&apos;m&apos;)                                = m</span><br><span class="line">String.valueOf(96)                                 = 96</span><br><span class="line">String.valueOf(12345L)                             = 12345</span><br><span class="line">String.valueOf(1.414f)                             = 1.414</span><br><span class="line">String.valueOf(3.14159d)                           = 3.14159</span><br><span class="line">String.valueOf(new char[]&#123;&apos;s&apos;,&apos;k&apos;,&apos;y&apos;&#125;)            = sky</span><br><span class="line">String.valueOf(new char[]&#123;&apos;s&apos;,&apos;k&apos;,&apos;y&apos;&#125;, 0, 2)      = sk</span><br></pre></td></tr></table></figure></p>
+<h1 id="String-中index相关的API"><a href="#String-中index相关的API" class="headerlink" title="String 中index相关的API"></a>String 中index相关的API</h1><p>源码如下(StringIndexTest.java):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * String 中index相关API演示</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> skywang</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringIndexTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        testIndexAPIs() ;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * String 中index相关API演示</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testIndexAPIs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"-------------------------------- testIndexAPIs --------------------------------"</span>);</span><br><span class="line"></span><br><span class="line">        String istr = <span class="string">"abcAbcABCabCaBcAbCaBCabc"</span>;</span><br><span class="line">        System.out.printf(<span class="string">"istr=%s\n"</span>, istr);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1. 从前往后，找出‘a’第一次出现的位置</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %d\n"</span>, <span class="string">"istr.indexOf((int)'a')"</span>, istr.indexOf((<span class="keyword">int</span>)<span class="string">'a'</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. 从位置5开始，从前往后，找出‘a’第一次出现的位置</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %d\n"</span>, <span class="string">"istr.indexOf((int)'a', 5)"</span>, istr.indexOf((<span class="keyword">int</span>)<span class="string">'a'</span>, <span class="number">5</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. 从后往前，找出‘a’第一次出现的位置</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %d\n"</span>, <span class="string">"istr.lastIndexOf((int)'a')"</span>, istr.lastIndexOf((<span class="keyword">int</span>)<span class="string">'a'</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4. 从位置10开始，从后往前，找出‘a’第一次出现的位置</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %d\n"</span>, <span class="string">"istr.lastIndexOf((int)'a', 10)"</span>, istr.lastIndexOf((<span class="keyword">int</span>)<span class="string">'a'</span>, <span class="number">10</span>));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 5. 从前往后，找出"bc"第一次出现的位置</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %d\n"</span>, <span class="string">"istr.indexOf(\"bc\")"</span>, istr.indexOf(<span class="string">"bc"</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 6. 从位置5开始，从前往后，找出"bc"第一次出现的位置</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %d\n"</span>, <span class="string">"istr.indexOf(\"bc\", 5)"</span>, istr.indexOf(<span class="string">"bc"</span>, <span class="number">5</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 7. 从后往前，找出"bc"第一次出现的位置</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %d\n"</span>, <span class="string">"istr.lastIndexOf(\"bc\")"</span>, istr.lastIndexOf(<span class="string">"bc"</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 8. 从位置4开始，从后往前，找出"bc"第一次出现的位置</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %d\n"</span>, <span class="string">"istr.lastIndexOf(\"bc\", 4)"</span>, istr.lastIndexOf(<span class="string">"bc"</span>, <span class="number">4</span>));</span><br><span class="line"></span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">-------------------------------- testIndexAPIs --------------------------------</span><br><span class="line">istr=abcAbcABCabCaBcAbCaBCabc</span><br><span class="line">istr.indexOf((int)&apos;a&apos;)         = 0</span><br><span class="line">istr.indexOf((int)&apos;a&apos;, 5)      = 9</span><br><span class="line">istr.lastIndexOf((int)&apos;a&apos;)     = 21</span><br><span class="line">istr.lastIndexOf((int)&apos;a&apos;, 10) = 9</span><br><span class="line">istr.indexOf(&quot;bc&quot;)             = 1</span><br><span class="line">istr.indexOf(&quot;bc&quot;, 5)          = 22</span><br><span class="line">istr.lastIndexOf(&quot;bc&quot;)         = 22</span><br><span class="line">istr.lastIndexOf(&quot;bc&quot;, 4)      = 4</span><br></pre></td></tr></table></figure></p>
+<h1 id="String-“比较”操作的API"><a href="#String-“比较”操作的API" class="headerlink" title="String “比较”操作的API"></a>String “比较”操作的API</h1><p>源码如下(StringCompareTest.java):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * String 中比较相关API演示</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> skywang</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringCompareTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        testCompareAPIs() ;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * String 中比较相关API演示</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testCompareAPIs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"-------------------------------- testCompareAPIs ------------------------------"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//String str = "abcdefghijklmnopqrstuvwxyz";</span></span><br><span class="line">        String str = <span class="string">"abcAbcABCabCAbCabc"</span>;</span><br><span class="line">        System.out.printf(<span class="string">"str=%s\n"</span>, str);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1. 比较“2个String是否相等”</span></span><br><span class="line">        System.out.printf(<span class="string">"%-50s = %b\n"</span>, </span><br><span class="line">                <span class="string">"str.equals(\"abcAbcABCabCAbCabc\")"</span>, </span><br><span class="line">                str.equals(<span class="string">"abcAbcABCabCAbCabc"</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. 比较“2个String是否相等(忽略大小写)”</span></span><br><span class="line">        System.out.printf(<span class="string">"%-50s = %b\n"</span>, </span><br><span class="line">                <span class="string">"str.equalsIgnoreCase(\"ABCABCABCABCABCABC\")"</span>, </span><br><span class="line">                str.equalsIgnoreCase(<span class="string">"ABCABCABCABCABCABC"</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. 比较“2个String的大小”</span></span><br><span class="line">        System.out.printf(<span class="string">"%-40s = %d\n"</span>, <span class="string">"str.compareTo(\"abce\")"</span>, str.compareTo(<span class="string">"abce"</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4. 比较“2个String的大小(忽略大小写)”</span></span><br><span class="line">        System.out.printf(<span class="string">"%-40s = %d\n"</span>, <span class="string">"str.compareToIgnoreCase(\"ABC\")"</span>, str.compareToIgnoreCase(<span class="string">"ABC"</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 5. 字符串的开头是不是"ab"</span></span><br><span class="line">        System.out.printf(<span class="string">"%-40s = %b\n"</span>, <span class="string">"str.startsWith(\"ab\")"</span>, str.startsWith(<span class="string">"ab"</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 6. 字符串的从位置3开头是不是"ab"</span></span><br><span class="line">        System.out.printf(<span class="string">"%-40s = %b\n"</span>, <span class="string">"str.startsWith(\"Ab\")"</span>, str.startsWith(<span class="string">"Ab"</span>, <span class="number">3</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 7. 字符串的结尾是不是"bc"</span></span><br><span class="line">        System.out.printf(<span class="string">"%-40s = %b\n"</span>, <span class="string">"str.endsWith(\"bc\")"</span>, str.endsWith(<span class="string">"bc"</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 8. 字符串的是不是包含"ABC"</span></span><br><span class="line">        System.out.printf(<span class="string">"%-40s = %b\n"</span>, <span class="string">"str.contains(\"ABC\")"</span>, str.contains(<span class="string">"ABC"</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 9. 比较2个字符串的部分内容</span></span><br><span class="line">        String region1 = str.substring(<span class="number">2</span>, str.length());    <span class="comment">// 获取str位置3(包括)到末尾(不包括)的子字符串</span></span><br><span class="line">        <span class="comment">// 将“str中从位置2开始的字符串”和“region1中位置0开始的字符串”进行比较，比较长度是5。</span></span><br><span class="line">        System.out.printf(<span class="string">"regionMatches(%s) = %b\n"</span>, region1, </span><br><span class="line">                str.regionMatches(<span class="number">2</span>, region1, <span class="number">0</span>, <span class="number">5</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 10. 比较2个字符串的部分内容(忽略大小写)</span></span><br><span class="line">        String region2 = region1.toUpperCase();    <span class="comment">// 将region1转换为大写</span></span><br><span class="line">        String region3 = region1.toLowerCase();    <span class="comment">// 将region1转换为小写</span></span><br><span class="line">        System.out.printf(<span class="string">"regionMatches(%s) = %b\n"</span>, region2, </span><br><span class="line">                str.regionMatches(<span class="number">2</span>, region2, <span class="number">0</span>, <span class="number">5</span>));</span><br><span class="line">        System.out.printf(<span class="string">"regionMatches(%s) = %b\n"</span>, region3, </span><br><span class="line">                str.regionMatches(<span class="number">2</span>, region3, <span class="number">0</span>, <span class="number">5</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 11. 比较“String”和“StringBuffer”的内容是否相等</span></span><br><span class="line">        System.out.printf(<span class="string">"%-60s = %b\n"</span>, </span><br><span class="line">                <span class="string">"str.contentEquals(new StringBuffer(\"abcAbcABCabCAbCabc\"))"</span>, </span><br><span class="line">                str.contentEquals(<span class="keyword">new</span> StringBuffer(<span class="string">"abcAbcABCabCAbCabc"</span>)));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 12. 比较“String”和“StringBuilder”的内容是否相等</span></span><br><span class="line">        System.out.printf(<span class="string">"%-60s = %b\n"</span>, </span><br><span class="line">                <span class="string">"str.contentEquals(new StringBuilder(\"abcAbcABCabCAbCabc\"))"</span>, </span><br><span class="line">                str.contentEquals(<span class="keyword">new</span> StringBuilder(<span class="string">"abcAbcABCabCAbCabc"</span>)));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 13. match()测试程序</span></span><br><span class="line">        <span class="comment">// 正则表达式 xxx.xxx.xxx.xxx，其中xxx中x的取值可以是0～9，xxx中有1～3位。</span></span><br><span class="line">        String reg_ipv4 = <span class="string">"[0-9]&#123;3&#125;(\\.[0-9]&#123;1,3&#125;)&#123;3&#125;"</span>;    </span><br><span class="line"></span><br><span class="line">        String ipv4addr1 = <span class="string">"192.168.1.102"</span>;</span><br><span class="line">        String ipv4addr2 = <span class="string">"192.168"</span>;</span><br><span class="line">        System.out.printf(<span class="string">"%-40s = %b\n"</span>, <span class="string">"ipv4addr1.matches()"</span>, ipv4addr1.matches(reg_ipv4));</span><br><span class="line">        System.out.printf(<span class="string">"%-40s = %b\n"</span>, <span class="string">"ipv4addr2.matches()"</span>, ipv4addr2.matches(reg_ipv4));</span><br><span class="line"></span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">-------------------------------- testCompareAPIs ------------------------------</span><br><span class="line">str=abcAbcABCabCAbCabc</span><br><span class="line">str.equals(&quot;abcAbcABCabCAbCabc&quot;)                   = true</span><br><span class="line">str.equalsIgnoreCase(&quot;ABCABCABCABCABCABC&quot;)         = true</span><br><span class="line">str.compareTo(&quot;abce&quot;)                    = -36</span><br><span class="line">str.compareToIgnoreCase(&quot;ABC&quot;)           = 15</span><br><span class="line">str.startsWith(&quot;ab&quot;)                     = true</span><br><span class="line">str.startsWith(&quot;Ab&quot;)                     = true</span><br><span class="line">str.endsWith(&quot;bc&quot;)                       = true</span><br><span class="line">str.contains(&quot;ABC&quot;)                      = true</span><br><span class="line">regionMatches(cAbcABCabCAbCabc) = true</span><br><span class="line">regionMatches(CABCABCABCABCABC) = false</span><br><span class="line">regionMatches(cabcabcabcabcabc) = false</span><br><span class="line">str.contentEquals(new StringBuffer(&quot;abcAbcABCabCAbCabc&quot;))    = true</span><br><span class="line">str.contentEquals(new StringBuilder(&quot;abcAbcABCabCAbCabc&quot;))   = true</span><br><span class="line">ipv4addr1.matches()                      = true</span><br><span class="line">ipv4addr2.matches()                      = false</span><br></pre></td></tr></table></figure></p>
+<h1 id="String-“修改-追加-替换-截取-分割-”操作的API"><a href="#String-“修改-追加-替换-截取-分割-”操作的API" class="headerlink" title="String “修改(追加/替换/截取/分割)”操作的API"></a>String “修改(追加/替换/截取/分割)”操作的API</h1><p>源码如下(StringModifyTest.java):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * String 中 修改(追加/替换/截取/分割)字符串的相关API演示</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> skywang</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringModifyTest</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        testModifyAPIs() ;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * String 中 修改(追加/替换/截取/分割)字符串的相关API演示</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testModifyAPIs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"-------------------------------- testModifyAPIs -------------------------------"</span>);</span><br><span class="line"></span><br><span class="line">        String str = <span class="string">" abcAbcABCabCAbCabc "</span>;</span><br><span class="line">        System.out.printf(<span class="string">"str=%s, len=%d\n"</span>, str, str.length());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1.追加</span></span><br><span class="line">        <span class="comment">// 将"123"追加到str之后</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %s\n"</span>, <span class="string">"str.concat(\"123\")"</span>, </span><br><span class="line">                str.concat(<span class="string">"123"</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2.截取</span></span><br><span class="line">        <span class="comment">// 截取str中从位置7(包括)开始的元素。</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %s\n"</span>, <span class="string">"str.substring(7)"</span>, str.substring(<span class="number">7</span>));</span><br><span class="line">        <span class="comment">// 截取str中从位置7(包括)到位置10(不包括)之间的元素。</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %s\n"</span>, <span class="string">"str.substring(7, 10)"</span>, str.substring(<span class="number">7</span>, <span class="number">10</span>));</span><br><span class="line">        <span class="comment">// 删除str中首位的空格，并返回。</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %s, len=%d\n"</span>, <span class="string">"str.trim()"</span>, str.trim(), str.trim().length());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3.替换</span></span><br><span class="line">        <span class="comment">// 将str中的 “字符‘a’” 全部替换为 “字符‘_’”</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %s\n"</span>, <span class="string">"str.replace('a', 'M')"</span>, str.replace(<span class="string">'a'</span>, <span class="string">'_'</span>));</span><br><span class="line">        <span class="comment">// 将str中的第一次出现的“字符串“a”” 替换为 “字符串“###””</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %s\n"</span>, <span class="string">"str.replaceFirst(\"a\", \"###\")"</span>, str.replaceFirst(<span class="string">"a"</span>, <span class="string">"###"</span>));</span><br><span class="line">        <span class="comment">// 将str中的 “字符串“a”” 全部替换为 “字符串“$$$””</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %s\n"</span>, <span class="string">"str.replace(\"a\", \"$$$\")"</span>, str.replace(<span class="string">"a"</span>, <span class="string">"$$$"</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4.分割</span></span><br><span class="line">        <span class="comment">// 以“b”作为分隔符，对str进行分割</span></span><br><span class="line">        String[] splits = str.split(<span class="string">"b"</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;splits.length; i++) &#123;</span><br><span class="line">            System.out.printf(<span class="string">"splits[%d]=%s\n"</span>, i, splits[i]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">-------------------------------- testModifyAPIs -------------------------------</span><br><span class="line">str= abcAbcABCabCAbCabc , len=20</span><br><span class="line">str.concat(&quot;123&quot;)              =  abcAbcABCabCAbCabc 123</span><br><span class="line">str.substring(7)               = ABCabCAbCabc </span><br><span class="line">str.substring(7, 10)           = ABC</span><br><span class="line">str.trim()                     = abcAbcABCabCAbCabc, len=18</span><br><span class="line">str.replace(&apos;a&apos;, &apos;M&apos;)          =  _bcAbcABC_bCAbC_bc </span><br><span class="line">str.replaceFirst(&quot;a&quot;, &quot;###&quot;)   =  ###bcAbcABCabCAbCabc </span><br><span class="line">str.replace(&quot;a&quot;, &quot;$$$&quot;)        =  $$$bcAbcABC$$$bCAbC$$$bc </span><br><span class="line">splits[0]= a</span><br><span class="line">splits[1]=cA</span><br><span class="line">splits[2]=cABCa</span><br><span class="line">splits[3]=CA</span><br><span class="line">splits[4]=Ca</span><br><span class="line">splits[5]=c</span><br></pre></td></tr></table></figure></p>
+<h1 id="String-操作Unicode的API"><a href="#String-操作Unicode的API" class="headerlink" title="String 操作Unicode的API"></a>String 操作Unicode的API</h1><p>源码如下(StringUnicodeTest.java):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * String 中与unicode相关的API</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> skywang</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringUnicodeTest</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        testUnicodeAPIs() ;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * String 中与unicode相关的API</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testUnicodeAPIs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"-------------------------------- testUnicodeAPIs ------------------------------"</span>);</span><br><span class="line"></span><br><span class="line">        String ustr = <span class="keyword">new</span> String(<span class="keyword">new</span> <span class="keyword">int</span>[] &#123;<span class="number">0x5b57</span>, <span class="number">0x7b26</span>, <span class="number">0x7f16</span>, <span class="number">0x7801</span>&#125;, <span class="number">0</span>, <span class="number">4</span>);  <span class="comment">// "字符编码"(\u5b57是‘字’的unicode编码)。0表示起始位置，4表示长度。</span></span><br><span class="line">        System.out.printf(<span class="string">"ustr=%s\n"</span>, ustr);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//  获取位置0的元素对应的unciode编码</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = 0x%x\n"</span>, <span class="string">"ustr.codePointAt(0)"</span>, ustr.codePointAt(<span class="number">0</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取位置2之前的元素对应的unciode编码</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = 0x%x\n"</span>, <span class="string">"ustr.codePointBefore(2)"</span>, ustr.codePointBefore(<span class="number">2</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取位置1开始偏移2个代码点的索引</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %d\n"</span>, <span class="string">"ustr.offsetByCodePoints(1, 2)"</span>, ustr.offsetByCodePoints(<span class="number">1</span>, <span class="number">2</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取第0~3个元素之间的unciode编码的个数</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %d\n"</span>, <span class="string">"ustr.codePointCount(0, 3)"</span>, ustr.codePointCount(<span class="number">0</span>, <span class="number">3</span>));</span><br><span class="line"></span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-------------------------------- testUnicodeAPIs ------------------------------</span><br><span class="line">ustr=字符编码</span><br><span class="line">ustr.codePointAt(0)            = 0x5b57</span><br><span class="line">ustr.codePointBefore(2)        = 0x7b26</span><br><span class="line">ustr.offsetByCodePoints(1, 2)  = 3</span><br><span class="line">ustr.codePointCount(0, 3)      = 3</span><br></pre></td></tr></table></figure></p>
+<h1 id="String-剩余的API"><a href="#String-剩余的API" class="headerlink" title="String 剩余的API"></a>String 剩余的API</h1><p>源码如下(StringOtherTest.java):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * String 中其它的API</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> skywang</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringOtherTest</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        testOtherAPIs() ;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * String 中其它的API</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testOtherAPIs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"-------------------------------- testOtherAPIs --------------------------------"</span>);</span><br><span class="line"></span><br><span class="line">        String str = <span class="string">"0123456789"</span>;</span><br><span class="line">        System.out.printf(<span class="string">"str=%s\n"</span>, str);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1. 字符串长度</span></span><br><span class="line">        System.out.printf(<span class="string">"%s = %d\n"</span>, <span class="string">"str.length()"</span>, str.length());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. 字符串是否为空</span></span><br><span class="line">        System.out.printf(<span class="string">"%s = %b\n"</span>, <span class="string">"str.isEmpty()"</span>, str.isEmpty());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. [字节] 获取字符串对应的字节数组</span></span><br><span class="line">        <span class="keyword">byte</span>[] barr = str.getBytes();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;barr.length; i++) &#123;</span><br><span class="line">               System.out.printf(<span class="string">"barr[%d]=0x%x "</span>, i, barr[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4. [字符] 获取字符串位置4的字符</span></span><br><span class="line">        System.out.printf(<span class="string">"%s = %c\n"</span>, <span class="string">"str.charAt(4)"</span>, str.charAt(<span class="number">4</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 5. [字符] 获取字符串对应的字符数组</span></span><br><span class="line">        <span class="keyword">char</span>[] carr = str.toCharArray();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;carr.length; i++) &#123;</span><br><span class="line">               System.out.printf(<span class="string">"carr[%d]=%c "</span>, i, carr[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 6. [字符] 获取字符串中部分元素对应的字符数组</span></span><br><span class="line">        <span class="keyword">char</span>[] carr2 = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">3</span>];</span><br><span class="line">        str.getChars(<span class="number">6</span>, <span class="number">9</span>, carr2, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;carr2.length; i++) &#123;</span><br><span class="line">               System.out.printf(<span class="string">"carr2[%d]=%c "</span>, i, carr2[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 7. [字符] 获取字符数组对应的字符串</span></span><br><span class="line">        System.out.printf(<span class="string">"%s = %s\n"</span>, </span><br><span class="line">                <span class="string">"str.copyValueOf(new char[]&#123;'a','b','c','d','e'&#125;)"</span>, </span><br><span class="line">                String.copyValueOf(<span class="keyword">new</span> <span class="keyword">char</span>[]&#123;<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>,<span class="string">'e'</span>&#125;));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 8. [字符] 获取字符数组中部分元素对应的字符串</span></span><br><span class="line">        System.out.printf(<span class="string">"%s = %s\n"</span>, </span><br><span class="line">                <span class="string">"str.copyValueOf(new char[]&#123;'a','b','c','d','e'&#125;, 1, 4)"</span>, </span><br><span class="line">                String.copyValueOf(<span class="keyword">new</span> <span class="keyword">char</span>[]&#123;<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>,<span class="string">'e'</span>&#125;, <span class="number">1</span>, <span class="number">4</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 9. format()示例，将对象数组按指定格式转换为字符串</span></span><br><span class="line">        System.out.printf(<span class="string">"%s = %s\n"</span>, </span><br><span class="line">                <span class="string">"str.format()"</span>, </span><br><span class="line">                String.format(<span class="string">"%s-%d-%b"</span>, <span class="string">"abc"</span>, <span class="number">3</span>, <span class="keyword">true</span>));</span><br><span class="line"></span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">-------------------------------- testOtherAPIs --------------------------------</span><br><span class="line">str=0123456789</span><br><span class="line">str.length() = 10</span><br><span class="line">str.isEmpty() = false</span><br><span class="line">barr[0]=0x30 barr[1]=0x31 barr[2]=0x32 barr[3]=0x33 barr[4]=0x34 barr[5]=0x35 barr[6]=0x36 barr[7]=0x37 barr[8]=0x38 barr[9]=0x39 </span><br><span class="line">str.charAt(4) = 4</span><br><span class="line">carr[0]=0 carr[1]=1 carr[2]=2 carr[3]=3 carr[4]=4 carr[5]=5 carr[6]=6 carr[7]=7 carr[8]=8 carr[9]=9 </span><br><span class="line">carr2[0]=6 carr2[1]=7 carr2[2]=8 </span><br><span class="line">str.copyValueOf(new char[]&#123;&apos;a&apos;,&apos;b&apos;,&apos;c&apos;,&apos;d&apos;,&apos;e&apos;&#125;) = abcde</span><br><span class="line">str.copyValueOf(new char[]&#123;&apos;a&apos;,&apos;b&apos;,&apos;c&apos;,&apos;d&apos;,&apos;e&apos;&#125;, 1, 4) = bcde</span><br><span class="line">str.format() = abc-3-true</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/07/locale-and-timezone/" rel="next" title="locale and timezone">
+                <i class="fa fa-chevron-left"></i> locale and timezone
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/07/StringBuilder-and-StringBuffer/" rel="prev" title="StringBuilder and StringBuffer">
+                StringBuilder and StringBuffer <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#String简介"><span class="nav-number">1.</span> <span class="nav-text">String简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#String函数列表"><span class="nav-number">2.</span> <span class="nav-text">String函数列表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CharSequence示例"><span class="nav-number">3.</span> <span class="nav-text">CharSequence示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#String-构造函数"><span class="nav-number">4.</span> <span class="nav-text">String 构造函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#String-将各种对象转换成String的API"><span class="nav-number">5.</span> <span class="nav-text">String 将各种对象转换成String的API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#String-中index相关的API"><span class="nav-number">6.</span> <span class="nav-text">String 中index相关的API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#String-“比较”操作的API"><span class="nav-number">7.</span> <span class="nav-text">String “比较”操作的API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#String-“修改-追加-替换-截取-分割-”操作的API"><span class="nav-number">8.</span> <span class="nav-text">String “修改(追加/替换/截取/分割)”操作的API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#String-操作Unicode的API"><span class="nav-number">9.</span> <span class="nav-text">String 操作Unicode的API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#String-剩余的API"><span class="nav-number">10.</span> <span class="nav-text">String 剩余的API</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

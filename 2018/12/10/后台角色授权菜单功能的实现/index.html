@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="后台添加角色后，需要给角色授权菜单，不同的角色有不同的菜单。两个点：1.菜单表结构，父子级在一个表中。dto的使用2.树状图插件zTree的使用，以及角色菜单的回显 涉及到的表admin_resource   菜单表admin_role   角色表admin_role_resource  角色与菜单中间表admin_user   管理员表admin_user_role  用户-角色关联表12345">
+<meta name="keywords" content="设计思路">
+<meta property="og:type" content="article">
+<meta property="og:title" content="后台角色授权菜单功能的实现">
+<meta property="og:url" content="https://jingyao066.gitee.io/2018/12/10/后台角色授权菜单功能的实现/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="后台添加角色后，需要给角色授权菜单，不同的角色有不同的菜单。两个点：1.菜单表结构，父子级在一个表中。dto的使用2.树状图插件zTree的使用，以及角色菜单的回显 涉及到的表admin_resource   菜单表admin_role   角色表admin_role_resource  角色与菜单中间表admin_user   管理员表admin_user_role  用户-角色关联表12345">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/10/后台角色授权菜单功能的实现/1.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/10/后台角色授权菜单功能的实现/2.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/10/后台角色授权菜单功能的实现/3.png">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.346Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="后台角色授权菜单功能的实现">
+<meta name="twitter:description" content="后台添加角色后，需要给角色授权菜单，不同的角色有不同的菜单。两个点：1.菜单表结构，父子级在一个表中。dto的使用2.树状图插件zTree的使用，以及角色菜单的回显 涉及到的表admin_resource   菜单表admin_role   角色表admin_role_resource  角色与菜单中间表admin_user   管理员表admin_user_role  用户-角色关联表12345">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2018/12/10/后台角色授权菜单功能的实现/1.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2018/12/10/后台角色授权菜单功能的实现/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>后台角色授权菜单功能的实现 | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2018/12/10/后台角色授权菜单功能的实现/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">后台角色授权菜单功能的实现
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-10 14:51:14" itemprop="dateCreated datePublished" datetime="2018-12-10T14:51:14+08:00">2018-12-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2018/12/10/后台角色授权菜单功能的实现/" class="leancloud_visitors" data-flag-title="后台角色授权菜单功能的实现">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="后台添加角色后，需要给角色授权菜单，不同的角色有不同的菜单。"><a href="#后台添加角色后，需要给角色授权菜单，不同的角色有不同的菜单。" class="headerlink" title="后台添加角色后，需要给角色授权菜单，不同的角色有不同的菜单。"></a>后台添加角色后，需要给角色授权菜单，不同的角色有不同的菜单。</h1><p>两个点：<br>1.菜单表结构，父子级在一个表中。dto的使用<br>2.树状图插件zTree的使用，以及角色菜单的回显</p>
+<h1 id="涉及到的表"><a href="#涉及到的表" class="headerlink" title="涉及到的表"></a>涉及到的表</h1><p>admin_resource   菜单表<br>admin_role   角色表<br>admin_role_resource  角色与菜单中间表<br>admin_user   管理员表<br>admin_user_role  用户-角色关联表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `admin_resource` (</span><br><span class="line">  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT &apos;主键&apos;,</span><br><span class="line">  `name` varchar(20) NOT NULL COMMENT &apos;资源名称&apos;,</span><br><span class="line">  `style` varchar(255) DEFAULT NULL COMMENT &apos;资源样式&apos;,</span><br><span class="line">  `description` varchar(255) DEFAULT NULL COMMENT &apos;资源描述&apos;,</span><br><span class="line">  `url` varchar(255) DEFAULT NULL COMMENT &apos;资源访问的url&apos;,</span><br><span class="line">  `parent_id` int(11) NOT NULL DEFAULT &apos;0&apos; COMMENT &apos;父资源ID，0-无父资源&apos;,</span><br><span class="line">  `status` int(2) NOT NULL DEFAULT &apos;1&apos; COMMENT &apos;启用状态 0-未启用 1-启用&apos;,</span><br><span class="line">  `sort` int(2) NOT NULL DEFAULT &apos;1&apos; COMMENT &apos;排序位置&apos;,</span><br><span class="line">  `type` int(2) NOT NULL DEFAULT &apos;0&apos; COMMENT &apos;资源类型 0-未知类型 1-菜单 2-按钮 3-图片&apos;,</span><br><span class="line">  `code` varchar(255) NOT NULL COMMENT &apos;资源标识代码&apos;,</span><br><span class="line">  `create_time` datetime DEFAULT NULL COMMENT &apos;创建时间&apos;,</span><br><span class="line">  `update_time` datetime DEFAULT NULL COMMENT &apos;更新时间&apos;,</span><br><span class="line">  PRIMARY KEY (`id`) USING BTREE</span><br><span class="line">) ENGINE=InnoDB AUTO_INCREMENT=234 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT=&apos;菜单表&apos;;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `admin_role_resource` (</span><br><span class="line">  `role_id` int(10) unsigned NOT NULL COMMENT &apos;角色id&apos;,</span><br><span class="line">  `resource_id` int(10) unsigned NOT NULL COMMENT &apos;资源id&apos;,</span><br><span class="line">  `create_time` datetime DEFAULT NULL COMMENT &apos;创建时间&apos;</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT=&apos;角色资源关联表&apos;;</span><br></pre></td></tr></table></figure>
+<p>这里只列出关键的两张表。</p>
+<h1 id="sql编写以及dto的使用"><a href="#sql编写以及dto的使用" class="headerlink" title="sql编写以及dto的使用"></a>sql编写以及dto的使用</h1><p>我们希望获取一对多的菜单，数据结构是这样的<br><img src="/2018/12/10/后台角色授权菜单功能的实现/1.png" alt=""><br>sql如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--获取一对多子菜单--&gt;</span><br><span class="line">    &lt;select id=&quot;getResourceList&quot; resultMap=&quot;resourceMap&quot; parameterType=&quot;com.tubitu.model.AdminResource&quot;&gt;</span><br><span class="line">        select</span><br><span class="line">        a.id,</span><br><span class="line">        a.name,</span><br><span class="line">        a.parent_id,</span><br><span class="line">        a.status,</span><br><span class="line">        b.id as sId,</span><br><span class="line">        b.name as sName,</span><br><span class="line">        b.url as sUrl,</span><br><span class="line">        b.parent_id as sParentId</span><br><span class="line">        from admin_resource a</span><br><span class="line">        LEFT JOIN admin_resource b ON a.id = b.parent_id</span><br><span class="line">        &lt;where&gt;</span><br><span class="line">            a.status = 1</span><br><span class="line">            and a.parent_id = 0</span><br><span class="line">            &lt;if test=&quot;name != null and name != &apos;&apos;&quot;&gt;</span><br><span class="line">                and a.name like concat(&apos;%&apos;,#&#123;name,jdbcType=VARCHAR&#125;,&apos;%&apos;)</span><br><span class="line">            &lt;/if&gt;</span><br><span class="line">        &lt;/where&gt;</span><br><span class="line">    &lt;/select&gt;</span><br></pre></td></tr></table></figure></p>
+<p>resultMap 如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;resultMap id=&quot;resourceMap&quot; type=&quot;com.tubitu.model.dto.AdminResourceDto&quot; extends=&quot;BaseResultMap&quot;&gt;</span><br><span class="line">        &lt;collection property=&quot;childResource&quot; ofType=&quot;com.tubitu.model.AdminResource&quot; javaType=&quot;java.util.List&quot; &gt;</span><br><span class="line">            &lt;id column=&quot;sId&quot; property=&quot;id&quot; jdbcType=&quot;INTEGER&quot; /&gt;</span><br><span class="line">            &lt;result column=&quot;sName&quot; property=&quot;name&quot; jdbcType=&quot;VARCHAR&quot; /&gt;</span><br><span class="line">            &lt;result column=&quot;sUrl&quot; property=&quot;url&quot; jdbcType=&quot;VARCHAR&quot; /&gt;</span><br><span class="line">            &lt;result column=&quot;sParentId&quot; property=&quot;parentId&quot; jdbcType=&quot;INTEGER&quot; /&gt;</span><br><span class="line">        &lt;/collection&gt;</span><br><span class="line">    &lt;/resultMap&gt;</span><br></pre></td></tr></table></figure></p>
+<p>注意resultMap是继承了BaseResultMap的<br>此处的resultMap的type是dto,结构如下<br><img src="/2018/12/10/后台角色授权菜单功能的实现/2.png" alt=""><br>dto继承了我们需要属性的实体类，amdinResource。<br>这样dto就有了一些基本的属性，然后加上我们需要的属性，父级对子级的list，我们就可以通过此dto来映射了。<br>dto的使用，避免了实体类的污染，当我们需要一些数据库字段之外的属性的时候，或者需要映射的字段很复杂，我们完全可以使用dto来映射。</p>
+<p>注意因为这是表自己连自己，所以取得相同的字段还需要起别名，resultMap里也需要注意。<br>controller中还需要把角色相关的菜单list查出来</p>
+<h1 id="页面的处理"><a href="#页面的处理" class="headerlink" title="页面的处理"></a>页面的处理</h1><p><img src="/2018/12/10/后台角色授权菜单功能的实现/3.png" alt=""><br>使用了zTree插件，此处的核心方法，只有下面一段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">$(document).ready(function()&#123;</span><br><span class="line">        //回显当前角色菜单</span><br><span class="line">        var zNodes =[];</span><br><span class="line">        &lt;#if list??&gt;</span><br><span class="line">            &lt;#list list as i&gt; //所有父级菜单</span><br><span class="line">                &lt;#assign flag1 = false&gt;  //父级勾选标识</span><br><span class="line">                &lt;#list i.childResource as j&gt; //所有子级菜单</span><br><span class="line">                    &lt;#assign flag2 = false&gt;  //子级勾选标识</span><br><span class="line">                    &lt;#list idList as k&gt;   //当前角色菜单</span><br><span class="line">                        &lt;#if k == j.id &gt; //若  子级菜单id == 角色菜单id</span><br><span class="line">                            zNodes.push(&#123;id:$&#123;j.id&#125;,pId:$&#123;i.id&#125;,name:&quot;$&#123;j.name&#125;&quot;,isSon:1,checked:true&#125;); //勾选</span><br><span class="line">                            &lt;#assign flag1 = true&gt;</span><br><span class="line">                            &lt;#assign flag2 = true&gt; //标识为true</span><br><span class="line">                        &lt;/#if&gt;</span><br><span class="line">                    &lt;/#list&gt;//角色菜单list之外</span><br><span class="line">                    &lt;#if flag2=false&gt; //若标识为true,则不勾选</span><br><span class="line">                        zNodes.push(&#123;id:$&#123;j.id&#125;,pId:$&#123;i.id&#125;,name:&quot;$&#123;j.name&#125;&quot;,isSon:1&#125;);</span><br><span class="line">                    &lt;/#if&gt;</span><br><span class="line">                &lt;/#list&gt;</span><br><span class="line">                &lt;#if flag1=true&gt;//子级菜单之外，标识为true，说明有子级菜单勾选，则勾选父级</span><br><span class="line">                       zNodes.push(&#123;id:$&#123;i.id&#125;,pId:0,name:&quot;$&#123;i.name&#125;&quot;,open:true,checked:true&#125;);</span><br><span class="line">                &lt;#else&gt;//否则不勾选</span><br><span class="line">                        zNodes.push(&#123;id:$&#123;i.id&#125;,pId:0,name:&quot;$&#123;i.name&#125;&quot;,open:true&#125;);</span><br><span class="line">                &lt;/#if&gt;</span><br><span class="line">            &lt;/#list&gt;</span><br><span class="line">        &lt;/#if&gt;</span><br><span class="line"></span><br><span class="line">        //初始化zTree</span><br><span class="line">        $.fn.zTree.init($(&quot;#treeDemo&quot;), setting, zNodes);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure></p>
+<p>刚开始一直想不通怎么用三层循环遍历显示，后来换了思路，通过flag来标识勾选状态，问题迎刃而解。<br>能回显了，就剩下提交了。提交的难点在于，如何把复杂类型数组提交到后台。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var zNodes =[</span><br><span class="line">        &#123;id:1, pId:0, name:&quot;[core] 基本功能 演示&quot;, open:true&#125;,</span><br><span class="line">		&#123;id:101, pId:1, name:&quot;最简单的树 --  标准 JSON 数据&quot;,checked:true&#125;,</span><br><span class="line">		&#123;id:102, pId:1, name:&quot;最简单的树 --  简单 JSON 数据&quot;,checked:true&#125;,</span><br><span class="line">        ]</span><br></pre></td></tr></table></figure></p>
+<p>数组内容是对象，对象中包含数字、字符串、布尔值等类型。<br>ajax提交是可以的，后台如何接收？答案是不知道，我试了半天，后台也不知道如何接收。<br>最后还是又把id遍历出来，后台用integer数组接收的。<br>jQuery的ajax提交数组，有一个比较坑逼的地方，会在你提交的时候，在你的key值后面加上个[]，<br>这样你后台必须在接收的参数后边也写上中括号<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@ResponseBody</span><br><span class="line">    @RequestMapping(&quot;/modifyRoleResource&quot;)</span><br><span class="line">    public int modifyRoleResource(@RequestParam(value = &quot;idList[]&quot;)Integer[] idList,</span><br><span class="line">                                  @RequestParam(value = &quot;roleId&quot;)Integer roleId)&#123;</span><br><span class="line">        return roleManageService.batchinsert(idList,roleId);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>完~</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/设计思路/" rel="tag"># 设计思路</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/09/SKU/" rel="next" title="SKU">
+                <i class="fa fa-chevron-left"></i> SKU
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/10/单例模式/" rel="prev" title="单例模式">
+                单例模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#后台添加角色后，需要给角色授权菜单，不同的角色有不同的菜单。"><span class="nav-number">1.</span> <span class="nav-text">后台添加角色后，需要给角色授权菜单，不同的角色有不同的菜单。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#涉及到的表"><span class="nav-number">2.</span> <span class="nav-text">涉及到的表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sql编写以及dto的使用"><span class="nav-number">3.</span> <span class="nav-text">sql编写以及dto的使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#页面的处理"><span class="nav-number">4.</span> <span class="nav-text">页面的处理</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="yield()介绍yield()的作用是让步。它能让当前线程由运行状态进入就绪状态，从而让其他具有相同优先级的等待线程获取执行权。但是，并不能保证当前线程调佣yield()之后，其他具有相同优先级的线程就一定能获得执行权，也有可能是当前线程又进入到运行状态继续运行。 yield()示例1234567891011121314151617181920212223// YieldTest.java的源码">
+<meta name="keywords" content="multithreading">
+<meta property="og:type" content="article">
+<meta property="og:title" content="multithreading-yield+sleep+join">
+<meta property="og:url" content="https://jingyao066.gitee.io/2019/03/26/multithreading-yield+sleep+join/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="yield()介绍yield()的作用是让步。它能让当前线程由运行状态进入就绪状态，从而让其他具有相同优先级的等待线程获取执行权。但是，并不能保证当前线程调佣yield()之后，其他具有相同优先级的线程就一定能获得执行权，也有可能是当前线程又进入到运行状态继续运行。 yield()示例1234567891011121314151617181920212223// YieldTest.java的源码">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/03/26/multithreading-yield+sleep+join/1.png">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.330Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="multithreading-yield+sleep+join">
+<meta name="twitter:description" content="yield()介绍yield()的作用是让步。它能让当前线程由运行状态进入就绪状态，从而让其他具有相同优先级的等待线程获取执行权。但是，并不能保证当前线程调佣yield()之后，其他具有相同优先级的线程就一定能获得执行权，也有可能是当前线程又进入到运行状态继续运行。 yield()示例1234567891011121314151617181920212223// YieldTest.java的源码">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2019/03/26/multithreading-yield+sleep+join/1.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2019/03/26/multithreading-yield+sleep+join/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>multithreading-yield+sleep+join | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2019/03/26/multithreading-yield+sleep+join/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">multithreading-yield+sleep+join
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-26 15:07:56" itemprop="dateCreated datePublished" datetime="2019-03-26T15:07:56+08:00">2019-03-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/03/26/multithreading-yield+sleep+join/" class="leancloud_visitors" data-flag-title="multithreading-yield+sleep+join">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="yield-介绍"><a href="#yield-介绍" class="headerlink" title="yield()介绍"></a>yield()介绍</h1><p>yield()的作用是让步。它能让当前线程由<code>运行状态</code>进入<code>就绪状态</code>，从而让其他具有相同优先级的等待线程获取执行权。<br>但是，并不能保证当前线程调佣yield()之后，其他具有相同优先级的线程就一定能获得执行权，也有可能是当前线程又进入到运行状态继续运行。</p>
+<h1 id="yield-示例"><a href="#yield-示例" class="headerlink" title="yield()示例"></a>yield()示例</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// YieldTest.java的源码</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThreadA</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ThreadA</span><span class="params">(String name)</span></span>&#123; </span><br><span class="line">        <span class="keyword">super</span>(name); </span><br><span class="line">    &#125; </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123; </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt;<span class="number">10</span>; i++)&#123; </span><br><span class="line">            System.out.printf(<span class="string">"%s [%d]:%d\n"</span>, <span class="keyword">this</span>.getName(), <span class="keyword">this</span>.getPriority(), i); </span><br><span class="line">            <span class="comment">// i整除4时，调用yield</span></span><br><span class="line">            <span class="keyword">if</span> (i%<span class="number">4</span> == <span class="number">0</span>)</span><br><span class="line">                Thread.yield();</span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">YieldTest</span></span>&#123; </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123; </span><br><span class="line">        ThreadA t1 = <span class="keyword">new</span> ThreadA(<span class="string">"t1"</span>); </span><br><span class="line">        ThreadA t2 = <span class="keyword">new</span> ThreadA(<span class="string">"t2"</span>); </span><br><span class="line">        t1.start(); </span><br><span class="line">        t2.start();</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>某一次的运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">t1 [5]:0</span><br><span class="line">t2 [5]:0</span><br><span class="line">t1 [5]:1</span><br><span class="line">t1 [5]:2</span><br><span class="line">t1 [5]:3</span><br><span class="line">t1 [5]:4</span><br><span class="line">t1 [5]:5</span><br><span class="line">t1 [5]:6</span><br><span class="line">t1 [5]:7</span><br><span class="line">t2 [5]:1</span><br><span class="line">t2 [5]:2</span><br><span class="line">t2 [5]:3</span><br><span class="line">t2 [5]:4</span><br><span class="line">t2 [5]:5</span><br><span class="line">t2 [5]:6</span><br><span class="line">t2 [5]:7</span><br><span class="line">t2 [5]:8</span><br><span class="line">t1 [5]:8</span><br><span class="line">t2 [5]:9</span><br><span class="line">t1 [5]:9</span><br></pre></td></tr></table></figure></p>
+<p>结果说明：<br><code>线程t1</code>在能被4整数的时候，并没有切换到<code>线程t2</code>。这表明，yield()虽然可以让线程由<code>运行状态</code>进入到<code>就绪状态</code>；但是，它不一定会让其它线程获取CPU执行权(即，其它线程进入到<code>运行状态</code>)，即使这个<code>其它线程</code>与当前调用yield()的线程具有相同的优先级。</p>
+<h1 id="yield-与-wait-的比较"><a href="#yield-与-wait-的比较" class="headerlink" title="yield() 与 wait()的比较"></a>yield() 与 wait()的比较</h1><p>我们知道，wait()的作用是让当前线程由<code>运行状态</code>进入<code>等待(阻塞)状态</code>的同时，也会释放同步锁。而yield()的作用是让步，它也会让当前线程离开<code>运行状态</code>。它们的区别是：</p>
+<ul>
+<li>wait()是让线程由<code>运行状态</code>进入到<code>等待(阻塞)状态</code>，而yield()是让线程由<code>运行状态</code>进入到<code>就绪状态</code>。</li>
+<li>wait()是会线程释放它所持有对象的同步锁，而yield()方法不会释放锁。</li>
+</ul>
+<p>下面通过示例演示yield()是不会释放锁的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// YieldLockTest.java 的源码</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">YieldLockTest</span></span>&#123; </span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Object obj = <span class="keyword">new</span> Object();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123; </span><br><span class="line">        ThreadA t1 = <span class="keyword">new</span> ThreadA(<span class="string">"t1"</span>); </span><br><span class="line">        ThreadA t2 = <span class="keyword">new</span> ThreadA(<span class="string">"t2"</span>); </span><br><span class="line">        t1.start(); </span><br><span class="line">        t2.start();</span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadA</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ThreadA</span><span class="params">(String name)</span></span>&#123; </span><br><span class="line">            <span class="keyword">super</span>(name); </span><br><span class="line">        &#125; </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123; </span><br><span class="line">            <span class="comment">// 获取obj对象的同步锁</span></span><br><span class="line">            <span class="keyword">synchronized</span> (obj) &#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt;<span class="number">10</span>; i++)&#123; </span><br><span class="line">                    System.out.printf(<span class="string">"%s [%d]:%d\n"</span>, <span class="keyword">this</span>.getName(), <span class="keyword">this</span>.getPriority(), i); </span><br><span class="line">                    <span class="comment">// i整除4时，调用yield</span></span><br><span class="line">                    <span class="keyword">if</span> (i%<span class="number">4</span> == <span class="number">0</span>)</span><br><span class="line">                        Thread.yield();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>某一次的运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">t1 [5]:0</span><br><span class="line">t1 [5]:1</span><br><span class="line">t1 [5]:2</span><br><span class="line">t1 [5]:3</span><br><span class="line">t1 [5]:4</span><br><span class="line">t1 [5]:5</span><br><span class="line">t1 [5]:6</span><br><span class="line">t1 [5]:7</span><br><span class="line">t1 [5]:8</span><br><span class="line">t1 [5]:9</span><br><span class="line">t2 [5]:0</span><br><span class="line">t2 [5]:1</span><br><span class="line">t2 [5]:2</span><br><span class="line">t2 [5]:3</span><br><span class="line">t2 [5]:4</span><br><span class="line">t2 [5]:5</span><br><span class="line">t2 [5]:6</span><br><span class="line">t2 [5]:7</span><br><span class="line">t2 [5]:8</span><br><span class="line">t2 [5]:9</span><br></pre></td></tr></table></figure></p>
+<p>结果说明：<br>主线程main中启动了两个线程t1和t2。t1和t2在run()会引用同一个对象的同步锁，即<code>synchronized(obj)</code>。在t1运行过程中，虽然它会调用<code>Thread.yield()</code>；但是，t2是不会获取cpu执行权的。因为，t1并没有释放<code>obj所持有的同步锁</code></p>
+<h1 id="sleep-介绍"><a href="#sleep-介绍" class="headerlink" title="sleep()介绍"></a>sleep()介绍</h1><p>sleep() 定义在Thread.java中。<br>sleep() 的作用是让当前线程休眠，即当前线程会从<code>运行状态</code>进入到<code>休眠(阻塞)状态</code>。sleep()会指定休眠时间，线程休眠的时间会大于/等于该休眠时间；在线程重新被唤醒时，它会由<code>阻塞状态</code>变成<code>就绪状态</code>，从而等待cpu的调度执行。</p>
+<h1 id="sleep-示例"><a href="#sleep-示例" class="headerlink" title="sleep()示例"></a>sleep()示例</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// SleepTest.java的源码</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThreadA</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ThreadA</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(name);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt;<span class="number">10</span>; i++)&#123;</span><br><span class="line">                System.out.printf(<span class="string">"%s: %d\n"</span>, <span class="keyword">this</span>.getName(), i);</span><br><span class="line">                <span class="comment">// i能被4整除时，休眠1000毫秒</span></span><br><span class="line">                <span class="keyword">if</span> (i%<span class="number">4</span> == <span class="number">0</span>)</span><br><span class="line">                    Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        ThreadA t1 = <span class="keyword">new</span> ThreadA(<span class="string">"t1"</span>);</span><br><span class="line">        t1.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">t1: 0(会休眠1妙)</span><br><span class="line">t1: 1</span><br><span class="line">t1: 2</span><br><span class="line">t1: 3</span><br><span class="line">t1: 4(会休眠1妙)</span><br><span class="line">t1: 5</span><br><span class="line">t1: 6</span><br><span class="line">t1: 7</span><br><span class="line">t1: 8(会休眠1妙)</span><br><span class="line">t1: 9</span><br></pre></td></tr></table></figure></p>
+<p>结果说明：<br>在主线程main中启动线程t1。t1启动之后，当t1中的计算i能被4整除时，t1会通过<code>Thread.sleep(1000)</code>休眠1000毫秒，可以明显的看到3次停顿。</p>
+<h1 id="sleep-和wait-比较"><a href="#sleep-和wait-比较" class="headerlink" title="sleep()和wait()比较"></a>sleep()和wait()比较</h1><p>我们知道，wait()的作用是让当前线程由<code>运行状态</code>进入<code>等待(阻塞)状态</code>的同时，也会释放同步锁。而sleep()的作用是也是让当前线程由<code>运行状态</code>进入到<code>休眠(阻塞)状态</code>。<br>但是，wait()会释放对象的同步锁，而sleep()则不会释放锁。</p>
+<p>下面通过示例演示sleep()是不会释放锁的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// SleepLockTest.java的源码</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Object obj = <span class="keyword">new</span> Object();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ThreadA t1 = <span class="keyword">new</span> ThreadA(<span class="string">"t1"</span>);</span><br><span class="line">        ThreadA t2 = <span class="keyword">new</span> ThreadA(<span class="string">"t2"</span>);</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadA</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ThreadA</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>(name);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="comment">// 获取obj对象的同步锁</span></span><br><span class="line">            <span class="keyword">synchronized</span> (obj) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">                        System.out.printf(<span class="string">"%s: %d\n"</span>, <span class="keyword">this</span>.getName(), i);</span><br><span class="line">                        <span class="comment">// i能被4整除时，休眠100毫秒</span></span><br><span class="line">                        <span class="keyword">if</span> (i % <span class="number">4</span> == <span class="number">0</span>)</span><br><span class="line">                            Thread.sleep(<span class="number">100</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">t1: 0</span><br><span class="line">t1: 1</span><br><span class="line">t1: 2</span><br><span class="line">t1: 3</span><br><span class="line">t1: 4</span><br><span class="line">t1: 5</span><br><span class="line">t1: 6</span><br><span class="line">t1: 7</span><br><span class="line">t1: 8</span><br><span class="line">t1: 9</span><br><span class="line">t2: 0</span><br><span class="line">t2: 1</span><br><span class="line">t2: 2</span><br><span class="line">t2: 3</span><br><span class="line">t2: 4</span><br><span class="line">t2: 5</span><br><span class="line">t2: 6</span><br><span class="line">t2: 7</span><br><span class="line">t2: 8</span><br><span class="line">t2: 9</span><br></pre></td></tr></table></figure></p>
+<p>结果说明：<br>主线程main中启动了两个线程t1和t2。t1和t2在run()会引用同一个对象的同步锁，即synchronized(obj)。在t1运行过程中，虽然它会调用<code>Thread.sleep(100)</code>；但是，t2是不会获取cpu执行权的。因为，t1并没有释放<code>obj所持有的同步锁</code>。<br>注意，若我们注释掉<code>synchronized(obj)</code>后再次执行该程序，t1和t2是可以相互切换的。下面是注释调<code>synchronized(obj)</code>之后的源码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// SleepLockTest.java的源码(注释掉synchronized(obj))</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SleepLockTest</span></span>&#123; </span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Object obj = <span class="keyword">new</span> Object();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123; </span><br><span class="line">        ThreadA t1 = <span class="keyword">new</span> ThreadA(<span class="string">"t1"</span>); </span><br><span class="line">        ThreadA t2 = <span class="keyword">new</span> ThreadA(<span class="string">"t2"</span>); </span><br><span class="line">        t1.start(); </span><br><span class="line">        t2.start();</span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadA</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ThreadA</span><span class="params">(String name)</span></span>&#123; </span><br><span class="line">            <span class="keyword">super</span>(name); </span><br><span class="line">        &#125; </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123; </span><br><span class="line">            <span class="comment">// 获取obj对象的同步锁</span></span><br><span class="line"><span class="comment">//            synchronized (obj) &#123;</span></span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt;<span class="number">10</span>; i++)&#123; </span><br><span class="line">                        System.out.printf(<span class="string">"%s: %d\n"</span>, <span class="keyword">this</span>.getName(), i); </span><br><span class="line">                        <span class="comment">// i能被4整除时，休眠100毫秒</span></span><br><span class="line">                        <span class="keyword">if</span> (i%<span class="number">4</span> == <span class="number">0</span>)</span><br><span class="line">                            Thread.sleep(<span class="number">100</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line"><span class="comment">//            &#125;</span></span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="join-介绍"><a href="#join-介绍" class="headerlink" title="join()介绍"></a>join()介绍</h1><p><code>join()</code>定义在Thread.java中。<br><code>join()</code>的作用：让<code>主线程</code>等待<code>子线程</code>结束之后才能继续运行。这句话可能有点晦涩，我们还是通过例子去理解。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 主线程</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Father</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Son s = <span class="keyword">new</span> Son();</span><br><span class="line">        s.start();</span><br><span class="line">        s.join();</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 子线程</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>说明：<br>上面的有两个类<code>Father(主线程类)</code>和<code>Son(子线程类)</code>。因为Son是在Father中创建并启动的，所以，Father是主线程类，Son是子线程类。<br>在Father主线程中，通过<code>new Son()</code>新建<code>子线程s</code>。接着通过<code>s.start()</code>启动<code>子线程s</code>，并且调用<code>s.join()</code>。在调用<code>s.join()</code>之后，Father主线程会一直等待，直到<code>子线程s</code>运行完毕；在<code>子线程s</code>运行完毕之后，Father主线程才能接着运行。 这也就是我们所说的<code>join()</code>的作用：<code>让主线程等待子线程结束之后才能继续运行</code></p>
+<h1 id="join-源码-基于JDK1-8-0-201-b09"><a href="#join-源码-基于JDK1-8-0-201-b09" class="headerlink" title="join()源码(基于JDK1.8.0_201-b09)"></a>join()源码(基于JDK1.8.0_201-b09)</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">join</span><span class="params">(<span class="keyword">long</span> millis)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">long</span> base = System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">long</span> now = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (millis &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"timeout value is negative"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (millis == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">while</span> (isAlive()) &#123;</span><br><span class="line">                wait(<span class="number">0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> (isAlive()) &#123;</span><br><span class="line">                <span class="keyword">long</span> delay = millis - now;</span><br><span class="line">                <span class="keyword">if</span> (delay &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                wait(delay);</span><br><span class="line">                now = System.currentTimeMillis() - base;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>说明：<br>当<code>millis==0</code>时，会进入<code>while(isAlive())</code>循环；即只要子线程是活的，主线程就不停的等待。</p>
+<p>问题：<br>虽然<code>s.join()</code>被调用的地方是发生在<code>Father主线程</code>中，但是<code>s.join()</code>是通过<code>子线程s</code>去调用的<code>join()</code>。那么，<code>join()</code>方法中的<code>isAlive()</code>应该是判断<code>子线程s</code>是不是Alive状态；对应的<code>wait(0)</code>也应该是<code>让子线程s</code>等待才对。但如果是这样的话，<code>s.join()</code>的作用怎么可能是让主线程等待，直到子线程s完成为止呢，应该是让子线程等待才对(因为调用子线程对象s的wait方法嘛)？<br>答案：<code>wait()</code>的作用是让<code>当前线程</code>等待，而这里的<code>当前线程</code>是指当前在CPU上运行的线程。所以，虽然是调用子线程的<code>wait()</code>方法，但是它是通过<code>主线程</code>去调用的；所以，休眠的是主线程，而不是<code>子线程</code>。</p>
+<h1 id="join-示例"><a href="#join-示例" class="headerlink" title="join()示例"></a>join()示例</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">// JoinTest.java的源码</span><br><span class="line">public class JoinTest&#123; </span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)&#123; </span><br><span class="line">        try &#123;</span><br><span class="line">            ThreadA t1 = new ThreadA(&quot;t1&quot;); // 新建“线程t1”</span><br><span class="line"></span><br><span class="line">            t1.start();                     // 启动“线程t1”</span><br><span class="line">            t1.join();                        // 将“线程t1”加入到“主线程main”中，并且“主线程main()会等待它的完成”</span><br><span class="line">            System.out.printf(&quot;%s finish\n&quot;, Thread.currentThread().getName()); </span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    static class ThreadA extends Thread&#123;</span><br><span class="line"></span><br><span class="line">        public ThreadA(String name)&#123; </span><br><span class="line">            super(name); </span><br><span class="line">        &#125; </span><br><span class="line">        public void run()&#123; </span><br><span class="line">            System.out.printf(&quot;%s start\n&quot;, this.getName()); </span><br><span class="line"></span><br><span class="line">            // 延时操作</span><br><span class="line">            for(int i=0; i &lt;1000000; i++)</span><br><span class="line">               ;</span><br><span class="line"></span><br><span class="line">            System.out.printf(&quot;%s finish\n&quot;, this.getName()); </span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">t1 start</span><br><span class="line">t1 finish</span><br><span class="line">main finish</span><br></pre></td></tr></table></figure></p>
+<p>结果说明：<br>运行流程如图<br>(01) 在“主线程main”中通过 new ThreadA(“t1”) 新建“线程t1”。 接着，通过 t1.start() 启动“线程t1”，并执行t1.join()。<br>(02) 执行t1.join()之后，“主线程main”会进入“阻塞状态”等待t1运行结束。“子线程t1”结束之后，会唤醒“主线程main”，“主线程”重新获取cpu执行权，继续运行。</p>
+<p><img src="/2019/03/26/multithreading-yield+sleep+join/1.png" alt=""></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/multithreading/" rel="tag"># multithreading</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/25/multithreading-wait+notify/" rel="next" title="multithreading-wait+notify">
+                <i class="fa fa-chevron-left"></i> multithreading-wait+notify
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/26/multithreading-interrupt/" rel="prev" title="multithreading-interrupt">
+                multithreading-interrupt <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#yield-介绍"><span class="nav-number">1.</span> <span class="nav-text">yield()介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#yield-示例"><span class="nav-number">2.</span> <span class="nav-text">yield()示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#yield-与-wait-的比较"><span class="nav-number">3.</span> <span class="nav-text">yield() 与 wait()的比较</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sleep-介绍"><span class="nav-number">4.</span> <span class="nav-text">sleep()介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sleep-示例"><span class="nav-number">5.</span> <span class="nav-text">sleep()示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sleep-和wait-比较"><span class="nav-number">6.</span> <span class="nav-text">sleep()和wait()比较</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#join-介绍"><span class="nav-number">7.</span> <span class="nav-text">join()介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#join-源码-基于JDK1-8-0-201-b09"><span class="nav-number">8.</span> <span class="nav-text">join()源码(基于JDK1.8.0_201-b09)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#join-示例"><span class="nav-number">9.</span> <span class="nav-text">join()示例</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="StringBuilder 简介StringBuilder 是一个可变的字符序列。它继承于AbstractStringBuilder，实现了CharSequence接口。StringBuffer 也是继承于AbstractStringBuilder的子类；但是，StringBuilder和StringBuffer不同，前者是非线程安全的，后者是线程安全的。 StringBuilder函数列表123">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="StringBuilder and StringBuffer">
+<meta property="og:url" content="https://jingyao066.gitee.io/2019/05/07/StringBuilder-and-StringBuffer/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="StringBuilder 简介StringBuilder 是一个可变的字符序列。它继承于AbstractStringBuilder，实现了CharSequence接口。StringBuffer 也是继承于AbstractStringBuilder的子类；但是，StringBuilder和StringBuffer不同，前者是非线程安全的，后者是线程安全的。 StringBuilder函数列表123">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.289Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="StringBuilder and StringBuffer">
+<meta name="twitter:description" content="StringBuilder 简介StringBuilder 是一个可变的字符序列。它继承于AbstractStringBuilder，实现了CharSequence接口。StringBuffer 也是继承于AbstractStringBuilder的子类；但是，StringBuilder和StringBuffer不同，前者是非线程安全的，后者是线程安全的。 StringBuilder函数列表123">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2019/05/07/StringBuilder-and-StringBuffer/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>StringBuilder and StringBuffer | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2019/05/07/StringBuilder-and-StringBuffer/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">StringBuilder and StringBuffer
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-07 17:16:52" itemprop="dateCreated datePublished" datetime="2019-05-07T17:16:52+08:00">2019-05-07</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/05/07/StringBuilder-and-StringBuffer/" class="leancloud_visitors" data-flag-title="StringBuilder and StringBuffer">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="StringBuilder-简介"><a href="#StringBuilder-简介" class="headerlink" title="StringBuilder 简介"></a>StringBuilder 简介</h1><p>StringBuilder 是一个可变的字符序列。它继承于AbstractStringBuilder，实现了CharSequence接口。<br>StringBuffer 也是继承于AbstractStringBuilder的子类；但是，StringBuilder和StringBuffer不同，前者是非线程安全的，后者是线程安全的。</p>
+<h1 id="StringBuilder函数列表"><a href="#StringBuilder函数列表" class="headerlink" title="StringBuilder函数列表"></a>StringBuilder函数列表</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">StringBuilder()</span><br><span class="line">StringBuilder(<span class="keyword">int</span> capacity)</span><br><span class="line">StringBuilder(CharSequence seq)</span><br><span class="line">StringBuilder(String str)</span><br><span class="line"></span><br><span class="line"><span class="function">StringBuilder     <span class="title">append</span><span class="params">(<span class="keyword">float</span> f)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">append</span><span class="params">(<span class="keyword">double</span> d)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">append</span><span class="params">(<span class="keyword">boolean</span> b)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">append</span><span class="params">(<span class="keyword">int</span> i)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">append</span><span class="params">(<span class="keyword">long</span> l)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">append</span><span class="params">(<span class="keyword">char</span> c)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">append</span><span class="params">(<span class="keyword">char</span>[] chars)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">append</span><span class="params">(<span class="keyword">char</span>[] str, <span class="keyword">int</span> offset, <span class="keyword">int</span> len)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">append</span><span class="params">(String str)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">append</span><span class="params">(Object obj)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">append</span><span class="params">(StringBuffer sb)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">append</span><span class="params">(CharSequence csq)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">append</span><span class="params">(CharSequence csq, <span class="keyword">int</span> start, <span class="keyword">int</span> end)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">appendCodePoint</span><span class="params">(<span class="keyword">int</span> codePoint)</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">capacity</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">char</span>     <span class="title">charAt</span><span class="params">(<span class="keyword">int</span> index)</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">codePointAt</span><span class="params">(<span class="keyword">int</span> index)</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">codePointBefore</span><span class="params">(<span class="keyword">int</span> index)</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">codePointCount</span><span class="params">(<span class="keyword">int</span> start, <span class="keyword">int</span> end)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">delete</span><span class="params">(<span class="keyword">int</span> start, <span class="keyword">int</span> end)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">deleteCharAt</span><span class="params">(<span class="keyword">int</span> index)</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span>     <span class="title">ensureCapacity</span><span class="params">(<span class="keyword">int</span> min)</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span>     <span class="title">getChars</span><span class="params">(<span class="keyword">int</span> start, <span class="keyword">int</span> end, <span class="keyword">char</span>[] dst, <span class="keyword">int</span> dstStart)</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">indexOf</span><span class="params">(String subString, <span class="keyword">int</span> start)</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">indexOf</span><span class="params">(String string)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> offset, <span class="keyword">boolean</span> b)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> offset, <span class="keyword">int</span> i)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> offset, <span class="keyword">long</span> l)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> offset, <span class="keyword">float</span> f)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> offset, <span class="keyword">double</span> d)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> offset, <span class="keyword">char</span> c)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> offset, <span class="keyword">char</span>[] ch)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> offset, <span class="keyword">char</span>[] str, <span class="keyword">int</span> strOffset, <span class="keyword">int</span> strLen)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> offset, String str)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> offset, Object obj)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> offset, CharSequence s)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> offset, CharSequence s, <span class="keyword">int</span> start, <span class="keyword">int</span> end)</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">lastIndexOf</span><span class="params">(String string)</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">lastIndexOf</span><span class="params">(String subString, <span class="keyword">int</span> start)</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">length</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">offsetByCodePoints</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">int</span> codePointOffset)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">replace</span><span class="params">(<span class="keyword">int</span> start, <span class="keyword">int</span> end, String string)</span></span></span><br><span class="line"><span class="function">StringBuilder     <span class="title">reverse</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span>     <span class="title">setCharAt</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">char</span> ch)</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span>     <span class="title">setLength</span><span class="params">(<span class="keyword">int</span> length)</span></span></span><br><span class="line"><span class="function">CharSequence     <span class="title">subSequence</span><span class="params">(<span class="keyword">int</span> start, <span class="keyword">int</span> end)</span></span></span><br><span class="line"><span class="function">String     <span class="title">substring</span><span class="params">(<span class="keyword">int</span> start)</span></span></span><br><span class="line"><span class="function">String     <span class="title">substring</span><span class="params">(<span class="keyword">int</span> start, <span class="keyword">int</span> end)</span></span></span><br><span class="line"><span class="function">String     <span class="title">toString</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span>     <span class="title">trimToSize</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<p>此处省略AbstractStringBuilder 和 StringBuilder源码。</p>
+<h1 id="StringBuilder-中插入-insert-相关的API"><a href="#StringBuilder-中插入-insert-相关的API" class="headerlink" title="StringBuilder 中插入(insert)相关的API"></a>StringBuilder 中插入(insert)相关的API</h1><p>源码如下(StringBuilderInsertTest.java):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * StringBuilder 的insert()示例</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> skywang</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringBuilderInsertTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        testInsertAPIs() ;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * StringBuilder 的insert()示例</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testInsertAPIs</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"-------------------------------- testInsertAPIs -------------------------------"</span>);</span><br><span class="line"></span><br><span class="line">        StringBuilder sbuilder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 在位置0处插入字符数组</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="keyword">new</span> <span class="keyword">char</span>[]&#123;<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>,<span class="string">'e'</span>&#125;);</span><br><span class="line">        <span class="comment">// 在位置0处插入字符数组。0表示字符数组起始位置，3表示长度</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="keyword">new</span> <span class="keyword">char</span>[]&#123;<span class="string">'A'</span>,<span class="string">'B'</span>,<span class="string">'C'</span>,<span class="string">'D'</span>,<span class="string">'E'</span>&#125;, <span class="number">0</span>, <span class="number">3</span>);</span><br><span class="line">        <span class="comment">// 在位置0处插入float</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="number">1.414f</span>);</span><br><span class="line">        <span class="comment">// 在位置0处插入double</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="number">3.14159</span>d);</span><br><span class="line">        <span class="comment">// 在位置0处插入boolean</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="keyword">true</span>);</span><br><span class="line">        <span class="comment">// 在位置0处插入char</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="string">'\n'</span>);</span><br><span class="line">        <span class="comment">// 在位置0处插入int</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="number">100</span>);</span><br><span class="line">        <span class="comment">// 在位置0处插入long</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="number">12345L</span>);</span><br><span class="line">        <span class="comment">// 在位置0处插入StringBuilder对象</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="keyword">new</span> StringBuilder(<span class="string">"StringBuilder"</span>));</span><br><span class="line">        <span class="comment">// 在位置0处插入StringBuilder对象。6表示被在位置0处插入对象的起始位置(包括)，13是结束位置(不包括)</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="keyword">new</span> StringBuilder(<span class="string">"STRINGBUILDER"</span>), <span class="number">6</span>, <span class="number">13</span>);</span><br><span class="line">        <span class="comment">// 在位置0处插入StringBuffer对象。</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="keyword">new</span> StringBuffer(<span class="string">"StringBuffer"</span>));</span><br><span class="line">        <span class="comment">// 在位置0处插入StringBuffer对象。6表示被在位置0处插入对象的起始位置(包括)，12是结束位置(不包括)</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="keyword">new</span> StringBuffer(<span class="string">"STRINGBUFFER"</span>), <span class="number">6</span>, <span class="number">12</span>);</span><br><span class="line">        <span class="comment">// 在位置0处插入String对象。</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="string">"String"</span>);</span><br><span class="line">        <span class="comment">// 在位置0处插入String对象。1表示被在位置0处插入对象的起始位置(包括)，6是结束位置(不包括)</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="string">"0123456789"</span>, <span class="number">1</span>, <span class="number">6</span>);</span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="string">'\n'</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 在位置0处插入Object对象。此处以HashMap为例</span></span><br><span class="line">        HashMap map = <span class="keyword">new</span> HashMap();</span><br><span class="line">        map.put(<span class="string">"1"</span>, <span class="string">"one"</span>);</span><br><span class="line">        map.put(<span class="string">"2"</span>, <span class="string">"two"</span>);</span><br><span class="line">        map.put(<span class="string">"3"</span>, <span class="string">"three"</span>);</span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, map);</span><br><span class="line"></span><br><span class="line">        System.out.printf(<span class="string">"%s\n\n"</span>, sbuilder);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-------------------------------- testInsertAPIs -------------------------------</span><br><span class="line">&#123;3=three, 2=two, 1=one&#125;</span><br><span class="line">12345StringBUFFERStringBufferBUILDERStringBuilder12345100</span><br><span class="line">true3.141591.414ABCabcde</span><br></pre></td></tr></table></figure></p>
+<h1 id="StringBuilder-中追加-append-相关的API"><a href="#StringBuilder-中追加-append-相关的API" class="headerlink" title="StringBuilder 中追加(append)相关的API"></a>StringBuilder 中追加(append)相关的API</h1><p>源码如下(StringBuilderAppendTest.java):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * StringBuilder 的append()示例</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> skywang</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringBuilderAppendTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        testAppendAPIs() ;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * StringBuilder 的append()示例</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testAppendAPIs</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"-------------------------------- testAppendAPIs -------------------------------"</span>);</span><br><span class="line"></span><br><span class="line">        StringBuilder sbuilder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 追加字符数组</span></span><br><span class="line">        sbuilder.append(<span class="keyword">new</span> <span class="keyword">char</span>[]&#123;<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>,<span class="string">'e'</span>&#125;);</span><br><span class="line">        <span class="comment">// 追加字符数组。0表示字符数组起始位置，3表示长度</span></span><br><span class="line">        sbuilder.append(<span class="keyword">new</span> <span class="keyword">char</span>[]&#123;<span class="string">'A'</span>,<span class="string">'B'</span>,<span class="string">'C'</span>,<span class="string">'D'</span>,<span class="string">'E'</span>&#125;, <span class="number">0</span>, <span class="number">3</span>);</span><br><span class="line">        <span class="comment">// 追加float</span></span><br><span class="line">        sbuilder.append(<span class="number">1.414f</span>);</span><br><span class="line">        <span class="comment">// 追加double</span></span><br><span class="line">        sbuilder.append(<span class="number">3.14159</span>d);</span><br><span class="line">        <span class="comment">// 追加boolean</span></span><br><span class="line">        sbuilder.append(<span class="keyword">true</span>);</span><br><span class="line">        <span class="comment">// 追加char</span></span><br><span class="line">        sbuilder.append(<span class="string">'\n'</span>);</span><br><span class="line">        <span class="comment">// 追加int</span></span><br><span class="line">        sbuilder.append(<span class="number">100</span>);</span><br><span class="line">        <span class="comment">// 追加long</span></span><br><span class="line">        sbuilder.append(<span class="number">12345L</span>);</span><br><span class="line">        <span class="comment">// 追加StringBuilder对象</span></span><br><span class="line">        sbuilder.append(<span class="keyword">new</span> StringBuilder(<span class="string">"StringBuilder"</span>));</span><br><span class="line">        <span class="comment">// 追加StringBuilder对象。6表示被追加对象的起始位置(包括)，13是结束位置(不包括)</span></span><br><span class="line">        sbuilder.append(<span class="keyword">new</span> StringBuilder(<span class="string">"STRINGBUILDER"</span>), <span class="number">6</span>, <span class="number">13</span>);</span><br><span class="line">        <span class="comment">// 追加StringBuffer对象。</span></span><br><span class="line">        sbuilder.append(<span class="keyword">new</span> StringBuffer(<span class="string">"StringBuffer"</span>));</span><br><span class="line">        <span class="comment">// 追加StringBuffer对象。6表示被追加对象的起始位置(包括)，12是结束位置(不包括)</span></span><br><span class="line">        sbuilder.append(<span class="keyword">new</span> StringBuffer(<span class="string">"STRINGBUFFER"</span>), <span class="number">6</span>, <span class="number">12</span>);</span><br><span class="line">        <span class="comment">// 追加String对象。</span></span><br><span class="line">        sbuilder.append(<span class="string">"String"</span>);</span><br><span class="line">        <span class="comment">// 追加String对象。1表示被追加对象的起始位置(包括)，6是结束位置(不包括)</span></span><br><span class="line">        sbuilder.append(<span class="string">"0123456789"</span>, <span class="number">1</span>, <span class="number">6</span>);</span><br><span class="line">        sbuilder.append(<span class="string">'\n'</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 追加Object对象。此处以HashMap为例</span></span><br><span class="line">        HashMap map = <span class="keyword">new</span> HashMap();</span><br><span class="line">        map.put(<span class="string">"1"</span>, <span class="string">"one"</span>);</span><br><span class="line">        map.put(<span class="string">"2"</span>, <span class="string">"two"</span>);</span><br><span class="line">        map.put(<span class="string">"3"</span>, <span class="string">"three"</span>);</span><br><span class="line">        sbuilder.append(map);</span><br><span class="line">        sbuilder.append(<span class="string">'\n'</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 追加unicode编码</span></span><br><span class="line">        sbuilder.appendCodePoint(<span class="number">0x5b57</span>);    <span class="comment">// 0x5b57是“字”的unicode编码</span></span><br><span class="line">        sbuilder.appendCodePoint(<span class="number">0x7b26</span>);    <span class="comment">// 0x7b26是“符”的unicode编码</span></span><br><span class="line">        sbuilder.appendCodePoint(<span class="number">0x7f16</span>);    <span class="comment">// 0x7f16是“编”的unicode编码</span></span><br><span class="line">        sbuilder.appendCodePoint(<span class="number">0x7801</span>);    <span class="comment">// 0x7801是“码”的unicode编码</span></span><br><span class="line"></span><br><span class="line">        System.out.printf(<span class="string">"%s\n\n"</span>, sbuilder);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-------------------------------- testAppendAPIs -------------------------------</span><br><span class="line">abcdeABC1.4143.14159true</span><br><span class="line">10012345StringBuilderBUILDERStringBufferBUFFERString12345</span><br><span class="line">&#123;3=three, 2=two, 1=one&#125;</span><br><span class="line">字符编码</span><br></pre></td></tr></table></figure></p>
+<h1 id="StringBuilder-中替换-replace-相关的API"><a href="#StringBuilder-中替换-replace-相关的API" class="headerlink" title="StringBuilder 中替换(replace)相关的API"></a>StringBuilder 中替换(replace)相关的API</h1><p>源码如下(StringBuilderReplaceTest.java):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * StringBuilder 的replace()示例</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> skywang</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringBuilderReplaceTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        testReplaceAPIs() ;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * StringBuilder 的replace()示例</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testReplaceAPIs</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"-------------------------------- testReplaceAPIs ------------------------------"</span>);</span><br><span class="line"></span><br><span class="line">        StringBuilder sbuilder;</span><br><span class="line"></span><br><span class="line">        sbuilder = <span class="keyword">new</span> StringBuilder(<span class="string">"0123456789"</span>);</span><br><span class="line">        sbuilder.replace(<span class="number">0</span>, <span class="number">3</span>, <span class="string">"ABCDE"</span>);</span><br><span class="line">        System.out.printf(<span class="string">"sbuilder=%s\n"</span>, sbuilder);</span><br><span class="line"></span><br><span class="line">        sbuilder = <span class="keyword">new</span> StringBuilder(<span class="string">"0123456789"</span>);</span><br><span class="line">        sbuilder.reverse();</span><br><span class="line">        System.out.printf(<span class="string">"sbuilder=%s\n"</span>, sbuilder);</span><br><span class="line"></span><br><span class="line">        sbuilder = <span class="keyword">new</span> StringBuilder(<span class="string">"0123456789"</span>);</span><br><span class="line">        sbuilder.setCharAt(<span class="number">0</span>, <span class="string">'M'</span>);</span><br><span class="line">        System.out.printf(<span class="string">"sbuilder=%s\n"</span>, sbuilder);</span><br><span class="line"></span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-------------------------------- testReplaceAPIs ------------------------------</span><br><span class="line">sbuilder=ABCDE3456789</span><br><span class="line">sbuilder=9876543210</span><br><span class="line">sbuilder=M123456789</span><br></pre></td></tr></table></figure></p>
+<h1 id="StringBuilder-中删除-delete-相关的API"><a href="#StringBuilder-中删除-delete-相关的API" class="headerlink" title="StringBuilder 中删除(delete)相关的API"></a>StringBuilder 中删除(delete)相关的API</h1><p>源码如下(StringBuilderDeleteTest.java):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * StringBuilder 的delete()示例</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> skywang</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringBuilderDeleteTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        testDeleteAPIs() ;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * StringBuilder 的delete()示例</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testDeleteAPIs</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"-------------------------------- testDeleteAPIs -------------------------------"</span>);</span><br><span class="line"></span><br><span class="line">        StringBuilder sbuilder = <span class="keyword">new</span> StringBuilder(<span class="string">"0123456789"</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 删除位置0的字符，剩余字符是“123456789”。</span></span><br><span class="line">        sbuilder.deleteCharAt(<span class="number">0</span>);</span><br><span class="line">        <span class="comment">// 删除位置3(包括)到位置6(不包括)之间的字符，剩余字符是“123789”。</span></span><br><span class="line">        sbuilder.delete(<span class="number">3</span>,<span class="number">6</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取sb中从位置1开始的字符串</span></span><br><span class="line">        String str1 = sbuilder.substring(<span class="number">1</span>);</span><br><span class="line">        <span class="comment">// 获取sb中从位置3(包括)到位置5(不包括)之间的字符串</span></span><br><span class="line">        String str2 = sbuilder.substring(<span class="number">3</span>, <span class="number">5</span>);</span><br><span class="line">        <span class="comment">// 获取sb中从位置3(包括)到位置5(不包括)之间的字符串，获取的对象是CharSequence对象，此处转型为String</span></span><br><span class="line">        String str3 = (String)sbuilder.subSequence(<span class="number">3</span>, <span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">        System.out.printf(<span class="string">"sbuilder=%s\nstr1=%s\nstr2=%s\nstr3=%s\n"</span>, </span><br><span class="line">                sbuilder, str1, str2, str3);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-------------------------------- testDeleteAPIs -------------------------------</span><br><span class="line">sbuilder=123789</span><br><span class="line">str1=23789</span><br><span class="line">str2=78</span><br><span class="line">str3=78</span><br></pre></td></tr></table></figure></p>
+<h1 id="StringBuilder-中index相关的API"><a href="#StringBuilder-中index相关的API" class="headerlink" title="StringBuilder 中index相关的API"></a>StringBuilder 中index相关的API</h1><p>源码如下(StringBuilderIndexTest.java):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * StringBuilder 中index相关API演示</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> skywang</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringBuilderIndexTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        testIndexAPIs() ;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * StringBuilder 中index相关API演示</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testIndexAPIs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"-------------------------------- testIndexAPIs --------------------------------"</span>);</span><br><span class="line"></span><br><span class="line">        StringBuilder sbuilder = <span class="keyword">new</span> StringBuilder(<span class="string">"abcAbcABCabCaBcAbCaBCabc"</span>);</span><br><span class="line">        System.out.printf(<span class="string">"sbuilder=%s\n"</span>, sbuilder);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1. 从前往后，找出"bc"第一次出现的位置</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %d\n"</span>, <span class="string">"sbuilder.indexOf(\"bc\")"</span>, sbuilder.indexOf(<span class="string">"bc"</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. 从位置5开始，从前往后，找出"bc"第一次出现的位置</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %d\n"</span>, <span class="string">"sbuilder.indexOf(\"bc\", 5)"</span>, sbuilder.indexOf(<span class="string">"bc"</span>, <span class="number">5</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. 从后往前，找出"bc"第一次出现的位置</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %d\n"</span>, <span class="string">"sbuilder.lastIndexOf(\"bc\")"</span>, sbuilder.lastIndexOf(<span class="string">"bc"</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4. 从位置4开始，从后往前，找出"bc"第一次出现的位置</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %d\n"</span>, <span class="string">"sbuilder.lastIndexOf(\"bc\", 4)"</span>, sbuilder.lastIndexOf(<span class="string">"bc"</span>, <span class="number">4</span>));</span><br><span class="line"></span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-------------------------------- testIndexAPIs --------------------------------</span><br><span class="line">sbuilder=abcAbcABCabCaBcAbCaBCabc</span><br><span class="line">sbuilder.indexOf(&quot;bc&quot;)         = 1</span><br><span class="line">sbuilder.indexOf(&quot;bc&quot;, 5)      = 22</span><br><span class="line">sbuilder.lastIndexOf(&quot;bc&quot;)     = 22</span><br><span class="line">sbuilder.lastIndexOf(&quot;bc&quot;, 4)  = 4</span><br></pre></td></tr></table></figure></p>
+<h1 id="StringBuilder-剩余的API"><a href="#StringBuilder-剩余的API" class="headerlink" title="StringBuilder 剩余的API"></a>StringBuilder 剩余的API</h1><p>源码如下(StringBuilderOtherTest.java):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * StringBuilder 的其它API示例</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> skywang</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringBuilderOtherTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        testOtherAPIs() ;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * StringBuilder 的其它API示例</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testOtherAPIs</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"-------------------------------- testOtherAPIs --------------------------------"</span>);</span><br><span class="line"></span><br><span class="line">        StringBuilder sbuilder = <span class="keyword">new</span> StringBuilder(<span class="string">"0123456789"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> cap = sbuilder.capacity();</span><br><span class="line">        System.out.printf(<span class="string">"cap=%d\n"</span>, cap);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">char</span> c = sbuilder.charAt(<span class="number">6</span>);</span><br><span class="line">        System.out.printf(<span class="string">"c=%c\n"</span>, c);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">char</span>[] carr = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">4</span>];</span><br><span class="line">        sbuilder.getChars(<span class="number">3</span>, <span class="number">7</span>, carr, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;carr.length; i++)</span><br><span class="line">            System.out.printf(<span class="string">"carr[%d]=%c "</span>, i, carr[i]);</span><br><span class="line">        System.out.println();</span><br><span class="line"></span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-------------------------------- testOtherAPIs --------------------------------</span><br><span class="line">cap=26</span><br><span class="line">c=6</span><br><span class="line">carr[0]=3 carr[1]=4 carr[2]=5 carr[3]=6</span><br></pre></td></tr></table></figure></p>
+<h1 id="StringBuffer简介"><a href="#StringBuffer简介" class="headerlink" title="StringBuffer简介"></a>StringBuffer简介</h1><p>StringBuffer是一个线程安全的可变字符序列。<br>StringBuffer 是一个线程安全的可变的字符序列。它继承于AbstractStringBuilder，实现了CharSequence接口。<br>StringBuilder 也是继承于AbstractStringBuilder的子类；但是，StringBuilder和StringBuffer不同，前者是非线程安全的，后者是线程安全的。</p>
+<h1 id="StringBuffer函数列表"><a href="#StringBuffer函数列表" class="headerlink" title="StringBuffer函数列表"></a>StringBuffer函数列表</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">StringBuffer()</span><br><span class="line">StringBuffer(<span class="keyword">int</span> capacity)</span><br><span class="line">StringBuffer(String string)</span><br><span class="line">StringBuffer(CharSequence cs)</span><br><span class="line"></span><br><span class="line"><span class="function">StringBuffer     <span class="title">append</span><span class="params">(<span class="keyword">boolean</span> b)</span></span></span><br><span class="line"><span class="function">StringBuffer     <span class="title">append</span><span class="params">(<span class="keyword">int</span> i)</span></span></span><br><span class="line"><span class="function">StringBuffer     <span class="title">append</span><span class="params">(<span class="keyword">long</span> l)</span></span></span><br><span class="line"><span class="function">StringBuffer     <span class="title">append</span><span class="params">(<span class="keyword">float</span> f)</span></span></span><br><span class="line"><span class="function">StringBuffer     <span class="title">append</span><span class="params">(<span class="keyword">double</span> d)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> StringBuffer     <span class="title">append</span><span class="params">(<span class="keyword">char</span> ch)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> StringBuffer     <span class="title">append</span><span class="params">(<span class="keyword">char</span>[] chars)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> StringBuffer     <span class="title">append</span><span class="params">(<span class="keyword">char</span>[] chars, <span class="keyword">int</span> start, <span class="keyword">int</span> length)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> StringBuffer     <span class="title">append</span><span class="params">(Object obj)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> StringBuffer     <span class="title">append</span><span class="params">(String string)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> StringBuffer     <span class="title">append</span><span class="params">(StringBuffer sb)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> StringBuffer     <span class="title">append</span><span class="params">(CharSequence s)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> StringBuffer     <span class="title">append</span><span class="params">(CharSequence s, <span class="keyword">int</span> start, <span class="keyword">int</span> end)</span></span></span><br><span class="line"><span class="function">StringBuffer     <span class="title">appendCodePoint</span><span class="params">(<span class="keyword">int</span> codePoint)</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">capacity</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> <span class="keyword">char</span>     <span class="title">charAt</span><span class="params">(<span class="keyword">int</span> index)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> <span class="keyword">int</span>     <span class="title">codePointAt</span><span class="params">(<span class="keyword">int</span> index)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> <span class="keyword">int</span>     <span class="title">codePointBefore</span><span class="params">(<span class="keyword">int</span> index)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> <span class="keyword">int</span>     <span class="title">codePointCount</span><span class="params">(<span class="keyword">int</span> beginIndex, <span class="keyword">int</span> endIndex)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> StringBuffer     <span class="title">delete</span><span class="params">(<span class="keyword">int</span> start, <span class="keyword">int</span> end)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> StringBuffer     <span class="title">deleteCharAt</span><span class="params">(<span class="keyword">int</span> location)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span>     <span class="title">ensureCapacity</span><span class="params">(<span class="keyword">int</span> min)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span>     <span class="title">getChars</span><span class="params">(<span class="keyword">int</span> start, <span class="keyword">int</span> end, <span class="keyword">char</span>[] buffer, <span class="keyword">int</span> idx)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> <span class="keyword">int</span>     <span class="title">indexOf</span><span class="params">(String subString, <span class="keyword">int</span> start)</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">indexOf</span><span class="params">(String string)</span></span></span><br><span class="line"><span class="function">StringBuffer     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">boolean</span> b)</span></span></span><br><span class="line"><span class="function">StringBuffer     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">int</span> i)</span></span></span><br><span class="line"><span class="function">StringBuffer     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">long</span> l)</span></span></span><br><span class="line"><span class="function">StringBuffer     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">float</span> f)</span></span></span><br><span class="line"><span class="function">StringBuffer     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">double</span> d)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> StringBuffer     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">char</span> ch)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> StringBuffer     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">char</span>[] chars)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> StringBuffer     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">char</span>[] chars, <span class="keyword">int</span> start, <span class="keyword">int</span> length)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> StringBuffer     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> index, String string)</span></span></span><br><span class="line"><span class="function">StringBuffer     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> index, Object obj)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> StringBuffer     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> index, CharSequence s)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> StringBuffer     <span class="title">insert</span><span class="params">(<span class="keyword">int</span> index, CharSequence s, <span class="keyword">int</span> start, <span class="keyword">int</span> end)</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">lastIndexOf</span><span class="params">(String string)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> <span class="keyword">int</span>     <span class="title">lastIndexOf</span><span class="params">(String subString, <span class="keyword">int</span> start)</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>     <span class="title">length</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> <span class="keyword">int</span>     <span class="title">offsetByCodePoints</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">int</span> codePointOffset)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> StringBuffer     <span class="title">replace</span><span class="params">(<span class="keyword">int</span> start, <span class="keyword">int</span> end, String string)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> StringBuffer     <span class="title">reverse</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span>     <span class="title">setCharAt</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">char</span> ch)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span>     <span class="title">setLength</span><span class="params">(<span class="keyword">int</span> length)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> CharSequence     <span class="title">subSequence</span><span class="params">(<span class="keyword">int</span> start, <span class="keyword">int</span> end)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> String     <span class="title">substring</span><span class="params">(<span class="keyword">int</span> start)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> String     <span class="title">substring</span><span class="params">(<span class="keyword">int</span> start, <span class="keyword">int</span> end)</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> String     <span class="title">toString</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span>     <span class="title">trimToSize</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<h1 id="StringBuffer-示例"><a href="#StringBuffer-示例" class="headerlink" title="StringBuffer 示例"></a>StringBuffer 示例</h1><p>源码如下(StringBufferTest.java):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * StringBuffer 演示程序</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> skywang</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringBufferTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        testInsertAPIs() ;</span><br><span class="line">        testAppendAPIs() ;</span><br><span class="line">        testReplaceAPIs() ;</span><br><span class="line">        testDeleteAPIs() ;</span><br><span class="line">        testIndexAPIs() ;</span><br><span class="line">        testOtherAPIs() ;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * StringBuffer 的其它API示例</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testOtherAPIs</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"-------------------------------- testOtherAPIs --------------------------------"</span>);</span><br><span class="line"></span><br><span class="line">        StringBuffer sbuilder = <span class="keyword">new</span> StringBuffer(<span class="string">"0123456789"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> cap = sbuilder.capacity();</span><br><span class="line">        System.out.printf(<span class="string">"cap=%d\n"</span>, cap);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">char</span> c = sbuilder.charAt(<span class="number">6</span>);</span><br><span class="line">        System.out.printf(<span class="string">"c=%c\n"</span>, c);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">char</span>[] carr = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">4</span>];</span><br><span class="line">        sbuilder.getChars(<span class="number">3</span>, <span class="number">7</span>, carr, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;carr.length; i++)</span><br><span class="line">            System.out.printf(<span class="string">"carr[%d]=%c "</span>, i, carr[i]);</span><br><span class="line">        System.out.println();</span><br><span class="line"></span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * StringBuffer 中index相关API演示</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testIndexAPIs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"-------------------------------- testIndexAPIs --------------------------------"</span>);</span><br><span class="line"></span><br><span class="line">        StringBuffer sbuilder = <span class="keyword">new</span> StringBuffer(<span class="string">"abcAbcABCabCaBcAbCaBCabc"</span>);</span><br><span class="line">        System.out.printf(<span class="string">"sbuilder=%s\n"</span>, sbuilder);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1. 从前往后，找出"bc"第一次出现的位置</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %d\n"</span>, <span class="string">"sbuilder.indexOf(\"bc\")"</span>, sbuilder.indexOf(<span class="string">"bc"</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. 从位置5开始，从前往后，找出"bc"第一次出现的位置</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %d\n"</span>, <span class="string">"sbuilder.indexOf(\"bc\", 5)"</span>, sbuilder.indexOf(<span class="string">"bc"</span>, <span class="number">5</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. 从后往前，找出"bc"第一次出现的位置</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %d\n"</span>, <span class="string">"sbuilder.lastIndexOf(\"bc\")"</span>, sbuilder.lastIndexOf(<span class="string">"bc"</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4. 从位置4开始，从后往前，找出"bc"第一次出现的位置</span></span><br><span class="line">        System.out.printf(<span class="string">"%-30s = %d\n"</span>, <span class="string">"sbuilder.lastIndexOf(\"bc\", 4)"</span>, sbuilder.lastIndexOf(<span class="string">"bc"</span>, <span class="number">4</span>));</span><br><span class="line"></span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * StringBuffer 的replace()示例</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testReplaceAPIs</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"-------------------------------- testReplaceAPIs ------------------------------"</span>);</span><br><span class="line"></span><br><span class="line">        StringBuffer sbuilder;</span><br><span class="line"></span><br><span class="line">        sbuilder = <span class="keyword">new</span> StringBuffer(<span class="string">"0123456789"</span>);</span><br><span class="line">        sbuilder.replace(<span class="number">0</span>, <span class="number">3</span>, <span class="string">"ABCDE"</span>);</span><br><span class="line">        System.out.printf(<span class="string">"sbuilder=%s\n"</span>, sbuilder);</span><br><span class="line"></span><br><span class="line">        sbuilder = <span class="keyword">new</span> StringBuffer(<span class="string">"0123456789"</span>);</span><br><span class="line">        sbuilder.reverse();</span><br><span class="line">        System.out.printf(<span class="string">"sbuilder=%s\n"</span>, sbuilder);</span><br><span class="line"></span><br><span class="line">        sbuilder = <span class="keyword">new</span> StringBuffer(<span class="string">"0123456789"</span>);</span><br><span class="line">        sbuilder.setCharAt(<span class="number">0</span>, <span class="string">'M'</span>);</span><br><span class="line">        System.out.printf(<span class="string">"sbuilder=%s\n"</span>, sbuilder);</span><br><span class="line"></span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * StringBuffer 的delete()示例</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testDeleteAPIs</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"-------------------------------- testDeleteAPIs -------------------------------"</span>);</span><br><span class="line"></span><br><span class="line">        StringBuffer sbuilder = <span class="keyword">new</span> StringBuffer(<span class="string">"0123456789"</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 删除位置0的字符，剩余字符是“123456789”。</span></span><br><span class="line">        sbuilder.deleteCharAt(<span class="number">0</span>);</span><br><span class="line">        <span class="comment">// 删除位置3(包括)到位置6(不包括)之间的字符，剩余字符是“123789”。</span></span><br><span class="line">        sbuilder.delete(<span class="number">3</span>,<span class="number">6</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取sb中从位置1开始的字符串</span></span><br><span class="line">        String str1 = sbuilder.substring(<span class="number">1</span>);</span><br><span class="line">        <span class="comment">// 获取sb中从位置3(包括)到位置5(不包括)之间的字符串</span></span><br><span class="line">        String str2 = sbuilder.substring(<span class="number">3</span>, <span class="number">5</span>);</span><br><span class="line">        <span class="comment">// 获取sb中从位置3(包括)到位置5(不包括)之间的字符串，获取的对象是CharSequence对象，此处转型为String</span></span><br><span class="line">        String str3 = (String)sbuilder.subSequence(<span class="number">3</span>, <span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">        System.out.printf(<span class="string">"sbuilder=%s\nstr1=%s\nstr2=%s\nstr3=%s\n"</span>, </span><br><span class="line">                sbuilder, str1, str2, str3);</span><br><span class="line"></span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * StringBuffer 的insert()示例</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testInsertAPIs</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"-------------------------------- testInsertAPIs -------------------------------"</span>);</span><br><span class="line"></span><br><span class="line">        StringBuffer sbuilder = <span class="keyword">new</span> StringBuffer();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 在位置0处插入字符数组</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="keyword">new</span> <span class="keyword">char</span>[]&#123;<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>,<span class="string">'e'</span>&#125;);</span><br><span class="line">        <span class="comment">// 在位置0处插入字符数组。0表示字符数组起始位置，3表示长度</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="keyword">new</span> <span class="keyword">char</span>[]&#123;<span class="string">'A'</span>,<span class="string">'B'</span>,<span class="string">'C'</span>,<span class="string">'D'</span>,<span class="string">'E'</span>&#125;, <span class="number">0</span>, <span class="number">3</span>);</span><br><span class="line">        <span class="comment">// 在位置0处插入float</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="number">1.414f</span>);</span><br><span class="line">        <span class="comment">// 在位置0处插入double</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="number">3.14159</span>d);</span><br><span class="line">        <span class="comment">// 在位置0处插入boolean</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="keyword">true</span>);</span><br><span class="line">        <span class="comment">// 在位置0处插入char</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="string">'\n'</span>);</span><br><span class="line">        <span class="comment">// 在位置0处插入int</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="number">100</span>);</span><br><span class="line">        <span class="comment">// 在位置0处插入long</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="number">12345L</span>);</span><br><span class="line">        <span class="comment">// 在位置0处插入StringBuilder对象</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="keyword">new</span> StringBuffer(<span class="string">"StringBuilder"</span>));</span><br><span class="line">        <span class="comment">// 在位置0处插入StringBuilder对象。6表示被在位置0处插入对象的起始位置(包括)，13是结束位置(不包括)</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="keyword">new</span> StringBuffer(<span class="string">"STRINGBUILDER"</span>), <span class="number">6</span>, <span class="number">13</span>);</span><br><span class="line">        <span class="comment">// 在位置0处插入StringBuffer对象。</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="keyword">new</span> StringBuffer(<span class="string">"StringBuffer"</span>));</span><br><span class="line">        <span class="comment">// 在位置0处插入StringBuffer对象。6表示被在位置0处插入对象的起始位置(包括)，12是结束位置(不包括)</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="keyword">new</span> StringBuffer(<span class="string">"STRINGBUFFER"</span>), <span class="number">6</span>, <span class="number">12</span>);</span><br><span class="line">        <span class="comment">// 在位置0处插入String对象。</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="string">"String"</span>);</span><br><span class="line">        <span class="comment">// 在位置0处插入String对象。1表示被在位置0处插入对象的起始位置(包括)，6是结束位置(不包括)</span></span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="string">"0123456789"</span>, <span class="number">1</span>, <span class="number">6</span>);</span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, <span class="string">'\n'</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 在位置0处插入Object对象。此处以HashMap为例</span></span><br><span class="line">        HashMap map = <span class="keyword">new</span> HashMap();</span><br><span class="line">        map.put(<span class="string">"1"</span>, <span class="string">"one"</span>);</span><br><span class="line">        map.put(<span class="string">"2"</span>, <span class="string">"two"</span>);</span><br><span class="line">        map.put(<span class="string">"3"</span>, <span class="string">"three"</span>);</span><br><span class="line">        sbuilder.insert(<span class="number">0</span>, map);</span><br><span class="line"></span><br><span class="line">        System.out.printf(<span class="string">"%s\n\n"</span>, sbuilder);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * StringBuffer 的append()示例</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testAppendAPIs</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"-------------------------------- testAppendAPIs -------------------------------"</span>);</span><br><span class="line"></span><br><span class="line">        StringBuffer sbuilder = <span class="keyword">new</span> StringBuffer();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 追加字符数组</span></span><br><span class="line">        sbuilder.append(<span class="keyword">new</span> <span class="keyword">char</span>[]&#123;<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>,<span class="string">'e'</span>&#125;);</span><br><span class="line">        <span class="comment">// 追加字符数组。0表示字符数组起始位置，3表示长度</span></span><br><span class="line">        sbuilder.append(<span class="keyword">new</span> <span class="keyword">char</span>[]&#123;<span class="string">'A'</span>,<span class="string">'B'</span>,<span class="string">'C'</span>,<span class="string">'D'</span>,<span class="string">'E'</span>&#125;, <span class="number">0</span>, <span class="number">3</span>);</span><br><span class="line">        <span class="comment">// 追加float</span></span><br><span class="line">        sbuilder.append(<span class="number">1.414f</span>);</span><br><span class="line">        <span class="comment">// 追加double</span></span><br><span class="line">        sbuilder.append(<span class="number">3.14159</span>d);</span><br><span class="line">        <span class="comment">// 追加boolean</span></span><br><span class="line">        sbuilder.append(<span class="keyword">true</span>);</span><br><span class="line">        <span class="comment">// 追加char</span></span><br><span class="line">        sbuilder.append(<span class="string">'\n'</span>);</span><br><span class="line">        <span class="comment">// 追加int</span></span><br><span class="line">        sbuilder.append(<span class="number">100</span>);</span><br><span class="line">        <span class="comment">// 追加long</span></span><br><span class="line">        sbuilder.append(<span class="number">12345L</span>);</span><br><span class="line">        <span class="comment">// 追加StringBuilder对象</span></span><br><span class="line">        sbuilder.append(<span class="keyword">new</span> StringBuffer(<span class="string">"StringBuilder"</span>));</span><br><span class="line">        <span class="comment">// 追加StringBuilder对象。6表示被追加对象的起始位置(包括)，13是结束位置(不包括)</span></span><br><span class="line">        sbuilder.append(<span class="keyword">new</span> StringBuffer(<span class="string">"STRINGBUILDER"</span>), <span class="number">6</span>, <span class="number">13</span>);</span><br><span class="line">        <span class="comment">// 追加StringBuffer对象。</span></span><br><span class="line">        sbuilder.append(<span class="keyword">new</span> StringBuffer(<span class="string">"StringBuffer"</span>));</span><br><span class="line">        <span class="comment">// 追加StringBuffer对象。6表示被追加对象的起始位置(包括)，12是结束位置(不包括)</span></span><br><span class="line">        sbuilder.append(<span class="keyword">new</span> StringBuffer(<span class="string">"STRINGBUFFER"</span>), <span class="number">6</span>, <span class="number">12</span>);</span><br><span class="line">        <span class="comment">// 追加String对象。</span></span><br><span class="line">        sbuilder.append(<span class="string">"String"</span>);</span><br><span class="line">        <span class="comment">// 追加String对象。1表示被追加对象的起始位置(包括)，6是结束位置(不包括)</span></span><br><span class="line">        sbuilder.append(<span class="string">"0123456789"</span>, <span class="number">1</span>, <span class="number">6</span>);</span><br><span class="line">        sbuilder.append(<span class="string">'\n'</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 追加Object对象。此处以HashMap为例</span></span><br><span class="line">        HashMap map = <span class="keyword">new</span> HashMap();</span><br><span class="line">        map.put(<span class="string">"1"</span>, <span class="string">"one"</span>);</span><br><span class="line">        map.put(<span class="string">"2"</span>, <span class="string">"two"</span>);</span><br><span class="line">        map.put(<span class="string">"3"</span>, <span class="string">"three"</span>);</span><br><span class="line">        sbuilder.append(map);</span><br><span class="line">        sbuilder.append(<span class="string">'\n'</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 追加unicode编码</span></span><br><span class="line">        sbuilder.appendCodePoint(<span class="number">0x5b57</span>);    <span class="comment">// 0x5b57是“字”的unicode编码</span></span><br><span class="line">        sbuilder.appendCodePoint(<span class="number">0x7b26</span>);    <span class="comment">// 0x7b26是“符”的unicode编码</span></span><br><span class="line">        sbuilder.appendCodePoint(<span class="number">0x7f16</span>);    <span class="comment">// 0x7f16是“编”的unicode编码</span></span><br><span class="line">        sbuilder.appendCodePoint(<span class="number">0x7801</span>);    <span class="comment">// 0x7801是“码”的unicode编码</span></span><br><span class="line"></span><br><span class="line">        System.out.printf(<span class="string">"%s\n\n"</span>, sbuilder);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">-------------------------------- testInsertAPIs -------------------------------</span><br><span class="line">&#123;3=three, 2=two, 1=one&#125;</span><br><span class="line">12345StringBUFFERStringBufferBUILDERStringBuilder12345100</span><br><span class="line">true3.141591.414ABCabcde</span><br><span class="line"></span><br><span class="line">-------------------------------- testAppendAPIs -------------------------------</span><br><span class="line">abcdeABC1.4143.14159true</span><br><span class="line">10012345StringBuilderBUILDERStringBufferBUFFERString12345</span><br><span class="line">&#123;3=three, 2=two, 1=one&#125;</span><br><span class="line">字符编码</span><br><span class="line"></span><br><span class="line">-------------------------------- testReplaceAPIs ------------------------------</span><br><span class="line">sbuilder=ABCDE3456789</span><br><span class="line">sbuilder=9876543210</span><br><span class="line">sbuilder=M123456789</span><br><span class="line"></span><br><span class="line">-------------------------------- testDeleteAPIs -------------------------------</span><br><span class="line">sbuilder=123789</span><br><span class="line">str1=23789</span><br><span class="line">str2=78</span><br><span class="line">str3=78</span><br><span class="line"></span><br><span class="line">-------------------------------- testIndexAPIs --------------------------------</span><br><span class="line">sbuilder=abcAbcABCabCaBcAbCaBCabc</span><br><span class="line">sbuilder.indexOf(&quot;bc&quot;)         = 1</span><br><span class="line">sbuilder.indexOf(&quot;bc&quot;, 5)      = 22</span><br><span class="line">sbuilder.lastIndexOf(&quot;bc&quot;)     = 22</span><br><span class="line">sbuilder.lastIndexOf(&quot;bc&quot;, 4)  = 4</span><br><span class="line"></span><br><span class="line">-------------------------------- testOtherAPIs --------------------------------</span><br><span class="line">cap=26</span><br><span class="line">c=6</span><br><span class="line">carr[0]=3 carr[1]=4 carr[2]=5 carr[3]=6</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/07/String/" rel="next" title="String">
+                <i class="fa fa-chevron-left"></i> String
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/07/Exception/" rel="prev" title="Exception">
+                Exception <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#StringBuilder-简介"><span class="nav-number">1.</span> <span class="nav-text">StringBuilder 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#StringBuilder函数列表"><span class="nav-number">2.</span> <span class="nav-text">StringBuilder函数列表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#StringBuilder-中插入-insert-相关的API"><span class="nav-number">3.</span> <span class="nav-text">StringBuilder 中插入(insert)相关的API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#StringBuilder-中追加-append-相关的API"><span class="nav-number">4.</span> <span class="nav-text">StringBuilder 中追加(append)相关的API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#StringBuilder-中替换-replace-相关的API"><span class="nav-number">5.</span> <span class="nav-text">StringBuilder 中替换(replace)相关的API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#StringBuilder-中删除-delete-相关的API"><span class="nav-number">6.</span> <span class="nav-text">StringBuilder 中删除(delete)相关的API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#StringBuilder-中index相关的API"><span class="nav-number">7.</span> <span class="nav-text">StringBuilder 中index相关的API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#StringBuilder-剩余的API"><span class="nav-number">8.</span> <span class="nav-text">StringBuilder 剩余的API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#StringBuffer简介"><span class="nav-number">9.</span> <span class="nav-text">StringBuffer简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#StringBuffer函数列表"><span class="nav-number">10.</span> <span class="nav-text">StringBuffer函数列表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#StringBuffer-示例"><span class="nav-number">11.</span> <span class="nav-text">StringBuffer 示例</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

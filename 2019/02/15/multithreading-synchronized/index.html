@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="synchronized原理在java中，每一个对象都有且仅有一个同步锁，这也意味着，同步锁是依赖对象而存在的。当调用对象的synchronized方法时，就获取了该对象的同步锁。如：synchronized(obj)，就获取了obj这个对象的同步锁。 不同线程对同步锁的访问是互斥的。即某个时间点，对象的同步锁只能被一个线程获取到。通过同步锁，我们可以在多线程中实现对”对象/方法”的互斥访问。如：">
+<meta name="keywords" content="multithreading">
+<meta property="og:type" content="article">
+<meta property="og:title" content="multithreading-synchronized">
+<meta property="og:url" content="https://jingyao066.gitee.io/2019/02/15/multithreading-synchronized/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="synchronized原理在java中，每一个对象都有且仅有一个同步锁，这也意味着，同步锁是依赖对象而存在的。当调用对象的synchronized方法时，就获取了该对象的同步锁。如：synchronized(obj)，就获取了obj这个对象的同步锁。 不同线程对同步锁的访问是互斥的。即某个时间点，对象的同步锁只能被一个线程获取到。通过同步锁，我们可以在多线程中实现对”对象/方法”的互斥访问。如：">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.328Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="multithreading-synchronized">
+<meta name="twitter:description" content="synchronized原理在java中，每一个对象都有且仅有一个同步锁，这也意味着，同步锁是依赖对象而存在的。当调用对象的synchronized方法时，就获取了该对象的同步锁。如：synchronized(obj)，就获取了obj这个对象的同步锁。 不同线程对同步锁的访问是互斥的。即某个时间点，对象的同步锁只能被一个线程获取到。通过同步锁，我们可以在多线程中实现对”对象/方法”的互斥访问。如：">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2019/02/15/multithreading-synchronized/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>multithreading-synchronized | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2019/02/15/multithreading-synchronized/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">multithreading-synchronized
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-02-15 17:44:00" itemprop="dateCreated datePublished" datetime="2019-02-15T17:44:00+08:00">2019-02-15</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/02/15/multithreading-synchronized/" class="leancloud_visitors" data-flag-title="multithreading-synchronized">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="synchronized原理"><a href="#synchronized原理" class="headerlink" title="synchronized原理"></a>synchronized原理</h1><p><strong>在java中，每一个对象都有且仅有一个同步锁，这也意味着，同步锁是依赖对象而存在的。</strong><br>当调用对象的synchronized方法时，就获取了该对象的同步锁。如：<code>synchronized(obj)</code>，就获取了obj这个对象的同步锁。</p>
+<p>不同线程对同步锁的访问是互斥的。即某个时间点，对象的同步锁只能被一个线程获取到。<br>通过同步锁，我们可以在多线程中实现对”对象/方法”的互斥访问。<br>如：现在有两个线程a和b，它们都会访问对象obj的同步锁。<br>假设，在某一时刻，线程a获取到<code>obj的同步锁</code>并在执行一些操作；而此时，线程b也企图获取<code>obj的同步锁</code>，线程b会获取失败，它必须等待，直到线程a释放了<code>obj的同步锁</code>之后，线程b才能获取到<code>obj的同步锁</code>，从而才能运行。</p>
+<h1 id="synchronized基本规则"><a href="#synchronized基本规则" class="headerlink" title="synchronized基本规则"></a>synchronized基本规则</h1><p>现将synchronized的基本规则总结为下面3条，并通过实例对它们进行说明。</p>
+<ol>
+<li>当一个线程访问<code>某对象的synchronized方法或synchronized代码块</code>时，其他线程对<code>该对象</code>的该<code>synchronized方法</code>或者<code>synchronized代码块</code>的访问将被阻塞。</li>
+<li>当一个线程访问<code>某对象的synchronized方法或synchronized代码块</code>时，其他线程仍然可以访问<code>该对象的非同步代码块</code>。</li>
+<li>当一个线程访问<code>某对象的synchronized方法或synchronized代码块</code>时，其他线程对<code>该对象</code>的其他的<code>synchronized方法</code>或者<code>synchronized代码块</code>的访问将被阻塞。</li>
+</ol>
+<h2 id="第一条"><a href="#第一条" class="headerlink" title="第一条"></a>第一条</h2><p>当一个线程访问<code>某对象</code>的<code>synchronized方法</code>或<code>synchronized代码块</code>时，其他线程对<code>该对象</code>的该<code>synchronized方法</code>或者<code>synchronized代码块</code>的访问将被阻塞。<br>下面是<code>synchronized代码块</code>对应的演示程序。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyRunable</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (<span class="keyword">this</span>)&#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">100</span>);<span class="comment">//休眠100ms</span></span><br><span class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">" loop "</span> + i);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo1</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Runnable demo = <span class="keyword">new</span> MyRunable();</span><br><span class="line">        Thread t1 = <span class="keyword">new</span> Thread(demo, <span class="string">"t1"</span>);  <span class="comment">// 新建“线程t1”, t1是基于demo这个Runnable对象</span></span><br><span class="line">        Thread t2 = <span class="keyword">new</span> Thread(demo, <span class="string">"t2"</span>);  <span class="comment">// 新建“线程t2”, t2是基于demo这个Runnable对象</span></span><br><span class="line">        t1.start();                                <span class="comment">// 启动“线程t1”</span></span><br><span class="line">        t2.start();                                <span class="comment">//启动“线程t2”</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">t1 loop 0</span><br><span class="line">t1 loop 1</span><br><span class="line">t1 loop 2</span><br><span class="line">t1 loop 3</span><br><span class="line">t1 loop 4</span><br><span class="line">t2 loop 0</span><br><span class="line">t2 loop 1</span><br><span class="line">t2 loop 2</span><br><span class="line">t2 loop 3</span><br><span class="line">t2 loop 4</span><br></pre></td></tr></table></figure></p>
+<p>说明：<br><code>run()</code>方法中存在<code>synchronized(this)代码块</code>，而且t1和t2都是基于<code>demo这个Runnable对象</code>创建的线程。<br>这就意味着，我们可以将<code>synchronized(this)</code>中的<code>this</code>看作是<code>demo这个Runnable对象</code>；因此，线程t1和t2共享<code>demo对象的同步锁</code>。<br>所以，当一个线程运行的时候，另外一个线程必须等待运行线程释放<code>demo的同步锁</code>之后才能运行。</p>
+<p>如果你确认，你搞清楚这个问题了。那我们将上面的代码进行修改，然后再运行看看结果怎么样，看看你是否会迷糊。修改后的源码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyThread</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span>(<span class="keyword">this</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;  </span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">100</span>); <span class="comment">// 休眠100ms</span></span><br><span class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">" loop "</span> + i);  </span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException ie) &#123;  </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo2</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Thread t1 = <span class="keyword">new</span> MyThread(<span class="string">"t1"</span>);  <span class="comment">// 新建“线程t1”</span></span><br><span class="line">        Thread t2 = <span class="keyword">new</span> MyThread(<span class="string">"t2"</span>);  <span class="comment">// 新建“线程t2”</span></span><br><span class="line">        t1.start();                          <span class="comment">// 启动“线程t1”</span></span><br><span class="line">        t2.start();                          <span class="comment">// 启动“线程t2” </span></span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>代码说明：<br>比较Demo1 和 Demo2，我们发现，Demo2中的MyThread类是直接继承于Thread，而且t1和t2都是MyThread子线程。<br>幸运的是，在Demo2的run()方法也调用了<code>synchronized(this)</code>，正如Demo1的run()方法也调用了<code>synchronized(this)</code>一样。<br>那么，Demo2的执行流程是不是和Demo1一样呢？</p>
+<p>结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">t1 loop 0</span><br><span class="line">t2 loop 0</span><br><span class="line">t1 loop 1</span><br><span class="line">t2 loop 1</span><br><span class="line">t1 loop 2</span><br><span class="line">t2 loop 2</span><br><span class="line">t1 loop 3</span><br><span class="line">t2 loop 3</span><br><span class="line">t1 loop 4</span><br><span class="line">t2 loop 4</span><br></pre></td></tr></table></figure></p>
+<p>结果说明：<br>如果这个结果一点也不令你感到惊讶，那么我相信你对synchronized和this的认识已经比较深刻了。否则的话，请继续阅读这里的分析。<br><code>synchronized(this)</code>中的this是指<code>当前的类对象</code>，即<code>synchronized(this)</code>所在的类对应的当前对象。它的作用是获取<code>当前对象的同步锁</code>。<br>对于Demo2中，<code>synchronized(this)</code>中的this代表的是MyThread对象，而t1和t2是两个不同的MyThread对象，因此t1和t2在执行<code>synchronized(this)</code>时，获取的是不同对象的同步锁。<br>对于Demo1对而言，<code>synchronized(this)</code>中的this代表的是MyRunable对象；t1和t2共同一个MyRunable对象，因此，一个线程获取了对象的同步锁，会造成另外一个线程等待。</p>
+<h2 id="第二条"><a href="#第二条" class="headerlink" title="第二条"></a>第二条</h2><p>当一个线程访问<code>某对象的synchronized方法或synchronized代码块</code>时，其他线程仍可以访问<code>该对象的非同步代码块</code>。<br>下面是<code>synchronized代码块</code>对应的演示程序。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Count</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 含有synchronized同步块的方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">synMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span>(<span class="keyword">this</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;  </span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">100</span>); <span class="comment">// 休眠100ms</span></span><br><span class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">" synMethod loop "</span> + i);  </span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException ie) &#123;  </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 非同步的方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">nonSynMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">                Thread.sleep(<span class="number">100</span>);</span><br><span class="line">                System.out.println(Thread.currentThread().getName() + <span class="string">" nonSynMethod loop "</span> + i);  </span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException ie) &#123;  </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo3</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> Count count = <span class="keyword">new</span> Count();</span><br><span class="line">        <span class="comment">// 新建t1, t1会调用“count对象”的synMethod()方法</span></span><br><span class="line">        Thread t1 = <span class="keyword">new</span> Thread(</span><br><span class="line">                <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                        count.synMethod();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, <span class="string">"t1"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 新建t2, t2会调用“count对象”的nonSynMethod()方法</span></span><br><span class="line">        Thread t2 = <span class="keyword">new</span> Thread(</span><br><span class="line">                <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                        count.nonSynMethod();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, <span class="string">"t2"</span>);  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        t1.start();  <span class="comment">// 启动t1</span></span><br><span class="line">        t2.start();  <span class="comment">// 启动t2</span></span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">t1 synMethod loop 0</span><br><span class="line">t2 nonSynMethod loop 0</span><br><span class="line">t1 synMethod loop 1</span><br><span class="line">t2 nonSynMethod loop 1</span><br><span class="line">t1 synMethod loop 2</span><br><span class="line">t2 nonSynMethod loop 2</span><br><span class="line">t1 synMethod loop 3</span><br><span class="line">t2 nonSynMethod loop 3</span><br><span class="line">t1 synMethod loop 4</span><br><span class="line">t2 nonSynMethod loop 4</span><br></pre></td></tr></table></figure></p>
+<p>结果说明：<br>主线程中新建了两个子线程t1和t2。t1会调用count对象的synMethod()方法，该方法内含有同步块；而t2则会调用count对象的nonSynMethod()方法，该方法不是同步方法。t1运行时，虽然调用synchronized(this)获取“count的同步锁”；但是并没有造成t2的阻塞，因为t2没有用到“count”同步锁。</p>
+<h2 id="第三条"><a href="#第三条" class="headerlink" title="第三条"></a>第三条</h2><p>当一个线程访问<code>某对象的synchronized方法或synchronized代码块</code>时，其他线程对<code>该对象的其他synchronized方法或synchronized代码块</code>的访问将被阻塞。<br>我们将上面的例子中的nonSynMethod()方法体的也用synchronized(this)修饰。修改后的源码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Count</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 含有synchronized同步块的方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">synMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span>(<span class="keyword">this</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;  </span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">100</span>); <span class="comment">// 休眠100ms</span></span><br><span class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">" synMethod loop "</span> + i);  </span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException ie) &#123;  </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 也包含synchronized同步块的方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">nonSynMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span>(<span class="keyword">this</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;  </span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">100</span>);</span><br><span class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">" nonSynMethod loop "</span> + i);  </span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException ie) &#123;  </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo3</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> Count count = <span class="keyword">new</span> Count();</span><br><span class="line">        <span class="comment">// 新建t1, t1会调用“count对象”的synMethod()方法</span></span><br><span class="line">        Thread t1 = <span class="keyword">new</span> Thread(</span><br><span class="line">                <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                        count.synMethod();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, <span class="string">"t1"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 新建t2, t2会调用“count对象”的nonSynMethod()方法</span></span><br><span class="line">        Thread t2 = <span class="keyword">new</span> Thread(</span><br><span class="line">                <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                        count.nonSynMethod();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, <span class="string">"t2"</span>);  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        t1.start();  <span class="comment">// 启动t1</span></span><br><span class="line">        t2.start();  <span class="comment">// 启动t2</span></span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">t1 synMethod loop 0</span><br><span class="line">t1 synMethod loop 1</span><br><span class="line">t1 synMethod loop 2</span><br><span class="line">t1 synMethod loop 3</span><br><span class="line">t1 synMethod loop 4</span><br><span class="line">t2 nonSynMethod loop 0</span><br><span class="line">t2 nonSynMethod loop 1</span><br><span class="line">t2 nonSynMethod loop 2</span><br><span class="line">t2 nonSynMethod loop 3</span><br><span class="line">t2 nonSynMethod loop 4</span><br></pre></td></tr></table></figure></p>
+<p>结果说明：<br>主线程中新建了两个子线程t1和t2。t1和t2运行时都调用<code>synchronized(this)</code>，这个this是Count对象(count)，而t1和t2共用count。因此，在t1运行时，t2会被阻塞，等待t1运行释放“count对象的同步锁”，t2才能运行。<br>值得注意的是，虽然是先启动的t1，有时t2也会先于t1运行。</p>
+<h1 id="synchronized方法-和-synchronized代码块"><a href="#synchronized方法-和-synchronized代码块" class="headerlink" title="synchronized方法 和 synchronized代码块"></a>synchronized方法 和 synchronized代码块</h1><p><code>synchronized方法</code>是用synchronized修饰方法，而<code>synchronized代码块</code>则是用synchronized修饰代码块。<br><strong>synchronized方法</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public synchronized void foo1() &#123;</span><br><span class="line">    System.out.println(&quot;synchronized methoed&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>synchronized代码块</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public void foo2() &#123;</span><br><span class="line">    synchronized (this) &#123;</span><br><span class="line">        System.out.println(&quot;synchronized methoed&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>synchronized代码块中的this是指当前对象。也可以将this替换成其他对象，例如将this替换成obj，则foo2()在执行synchronized(obj)时就获取的是obj的同步锁。</p>
+<p>synchronized代码块可以更精确的控制冲突限制访问区域，有时候表现更高效率。下面通过一个示例来演示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">// Demo4.java的源码</span><br><span class="line">public class Demo4 &#123;</span><br><span class="line"></span><br><span class="line">    public synchronized void synMethod() &#123;</span><br><span class="line">        for(int i=0; i&lt;1000000; i++)</span><br><span class="line">            ;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void synBlock() &#123;</span><br><span class="line">        synchronized( this ) &#123;</span><br><span class="line">            for(int i=0; i&lt;1000000; i++)</span><br><span class="line">                ;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Demo4 demo = new Demo4();</span><br><span class="line"></span><br><span class="line">        long start, diff;</span><br><span class="line">        start = System.currentTimeMillis();                // 获取当前时间(millis)</span><br><span class="line">        demo.synMethod();                                // 调用“synchronized方法”</span><br><span class="line">        diff = System.currentTimeMillis() - start;        // 获取“时间差值”</span><br><span class="line">        System.out.println(&quot;synMethod() : &quot;+ diff);</span><br><span class="line">        </span><br><span class="line">        start = System.currentTimeMillis();                // 获取当前时间(millis)</span><br><span class="line">        demo.synBlock();                                // 调用“synchronized方法块”</span><br><span class="line">        diff = System.currentTimeMillis() - start;        // 获取“时间差值”</span><br><span class="line">        System.out.println(&quot;synBlock()  : &quot;+ diff);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">synMethod() : 10</span><br><span class="line">synBlock()  : 7</span><br></pre></td></tr></table></figure></p>
+<p>经过多次实验(10次运行上边的代码)，发现有5次synchronized代码块胜出，3次持平，2次失败。</p>
+<h1 id="实例锁和全局锁"><a href="#实例锁和全局锁" class="headerlink" title="实例锁和全局锁"></a>实例锁和全局锁</h1><p>实例锁：锁在某一个实例对象上，如果该类是单例，那么该锁也有全局锁的功能。实例锁对应的就是synchronized关键字。<br>全局锁：该锁针对的是类，无论实例多少个对象，那么线程都共享该锁。全局锁对应的就是static synchronized（或者是锁在该类的class或者classloader对象上）。</p>
+<p>关于实例锁和全局锁有一个很形象的例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pulbic <span class="class"><span class="keyword">class</span> <span class="title">Something</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">isSyncA</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">isSyncB</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">cSyncA</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">cSyncB</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>假设，Something有两个实例x和y。分析下面4组表达式获取的锁的情况。<br>(01) x.isSyncA()与x.isSyncB()<br>(02) x.isSyncA()与y.isSyncA()<br>(03) x.cSyncA()与y.cSyncB()<br>(04) x.isSyncA()与Something.cSyncA()</p>
+<p><strong>(01) 不能被同时访问。</strong>因为isSyncA()和isSyncB()都是访问同一个对象(对象x)的同步锁。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// LockTest1.java的源码</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Something</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">isSyncA</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">                Thread.sleep(<span class="number">100</span>); <span class="comment">// 休眠100ms</span></span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">" : isSyncA"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException ie) &#123;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">isSyncB</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">                Thread.sleep(<span class="number">100</span>); <span class="comment">// 休眠100ms</span></span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">" : isSyncB"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException ie) &#123;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LockTest1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Something x = <span class="keyword">new</span> Something();</span><br><span class="line">    Something y = <span class="keyword">new</span> Something();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 比较(01) x.isSyncA()与x.isSyncB() </span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 新建t11, t11会调用 x.isSyncA()</span></span><br><span class="line">        Thread t11 = <span class="keyword">new</span> Thread(</span><br><span class="line">                <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                        x.isSyncA();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, <span class="string">"t11"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 新建t12, t12会调用 x.isSyncB()</span></span><br><span class="line">        Thread t12 = <span class="keyword">new</span> Thread(</span><br><span class="line">                <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                        x.isSyncB();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, <span class="string">"t12"</span>);  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        t11.start();  <span class="comment">// 启动t11</span></span><br><span class="line">        t12.start();  <span class="comment">// 启动t12</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        LockTest1 demo = <span class="keyword">new</span> LockTest1();</span><br><span class="line">        demo.test1();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">t11 : isSyncA</span><br><span class="line">t11 : isSyncA</span><br><span class="line">t11 : isSyncA</span><br><span class="line">t11 : isSyncA</span><br><span class="line">t11 : isSyncA</span><br><span class="line">t12 : isSyncB</span><br><span class="line">t12 : isSyncB</span><br><span class="line">t12 : isSyncB</span><br><span class="line">t12 : isSyncB</span><br><span class="line">t12 : isSyncB</span><br></pre></td></tr></table></figure></p>
+<p><strong>(02) 可以同时被访问。</strong>因为访问的不是同一个对象的同步锁，x.isSyncA()访问的是x的同步锁，而y.isSyncA()访问的是y的同步锁。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// LockTest2.java的源码</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Something</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">isSyncA</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">                Thread.sleep(<span class="number">100</span>); <span class="comment">// 休眠100ms</span></span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">" : isSyncA"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException ie) &#123;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">isSyncB</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">                Thread.sleep(<span class="number">100</span>); <span class="comment">// 休眠100ms</span></span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">" : isSyncB"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException ie) &#123;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">cSyncA</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">                Thread.sleep(<span class="number">100</span>); <span class="comment">// 休眠100ms</span></span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">" : cSyncA"</span>);</span><br><span class="line">            &#125; </span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException ie) &#123;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">cSyncB</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">                Thread.sleep(<span class="number">100</span>); <span class="comment">// 休眠100ms</span></span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">" : cSyncB"</span>);</span><br><span class="line">            &#125; </span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException ie) &#123;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LockTest2</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Something x = <span class="keyword">new</span> Something();</span><br><span class="line">    Something y = <span class="keyword">new</span> Something();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 比较(02) x.isSyncA()与y.isSyncA()</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 新建t21, t21会调用 x.isSyncA()</span></span><br><span class="line">        Thread t21 = <span class="keyword">new</span> Thread(</span><br><span class="line">                <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                        x.isSyncA();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, <span class="string">"t21"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 新建t22, t22会调用 x.isSyncB()</span></span><br><span class="line">        Thread t22 = <span class="keyword">new</span> Thread(</span><br><span class="line">                <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                        y.isSyncA();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, <span class="string">"t22"</span>);  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        t21.start();  <span class="comment">// 启动t21</span></span><br><span class="line">        t22.start();  <span class="comment">// 启动t22</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        LockTest2 demo = <span class="keyword">new</span> LockTest2();</span><br><span class="line"></span><br><span class="line">        demo.test2();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">t21 : isSyncA</span><br><span class="line">t22 : isSyncA</span><br><span class="line">t21 : isSyncA</span><br><span class="line">t22 : isSyncA</span><br><span class="line">t21 : isSyncA</span><br><span class="line">t22 : isSyncA</span><br><span class="line">t21 : isSyncA</span><br><span class="line">t22 : isSyncA</span><br><span class="line">t21 : isSyncA</span><br><span class="line">t22 : isSyncA</span><br></pre></td></tr></table></figure></p>
+<p><strong>(03) 不能被同时访问。</strong>因为cSyncA()和cSyncB()都是static类型，x.cSyncA()相当于Something.isSyncA()，y.cSyncB()相当于Something.isSyncB()，因此它们共用一个同步锁，不能被同时访问。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// LockTest3.java的源码</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Something</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">isSyncA</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">                Thread.sleep(<span class="number">100</span>); <span class="comment">// 休眠100ms</span></span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">" : isSyncA"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException ie) &#123;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">isSyncB</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">                Thread.sleep(<span class="number">100</span>); <span class="comment">// 休眠100ms</span></span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">" : isSyncB"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException ie) &#123;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">cSyncA</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">                Thread.sleep(<span class="number">100</span>); <span class="comment">// 休眠100ms</span></span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">" : cSyncA"</span>);</span><br><span class="line">            &#125; </span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException ie) &#123;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">cSyncB</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">                Thread.sleep(<span class="number">100</span>); <span class="comment">// 休眠100ms</span></span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">" : cSyncB"</span>);</span><br><span class="line">            &#125; </span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException ie) &#123;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LockTest3</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Something x = <span class="keyword">new</span> Something();</span><br><span class="line">    Something y = <span class="keyword">new</span> Something();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 比较(03) x.cSyncA()与y.cSyncB()</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">test3</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 新建t31, t31会调用 x.isSyncA()</span></span><br><span class="line">        Thread t31 = <span class="keyword">new</span> Thread(</span><br><span class="line">                <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                        x.cSyncA();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, <span class="string">"t31"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 新建t32, t32会调用 x.isSyncB()</span></span><br><span class="line">        Thread t32 = <span class="keyword">new</span> Thread(</span><br><span class="line">                <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                        y.cSyncB();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, <span class="string">"t32"</span>);  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        t31.start();  <span class="comment">// 启动t31</span></span><br><span class="line">        t32.start();  <span class="comment">// 启动t32</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        LockTest3 demo = <span class="keyword">new</span> LockTest3();</span><br><span class="line"></span><br><span class="line">        demo.test3();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">t31 : cSyncA</span><br><span class="line">t31 : cSyncA</span><br><span class="line">t31 : cSyncA</span><br><span class="line">t31 : cSyncA</span><br><span class="line">t31 : cSyncA</span><br><span class="line">t32 : cSyncB</span><br><span class="line">t32 : cSyncB</span><br><span class="line">t32 : cSyncB</span><br><span class="line">t32 : cSyncB</span><br><span class="line">t32 : cSyncB</span><br></pre></td></tr></table></figure></p>
+<p><strong>(04) 可以被同时访问。</strong>因为isSyncA()是实例方法，x.isSyncA()使用的是对象x的锁；而cSyncA()是静态方法，Something.cSyncA()可以理解对使用的是“类的锁”。因此，它们是可以被同时访问的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// LockTest4.java的源码</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Something</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">isSyncA</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">                Thread.sleep(<span class="number">100</span>); <span class="comment">// 休眠100ms</span></span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">" : isSyncA"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException ie) &#123;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">isSyncB</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">                Thread.sleep(<span class="number">100</span>); <span class="comment">// 休眠100ms</span></span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">" : isSyncB"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException ie) &#123;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">cSyncA</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">                Thread.sleep(<span class="number">100</span>); <span class="comment">// 休眠100ms</span></span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">" : cSyncA"</span>);</span><br><span class="line">            &#125; </span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException ie) &#123;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">cSyncB</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">                Thread.sleep(<span class="number">100</span>); <span class="comment">// 休眠100ms</span></span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">" : cSyncB"</span>);</span><br><span class="line">            &#125; </span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException ie) &#123;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LockTest4</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Something x = <span class="keyword">new</span> Something();</span><br><span class="line">    Something y = <span class="keyword">new</span> Something();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 比较(04) x.isSyncA()与Something.cSyncA()</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">test4</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 新建t41, t41会调用 x.isSyncA()</span></span><br><span class="line">        Thread t41 = <span class="keyword">new</span> Thread(</span><br><span class="line">                <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                        x.isSyncA();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, <span class="string">"t41"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 新建t42, t42会调用 x.isSyncB()</span></span><br><span class="line">        Thread t42 = <span class="keyword">new</span> Thread(</span><br><span class="line">                <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                        Something.cSyncA();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, <span class="string">"t42"</span>);  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        t41.start();  <span class="comment">// 启动t41</span></span><br><span class="line">        t42.start();  <span class="comment">// 启动t42</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        LockTest4 demo = <span class="keyword">new</span> LockTest4();</span><br><span class="line"></span><br><span class="line">        demo.test4();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">t41 : isSyncA</span><br><span class="line">t42 : cSyncA</span><br><span class="line">t41 : isSyncA</span><br><span class="line">t42 : cSyncA</span><br><span class="line">t41 : isSyncA</span><br><span class="line">t42 : cSyncA</span><br><span class="line">t41 : isSyncA</span><br><span class="line">t42 : cSyncA</span><br><span class="line">t41 : isSyncA</span><br><span class="line">t42 : cSyncA</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/multithreading/" rel="tag"># multithreading</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/04/multithreading-basic/" rel="next" title="multithreading-basic">
+                <i class="fa fa-chevron-left"></i> multithreading-basic
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/05/docker/" rel="prev" title="docker">
+                docker <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#synchronized原理"><span class="nav-number">1.</span> <span class="nav-text">synchronized原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#synchronized基本规则"><span class="nav-number">2.</span> <span class="nav-text">synchronized基本规则</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一条"><span class="nav-number">2.1.</span> <span class="nav-text">第一条</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二条"><span class="nav-number">2.2.</span> <span class="nav-text">第二条</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三条"><span class="nav-number">2.3.</span> <span class="nav-text">第三条</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#synchronized方法-和-synchronized代码块"><span class="nav-number">3.</span> <span class="nav-text">synchronized方法 和 synchronized代码块</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实例锁和全局锁"><span class="nav-number">4.</span> <span class="nav-text">实例锁和全局锁</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

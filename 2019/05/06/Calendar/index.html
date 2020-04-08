@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Java 的Calendar，Date和DateFormat的关系图如下： 说明：  milliseconds 表示毫秒。milliseconds = “实际时间” - “1970-01-01 00:00:00”。Calendar 和 Date依赖于 milliseconds，从而表示时间。  Calendar表示日期/时间。它是一个抽象类，依赖于milliseconds。GregorianCal">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Calendar">
+<meta property="og:url" content="https://jingyao066.gitee.io/2019/05/06/Calendar/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="Java 的Calendar，Date和DateFormat的关系图如下： 说明：  milliseconds 表示毫秒。milliseconds = “实际时间” - “1970-01-01 00:00:00”。Calendar 和 Date依赖于 milliseconds，从而表示时间。  Calendar表示日期/时间。它是一个抽象类，依赖于milliseconds。GregorianCal">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/05/06/Calendar/1.jpg">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.239Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Calendar">
+<meta name="twitter:description" content="Java 的Calendar，Date和DateFormat的关系图如下： 说明：  milliseconds 表示毫秒。milliseconds = “实际时间” - “1970-01-01 00:00:00”。Calendar 和 Date依赖于 milliseconds，从而表示时间。  Calendar表示日期/时间。它是一个抽象类，依赖于milliseconds。GregorianCal">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2019/05/06/Calendar/1.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2019/05/06/Calendar/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Calendar | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2019/05/06/Calendar/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Calendar
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-06 17:56:57" itemprop="dateCreated datePublished" datetime="2019-05-06T17:56:57+08:00">2019-05-06</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/05/06/Calendar/" class="leancloud_visitors" data-flag-title="Calendar">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Java 的Calendar，Date和DateFormat的关系图如下：<br><img src="/2019/05/06/Calendar/1.jpg" alt=""></p>
+<p>说明：</p>
+<ul>
+<li><p>milliseconds 表示毫秒。<br>milliseconds = “实际时间” - “1970-01-01 00:00:00”。Calendar 和 Date依赖于 milliseconds，从而表示时间。</p>
+</li>
+<li><p>Calendar表示日期/时间。<br>它是一个抽象类，依赖于milliseconds。GregorianCalendar是Calendar的子类，通常我们通过Calendar.getInstance() 获取Calendar实例时，实际上返回的是 GregorianCalendar 对象。<br>Calendar和Locale关联，而Locale代表区域；Locale的值不同时，Calendar的日期/时间也不同。<br>Calendar和TimeZone关联，而TimeZone代表时区；不同的时区，Calendar的日期/时间也不同。</p>
+</li>
+<li><p>Date 表示日期/时间。<br>它也依赖于 milliseconds实现。<br>在 JDK 1.1 之前，通常是通过Data操作“年月日时分秒”。不过，由于Date的相关 API 不易于实现国际化。从 JDK 1.1 开始，应该使用 Calendar 类来操作“年月日时分秒”，同时可以通过 DateFormat 类来格式化和解析日期字符串。Date 中的相应方法已废弃。</p>
+</li>
+<li><p>DateFormat是格式化/解析“日期/时间”的工具类。<br>它是Date的格式化工具，它能帮助我们格式化Date，进而将Date转换成我们想要的String字符串供我们使用。<br>它是一个抽象类。通常，我们通过getInstance(), getDateInstance()和getDateTimeInstance() 等获取DateFormat实例时；实际上是返回的SimpleDateFormat对象。</p>
+</li>
+</ul>
+<h1 id="Calendar"><a href="#Calendar" class="headerlink" title="Calendar"></a>Calendar</h1><p><code>public abstract class Calendar implements Serializable, Cloneable, Comparable&lt;Calendar&gt; {}</code><br>Calendar 是一个抽象类。<br>它的实现，采用了设计模式中的工厂方法。表现在：当我们获取Calendar实例时，Calendar会根据传入的参数来返回相应的Calendar对象。获取Calendar实例，有以下两种方式：</p>
+<ul>
+<li>当我们通过 Calendar.getInstance() 获取日历时，默认的是返回的一个GregorianCalendar对象。<br>  GregorianCalendar是Calendar的一个实现类，它提供了世界上大多数国家/地区使用的标准日历系统。</li>
+<li>当我们通过<br>Calendar.getInstance(TimeZone timezone, Locale locale)或<br>Calendar.getInstance(TimeZone timezone)或<br>Calendar.getInstance(Locale locale)获取日历时，是返回“对应时区(zone) 或 地区(local)等所使用的日历”。例如，若是日本，则返回JapaneseImperialCalendar对象。</li>
+</ul>
+<p>源码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Calendar <span class="title">getInstance</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 调用createCalendar()创建日历</span></span><br><span class="line">    Calendar cal = createCalendar(TimeZone.getDefaultRef(), Locale.getDefault());</span><br><span class="line">    cal.sharedZone = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">return</span> cal;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Calendar <span class="title">getInstance</span><span class="params">(TimeZone zone)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 调用createCalendar()创建日历</span></span><br><span class="line">    <span class="keyword">return</span> createCalendar(zone, Locale.getDefault());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Calendar <span class="title">getInstance</span><span class="params">(Locale aLocale)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 调用createCalendar()创建日历</span></span><br><span class="line">    Calendar cal = createCalendar(TimeZone.getDefaultRef(), aLocale);</span><br><span class="line">    cal.sharedZone = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">return</span> cal;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Calendar <span class="title">getInstance</span><span class="params">(TimeZone zone,</span></span></span><br><span class="line"><span class="function"><span class="params">                   Locale aLocale)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 调用createCalendar()创建日历</span></span><br><span class="line">    <span class="keyword">return</span> createCalendar(zone, aLocale);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Calendar <span class="title">createCalendar</span><span class="params">(TimeZone zone,</span></span></span><br><span class="line"><span class="function"><span class="params">                   Locale aLocale)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// (01) 若地区是“th”，则返回BuddhistCalendar对象</span></span><br><span class="line">    <span class="comment">// (02) 若地区是“JP”，则返回JapaneseImperialCalendar对象</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="string">"th"</span>.equals(aLocale.getLanguage())</span><br><span class="line">        &amp;&amp; (<span class="string">"TH"</span>.equals(aLocale.getCountry()))) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> sun.util.BuddhistCalendar(zone, aLocale);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"JP"</span>.equals(aLocale.getVariant())</span><br><span class="line">       &amp;&amp; <span class="string">"JP"</span>.equals(aLocale.getCountry())</span><br><span class="line">       &amp;&amp; <span class="string">"ja"</span>.equals(aLocale.getLanguage())) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> JapaneseImperialCalendar(zone, aLocale);</span><br><span class="line">    &#125;        </span><br><span class="line"></span><br><span class="line">    <span class="comment">// (03) 否则，返回GregorianCalendar对象</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> GregorianCalendar(zone, aLocale);    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当我们获取Calendar实例之后，就可以通过Calendar提供的一些列方法来操作日历。</p>
+<h1 id="Calendar-原理和思想"><a href="#Calendar-原理和思想" class="headerlink" title="Calendar 原理和思想"></a>Calendar 原理和思想</h1><p>我们使用Calendar，无非是操作Calendar的“年、月、日、星期、时、分、秒”这些字段。</p>
+<h2 id="Calendar-各个字段值的来源"><a href="#Calendar-各个字段值的来源" class="headerlink" title="Calendar 各个字段值的来源"></a>Calendar 各个字段值的来源</h2><p>本质上，Calendar就是保存了一个时间。如下定义：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// time 是当前时间，单位是毫秒。</span></span><br><span class="line"><span class="comment">// 它是当前时间距离“January 1, 1970, 0:00:00 GMT”的差值。</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">long</span> time;</span><br></pre></td></tr></table></figure></p>
+<p>Calendar就是根据 time 计算出 “Calendar的年、月、日、星期、时、分、秒”等等信息。</p>
+<h2 id="Calendar-各个字段的定义和初始化"><a href="#Calendar-各个字段的定义和初始化" class="headerlink" title="Calendar 各个字段的定义和初始化"></a>Calendar 各个字段的定义和初始化</h2><p>Calendar 的“年、月、日、星期、时、分、秒”这些信息，一共是17个字段。<br>我们使用Calendar，无非是就是使用这17个字段。它们的定义如下：<br>(字段0) public final static int ERA = 0;<br>说明：纪元。<br>取值：只能为0 或 1。0表示BC(“before Christ”,即公元前)，1表示AD(拉丁语“Anno Domini”,即公元)。</p>
+<p>(字段1) public final static int YEAR = 1;<br>说明：年。</p>
+<p>(字段2) public final static int MONTH = 2;<br>说明：月<br>取值：可以为，JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER, UNDECIMBER。<br>         其中第一个月是 JANUARY，它为 0。</p>
+<p>(字段3) public final static int WEEK_OF_YEAR = 3;<br>说明：当前日期在本年中对应第几个星期。一年中第一个星期的值为 1。</p>
+<p>(字段4) public final static int WEEK_OF_MONTH = 4;<br>说明：当前日期在本月中对应第几个星期。一个月中第一个星期的值为 1。</p>
+<p>(字段5) public final static int DATE = 5;<br>说明：日。一个月中第一天的值为 1。</p>
+<p>(字段5) public final static int DAY_OF_MONTH = 5;<br>说明：同“DATE”，表示“日”。</p>
+<p>(字段6) public final static int DAY_OF_YEAR = 6;<br>说明：当前日期在本年中对应第几天。一年中第一天的值为 1。</p>
+<p>(字段7) public final static int DAY_OF_WEEK = 7;<br>说明：星期几。<br>取值：可以为，SUNDAY、MONDAY、TUESDAY、WEDNESDAY、THURSDAY、FRIDAY 和 SATURDAY。<br>         其中，SUNDAY为1，MONDAY为2，依次类推。</p>
+<p>(字段8) public final static int DAY_OF_WEEK_IN_MONTH = 8;<br>说明：当前月中的第几个星期。<br>取值：DAY_OF_MONTH 1 到 7 总是对应于 DAY_OF_WEEK_IN_MONTH 1；8 到 14 总是对应于 DAY_OF_WEEK_IN_MONTH 2，依此类推。</p>
+<p>(字段9) public final static int AM_PM = 9;<br>说明：上午 还是 下午<br>取值：可以是AM 或 PM。AM为0,表示上午；PM为1,表示下午。</p>
+<p>(字段10) public final static int HOUR = 10;<br>说明：指示一天中的第几小时。<br>         HOUR 用于 12 小时制时钟 (0 - 11)。中午和午夜用 0 表示，不用 12 表示。</p>
+<p>(字段11) public final static int HOUR_OF_DAY = 11;<br>说明：指示一天中的第几小时。<br>         HOUR_OF_DAY 用于 24 小时制时钟。例如，在 10:04:15.250 PM 这一时刻，HOUR_OF_DAY 为 22。</p>
+<p>(字段12) public final static int MINUTE = 12;<br>说明：一小时中的第几分钟。<br>例如，在 10:04:15.250 PM这一时刻，MINUTE 为 4。</p>
+<p>(字段13) public final static int SECOND = 13;<br>说明：一分钟中的第几秒。<br>例如，在 10:04:15.250 PM 这一时刻，SECOND 为 15。</p>
+<p>(字段14) public final static int MILLISECOND = 14;<br>说明：一秒中的第几毫秒。<br>例如，在 10:04:15.250 PM 这一时刻，MILLISECOND 为 250。</p>
+<p>(字段15) public final static int ZONE_OFFSET = 15;<br>说明：毫秒为单位指示距 GMT 的大致偏移量。</p>
+<p>(字段16) public final static int DST_OFFSET = 16;<br>说明：毫秒为单位指示夏令时的偏移量。</p>
+<p>public final static int FIELD_COUNT = 17;</p>
+<p>这17个字段是保存在int数组中。定义如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 保存这17个字段的数组</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">int</span>           fields[];</span><br><span class="line"><span class="comment">// 数组的定义函数</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="title">Calendar</span><span class="params">(TimeZone zone, Locale aLocale)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 初始化“fields数组”</span></span><br><span class="line">    fields = <span class="keyword">new</span> <span class="keyword">int</span>[FIELD_COUNT];</span><br><span class="line">    isSet = <span class="keyword">new</span> <span class="keyword">boolean</span>[FIELD_COUNT];</span><br><span class="line">    stamp = <span class="keyword">new</span> <span class="keyword">int</span>[FIELD_COUNT];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.zone = zone;</span><br><span class="line">    setWeekCountData(aLocale);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>protected Calendar(TimeZone zone, Locale aLocale) 这是Calendar的构造函数。它会被它的子类的构造函数调用到，从而新建“保存Calendar的17个字段数据”的数组。</p>
+<h2 id="Calendar各个字段值的计算"><a href="#Calendar各个字段值的计算" class="headerlink" title="Calendar各个字段值的计算"></a>Calendar各个字段值的计算</h2><p>下面以get(int field)为例，简要的说明Calendar的17个字段的计算和操作。<br>get(int field)是获取“field”字段的值。它的定义如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">get</span><span class="params">(<span class="keyword">int</span> field)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 计算各个字段的值</span></span><br><span class="line">    complete();</span><br><span class="line">    <span class="comment">// 返回field字段的值</span></span><br><span class="line">    <span class="keyword">return</span> internalGet(field);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>说明：<br>get(int field)的代码很简单。先通过 complete() 计算各个字段的值，然后在通过 internalGet(field) 返回“field字段的值”。</p>
+<p>complete() 的作用就是计算Calendar各个字段的值。它定义在Calendar.java中，代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">complete</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!isTimeSet)</span><br><span class="line">    updateTime();</span><br><span class="line">    <span class="keyword">if</span> (!areFieldsSet || !areAllFieldsSet) &#123;</span><br><span class="line">        computeFields(); <span class="comment">// fills in unset fields</span></span><br><span class="line">        areAllFieldsSet = areFieldsSet = <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">updateTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    computeTime();</span><br><span class="line">    isTimeSet = <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>updateTime() 调用到的 computeTime() 定义在 Calendar.java的实现类中。下面，我列出GregorianCalendar.java中computeTime()的实现<br>略…自己参考源码</p>
+<p>下面，我们看看internalGet(field)的定义。如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">internalGet</span><span class="params">(<span class="keyword">int</span> field)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fields[field];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从中，我们就看出，get(int field) 最终是通过 internalGet(int field)来返回值的。<br>而 internalGet(int field) ，实际上返回的是field数组中的第field个元素。这就正好和Calendar的17个元素所对应了！</p>
+<p>总之，我们需要了解的就是：Calendar就是以一个time(毫秒)为基数，而计算出“年月日时分秒”等，从而方便我们对“年月日时分秒”等进行操作。下面，介绍以下Calendar提供的相关操作函数。</p>
+<h1 id="Calendar函数接口"><a href="#Calendar函数接口" class="headerlink" title="Calendar函数接口"></a>Calendar函数接口</h1><p>Calendar的17个字段的公共接口<br>Calendar的这17个字段，都支持下面的公共函数接口。<br>这些公共接口的使用示例，请参考下方测试类CalendarTest.java 示例中的 testAllCalendarSections() 函数。</p>
+<h2 id="getMaximum-int-field"><a href="#getMaximum-int-field" class="headerlink" title="getMaximum(int field)"></a>getMaximum(int field)</h2><p>作用：获取“字段的最大值”。注意“对比它和 getActualMaximum() 的区别”。<br>示例：以“MONTH”字段来说。使用方法为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取Calendar实例</span></span><br><span class="line">Calendar cal = Calendar.getInstance();</span><br><span class="line"><span class="comment">// 获取MONTH的最大值</span></span><br><span class="line"><span class="keyword">int</span> max = cal.getMaximum(Calendar.MONTH);</span><br></pre></td></tr></table></figure></p>
+<p>若要获取其它字段的最大值，只需要将示例中的MONTH相应的替换成其它字段名即可。</p>
+<h2 id="getActualMaximum-int-field"><a href="#getActualMaximum-int-field" class="headerlink" title="getActualMaximum(int field)"></a>getActualMaximum(int field)</h2><p>作用：获取“当前日期下，该字段的最大值”。<br>示例：以“MONTH”字段来说。使用方法为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取Calendar实例</span></span><br><span class="line">Calendar cal = Calendar.getInstance();</span><br><span class="line"><span class="comment">// 获取当前MONTH的最大值</span></span><br><span class="line"><span class="keyword">int</span> max = cal.getActualMaximum(Calendar.MONTH);</span><br></pre></td></tr></table></figure></p>
+<p>若要获取其它字段的最大值，只需要将示例中的MONTH相应的替换成其它字段名即可。</p>
+<p>注意：对比getActualMaximum() 和 getMaximum() 的区别。参考下面的对比示例，</p>
+<ul>
+<li>getMaximum() 获取的“字段最大值”，是指在综合所有的日期，在所有这些日期中得出的“字段最大值”。<pre><code>例如，getMaximum(Calendar.DATE)的目的是“获取‘日的最大值’”。综合所有的日期，得出一个月最多有31天。因此，getMaximum(Calendar.DATE)的返回值是“31”！
+</code></pre></li>
+<li>getActualMaximum() 获取的“当前日期时，该字段的最大值”。<br>   例如，当日期为2013-09-01时，getActualMaximum(Calendar.DATE)是获取“日的最大值”是“30”。当前日期是9月份，而9月只有30天。因此，getActualMaximum(Calendar.DATE)的返回值是“30”！</li>
+</ul>
+<h2 id="getMinimum-int-field"><a href="#getMinimum-int-field" class="headerlink" title="getMinimum(int field)"></a>getMinimum(int field)</h2><p>作用：获取“字段的最小值”。注意“对比它和 getActualMinimum() 的区别”。<br>示例：以“MONTH”字段来说。使用方法为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取Calendar实例</span></span><br><span class="line">Calendar cal = Calendar.getInstance();</span><br><span class="line"><span class="comment">// 获取MONTH的最小值</span></span><br><span class="line"><span class="keyword">int</span> min = cal.getMinimum(Calendar.MONTH);</span><br></pre></td></tr></table></figure></p>
+<p>若要获取其它字段的最小值，只需要将示例中的MONTH相应的替换成其它字段名即可。</p>
+<h2 id="getActualMinimum-int-field"><a href="#getActualMinimum-int-field" class="headerlink" title="getActualMinimum(int field)"></a>getActualMinimum(int field)</h2><p>作用：获取“当前日期下，该字段的最小值”。<br>示例：以“MONTH”字段来说。使用方法为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取Calendar实例</span></span><br><span class="line">Calendar cal = Calendar.getInstance();</span><br><span class="line"><span class="comment">// 获取MONTH的最小值</span></span><br><span class="line"><span class="keyword">int</span> min = cal.getMinimum(Calendar.MONTH);</span><br></pre></td></tr></table></figure></p>
+<p>若要获取其它字段的最小值，只需要将示例中的MONTH相应的替换成其它字段名即可。<br>注意：在Java默认的Calendar中，虽然 getMinimum() 和 getActualMinimum() 的含义不同；但是，它们的返回值是一样的。因为Calendar的默认是返回GregorianCalendar对象，而在GregorianCalendar.java中，getMinimum() 和 getActualMinimum() 返回值一样。</p>
+<h2 id="get-int-field"><a href="#get-int-field" class="headerlink" title="get(int field)"></a>get(int field)</h2><p>作用：获取“字段的当前值”。获取field字段的当前值。<br>示例：以“MONTH”字段来说。“获取MONTH的当前值”的方法为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取Calendar实例</span></span><br><span class="line">Calendar cal = Calendar.getInstance();</span><br><span class="line"><span class="comment">// 获取“cal日历”的当前MONTH值</span></span><br><span class="line"><span class="keyword">int</span> MONTH = cal.get(Calendar.MONTH);</span><br></pre></td></tr></table></figure></p>
+<p>若要获取其它字段的当前值，只需要将示例中的MONTH相应的替换成其它字段名即可。</p>
+<h2 id="set-int-field-int-value"><a href="#set-int-field-int-value" class="headerlink" title="set(int field, int value)"></a>set(int field, int value)</h2><p>作用：设置“字段的当前值”。设置field字段的当前值为value<br>示例：以“MONTH”字段来说。“设置MONTH的当前值”的方法为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取Calendar实例</span></span><br><span class="line">Calendar cal = Calendar.getInstance();</span><br><span class="line"><span class="comment">// 设置“cal日历”的当前MONTH值为 1988年</span></span><br><span class="line">cal.set(Calendar.MONTH, <span class="number">1988</span>);</span><br></pre></td></tr></table></figure></p>
+<p>说明：</p>
+<ul>
+<li>1988是想要设置的MONTH的当前值。这个设置值必须是整数。</li>
+<li>若要设置其它字段的当前值，只需要将示例中的MONTH相应的替换成其它字段名即可。</li>
+</ul>
+<h2 id="add-int-field-int-value"><a href="#add-int-field-int-value" class="headerlink" title="add(int field, int value)"></a>add(int field, int value)</h2><p>作用：给“字段的当前值”添加值。给field字段的当前值添加value。<br>示例：以“MONTH”字段来说。方法如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取Calendar实例，并设置日期为“2013-09-01”</span></span><br><span class="line">Calendar cal = Calendar.getInstance();</span><br><span class="line">cal.set(Calendar.YEAR, <span class="number">2013</span>);</span><br><span class="line">cal.set(Calendar.MONTH, <span class="number">8</span>);</span><br><span class="line">cal.set(Calendar.DATE, <span class="number">1</span>);</span><br><span class="line"><span class="comment">// 给“cal日历”的当前MONTH值 “添加-10”</span></span><br><span class="line">cal.add(Calendar.MONTH, -<span class="number">10</span>);</span><br></pre></td></tr></table></figure></p>
+<p>说明：</p>
+<ul>
+<li><p><code>-10</code>是添加值。<br>  添加值可以为正数，也可以是负数。<br>  正数表示将日期增加，负数表示将日期减少。</p>
+<p>  假设：现在cal的值是“2013-09-01”，现在我们将MONTH字段值增加-10。得到的结果是：“2012-10-01”。<br>  为什么会这样呢？“2013-09-01”增加-10，也就是将日期向前减少10个月；得到的结果就是“2012-10-01”。</p>
+</li>
+<li>Calendar的17个字段中：除了回滚Calendar.ZONE_OFFSET时，会抛出IllegalArgumentException异常；其它的字段都支持该操作。</li>
+<li>若要设置其它字段的当前值，只需要将示例中的MONTH相应的替换成其它字段名即可。</li>
+</ul>
+<h2 id="roll-int-field-int-value"><a href="#roll-int-field-int-value" class="headerlink" title="roll(int field, int value)"></a>roll(int field, int value)</h2><p>作用：回滚“字段的当前值”<br>示例：以“MONTH”字段来说。“回滚MONTH的当前值”的方法为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取Calendar实例，并设置日期为“2013-09-01”</span></span><br><span class="line">Calendar cal = Calendar.getInstance();</span><br><span class="line">cal.set(Calendar.YEAR, <span class="number">2013</span>);</span><br><span class="line">cal.set(Calendar.MONTH, <span class="number">8</span>);</span><br><span class="line">cal.set(Calendar.DATE, <span class="number">1</span>);</span><br><span class="line"><span class="comment">// 将“cal日历”的当前MONTH值 “向前滚动10”</span></span><br><span class="line">cal.roll(Calendar.MONTH, -<span class="number">10</span>);</span><br></pre></td></tr></table></figure></p>
+<p>说明：</p>
+<ul>
+<li><p><code>-10</code>是回滚值。<br>  当回滚值是负数时，表示将当前字段向前滚；<br>  当回滚值是正数时，表示将当前字段向后滚。</p>
+<p>  回滚Calendar中某一字段时，不更改更大的字段！<br>  这是roll()与add()的根据区别！add()可能会更改更大字段，比如“使用add()修改‘MONTH’字段，可能会引起‘YEAR’字段的改变”；但是roll()不会更改更大的字段，例如“使用roll()修改‘MONTH’字段，不回引起‘YEAR’字段的改变。”</p>
+<p>  假设：现在cal的值是“2013-09-01”，现在我们将MONTH字段值增加-10。得到的结果是：“2013-10-01”。<br>  为什么会这样呢？这就是因为“回滚”就是“在最小值和最大值之间来回滚动”。本例中，MONTH是9月，前回滚10，得到的值是10月，但是roll()不会改变“比MONTH”更大的字段，所以YEAR字段不会改变。所以结果是“2013-10-01”。</p>
+</li>
+<li>Calendar的17个字段中：除了回滚Calendar.ZONE_OFFSET时，会抛出IllegalArgumentException异常；其它的字段都支持该操作。</li>
+<li>若要设置其它字段的当前值，只需要将示例中的MONTH相应的替换成其它字段名即可。</li>
+</ul>
+<h2 id="clear-int-field"><a href="#clear-int-field" class="headerlink" title="clear(int field)"></a>clear(int field)</h2><p>作用：清空“字段的当前值”。所谓清空，实际上是将“field”的值设置为0；若field最小值为1,则设置为1。<br>示例：以“MONTH”字段来说。“清空MONTH”的方法为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取Calendar实例，并设置日期为“9月”</span></span><br><span class="line">Calendar cal = Calendar.getInstance();</span><br><span class="line">cal.set(Calendar.MONTH, <span class="number">9</span>);</span><br><span class="line"><span class="comment">// 清空MONTH</span></span><br><span class="line">cal.clear(Calendar.MONTH);</span><br></pre></td></tr></table></figure></p>
+<p>若要清空其它字段，只需要将示例中的MONTH相应的替换成其它字段名即可。</p>
+<h2 id="isSet-int-field"><a href="#isSet-int-field" class="headerlink" title="isSet(int field)"></a>isSet(int field)</h2><p>作用：判断“字段field”是否被设置。若调用clear()清空之后，则field变为“没有设置状态”。<br>示例：以“MONTH”字段来说。“判断MONTH是否被设置”的方法为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取Calendar实例</span></span><br><span class="line">Calendar cal = Calendar.getInstance();</span><br><span class="line"><span class="comment">// 判断MONTH是否被设置</span></span><br><span class="line"><span class="keyword">boolean</span> bset = cal.isSet(Calendar.MONTH);</span><br></pre></td></tr></table></figure></p>
+<p>若要判断其它字段，只需要将示例中的MONTH相应的替换成其它字段名即可。</p>
+<h2 id="Calendar的其它函数"><a href="#Calendar的其它函数" class="headerlink" title="Calendar的其它函数"></a>Calendar的其它函数</h2><h3 id="日期比较函数"><a href="#日期比较函数" class="headerlink" title="日期比较函数"></a>日期比较函数</h3><p>Calendar的比较函数，主要有以下几个：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 比较“当前Calendar对象”和“calendar” 的日期、时区等内容是否相等。</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object object)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 当前Calendar对象 是否 早于calendar</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">before</span><span class="params">(Object calendar)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 当前Calendar对象 是否 晚于calendar</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">after</span><span class="params">(Object calendar)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 比较“当前Calendar对象”和“calendar”。</span></span></span><br><span class="line"><span class="function"><span class="comment">// 若 早于 “calendar” 则，返回-1</span></span></span><br><span class="line"><span class="function"><span class="comment">// 若 相等， 则，返回0</span></span></span><br><span class="line"><span class="function"><span class="comment">// 若 晚于 “calendar” 则，返回1</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Calendar anotherCalendar)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>这些函数的使用示例，请参考CalendarTest.java示例中的 testComparatorAPIs()函数。</p>
+<p>示例：假设cal1 和 cal2 都是Calendar的两个对象。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 它们的使用方法如下</span></span><br><span class="line"><span class="keyword">boolean</span> isEqual = cal1.equals(cal2);</span><br><span class="line"><span class="keyword">boolean</span> isBefore = cal1.before(cal2);</span><br><span class="line"><span class="keyword">boolean</span> isAfter = cal1.after(cal2);</span><br><span class="line"><span class="keyword">int</span> icompare = cal1.compareTo(cal2);</span><br></pre></td></tr></table></figure></p>
+<h3 id="“宽容”函数"><a href="#“宽容”函数" class="headerlink" title="“宽容”函数"></a>“宽容”函数</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置“Calendar的宽容度”</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setLenient</span><span class="params">(<span class="keyword">boolean</span> value)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 获取“Calendar的宽容度”</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">isLenient</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<p>这些函数的使用示例，请参考CalendarTest.java示例中的 testLenientAPIs() 函数。<br>说明：<br>Calendar 有两种解释日历字段的模式，即 lenient 和 non-lenient。</p>
+<ul>
+<li>当 Calendar 处于 lenient 模式时，它可接受比它所生成的日历字段范围更大范围内的值。当 Calendar 重新计算日历字段值，以便由 get() 返回这些值时，所有日历字段都被标准化。<br>  例如，lenient 模式下的 GregorianCalendar 将 MONTH == JANUARY、DAY_OF_MONTH == 32 解释为 February 1。</li>
+<li>当 Calendar 处于 non-lenient 模式时，如果其日历字段中存在任何不一致性，它都会抛出一个异常。<br>  例如，GregorianCalendar 总是在 1 与月份的长度之间生成 DAY_OF_MONTH 值。如果已经设置了任何超出范围的字段值，那么在计算时间或日历字段值时，处于 non-lenient 模式下的 GregorianCalendar 会抛出一个异常。<br>  注意：在(02)步骤中的异常，在使用set()时不会抛出，而需要在使用get()、getTimeInMillis()、getTime()、add() 和 roll() 等函数中才抛出。因为set()只是设置了一个修改标志，而get()等方法才会引起时间的重新计算，此时才会抛出异常！</li>
+</ul>
+<h3 id="“年月日-时分秒-”、Date、TimeZone、MilliSecond函数"><a href="#“年月日-时分秒-”、Date、TimeZone、MilliSecond函数" class="headerlink" title="“年月日(时分秒)”、Date、TimeZone、MilliSecond函数"></a>“年月日(时分秒)”、Date、TimeZone、MilliSecond函数</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置“年月日”</span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span>     <span class="title">set</span><span class="params">(<span class="keyword">int</span> year, <span class="keyword">int</span> month, <span class="keyword">int</span> day)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 设置“年月日时分”</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span>     <span class="title">set</span><span class="params">(<span class="keyword">int</span> year, <span class="keyword">int</span> month, <span class="keyword">int</span> day, <span class="keyword">int</span> hourOfDay, <span class="keyword">int</span> minute, <span class="keyword">int</span> second)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 设置“年月日时分秒”</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span>     <span class="title">set</span><span class="params">(<span class="keyword">int</span> year, <span class="keyword">int</span> month, <span class="keyword">int</span> day, <span class="keyword">int</span> hourOfDay, <span class="keyword">int</span> minute)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 获取Calendar对应的日期</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> Date     <span class="title">getTime</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">// 设置Calendar为date</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span>    <span class="title">setTime</span><span class="params">(Date date)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 获取Calendar对应的时区</span></span></span><br><span class="line"><span class="function">TimeZone     <span class="title">getTimeZone</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">// 设置Calendar对应的时区</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span>     <span class="title">setTimeZone</span><span class="params">(TimeZone timezone)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 获取Calendar对应的milliscondes值，就是“Calendar当前日期”距离“1970-01-01 0:00:00 GMT”的毫秒数</span></span></span><br><span class="line"><span class="function"><span class="keyword">long</span>     <span class="title">getTimeInMillis</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">// 设置Calendar对应的milliscondes值</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span>     <span class="title">setTimeInMillis</span><span class="params">(<span class="keyword">long</span> milliseconds)</span></span></span><br></pre></td></tr></table></figure>
+<p>这些函数的使用示例，请参考CalendarTest.java示例中的 testTimeAPIs() 函数。</p>
+<h3 id="其它操作"><a href="#其它操作" class="headerlink" title="其它操作"></a>其它操作</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 克隆Calendar</span></span><br><span class="line"><span class="function">Object <span class="title">clone</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">// 获取“每周的第一天是星期几”。例如，在美国，这一天是 SUNDAY，而在法国，这一天是 MONDAY。</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getFirstDayOfWeek</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">// 设置“每周的第一天是星期几”。例如，在美国，这一天是 SUNDAY，而在法国，这一天是 MONDAY。</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setFirstDayOfWeek</span><span class="params">(<span class="keyword">int</span> value)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 获取一年中第一个星期所需的最少天数，例如，如果定义第一个星期包含一年第一个月的第一天，则此方法将返回 1。如果最少天数必须是一整个星期，则此方法将返回 7。</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getMinimalDaysInFirstWeek</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="comment">// 设置一年中第一个星期所需的最少天数，例如，如果定义第一个星期包含一年第一个月的第一天，则使用值 1 调用此方法。如果最少天数必须是一整个星期，则使用值 7 调用此方法。</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setMinimalDaysInFirstWeek</span><span class="params">(<span class="keyword">int</span> value)</span></span></span><br></pre></td></tr></table></figure>
+<p>这些函数的使用示例，请参考CalendarTest.java示例中的 testOtherAPIs() 函数。</p>
+<h1 id="Calendar操作示例"><a href="#Calendar操作示例" class="headerlink" title="Calendar操作示例"></a>Calendar操作示例</h1><p>下面，我们通过示例学习使用Calendar的API。CalendarTest.java的源码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> java.util.Calendar;</span><br><span class="line"><span class="keyword">import</span> java.util.TimeZone;</span><br><span class="line"><span class="keyword">import</span> java.util.Random;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Calendar的API测试程序</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> skywang </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@email</span> kuiwu-wang@163.com</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CalendarTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 测试Calendar的“17个字段的公共函数接口”</span></span><br><span class="line">        testAllCalendarSections() ;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 测试Calendar的“比较接口”</span></span><br><span class="line">        testComparatorAPIs() ;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 测试Calendar的“比较接口”</span></span><br><span class="line">        testLenientAPIs() ;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 测试Calendar的Date、TimeZone、MilliSecond等相关函数</span></span><br><span class="line">        testTimeAPIs() ;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 测试Calendar的clone()，getFirstDayOfWeek()等接口</span></span><br><span class="line">        testOtherAPIs() ;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试“Calendar的字段”</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> cal   -- Calendar对象</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> field -- 要测试的“Calendar字段”。可以为以下值：</span></span><br><span class="line"><span class="comment">     *   Calendar.YEAR, Calendar.MONTH, Calendar.DATE, ... 等等</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> title -- 标题</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> skywang (kuiwu-wang@163.com)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testSection</span><span class="params">(Calendar cal, <span class="keyword">int</span> field, String title)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> Random random = <span class="keyword">new</span> Random();</span><br><span class="line">        <span class="keyword">final</span> Date date = cal.getTime();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> min = cal.getMinimum(field);    <span class="comment">// 获取"字段最小值"</span></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> max = cal.getMaximum(field);    <span class="comment">// 获取“字段最大值”</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> actualMin = cal.getActualMinimum(field);    <span class="comment">// 获取"当前日期下，该字段最小值"</span></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> actualMax = cal.getActualMaximum(field);    <span class="comment">// 获取“当前日期下，该字段的最大值”</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取“字段的当前值”</span></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> ori = cal.get(field);            </span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置“字段的当前值”, 并获取“设置之后的值”</span></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> r1 = random.nextInt(max);</span><br><span class="line">        cal.set(field, r1);                </span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> set = cal.get(field);            </span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 回滚“字段的当前值”：在“字段最小值”和“字段最大值”之间回滚。</span></span><br><span class="line">            <span class="comment">// “回滚值”可以为正，也可以为负。</span></span><br><span class="line">            cal.roll(field, -max);            </span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalArgumentException e) &#123;</span><br><span class="line">            <span class="comment">// 当field == Calendar.ZONE_OFFSET时，会抛出该异常！</span></span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> roll = cal.get(field);            </span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取一个随机值</span></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> sign = ( random.nextInt(<span class="number">2</span>) == <span class="number">1</span>) ? <span class="number">1</span> : -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> r2 = sign * random.nextInt(max);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 增加“字段的当前值” ，并获取“新的当前字段值”</span></span><br><span class="line">            <span class="comment">// add的“参数值”可以为正，也可以为负。</span></span><br><span class="line">            cal.add(field, r2);            </span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalArgumentException e) &#123;</span><br><span class="line">            <span class="comment">// 当field == Calendar.ZONE_OFFSET时，会抛出该异常！</span></span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> add = cal.get(field);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 打印字段信息</span></span><br><span class="line">        System.out.printf(<span class="string">"%s:\n\trange is [%d - %d] actualRange is [%d - %d].  original=%d, set(%d)=%d, roll(%d)=%d, add(%d)=%d\n"</span>,</span><br><span class="line">               title, min, max, actualMin, actualMax, ori, r1, set, -max, roll, r2, add);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试Calendar的“17个字段的公共函数接口”</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> skywang (kuiwu-wang@163.com)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testAllCalendarSections</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 00. ERA 字段</span></span><br><span class="line">        testSection(Calendar.getInstance(), Calendar.ERA, <span class="string">"Calendar.ERA"</span>);</span><br><span class="line">        <span class="comment">// 01. YEAR 字段</span></span><br><span class="line">        testSection(Calendar.getInstance(), Calendar.YEAR, <span class="string">"Calendar.YEAR"</span>);</span><br><span class="line">        <span class="comment">// 02. MONTH 字段</span></span><br><span class="line">        testSection(Calendar.getInstance(), Calendar.MONTH, <span class="string">"Calendar.MONTH"</span>);</span><br><span class="line">        <span class="comment">// 03. WEEK_OF_YEAR 字段</span></span><br><span class="line">        testSection(Calendar.getInstance(), Calendar.WEEK_OF_YEAR, <span class="string">"Calendar.WEEK_OF_YEAR"</span>);</span><br><span class="line">        <span class="comment">// 04. WEEK_OF_MONTH 字段</span></span><br><span class="line">        testSection(Calendar.getInstance(), Calendar.WEEK_OF_MONTH, <span class="string">"Calendar.WEEK_OF_MONTH"</span>);</span><br><span class="line">        <span class="comment">// 05. DATE 字段</span></span><br><span class="line">        testSection(Calendar.getInstance(), Calendar.DATE, <span class="string">"Calendar.DATE"</span>);</span><br><span class="line">        <span class="comment">// 06. DAY_OF_MONTH 字段</span></span><br><span class="line">        testSection(Calendar.getInstance(), Calendar.DAY_OF_MONTH, <span class="string">"Calendar.DAY_OF_MONTH"</span>);</span><br><span class="line">        <span class="comment">// 07. DAY_OF_YEAR 字段</span></span><br><span class="line">        testSection(Calendar.getInstance(), Calendar.DAY_OF_YEAR, <span class="string">"Calendar.DAY_OF_YEAR"</span>);</span><br><span class="line">        <span class="comment">// 08. DAY_OF_WEEK 字段</span></span><br><span class="line">        testSection(Calendar.getInstance(), Calendar.DAY_OF_WEEK, <span class="string">"Calendar.DAY_OF_WEEK"</span>);</span><br><span class="line">        <span class="comment">// 09. DAY_OF_WEEK_IN_MONTH 字段</span></span><br><span class="line">        testSection(Calendar.getInstance(), Calendar.DAY_OF_WEEK_IN_MONTH, <span class="string">"Calendar.DAY_OF_WEEK_IN_MONTH"</span>);</span><br><span class="line">        <span class="comment">// 10. AM_PM 字段</span></span><br><span class="line">        testSection(Calendar.getInstance(), Calendar.AM_PM, <span class="string">"Calendar.AM_PM"</span>);</span><br><span class="line">        <span class="comment">// 11. HOUR 字段</span></span><br><span class="line">        testSection(Calendar.getInstance(), Calendar.HOUR, <span class="string">"Calendar.HOUR"</span>);</span><br><span class="line">        <span class="comment">// 12. HOUR_OF_DAY 字段</span></span><br><span class="line">        testSection(Calendar.getInstance(), Calendar.HOUR_OF_DAY, <span class="string">"Calendar.HOUR_OF_DAY"</span>);</span><br><span class="line">        <span class="comment">// 13. MINUTE 字段</span></span><br><span class="line">        testSection(Calendar.getInstance(), Calendar.MINUTE, <span class="string">"Calendar.MINUTE"</span>);</span><br><span class="line">        <span class="comment">// 14. SECOND 字段</span></span><br><span class="line">        testSection(Calendar.getInstance(), Calendar.SECOND, <span class="string">"Calendar.SECOND"</span>);</span><br><span class="line">        <span class="comment">// 15. MILLISECOND 字段</span></span><br><span class="line">        testSection(Calendar.getInstance(), Calendar.MILLISECOND, <span class="string">"Calendar.MILLISECOND"</span>);</span><br><span class="line">        <span class="comment">// 16. ZONE_OFFSET 字段</span></span><br><span class="line">        testSection(Calendar.getInstance(), Calendar.ZONE_OFFSET, <span class="string">"Calendar.ZONE_OFFSET"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试Calendar的“比较接口”</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> skywang (kuiwu-wang@163.com)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testComparatorAPIs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 新建cal1 ，且时间为1988年</span></span><br><span class="line">        Calendar cal1 = Calendar.getInstance();</span><br><span class="line">        cal1.set(Calendar.YEAR, <span class="number">1988</span>);</span><br><span class="line">        <span class="comment">// 新建cal2 ，且时间为2000年</span></span><br><span class="line">        Calendar cal2 = Calendar.getInstance();</span><br><span class="line">        cal2.set(Calendar.YEAR, <span class="number">2000</span>);</span><br><span class="line">        <span class="comment">// 新建cal3, 为cal1的克隆对象</span></span><br><span class="line">        Calendar cal3 = (Calendar)cal1.clone();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// equals 判断 cal1和cal2的“时间、时区等”内容是否相等</span></span><br><span class="line">        <span class="keyword">boolean</span> isEqual12 = cal1.equals(cal2);</span><br><span class="line">        <span class="comment">// equals 判断 cal1和cal3的“时间、时区等”内容是否相等</span></span><br><span class="line">        <span class="keyword">boolean</span> isEqual13 = cal1.equals(cal3);</span><br><span class="line">        <span class="comment">// cal1是否比cal2早</span></span><br><span class="line">        <span class="keyword">boolean</span> isBefore = cal1.before(cal2);</span><br><span class="line">        <span class="comment">// cal1是否比cal2晚</span></span><br><span class="line">        <span class="keyword">boolean</span> isAfter = cal1.after(cal2);</span><br><span class="line">        <span class="comment">// 比较cal1和cal2</span></span><br><span class="line">        <span class="comment">// (01) 若cal1 早于 cal2，返回-1</span></span><br><span class="line">        <span class="comment">// (02) 若cal1 等于 cal2，返回0</span></span><br><span class="line">        <span class="comment">// (03) 若cal1 晚于 cal2，返回1</span></span><br><span class="line">        <span class="keyword">int</span> icompare = cal1.compareTo(cal2);</span><br><span class="line">        </span><br><span class="line">        System.out.printf(<span class="string">"\ntestComparatorAPIs: isEuqal12=%s, isEqual13=%s, isBefore=%s, isAfter=%s, icompare=%s\n"</span>,</span><br><span class="line">               isEqual12, isEqual13, isBefore, isAfter, icompare);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试Calendar的“比较接口”</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> skywang (kuiwu-wang@163.com)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testLenientAPIs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            Calendar cal = Calendar.getInstance();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 获取默认的“宽容度”。返回true</span></span><br><span class="line">            <span class="keyword">boolean</span> oriLenient = cal.isLenient();</span><br><span class="line">            <span class="comment">// MONTH值只能是“0-11”，这里越界。但是由于当前cal是宽容的，所以不会抛出异常</span></span><br><span class="line">            cal.set(Calendar.MONTH, <span class="number">50</span>);    </span><br><span class="line"></span><br><span class="line">            <span class="comment">// 设置“宽容度”为false。</span></span><br><span class="line">            cal.setLenient(<span class="keyword">false</span>);</span><br><span class="line">            <span class="comment">// 获取设置后的“宽容度”</span></span><br><span class="line">            <span class="keyword">boolean</span> curLenient = cal.isLenient();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// MONTH值只能是“0-11”，这里越界。而且当前cal是不宽容的，所以会产生异常。</span></span><br><span class="line">            <span class="comment">// 但是，异常到下次计算日期时才会抛出。即，set()中不回抛出异常，而要等到get()中才会抛出异常</span></span><br><span class="line">            cal.set(Calendar.MONTH, <span class="number">50</span>);</span><br><span class="line">            <span class="comment">// 此时，对cal进行读取。读取会导致重新计算cal的值，所以此时抛出异常！</span></span><br><span class="line">            <span class="keyword">int</span> m2 = cal.get(Calendar.MONTH);    </span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalArgumentException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        System.out.printf(<span class="string">"\ntestLenientAPIs: oriLenient=%s, curLenient=%s\n"</span>,</span><br><span class="line">               oriLenient, curLenient);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试Calendar的Date、TimeZone、MilliSecond等相关函数</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> skywang (kuiwu-wang@163.com)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testTimeAPIs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Calendar cal = Calendar.getInstance();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置cal的时区为“GMT+8”</span></span><br><span class="line">        cal.setTimeZone(TimeZone.getTimeZone(<span class="string">"GMT+8"</span>));</span><br><span class="line">        <span class="comment">// 获取当前的cal时区</span></span><br><span class="line">        TimeZone timezone = cal.getTimeZone();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置 milliseconds</span></span><br><span class="line">        cal.setTimeInMillis(<span class="number">1279419645742l</span>);</span><br><span class="line">        <span class="comment">// 获取 milliseconds</span></span><br><span class="line">        <span class="keyword">long</span> millis = cal.getTimeInMillis();</span><br><span class="line">        <span class="comment">// 设置 milliseconds之后，时间也改变了。</span></span><br><span class="line">        <span class="comment">// 获取cal对应的日期</span></span><br><span class="line">        Date date = cal.getTime();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置时间为“1988-08-08”</span></span><br><span class="line">        cal.set(<span class="number">1988</span>, <span class="number">08</span>, <span class="number">08</span>);</span><br><span class="line">        <span class="comment">// 设置时间为“1999-09-09 09:09”</span></span><br><span class="line">        cal.set(<span class="number">1999</span>, <span class="number">09</span>, <span class="number">09</span>, <span class="number">9</span>, <span class="number">9</span>);</span><br><span class="line">        <span class="comment">// 设置时间为“2000-10-10 10:10:10”</span></span><br><span class="line">        cal.set(<span class="number">2000</span>, <span class="number">10</span>, <span class="number">10</span>, <span class="number">10</span>, <span class="number">10</span>, <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">        System.out.printf(<span class="string">"\ntestTimeAPIs: date=%s, timezone=%s, millis=%s\n"</span>,</span><br><span class="line">               date, timezone, millis);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试Calendar的clone()，getFirstDayOfWeek()等接口</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> skywang (kuiwu-wang@163.com)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testOtherAPIs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Calendar cal = Calendar.getInstance();</span><br><span class="line">        <span class="comment">// 克隆cal</span></span><br><span class="line">        Calendar clone = (Calendar)cal.clone();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置 为 2013-01-10。 </span></span><br><span class="line">        <span class="comment">// 注：2013-01-01 为“星期二”，2013-01-06为“星期天”，</span></span><br><span class="line">        clone.set(Calendar.YEAR, <span class="number">2013</span>);</span><br><span class="line">        clone.set(Calendar.MONTH, <span class="number">0</span>);</span><br><span class="line">        clone.set(Calendar.DATE, <span class="number">10</span>);</span><br><span class="line">        <span class="comment">// 设置“本年的第一个星期最少包含1天”。</span></span><br><span class="line">        <span class="comment">// 则2013-01-10属于第2个星期</span></span><br><span class="line">        clone.setMinimalDaysInFirstWeek(<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">int</span> m1 = clone.getMinimalDaysInFirstWeek();</span><br><span class="line">        <span class="keyword">int</span> index1 = clone.get(Calendar.WEEK_OF_YEAR);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置“本年的第一个星期最少包含7天”。</span></span><br><span class="line">        <span class="comment">// 则2013-01-10属于第1个星期</span></span><br><span class="line">        clone.setMinimalDaysInFirstWeek(<span class="number">7</span>);</span><br><span class="line">        <span class="keyword">int</span> m2 = clone.getMinimalDaysInFirstWeek();</span><br><span class="line">        <span class="keyword">int</span> index2 = clone.get(Calendar.WEEK_OF_YEAR);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置“每周的第一天是星期几”。</span></span><br><span class="line">        clone.setFirstDayOfWeek(Calendar.WEDNESDAY);</span><br><span class="line">        <span class="comment">// 获取“每周的第一天是星期几”。</span></span><br><span class="line">        <span class="keyword">int</span> firstdayOfWeek = clone.getFirstDayOfWeek();</span><br><span class="line"></span><br><span class="line">        System.out.printf(<span class="string">"\ntestOtherAPIs: firstdayOfWeek=%s, [minimalDay, WeekOfYear]=&#123;(%s, %s), (%s, %s)&#125; %s\n"</span>,</span><br><span class="line">               firstdayOfWeek, m1, index1, m2, index2, clone.getTime());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/06/Reflect/" rel="next" title="Reflect">
+                <i class="fa fa-chevron-left"></i> Reflect
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/07/Date/" rel="prev" title="Date">
+                Date <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Calendar"><span class="nav-number">1.</span> <span class="nav-text">Calendar</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Calendar-原理和思想"><span class="nav-number">2.</span> <span class="nav-text">Calendar 原理和思想</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Calendar-各个字段值的来源"><span class="nav-number">2.1.</span> <span class="nav-text">Calendar 各个字段值的来源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Calendar-各个字段的定义和初始化"><span class="nav-number">2.2.</span> <span class="nav-text">Calendar 各个字段的定义和初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Calendar各个字段值的计算"><span class="nav-number">2.3.</span> <span class="nav-text">Calendar各个字段值的计算</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Calendar函数接口"><span class="nav-number">3.</span> <span class="nav-text">Calendar函数接口</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#getMaximum-int-field"><span class="nav-number">3.1.</span> <span class="nav-text">getMaximum(int field)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getActualMaximum-int-field"><span class="nav-number">3.2.</span> <span class="nav-text">getActualMaximum(int field)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getMinimum-int-field"><span class="nav-number">3.3.</span> <span class="nav-text">getMinimum(int field)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getActualMinimum-int-field"><span class="nav-number">3.4.</span> <span class="nav-text">getActualMinimum(int field)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#get-int-field"><span class="nav-number">3.5.</span> <span class="nav-text">get(int field)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#set-int-field-int-value"><span class="nav-number">3.6.</span> <span class="nav-text">set(int field, int value)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#add-int-field-int-value"><span class="nav-number">3.7.</span> <span class="nav-text">add(int field, int value)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#roll-int-field-int-value"><span class="nav-number">3.8.</span> <span class="nav-text">roll(int field, int value)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#clear-int-field"><span class="nav-number">3.9.</span> <span class="nav-text">clear(int field)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#isSet-int-field"><span class="nav-number">3.10.</span> <span class="nav-text">isSet(int field)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Calendar的其它函数"><span class="nav-number">3.11.</span> <span class="nav-text">Calendar的其它函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#日期比较函数"><span class="nav-number">3.11.1.</span> <span class="nav-text">日期比较函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#“宽容”函数"><span class="nav-number">3.11.2.</span> <span class="nav-text">“宽容”函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#“年月日-时分秒-”、Date、TimeZone、MilliSecond函数"><span class="nav-number">3.11.3.</span> <span class="nav-text">“年月日(时分秒)”、Date、TimeZone、MilliSecond函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它操作"><span class="nav-number">3.11.4.</span> <span class="nav-text">其它操作</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Calendar操作示例"><span class="nav-number">4.</span> <span class="nav-text">Calendar操作示例</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

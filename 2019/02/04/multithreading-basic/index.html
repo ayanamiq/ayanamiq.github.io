@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="线程状态线程状态图： 线程共包括以下五种状态：  新建(new)：线程对象被创建后，进入新建状态。如：Thread thread = new Thread(); 就绪(Runnable)：可执行状态。线程对象被创建后，其他线程调用了该对象的start方法，来启动该线程。如：thread.start()。处于就绪状态的线程，随时可能被CPU调度执行。 运行(Running)：线程获取CPU权限进行执">
+<meta name="keywords" content="multithreading">
+<meta property="og:type" content="article">
+<meta property="og:title" content="multithreading-basic">
+<meta property="og:url" content="https://jingyao066.gitee.io/2019/02/04/multithreading-basic/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="线程状态线程状态图： 线程共包括以下五种状态：  新建(new)：线程对象被创建后，进入新建状态。如：Thread thread = new Thread(); 就绪(Runnable)：可执行状态。线程对象被创建后，其他线程调用了该对象的start方法，来启动该线程。如：thread.start()。处于就绪状态的线程，随时可能被CPU调度执行。 运行(Running)：线程获取CPU权限进行执">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/02/04/multithreading-basic/1.jpg">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.326Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="multithreading-basic">
+<meta name="twitter:description" content="线程状态线程状态图： 线程共包括以下五种状态：  新建(new)：线程对象被创建后，进入新建状态。如：Thread thread = new Thread(); 就绪(Runnable)：可执行状态。线程对象被创建后，其他线程调用了该对象的start方法，来启动该线程。如：thread.start()。处于就绪状态的线程，随时可能被CPU调度执行。 运行(Running)：线程获取CPU权限进行执">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2019/02/04/multithreading-basic/1.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2019/02/04/multithreading-basic/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>multithreading-basic | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2019/02/04/multithreading-basic/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">multithreading-basic
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-02-04 18:21:30" itemprop="dateCreated datePublished" datetime="2019-02-04T18:21:30+08:00">2019-02-04</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/02/04/multithreading-basic/" class="leancloud_visitors" data-flag-title="multithreading-basic">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="线程状态"><a href="#线程状态" class="headerlink" title="线程状态"></a>线程状态</h1><p>线程状态图：<br><img src="/2019/02/04/multithreading-basic/1.jpg" alt=""></p>
+<p>线程共包括以下五种状态：</p>
+<ol>
+<li>新建(new)：线程对象被创建后，进入新建状态。如：Thread thread = new Thread();</li>
+<li>就绪(Runnable)：可执行状态。线程对象被创建后，其他线程调用了该对象的start方法，来启动该线程。如：thread.start()。处于就绪状态的线程，随时可能被CPU调度执行。</li>
+<li>运行(Running)：线程获取CPU权限进行执行。注意：线程只能从就绪状态进入到运行状态。</li>
+<li>阻塞(Blocked)：阻塞状态是线程因为某种原因放弃CPU使用权，暂时停止运行。直到线程进入就绪状态，才有机会继续运行。阻塞的情况分三种：<ul>
+<li>等待阻塞：通过调用线程的wait()方法，让线程等待某工作完成。</li>
+<li>同步阻塞：线程获取synchronized同步锁失败(因为锁被其他线程占用)，它会进入同步阻塞状态。</li>
+<li>其他阻塞：通过调用线程的sleep()或join()或发出I/O请求时，线程会进入到阻塞状态。当sleep()状态超时、join()等待线程终止或超时、I/O处理完毕，线程会重新进入就绪状态。</li>
+</ul>
+</li>
+<li>死亡(Dead)：线程执行完了或因异常退出了run()方法，该线程结束生命周期。</li>
+</ol>
+<p>这5种状态涉及到的内容包括Object类，Thread和synchronized关键字。<br>Object类，定义了wait()，notify()，notifyAll()等休眠/唤醒函数。<br>Thread类，定义了一些列的线程操作函数。例如，sleep()休眠函数，interrupt()中断函数，getName()获取线程名称等。<br>synchronized，是关键字，它区分为synchronized代码块和synchronized方法。synchronized的作用是让线程获取对象的同步锁。<br>在后面详细介绍wait()，notify()等方法时，我们会分析为什么wait()，notify()等方法要定义在Object类，而不是Thread类中。</p>
+<h1 id="实现多线程的方式"><a href="#实现多线程的方式" class="headerlink" title="实现多线程的方式"></a>实现多线程的方式</h1><p>常用的实现多线程的方式包括：<code>Thread</code>和<code>Runnable</code>，还可以通过<code>java.util.concurrent</code>包中的线程池来实现多线程。</p>
+<h2 id="Thread和Runnable简介"><a href="#Thread和Runnable简介" class="headerlink" title="Thread和Runnable简介"></a>Thread和Runnable简介</h2><p>Runnable 是一个接口，该接口中只包含了一个run()方法。它的定义如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Runnable用来实现多线程。我们可以定义一个类A实现Runnable接口，然后，通过new Thread(new A())等方式新建线程。</p>
+<p>Thread 是一个类。Thread本身就实现了Runnable接口。它的声明如下：<br><code>public class Thread implements Runnable {}</code><br>Thread也可以用来实现多线程。</p>
+<h2 id="Thread和Runnable的异同点"><a href="#Thread和Runnable的异同点" class="headerlink" title="Thread和Runnable的异同点"></a>Thread和Runnable的异同点</h2><p>不同点：<br>Thread 是类，而Runnable是接口；Thread本身是实现了Runnable接口的类。我们知道“一个类只能有一个父类，但是却能实现多个接口”，因此Runnable具有更好的扩展性。<br>此外，Runnable还可以用于“资源的共享”。即，多个线程都是基于某一个Runnable对象建立的，它们会共享Runnable对象上的资源。<br>通常，建议通过<code>Runnable</code>实现多线程。</p>
+<h2 id="Thread多线程示例"><a href="#Thread多线程示例" class="headerlink" title="Thread多线程示例"></a>Thread多线程示例</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ThreadTest.java 源码</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> ticket=<span class="number">10</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">20</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">this</span>.ticket&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                System.out.println(<span class="keyword">this</span>.getName()+<span class="string">" 卖票：ticket"</span>+<span class="keyword">this</span>.ticket--);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 启动3个线程t1,t2,t3；每个线程各卖10张票</span></span><br><span class="line">        MyThread t1=<span class="keyword">new</span> MyThread();</span><br><span class="line">        MyThread t2=<span class="keyword">new</span> MyThread();</span><br><span class="line">        MyThread t3=<span class="keyword">new</span> MyThread();</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">        t3.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">Thread-1 卖票：ticket10</span><br><span class="line">Thread-1 卖票：ticket9</span><br><span class="line">Thread-1 卖票：ticket8</span><br><span class="line">Thread-1 卖票：ticket7</span><br><span class="line">Thread-1 卖票：ticket6</span><br><span class="line">Thread-1 卖票：ticket5</span><br><span class="line">Thread-1 卖票：ticket4</span><br><span class="line">Thread-1 卖票：ticket3</span><br><span class="line">Thread-1 卖票：ticket2</span><br><span class="line">Thread-1 卖票：ticket1</span><br><span class="line">Thread-2 卖票：ticket10</span><br><span class="line">Thread-2 卖票：ticket9</span><br><span class="line">Thread-2 卖票：ticket8</span><br><span class="line">Thread-2 卖票：ticket7</span><br><span class="line">Thread-2 卖票：ticket6</span><br><span class="line">Thread-2 卖票：ticket5</span><br><span class="line">Thread-2 卖票：ticket4</span><br><span class="line">Thread-2 卖票：ticket3</span><br><span class="line">Thread-2 卖票：ticket2</span><br><span class="line">Thread-2 卖票：ticket1</span><br><span class="line">Thread-0 卖票：ticket10</span><br><span class="line">Thread-0 卖票：ticket9</span><br><span class="line">Thread-0 卖票：ticket8</span><br><span class="line">Thread-0 卖票：ticket7</span><br><span class="line">Thread-0 卖票：ticket6</span><br><span class="line">Thread-0 卖票：ticket5</span><br><span class="line">Thread-0 卖票：ticket4</span><br><span class="line">Thread-0 卖票：ticket3</span><br><span class="line">Thread-0 卖票：ticket2</span><br><span class="line">Thread-0 卖票：ticket1</span><br></pre></td></tr></table></figure></p>
+<p>说明：</p>
+<ul>
+<li>MyThread继承于Thread，它是个自定义线程。每个MyThread都会卖出10张票。</li>
+<li>主线程main创建并启动3个MyThread子线程。每个子线程都各自卖出了10张票。</li>
+</ul>
+<h2 id="Runnable多线程示例"><a href="#Runnable多线程示例" class="headerlink" title="Runnable多线程示例"></a>Runnable多线程示例</h2><p>下面，我们对上面的程序进行修改。通过Runnable实现一个接口，从而实现多线程。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// RunnableTest.java 源码</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> ticket=<span class="number">10</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">20</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">this</span>.ticket&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">" 卖票：ticket"</span>+<span class="keyword">this</span>.ticket--);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RunnableTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        MyThread mt=<span class="keyword">new</span> MyThread();</span><br><span class="line">        <span class="comment">// 启动3个线程t1,t2,t3(它们共用一个Runnable对象)，这3个线程一共卖10张票</span></span><br><span class="line">        Thread t1=<span class="keyword">new</span> Thread(mt);</span><br><span class="line">        Thread t2=<span class="keyword">new</span> Thread(mt);</span><br><span class="line">        Thread t3=<span class="keyword">new</span> Thread(mt);</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">        t3.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Thread-1 卖票：ticket10</span><br><span class="line">Thread-1 卖票：ticket9</span><br><span class="line">Thread-1 卖票：ticket8</span><br><span class="line">Thread-1 卖票：ticket7</span><br><span class="line">Thread-1 卖票：ticket6</span><br><span class="line">Thread-1 卖票：ticket5</span><br><span class="line">Thread-1 卖票：ticket4</span><br><span class="line">Thread-0 卖票：ticket10</span><br><span class="line">Thread-0 卖票：ticket3</span><br><span class="line">Thread-0 卖票：ticket2</span><br><span class="line">Thread-0 卖票：ticket1</span><br></pre></td></tr></table></figure></p>
+<p>说明：</p>
+<ul>
+<li>和上面“MyThread继承于Thread”不同；这里的MyThread实现了Runnable接口。</li>
+<li>主线程main创建并启动3个子线程，而且这3个子线程都是基于“mt这个Runnable对象”而创建的。运行结果是这3个子线程一共卖出了10张票。这说明它们是共享了MyThread接口的。</li>
+</ul>
+<p>需要注意，这里我们把main方法和线程类放在一个类中，三条线程从开始循环就会出现并发现象，如果把main方法和线程类分开写，三条线程也会并发，不过需要把循环次数都调大(100左右才能看到效果)。<br>至于为什么内部类开始就并发，分开写并发出现的比较晚，目前还不得而知。</p>
+<h1 id="Thread中start和run的区别"><a href="#Thread中start和run的区别" class="headerlink" title="Thread中start和run的区别"></a>Thread中start和run的区别</h1><h2 id="区别说明"><a href="#区别说明" class="headerlink" title="区别说明"></a>区别说明</h2><p>start()：启动一个新线程，新线程会执行相应的run()方法，start()不能被重复调用。<br>run()：和普通成员方法一样，可以被重复调用。若单独调用run()，会在当前线程中执行run()，而并不会启动新线程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class MyThread extends Thread&#123;</span><br><span class="line">    public void run()&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125; </span><br><span class="line">&#125;;</span><br><span class="line">MyThread mythread = new MyThread();</span><br></pre></td></tr></table></figure>
+<p><code>mythread.start()</code>会启动一个新线程，并在新线程中运行run()方法。<br>而<code>mythread.run()</code>则会直接在当前线程中运行run()方法，并不会启动一个新线程来运行run()。</p>
+<h2 id="区别示例"><a href="#区别示例" class="headerlink" title="区别示例"></a>区别示例</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Demo.java 的源码</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyThread</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(Thread.currentThread().getName()+<span class="string">" is running"</span>);</span><br><span class="line">    &#125; </span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Thread mythread=<span class="keyword">new</span> MyThread(<span class="string">"mythread"</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(Thread.currentThread().getName()+<span class="string">" call mythread.run()"</span>);</span><br><span class="line">        mythread.run();</span><br><span class="line"></span><br><span class="line">        System.out.println(Thread.currentThread().getName()+<span class="string">" call mythread.start()"</span>);</span><br><span class="line">        mythread.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">main call mythread.run()</span><br><span class="line">main is running</span><br><span class="line">main call mythread.start()</span><br><span class="line">mythread is running</span><br></pre></td></tr></table></figure></p>
+<p>说明：</p>
+<ul>
+<li><code>Thread.currentThread().getName()</code>指获取当前线程的名字。当前线程指正在CPU中执行的线程。</li>
+<li><code>mythread.run()</code>是在<code>主线程main</code>中调用的，该run()方法直接运行在<code>主线程main</code>上。</li>
+<li><code>mythread.start()</code>会启动<code>线程mythread</code>，<code>线程mythread</code>启动之后，会调用run()方法；此时的run()方法是运行在<code>线程mythread</code>上。</li>
+</ul>
+<h2 id="start-和run-的源码分析"><a href="#start-和run-的源码分析" class="headerlink" title="start()和run()的源码分析"></a>start()和run()的源码分析</h2><p>start()<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 如果线程不是"就绪状态"，则抛出异常！</span></span><br><span class="line">    <span class="keyword">if</span> (threadStatus != <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalThreadStateException();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将线程添加到ThreadGroup中</span></span><br><span class="line">    group.add(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">boolean</span> started = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 通过start0()启动线程</span></span><br><span class="line">        start0();</span><br><span class="line">        <span class="comment">// 设置started标记</span></span><br><span class="line">        started = <span class="keyword">true</span>;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (!started) &#123;</span><br><span class="line">                group.threadStartFailed(<span class="keyword">this</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable ignore) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>说明：start()实际上是通过本地方法start0()启动线程的。而start0()会新运行一个线程，新线程会调用run()方法。<br><code>private native void start0();</code></p>
+<p>run()<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (target != <span class="keyword">null</span>) &#123;</span><br><span class="line">        target.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>说明：target是一个Runnable对象。run()就是直接调用Thread线程的Runnable成员的run()方法，并不会新建一个线程。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/multithreading/" rel="tag"># multithreading</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/09/树/" rel="next" title="tree">
+                <i class="fa fa-chevron-left"></i> tree
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/15/multithreading-synchronized/" rel="prev" title="multithreading-synchronized">
+                multithreading-synchronized <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#线程状态"><span class="nav-number">1.</span> <span class="nav-text">线程状态</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现多线程的方式"><span class="nav-number">2.</span> <span class="nav-text">实现多线程的方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Thread和Runnable简介"><span class="nav-number">2.1.</span> <span class="nav-text">Thread和Runnable简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Thread和Runnable的异同点"><span class="nav-number">2.2.</span> <span class="nav-text">Thread和Runnable的异同点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Thread多线程示例"><span class="nav-number">2.3.</span> <span class="nav-text">Thread多线程示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Runnable多线程示例"><span class="nav-number">2.4.</span> <span class="nav-text">Runnable多线程示例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Thread中start和run的区别"><span class="nav-number">3.</span> <span class="nav-text">Thread中start和run的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#区别说明"><span class="nav-number">3.1.</span> <span class="nav-text">区别说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#区别示例"><span class="nav-number">3.2.</span> <span class="nav-text">区别示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#start-和run-的源码分析"><span class="nav-number">3.3.</span> <span class="nav-text">start()和run()的源码分析</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

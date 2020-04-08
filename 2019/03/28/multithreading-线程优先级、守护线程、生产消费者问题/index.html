@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="线程优先级java 中的线程优先级的范围是1～10，默认的优先级是5。10表示最高优先级，1表示最低优先级，5是普通优先级。“高优先级线程”会优先于“低优先级线程”执行。java 中的线程优先级的范围是1～10，默认的优先级是5。“高优先级线程”会优先于“低优先级线程”执行。java 中有两种线程：用户线程和守护线程。可以通过isDaemon()方法来区别它们：如果返回false，则说明该线程是“">
+<meta name="keywords" content="multithreading">
+<meta property="og:type" content="article">
+<meta property="og:title" content="multithreading-线程优先级、守护线程、生产消费者问题">
+<meta property="og:url" content="https://jingyao066.gitee.io/2019/03/28/multithreading-线程优先级、守护线程、生产消费者问题/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="线程优先级java 中的线程优先级的范围是1～10，默认的优先级是5。10表示最高优先级，1表示最低优先级，5是普通优先级。“高优先级线程”会优先于“低优先级线程”执行。java 中的线程优先级的范围是1～10，默认的优先级是5。“高优先级线程”会优先于“低优先级线程”执行。java 中有两种线程：用户线程和守护线程。可以通过isDaemon()方法来区别它们：如果返回false，则说明该线程是“">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.331Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="multithreading-线程优先级、守护线程、生产消费者问题">
+<meta name="twitter:description" content="线程优先级java 中的线程优先级的范围是1～10，默认的优先级是5。10表示最高优先级，1表示最低优先级，5是普通优先级。“高优先级线程”会优先于“低优先级线程”执行。java 中的线程优先级的范围是1～10，默认的优先级是5。“高优先级线程”会优先于“低优先级线程”执行。java 中有两种线程：用户线程和守护线程。可以通过isDaemon()方法来区别它们：如果返回false，则说明该线程是“">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2019/03/28/multithreading-线程优先级、守护线程、生产消费者问题/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>multithreading-线程优先级、守护线程、生产消费者问题 | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2019/03/28/multithreading-线程优先级、守护线程、生产消费者问题/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">multithreading-线程优先级、守护线程、生产消费者问题
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-28 16:23:30" itemprop="dateCreated datePublished" datetime="2019-03-28T16:23:30+08:00">2019-03-28</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/03/28/multithreading-线程优先级、守护线程、生产消费者问题/" class="leancloud_visitors" data-flag-title="multithreading-线程优先级、守护线程、生产消费者问题">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="线程优先级"><a href="#线程优先级" class="headerlink" title="线程优先级"></a>线程优先级</h1><p>java 中的线程优先级的范围是1～10，默认的优先级是5。10表示最高优先级，1表示最低优先级，5是普通优先级。“高优先级线程”会优先于“低优先级线程”执行。java 中的线程优先级的范围是1～10，默认的优先级是5。“高优先级线程”会优先于“低优先级线程”执行。<br>java 中有两种线程：用户线程和守护线程。可以通过isDaemon()方法来区别它们：如果返回false，则说明该线程是“用户线程”；否则就是“守护线程”。<br>用户线程一般用户执行用户级任务，而守护线程也就是“后台线程”，一般用来执行后台任务，作用是为其他线程的运行提供便利服务，守护线程最典型的应用就是 GC (垃圾回收器)。<br>用户线程和守护线程两者几乎没有区别，唯一的不同之处就在于虚拟机的离开。需要注意的是：Java虚拟机在“用户线程”都结束后会后退出。</p>
+<p>JDK 中关于线程优先级和守护线程的介绍如下：<br>Every thread has a priority. Threads with higher priority are executed in preference to threads with lower priority. Each thread may or may not also be marked as a daemon. When code running in some thread creates a new Thread object, the new thread has its priority initially set equal to the priority of the creating thread, and is a daemon thread if and only if the creating thread is a daemon.</p>
+<p>When a Java Virtual Machine starts up, there is usually a single non-daemon thread (which typically calls the method named main of some designated class). The Java Virtual Machine continues to execute threads until either of the following occurs:</p>
+<p>The exit method of class Runtime has been called and the security manager has permitted the exit operation to take place.<br>All threads that are not daemon threads have died, either by returning from the call to the run method or by throwing an exception that propagates beyond the run method.<br>Marks this thread as either a daemon thread or a user thread. The Java Virtual Machine exits when the only threads running are all daemon threads.<br>意思是：<br>每个线程都有一个优先级。“高优先级线程”会优先于“低优先级线程”执行。每个线程都可以被标记为一个守护进程或非守护进程。在一些运行的主线程中创建新的子线程时，子线程的优先级被设置为等于“创建它的主线程的优先级”，当且仅当“创建它的主线程是守护线程”时“子线程才会是守护线程”。</p>
+<p>当Java虚拟机启动时，通常有一个单一的非守护线程（该线程通过是通过main()方法启动）。JVM会一直运行直到下面的任意一个条件发生，JVM就会终止运行：<br>(01) 调用了exit()方法，并且exit()有权限被正常执行。<br>(02) 所有的“非守护线程”都死了(即JVM中仅仅只有“守护线程”)。</p>
+<p>每一个线程都被标记为“守护线程”或“用户线程”。当只有守护线程运行时，JVM会自动退出。</p>
+<h1 id="线程优先级示例"><a href="#线程优先级示例" class="headerlink" title="线程优先级示例"></a>线程优先级示例</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class MyThread extends Thread&#123;</span><br><span class="line">    public MyThread(String name) &#123;</span><br><span class="line">        super(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void run()&#123;</span><br><span class="line">        for (int i=0; i&lt;5; i++) &#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName()</span><br><span class="line">                    +&quot;(&quot;+Thread.currentThread().getPriority()+ &quot;)&quot;</span><br><span class="line">                    +&quot;, loop &quot;+i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line">public class Demo &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(Thread.currentThread().getName()</span><br><span class="line">                +&quot;(&quot;+Thread.currentThread().getPriority()+ &quot;)&quot;);</span><br><span class="line"></span><br><span class="line">        Thread t1=new MyThread(&quot;t1&quot;);    // 新建t1</span><br><span class="line">        Thread t2=new MyThread(&quot;t2&quot;);    // 新建t2</span><br><span class="line">        t1.setPriority(1);                // 设置t1的优先级为1</span><br><span class="line">        t2.setPriority(10);                // 设置t2的优先级为10</span><br><span class="line">        t1.start();                        // 启动t1</span><br><span class="line">        t2.start();                        // 启动t2</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">main(5)</span><br><span class="line">t1(1), loop 0</span><br><span class="line">t1(1), loop 1</span><br><span class="line">t1(1), loop 2</span><br><span class="line">t1(1), loop 3</span><br><span class="line">t1(1), loop 4</span><br><span class="line">t2(10), loop 0</span><br><span class="line">t2(10), loop 1</span><br><span class="line">t2(10), loop 2</span><br><span class="line">t2(10), loop 3</span><br><span class="line">t2(10), loop 4</span><br></pre></td></tr></table></figure></p>
+<p>结果说明：<br>1.主线程main的优先级是5。<br>2.虽然t1的优先级被设为1，t2的优先级被设为10，经过多次运行发现，上边的结果是出现次数最多的，极少数时t1和t2会交替执行。<br>这说明了即使将优先级调高，也不能保证系统完全按照设定的优先级执行，还要取决于系统的线程规划器。</p>
+<h1 id="守护线程示例"><a href="#守护线程示例" class="headerlink" title="守护线程示例"></a>守护线程示例</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">// Demo.java</span><br><span class="line">class MyThread extends Thread&#123;</span><br><span class="line">    public MyThread(String name) &#123;</span><br><span class="line">        super(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void run()&#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            for (int i=0; i&lt;5; i++) &#123;</span><br><span class="line">                Thread.sleep(3);</span><br><span class="line">                System.out.println(this.getName() +&quot;(isDaemon=&quot;+this.isDaemon()+ &quot;)&quot; +&quot;, loop &quot;+i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">class MyDaemon extends Thread&#123;</span><br><span class="line">    public MyDaemon(String name) &#123;</span><br><span class="line">        super(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void run()&#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            for (int i=0; i&lt;10000; i++) &#123;</span><br><span class="line">                Thread.sleep(1);</span><br><span class="line">                System.out.println(this.getName() +&quot;(isDaemon=&quot;+this.isDaemon()+ &quot;)&quot; +&quot;, loop &quot;+i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class Demo &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(Thread.currentThread().getName()</span><br><span class="line">                +&quot;(isDaemon=&quot;+Thread.currentThread().isDaemon()+ &quot;)&quot;);</span><br><span class="line"></span><br><span class="line">        Thread t1=new MyThread(&quot;t1&quot;);    // 新建t1</span><br><span class="line">        Thread t2=new MyDaemon(&quot;t2&quot;);    // 新建t2</span><br><span class="line">        t2.setDaemon(true);                // 设置t2为守护线程</span><br><span class="line">        t1.start();                        // 启动t1</span><br><span class="line">        t2.start();                        // 启动t2</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">main(isDaemon=false)</span><br><span class="line">t1(isDaemon=false), loop 0</span><br><span class="line">t2(isDaemon=true), loop 0</span><br><span class="line">t2(isDaemon=true), loop 1</span><br><span class="line">t1(isDaemon=false), loop 1</span><br><span class="line">t1(isDaemon=false), loop 2</span><br><span class="line">t2(isDaemon=true), loop 2</span><br><span class="line">t1(isDaemon=false), loop 3</span><br><span class="line">t2(isDaemon=true), loop 3</span><br><span class="line">t2(isDaemon=true), loop 4</span><br><span class="line">t2(isDaemon=true), loop 5</span><br><span class="line">t1(isDaemon=false), loop 4</span><br></pre></td></tr></table></figure></p>
+<p>结果说明：</p>
+<h1 id="生产-消费者模型"><a href="#生产-消费者模型" class="headerlink" title="生产/消费者模型"></a>生产/消费者模型</h1><p>生产/消费者问题是个非常典型的多线程问题，涉及到的对象包括“生产者”、“消费者”、“仓库”和“产品”。他们之间的关系如下：<br>(01) 生产者仅仅在仓储未满时候生产，仓满则停止生产。<br>(02) 消费者仅仅在仓储有产品时候才能消费，仓空则等待。<br>(03) 当消费者发现仓储没产品可消费时候会通知生产者生产。<br>(04) 生产者在生产出可消费产品时候，应该通知等待的消费者去消费。</p>
+<h1 id="生产-消费者实现"><a href="#生产-消费者实现" class="headerlink" title="生产/消费者实现"></a>生产/消费者实现</h1><p>下面通过wait()/notify()方式实现该模型(后面在学习了线程池相关内容之后，再通过其它方式实现生产/消费者模型)。源码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line">// Demo1.java</span><br><span class="line">// 仓库</span><br><span class="line">class Depot &#123;</span><br><span class="line">    private int capacity;    // 仓库的容量</span><br><span class="line">    private int size;        // 仓库的实际数量</span><br><span class="line"></span><br><span class="line">    public Depot(int capacity) &#123;</span><br><span class="line">        this.capacity = capacity;</span><br><span class="line">        this.size = 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public synchronized void produce(int val) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">             // left 表示“想要生产的数量”(有可能生产量太多，需多此生产)</span><br><span class="line">            int left = val;</span><br><span class="line">            while (left &gt; 0) &#123;</span><br><span class="line">                // 库存已满时，等待“消费者”消费产品。</span><br><span class="line">                while (size &gt;= capacity)</span><br><span class="line">                    wait();</span><br><span class="line">                // 获取“实际生产的数量”(即库存中新增的数量)</span><br><span class="line">                // 如果“库存”+“想要生产的数量”&gt;“总的容量”，则“实际增量”=“总的容量”-“当前容量”。(此时填满仓库)</span><br><span class="line">                // 否则“实际增量”=“想要生产的数量”</span><br><span class="line">                int inc = (size+left)&gt;capacity ? (capacity-size) : left;</span><br><span class="line">                size += inc;</span><br><span class="line">                left -= inc;</span><br><span class="line">                System.out.printf(&quot;%s produce(%3d) --&gt; left=%3d, inc=%3d, size=%3d\n&quot;, </span><br><span class="line">                        Thread.currentThread().getName(), val, left, inc, size);</span><br><span class="line">                // 通知“消费者”可以消费了。</span><br><span class="line">                notifyAll();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    public synchronized void consume(int val) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            // left 表示“客户要消费数量”(有可能消费量太大，库存不够，需多此消费)</span><br><span class="line">            int left = val;</span><br><span class="line">            while (left &gt; 0) &#123;</span><br><span class="line">                // 库存为0时，等待“生产者”生产产品。</span><br><span class="line">                while (size &lt;= 0)</span><br><span class="line">                    wait();</span><br><span class="line">                // 获取“实际消费的数量”(即库存中实际减少的数量)</span><br><span class="line">                // 如果“库存”&lt;“客户要消费的数量”，则“实际消费量”=“库存”；</span><br><span class="line">                // 否则，“实际消费量”=“客户要消费的数量”。</span><br><span class="line">                int dec = (size&lt;left) ? size : left;</span><br><span class="line">                size -= dec;</span><br><span class="line">                left -= dec;</span><br><span class="line">                System.out.printf(&quot;%s consume(%3d) &lt;-- left=%3d, dec=%3d, size=%3d\n&quot;, </span><br><span class="line">                        Thread.currentThread().getName(), val, left, dec, size);</span><br><span class="line">                notifyAll();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String toString() &#123;</span><br><span class="line">        return &quot;capacity:&quot;+capacity+&quot;, actual size:&quot;+size;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">// 生产者</span><br><span class="line">class Producer &#123;</span><br><span class="line">    private Depot depot;</span><br><span class="line">    </span><br><span class="line">    public Producer(Depot depot) &#123;</span><br><span class="line">        this.depot = depot;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 消费产品：新建一个线程向仓库中生产产品。</span><br><span class="line">    public void produce(final int val) &#123;</span><br><span class="line">        new Thread() &#123;</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                depot.produce(val);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 消费者</span><br><span class="line">class Customer &#123;</span><br><span class="line">    private Depot depot;</span><br><span class="line">    </span><br><span class="line">    public Customer(Depot depot) &#123;</span><br><span class="line">        this.depot = depot;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 消费产品：新建一个线程从仓库中消费产品。</span><br><span class="line">    public void consume(final int val) &#123;</span><br><span class="line">        new Thread() &#123;</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                depot.consume(val);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Demo1 &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Depot mDepot = new Depot(100);</span><br><span class="line">        Producer mPro = new Producer(mDepot);</span><br><span class="line">        Customer mCus = new Customer(mDepot);</span><br><span class="line"></span><br><span class="line">        mPro.produce(60);</span><br><span class="line">        mPro.produce(120);</span><br><span class="line">        mCus.consume(90);</span><br><span class="line">        mCus.consume(150);</span><br><span class="line">        mPro.produce(110);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>说明：<br>(01) Producer是“生产者”类，它与“仓库(depot)”关联。当调用“生产者”的produce()方法时，它会新建一个线程并向“仓库”中生产产品。<br>(02) Customer是“消费者”类，它与“仓库(depot)”关联。当调用“消费者”的consume()方法时，它会新建一个线程并消费“仓库”中的产品。<br>(03) Depot是“仓库”类，仓库中记录“仓库的容量(capacity)”以及“仓库中当前产品数目(size)”。<br>        “仓库”类的生产方法produce()和消费方法consume()方法都是synchronized方法，进入synchronized方法体，意味着这个线程获取到了该“仓库”对象的同步锁。这也就是说，同一时间，生产者和消费者线程只能有一个能运行。通过同步锁，实现了对“残酷”的互斥访问。<br>       对于生产方法produce()而言：当仓库满时，生产者线程等待，需要等待消费者消费产品之后，生产线程才能生产；生产者线程生产完产品之后，会通过notifyAll()唤醒同步锁上的所有线程，包括“消费者线程”，即我们所说的“通知消费者进行消费”。<br>      对于消费方法consume()而言：当仓库为空时，消费者线程等待，需要等待生产者生产产品之后，消费者线程才能消费；消费者线程消费完产品之后，会通过notifyAll()唤醒同步锁上的所有线程，包括“生产者线程”，即我们所说的“通知生产者进行生产”。</p>
+<p>某一次运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Thread-0 produce( 60) --&gt; left=  0, inc= 60, size= 60</span><br><span class="line">Thread-4 produce(110) --&gt; left= 70, inc= 40, size=100</span><br><span class="line">Thread-2 consume( 90) &lt;-- left=  0, dec= 90, size= 10</span><br><span class="line">Thread-3 consume(150) &lt;-- left=140, dec= 10, size=  0</span><br><span class="line">Thread-1 produce(120) --&gt; left= 20, inc=100, size=100</span><br><span class="line">Thread-3 consume(150) &lt;-- left= 40, dec=100, size=  0</span><br><span class="line">Thread-4 produce(110) --&gt; left=  0, inc= 70, size= 70</span><br><span class="line">Thread-3 consume(150) &lt;-- left=  0, dec= 40, size= 30</span><br><span class="line">Thread-1 produce(120) --&gt; left=  0, inc= 20, size= 50</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/multithreading/" rel="tag"># multithreading</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/27/结婚十年被绿的彻底/" rel="next" title="结婚十年被绿的彻底">
+                <i class="fa fa-chevron-left"></i> 结婚十年被绿的彻底
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/28/multithreading-JUC原子类/" rel="prev" title="multithreading-JUC原子类">
+                multithreading-JUC原子类 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#线程优先级"><span class="nav-number">1.</span> <span class="nav-text">线程优先级</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#线程优先级示例"><span class="nav-number">2.</span> <span class="nav-text">线程优先级示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#守护线程示例"><span class="nav-number">3.</span> <span class="nav-text">守护线程示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生产-消费者模型"><span class="nav-number">4.</span> <span class="nav-text">生产/消费者模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生产-消费者实现"><span class="nav-number">5.</span> <span class="nav-text">生产/消费者实现</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

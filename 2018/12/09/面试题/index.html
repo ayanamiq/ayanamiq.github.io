@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Thread类的方法start();启动线程 getId();获得线程id getName();获得线程名字 getPriority();获得优先权 sleep();休眠线程 yidld();放弃cpu使用权利 float f=3.4;是否正确？不正确，3.4是双精度数，将双精度型（double）赋值给浮点型（float）属于下转型 会损失精度，因此需要强制类型转换， float f =(floa">
+<meta name="keywords" content="面试题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面试题">
+<meta property="og:url" content="https://jingyao066.gitee.io/2018/12/09/面试题/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="Thread类的方法start();启动线程 getId();获得线程id getName();获得线程名字 getPriority();获得优先权 sleep();休眠线程 yidld();放弃cpu使用权利 float f=3.4;是否正确？不正确，3.4是双精度数，将双精度型（double）赋值给浮点型（float）属于下转型 会损失精度，因此需要强制类型转换， float f =(floa">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.384Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="面试题">
+<meta name="twitter:description" content="Thread类的方法start();启动线程 getId();获得线程id getName();获得线程名字 getPriority();获得优先权 sleep();休眠线程 yidld();放弃cpu使用权利 float f=3.4;是否正确？不正确，3.4是双精度数，将双精度型（double）赋值给浮点型（float）属于下转型 会损失精度，因此需要强制类型转换， float f =(floa">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2018/12/09/面试题/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>面试题 | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2018/12/09/面试题/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">面试题
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-09 00:42:45" itemprop="dateCreated datePublished" datetime="2018-12-09T00:42:45+08:00">2018-12-09</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2018/12/09/面试题/" class="leancloud_visitors" data-flag-title="面试题">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Thread类的方法"><a href="#Thread类的方法" class="headerlink" title="Thread类的方法"></a>Thread类的方法</h1><pre><code>start();启动线程
+getId();获得线程id
+getName();获得线程名字
+getPriority();获得优先权
+sleep();休眠线程
+yidld();放弃cpu使用权利
+</code></pre><h1 id="float-f-3-4-是否正确？"><a href="#float-f-3-4-是否正确？" class="headerlink" title="float f=3.4;是否正确？"></a>float f=3.4;是否正确？</h1><pre><code>不正确，3.4是双精度数，将双精度型（double）赋值给浮点型（float）属于下转型
+会损失精度，因此需要强制类型转换，
+float f =(float)3.4;
+或
+float f =3.4F;
+</code></pre><h1 id="short-s1-1-s1-s1-1-有错么？"><a href="#short-s1-1-s1-s1-1-有错么？" class="headerlink" title="short s1 = 1; s1 = s1 + 1;有错么？"></a>short s1 = 1; s1 = s1 + 1;有错么？</h1><pre><code>1是int类型，因此s1+1运算结果也是int 型，需要强制转换类型才能赋值给short型。
+short s1 = 1; s1 += 1;没问题
+s1+= 1;相当于s1 = (short)(s1 + 1);其中有隐含的强制类型转换。
+</code></pre><h1 id="int和Integer有什么区别？"><a href="#int和Integer有什么区别？" class="headerlink" title="int和Integer有什么区别？"></a>int和Integer有什么区别？</h1><pre><code>为了能够将这些基本数据类型当成对象操作，Java为每一个基本数据类型都引入了对应的包装类型
+从Java 5开始引入了自动装箱/拆箱机制，使得二者可以相互转换。
+
+Integer a = new Integer(3);
+Integer b = 3;                  // 将3自动装箱成Integer类型
+int c = 3;
+System.out.println(a == b);     // false 两个引用没有引用同一对象
+System.out.println(a == c);     // true a自动拆箱成int类型再和c比较
+</code></pre><h1 id="amp-和-amp-amp-的区别？"><a href="#amp-和-amp-amp-的区别？" class="headerlink" title="&amp;和&amp;&amp;的区别？"></a>&amp;和&amp;&amp;的区别？</h1><pre><code>&amp;运算符有两种用法：(1)按位与；(2)逻辑与。
+&amp;&amp;运算符是短路与运算。
+&amp;&amp;左边的表达式的值是false，右边的表达式会被直接短路掉，不会进行运算。
+</code></pre><h1 id="栈、堆和静态区的用法。"><a href="#栈、堆和静态区的用法。" class="headerlink" title="栈、堆和静态区的用法。"></a>栈、堆和静态区的用法。</h1><pre><code>基本数据类型的变量，一个对象的引用，还有就是函数调用的现场保存都使用内存中的栈空间；
+通过new关键字和构造器创建的对象放在堆空间；
+程序中的字面量（literal）如直接书写的100、”hello”和常量都是放在静态区中。
+栈空间操作起来最快但是栈很小，通常大量的对象都是放在堆空间，
+
+String str = new String(&quot;hello&quot;);
+上面的语句中变量str放在栈上，用new创建出来的字符串对象放在堆上，而”hello”这个字面量放在静态区。
+</code></pre><h1 id="Math-round-11-5-等于多少？Math-round-11-5-等于多少？"><a href="#Math-round-11-5-等于多少？Math-round-11-5-等于多少？" class="headerlink" title="Math.round(11.5) 等于多少？Math.round(-11.5)等于多少？"></a>Math.round(11.5) 等于多少？Math.round(-11.5)等于多少？</h1><pre><code>Math.round(11.5)的返回值是12，Math.round(-11.5)的返回值是-11。
+四舍五入的原理是在参数上加0.5然后进行下取整。    
+</code></pre><h1 id="数组有没有length-方法？String有没有length-方法？"><a href="#数组有没有length-方法？String有没有length-方法？" class="headerlink" title="数组有没有length()方法？String有没有length()方法？"></a>数组有没有length()方法？String有没有length()方法？</h1><pre><code>数组没有length()方法，有length 的属性。
+String 有length()方法。
+JavaScript中，获得字符串的长度是通过length属性得到的，这一点容易和Java混淆。
+</code></pre><h1 id="构造器（constructor）是否可被重写（override）？"><a href="#构造器（constructor）是否可被重写（override）？" class="headerlink" title="构造器（constructor）是否可被重写（override）？"></a>构造器（constructor）是否可被重写（override）？</h1><pre><code>答：构造器不能被继承，因此不能被重写，但可以被重载。    
+</code></pre><h1 id="两个对象值相同-x-equals-y-true-，但却可有不同的hash-code，这句话对不对？"><a href="#两个对象值相同-x-equals-y-true-，但却可有不同的hash-code，这句话对不对？" class="headerlink" title="两个对象值相同(x.equals(y) == true)，但却可有不同的hash code，这句话对不对？"></a>两个对象值相同(x.equals(y) == true)，但却可有不同的hash code，这句话对不对？</h1><pre><code>不对，如果两个对象x和y满足x.equals(y) == true，它们的哈希码（hash code）应当相同。
+(1)如果两个对象相同（equals方法返回true），那么它们的hashCode值一定要相同；
+(2)如果两个对象的hashCode相同，它们并不一定相同。
+</code></pre><h1 id="是否可以继承String类？"><a href="#是否可以继承String类？" class="headerlink" title="是否可以继承String类？"></a>是否可以继承String类？</h1><pre><code>答：String 类是final类，不可以被继承。
+</code></pre><h1 id="char-型变量中能不能存贮一个中文汉字，为什么？"><a href="#char-型变量中能不能存贮一个中文汉字，为什么？" class="headerlink" title="char 型变量中能不能存贮一个中文汉字，为什么？"></a>char 型变量中能不能存贮一个中文汉字，为什么？</h1><pre><code>可以，因为Java中使用的编码是Unicode一个char类型占2个字节（16比特），所以放一个中文是没问题的。
+</code></pre><h1 id=""><a href="#" class="headerlink" title=" "></a> </h1><pre><code>Object o = new Object(){
+        public boolean equals(Object o){
+            return true;
+        }
+    };
+    System.out.println(o.equals(&quot;Fred&quot;));
+运行结果为true;
+</code></pre><h1 id="一颗有12个节点的完全二叉树，其深度是？"><a href="#一颗有12个节点的完全二叉树，其深度是？" class="headerlink" title="一颗有12个节点的完全二叉树，其深度是？"></a>一颗有12个节点的完全二叉树，其深度是？</h1><pre><code>4
+</code></pre><h1 id="string-s-“hello-world”"><a href="#string-s-“hello-world”" class="headerlink" title="string s = “hello world”;"></a>string s = “hello world”;</h1><pre><code>a.s+=&apos;a&apos;;正确
+b.int strlen=s.length;正确
+c.s=100 错误
+d.s=s+100正确
+</code></pre><h1 id="jvm内存配置参数-Xmx10240m-Xms10240m-Xmn5120m-XXSurvivorRatio-3"><a href="#jvm内存配置参数-Xmx10240m-Xms10240m-Xmn5120m-XXSurvivorRatio-3" class="headerlink" title="jvm内存配置参数:Xmx10240m -Xms10240m -Xmn5120m -XXSurvivorRatio=3"></a>jvm内存配置参数:Xmx10240m -Xms10240m -Xmn5120m -XXSurvivorRatio=3</h1><pre><code>其最小内存值和Survivor的区总大小分别是:
+10420m,2048m
+</code></pre><h1 id="正则截取-字符串中第一个出现的英文左括号之前的字符串-如北京市-海淀区-朝阳区-截取结果为-北京市"><a href="#正则截取-字符串中第一个出现的英文左括号之前的字符串-如北京市-海淀区-朝阳区-截取结果为-北京市" class="headerlink" title="正则截取   字符串中第一个出现的英文左括号之前的字符串,如北京市(海淀区)(朝阳区),截取结果为:北京市"></a>正则截取   字符串中第一个出现的英文左括号之前的字符串,如北京市(海淀区)(朝阳区),截取结果为:北京市</h1><pre><code>正则为:*,*?(?=\\()*
+</code></pre><h1 id="关于依赖注入："><a href="#关于依赖注入：" class="headerlink" title="关于依赖注入："></a>关于依赖注入：</h1><pre><code>1.依赖注入的主要目的是解耦
+2.常见的依赖注入方式有Setter和构造方法
+</code></pre><h1 id="设计一个秒杀系统的原则有哪些？如何防止”秒杀器作弊”"><a href="#设计一个秒杀系统的原则有哪些？如何防止”秒杀器作弊”" class="headerlink" title="设计一个秒杀系统的原则有哪些？如何防止”秒杀器作弊”"></a>设计一个秒杀系统的原则有哪些？如何防止”秒杀器作弊”</h1><pre><code>原则：不要整个系统宕机，即使系统故障，也不要奖错误数据展示出来，尽量保证公平公正。
+防作弊：第一步：把用户的唯一标识(还有一些其他信息)用过一定的算法生成加密字符串，
+然后由浏览器发送过来，在服务器校验。
+第二步：验证码校验(为了防止用户提前刷新验证码)，我对每一个验证码加了生成时间，
+然后在验证的同时，检验这个验证码的生成时间戳。
+第三步：ip防刷，对每一个来秒杀的用户Ip，都做一个cache,限制在一定时间内这个相同的ip不能再来秒杀。
+第四步：ip黑名单,对于有作弊嫌疑的用户，直接将ip加入黑名单。
+最后：为了防止有的用户确实是手比较快，经常秒中，那么就再根据用户的唯一标识id，对这个用户在多少天内
+不能再秒中做限制。
+</code></pre><h1 id="用多线程计算出1-10000之间的素数"><a href="#用多线程计算出1-10000之间的素数" class="headerlink" title="用多线程计算出1-10000之间的素数"></a>用多线程计算出1-10000之间的素数</h1><h1 id="不用uuid生成订单号"><a href="#不用uuid生成订单号" class="headerlink" title="不用uuid生成订单号"></a>不用uuid生成订单号</h1><h1 id="求1-100之间所有质数和"><a href="#求1-100之间所有质数和" class="headerlink" title="求1-100之间所有质数和"></a>求1-100之间所有质数和</h1><p>注：质数是只能被1和它本身整除的数<br>1不是质数</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/面试题/" rel="tag"># 面试题</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/09/简单算法/" rel="next" title="简单算法">
+                <i class="fa fa-chevron-left"></i> 简单算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/09/DTO/" rel="prev" title="DTO">
+                DTO <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Thread类的方法"><span class="nav-number">1.</span> <span class="nav-text">Thread类的方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#float-f-3-4-是否正确？"><span class="nav-number">2.</span> <span class="nav-text">float f=3.4;是否正确？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#short-s1-1-s1-s1-1-有错么？"><span class="nav-number">3.</span> <span class="nav-text">short s1 = 1; s1 = s1 + 1;有错么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#int和Integer有什么区别？"><span class="nav-number">4.</span> <span class="nav-text">int和Integer有什么区别？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#amp-和-amp-amp-的区别？"><span class="nav-number">5.</span> <span class="nav-text">&amp;和&amp;&amp;的区别？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#栈、堆和静态区的用法。"><span class="nav-number">6.</span> <span class="nav-text">栈、堆和静态区的用法。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Math-round-11-5-等于多少？Math-round-11-5-等于多少？"><span class="nav-number">7.</span> <span class="nav-text">Math.round(11.5) 等于多少？Math.round(-11.5)等于多少？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数组有没有length-方法？String有没有length-方法？"><span class="nav-number">8.</span> <span class="nav-text">数组有没有length()方法？String有没有length()方法？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#构造器（constructor）是否可被重写（override）？"><span class="nav-number">9.</span> <span class="nav-text">构造器（constructor）是否可被重写（override）？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#两个对象值相同-x-equals-y-true-，但却可有不同的hash-code，这句话对不对？"><span class="nav-number">10.</span> <span class="nav-text">两个对象值相同(x.equals(y) == true)，但却可有不同的hash code，这句话对不对？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#是否可以继承String类？"><span class="nav-number">11.</span> <span class="nav-text">是否可以继承String类？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#char-型变量中能不能存贮一个中文汉字，为什么？"><span class="nav-number">12.</span> <span class="nav-text">char 型变量中能不能存贮一个中文汉字，为什么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">13.</span> <span class="nav-text"> </span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一颗有12个节点的完全二叉树，其深度是？"><span class="nav-number">14.</span> <span class="nav-text">一颗有12个节点的完全二叉树，其深度是？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#string-s-“hello-world”"><span class="nav-number">15.</span> <span class="nav-text">string s = “hello world”;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#jvm内存配置参数-Xmx10240m-Xms10240m-Xmn5120m-XXSurvivorRatio-3"><span class="nav-number">16.</span> <span class="nav-text">jvm内存配置参数:Xmx10240m -Xms10240m -Xmn5120m -XXSurvivorRatio=3</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正则截取-字符串中第一个出现的英文左括号之前的字符串-如北京市-海淀区-朝阳区-截取结果为-北京市"><span class="nav-number">17.</span> <span class="nav-text">正则截取   字符串中第一个出现的英文左括号之前的字符串,如北京市(海淀区)(朝阳区),截取结果为:北京市</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于依赖注入："><span class="nav-number">18.</span> <span class="nav-text">关于依赖注入：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设计一个秒杀系统的原则有哪些？如何防止”秒杀器作弊”"><span class="nav-number">19.</span> <span class="nav-text">设计一个秒杀系统的原则有哪些？如何防止”秒杀器作弊”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用多线程计算出1-10000之间的素数"><span class="nav-number">20.</span> <span class="nav-text">用多线程计算出1-10000之间的素数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#不用uuid生成订单号"><span class="nav-number">21.</span> <span class="nav-text">不用uuid生成订单号</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#求1-100之间所有质数和"><span class="nav-number">22.</span> <span class="nav-text">求1-100之间所有质数和</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

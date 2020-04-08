@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="WeakHashMap介绍WeakHashMap 继承于AbstractMap，实现了Map接口。和HashMap一样，WeakHashMap 也是一个散列表，它存储的内容也是键值对(key-value)映射，而且键和值都可以是null。不过WeakHashMap的键是“弱键”。在 WeakHashMap 中，当某个键不再正常使用时，会被从WeakHashMap中被自动移除。更精确地说，对于一个给">
+<meta name="keywords" content="集合,Map">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WeakHashMap">
+<meta property="og:url" content="https://jingyao066.gitee.io/2019/04/02/WeakHashMap/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="WeakHashMap介绍WeakHashMap 继承于AbstractMap，实现了Map接口。和HashMap一样，WeakHashMap 也是一个散列表，它存储的内容也是键值对(key-value)映射，而且键和值都可以是null。不过WeakHashMap的键是“弱键”。在 WeakHashMap 中，当某个键不再正常使用时，会被从WeakHashMap中被自动移除。更精确地说，对于一个给">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/04/02/WeakHashMap/1.jpg">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.294Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WeakHashMap">
+<meta name="twitter:description" content="WeakHashMap介绍WeakHashMap 继承于AbstractMap，实现了Map接口。和HashMap一样，WeakHashMap 也是一个散列表，它存储的内容也是键值对(key-value)映射，而且键和值都可以是null。不过WeakHashMap的键是“弱键”。在 WeakHashMap 中，当某个键不再正常使用时，会被从WeakHashMap中被自动移除。更精确地说，对于一个给">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2019/04/02/WeakHashMap/1.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2019/04/02/WeakHashMap/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>WeakHashMap | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2019/04/02/WeakHashMap/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">WeakHashMap
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-02 15:04:09" itemprop="dateCreated datePublished" datetime="2019-04-02T15:04:09+08:00">2019-04-02</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/04/02/WeakHashMap/" class="leancloud_visitors" data-flag-title="WeakHashMap">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="WeakHashMap介绍"><a href="#WeakHashMap介绍" class="headerlink" title="WeakHashMap介绍"></a>WeakHashMap介绍</h1><p>WeakHashMap 继承于AbstractMap，实现了Map接口。<br>和HashMap一样，WeakHashMap 也是一个散列表，它存储的内容也是键值对(key-value)映射，而且键和值都可以是null。<br>不过WeakHashMap的键是“弱键”。在 WeakHashMap 中，当某个键不再正常使用时，会被从WeakHashMap中被自动移除。更精确地说，对于一个给定的键，其映射的存在并不阻止垃圾回收器对该键的丢弃，这就使该键成为可终止的，被终止，然后被回收。某个键被终止时，它对应的键值对也就从映射中有效地移除了。<br>这个“弱键”的原理呢？大致上就是，通过WeakReference和ReferenceQueue实现的。 WeakHashMap的key是“弱键”，即是WeakReference类型的；ReferenceQueue是一个队列，它会保存被GC回收的“弱键”。实现步骤是：</p>
+<ul>
+<li>新建WeakHashMap，将“键值对”添加到WeakHashMap中。<br>实际上，WeakHashMap是通过数组table保存Entry(键值对)；每一个Entry实际上是一个单向链表，即Entry是键值对链表。</li>
+<li>当某“弱键”不再被其它对象引用，并被GC回收时。在GC回收该“弱键”时，这个“弱键”也同时会被添加到ReferenceQueue(queue)队列中。</li>
+<li>当下一次我们需要操作WeakHashMap时，会先同步table和queue。table中保存了全部的键值对，而queue中保存被GC回收的键值对；同步它们，就是删除table中被GC回收的键值对。<br>这就是“弱键”如何被自动从WeakHashMap中删除的步骤了。</li>
+</ul>
+<p>和HashMap一样，WeakHashMap是不同步的。可以使用 Collections.synchronizedMap 方法来构造同步的 WeakHashMap。</p>
+<h1 id="WeakHashMap的构造函数"><a href="#WeakHashMap的构造函数" class="headerlink" title="WeakHashMap的构造函数"></a>WeakHashMap的构造函数</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 默认构造函数。</span><br><span class="line">WeakHashMap()</span><br><span class="line"></span><br><span class="line">// 指定“容量大小”的构造函数</span><br><span class="line">WeakHashMap(int capacity)</span><br><span class="line"></span><br><span class="line">// 指定“容量大小”和“加载因子”的构造函数</span><br><span class="line">WeakHashMap(int capacity, float loadFactor)</span><br><span class="line"></span><br><span class="line">// 包含“子Map”的构造函数</span><br><span class="line">WeakHashMap(Map&lt;? extends K, ? extends V&gt; map)</span><br></pre></td></tr></table></figure>
+<h1 id="WeakHashMap的API"><a href="#WeakHashMap的API" class="headerlink" title="WeakHashMap的API"></a>WeakHashMap的API</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">void                   clear()</span><br><span class="line">Object                 clone()</span><br><span class="line">boolean                containsKey(Object key)</span><br><span class="line">boolean                containsValue(Object value)</span><br><span class="line">Set&lt;Entry&lt;K, V&gt;&gt;       entrySet()</span><br><span class="line">V                      get(Object key)</span><br><span class="line">boolean                isEmpty()</span><br><span class="line">Set&lt;K&gt;                 keySet()</span><br><span class="line">V                      put(K key, V value)</span><br><span class="line">void                   putAll(Map&lt;? extends K, ? extends V&gt; map)</span><br><span class="line">V                      remove(Object key)</span><br><span class="line">int                    size()</span><br><span class="line">Collection&lt;V&gt;          values()</span><br></pre></td></tr></table></figure>
+<h1 id="WeakHashMap的数据结构"><a href="#WeakHashMap的数据结构" class="headerlink" title="WeakHashMap的数据结构"></a>WeakHashMap的数据结构</h1><p>继承关系如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">java.lang.Object</span><br><span class="line">   ↳     java.util.AbstractMap&lt;K, V&gt;</span><br><span class="line">         ↳     java.util.WeakHashMap&lt;K, V&gt;</span><br><span class="line"></span><br><span class="line">public class WeakHashMap&lt;K,V&gt;</span><br><span class="line">    extends AbstractMap&lt;K,V&gt;</span><br><span class="line">    implements Map&lt;K,V&gt; &#123;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>WeakHashMap与Map关系如下图：<br><img src="/2019/04/02/WeakHashMap/1.jpg" alt=""><br>从图中可以看出：</p>
+<ul>
+<li>WeakHashMap继承于AbstractMap，并且实现了Map接口。</li>
+<li>WeakHashMap是哈希表，但是它的键是”弱键”。WeakHashMap中保护几个重要的成员变量：table, size, threshold, loadFactor, modCount, queue。<br>　　table是一个Entry[]数组类型，而Entry实际上就是一个单向链表。哈希表的”key-value键值对”都是存储在Entry数组中的。<br>　　size是Hashtable的大小，它是Hashtable保存的键值对的数量。<br>　　threshold是Hashtable的阈值，用于判断是否需要调整Hashtable的容量。threshold的值=”容量*加载因子”。<br>　　loadFactor就是加载因子。<br>　　modCount是用来实现fail-fast机制的<br>　　queue保存的是“已被GC清除”的“弱引用的键”。</li>
+</ul>
+<h1 id="WeakHashMap源码解析"><a href="#WeakHashMap源码解析" class="headerlink" title="WeakHashMap源码解析"></a>WeakHashMap源码解析</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br><span class="line">519</span><br><span class="line">520</span><br><span class="line">521</span><br><span class="line">522</span><br><span class="line">523</span><br><span class="line">524</span><br><span class="line">525</span><br><span class="line">526</span><br><span class="line">527</span><br><span class="line">528</span><br><span class="line">529</span><br><span class="line">530</span><br><span class="line">531</span><br><span class="line">532</span><br><span class="line">533</span><br><span class="line">534</span><br><span class="line">535</span><br><span class="line">536</span><br><span class="line">537</span><br><span class="line">538</span><br><span class="line">539</span><br><span class="line">540</span><br><span class="line">541</span><br><span class="line">542</span><br><span class="line">543</span><br><span class="line">544</span><br><span class="line">545</span><br><span class="line">546</span><br><span class="line">547</span><br><span class="line">548</span><br><span class="line">549</span><br><span class="line">550</span><br><span class="line">551</span><br><span class="line">552</span><br><span class="line">553</span><br><span class="line">554</span><br><span class="line">555</span><br><span class="line">556</span><br><span class="line">557</span><br><span class="line">558</span><br><span class="line">559</span><br><span class="line">560</span><br><span class="line">561</span><br><span class="line">562</span><br><span class="line">563</span><br><span class="line">564</span><br><span class="line">565</span><br><span class="line">566</span><br><span class="line">567</span><br><span class="line">568</span><br><span class="line">569</span><br><span class="line">570</span><br><span class="line">571</span><br><span class="line">572</span><br><span class="line">573</span><br><span class="line">574</span><br><span class="line">575</span><br><span class="line">576</span><br><span class="line">577</span><br><span class="line">578</span><br><span class="line">579</span><br><span class="line">580</span><br><span class="line">581</span><br><span class="line">582</span><br><span class="line">583</span><br><span class="line">584</span><br><span class="line">585</span><br><span class="line">586</span><br><span class="line">587</span><br><span class="line">588</span><br><span class="line">589</span><br><span class="line">590</span><br><span class="line">591</span><br><span class="line">592</span><br><span class="line">593</span><br><span class="line">594</span><br><span class="line">595</span><br><span class="line">596</span><br><span class="line">597</span><br><span class="line">598</span><br><span class="line">599</span><br><span class="line">600</span><br><span class="line">601</span><br><span class="line">602</span><br><span class="line">603</span><br><span class="line">604</span><br><span class="line">605</span><br><span class="line">606</span><br><span class="line">607</span><br><span class="line">608</span><br><span class="line">609</span><br><span class="line">610</span><br><span class="line">611</span><br><span class="line">612</span><br><span class="line">613</span><br><span class="line">614</span><br><span class="line">615</span><br><span class="line">616</span><br><span class="line">617</span><br><span class="line">618</span><br><span class="line">619</span><br><span class="line">620</span><br><span class="line">621</span><br><span class="line">622</span><br><span class="line">623</span><br><span class="line">624</span><br><span class="line">625</span><br><span class="line">626</span><br><span class="line">627</span><br><span class="line">628</span><br><span class="line">629</span><br><span class="line">630</span><br><span class="line">631</span><br><span class="line">632</span><br><span class="line">633</span><br><span class="line">634</span><br><span class="line">635</span><br><span class="line">636</span><br><span class="line">637</span><br><span class="line">638</span><br><span class="line">639</span><br><span class="line">640</span><br><span class="line">641</span><br><span class="line">642</span><br><span class="line">643</span><br><span class="line">644</span><br><span class="line">645</span><br><span class="line">646</span><br><span class="line">647</span><br><span class="line">648</span><br><span class="line">649</span><br><span class="line">650</span><br><span class="line">651</span><br><span class="line">652</span><br><span class="line">653</span><br><span class="line">654</span><br><span class="line">655</span><br><span class="line">656</span><br><span class="line">657</span><br><span class="line">658</span><br><span class="line">659</span><br><span class="line">660</span><br><span class="line">661</span><br><span class="line">662</span><br><span class="line">663</span><br><span class="line">664</span><br><span class="line">665</span><br><span class="line">666</span><br><span class="line">667</span><br><span class="line">668</span><br><span class="line">669</span><br><span class="line">670</span><br><span class="line">671</span><br><span class="line">672</span><br><span class="line">673</span><br><span class="line">674</span><br><span class="line">675</span><br><span class="line">676</span><br><span class="line">677</span><br></pre></td><td class="code"><pre><span class="line">package java.util;</span><br><span class="line">import java.lang.ref.WeakReference;</span><br><span class="line">import java.lang.ref.ReferenceQueue;</span><br><span class="line"></span><br><span class="line">public class WeakHashMap&lt;K,V&gt;</span><br><span class="line">    extends AbstractMap&lt;K,V&gt;</span><br><span class="line">    implements Map&lt;K,V&gt; &#123;</span><br><span class="line"></span><br><span class="line">    // 默认的初始容量是16，必须是2的幂。</span><br><span class="line">    private static final int DEFAULT_INITIAL_CAPACITY = 16;</span><br><span class="line"></span><br><span class="line">    // 最大容量（必须是2的幂且小于2的30次方，传入容量过大将被这个值替换）</span><br><span class="line">    private static final int MAXIMUM_CAPACITY = 1 &lt;&lt; 30;</span><br><span class="line"></span><br><span class="line">    // 默认加载因子</span><br><span class="line">    private static final float DEFAULT_LOAD_FACTOR = 0.75f;</span><br><span class="line"></span><br><span class="line">    // 存储数据的Entry数组，长度是2的幂。</span><br><span class="line">    // WeakHashMap是采用拉链法实现的，每一个Entry本质上是一个单向链表</span><br><span class="line">    private Entry[] table;</span><br><span class="line"></span><br><span class="line">    // WeakHashMap的大小，它是WeakHashMap保存的键值对的数量</span><br><span class="line">    private int size;</span><br><span class="line"></span><br><span class="line">    // WeakHashMap的阈值，用于判断是否需要调整WeakHashMap的容量（threshold = 容量*加载因子）</span><br><span class="line">    private int threshold;</span><br><span class="line"></span><br><span class="line">    // 加载因子实际大小</span><br><span class="line">    private final float loadFactor;</span><br><span class="line"></span><br><span class="line">    // queue保存的是“已被GC清除”的“弱引用的键”。</span><br><span class="line">    // 弱引用和ReferenceQueue 是联合使用的：如果弱引用所引用的对象被垃圾回收，Java虚拟机就会把这个弱引用加入到与之关联的引用队列中</span><br><span class="line">    private final ReferenceQueue&lt;K&gt; queue = new ReferenceQueue&lt;K&gt;();</span><br><span class="line"></span><br><span class="line">    // WeakHashMap被改变的次数</span><br><span class="line">    private volatile int modCount;</span><br><span class="line"></span><br><span class="line">    // 指定“容量大小”和“加载因子”的构造函数</span><br><span class="line">    public WeakHashMap(int initialCapacity, float loadFactor) &#123;</span><br><span class="line">        if (initialCapacity &lt; 0)</span><br><span class="line">            throw new IllegalArgumentException(&quot;Illegal Initial Capacity: &quot;+</span><br><span class="line">                                               initialCapacity);</span><br><span class="line">        // WeakHashMap的最大容量只能是MAXIMUM_CAPACITY</span><br><span class="line">        if (initialCapacity &gt; MAXIMUM_CAPACITY)</span><br><span class="line">            initialCapacity = MAXIMUM_CAPACITY;</span><br><span class="line"></span><br><span class="line">        if (loadFactor &lt;= 0 || Float.isNaN(loadFactor))</span><br><span class="line">            throw new IllegalArgumentException(&quot;Illegal Load factor: &quot;+</span><br><span class="line">                                               loadFactor);</span><br><span class="line">        // 找出“大于initialCapacity”的最小的2的幂</span><br><span class="line">        int capacity = 1;</span><br><span class="line">        while (capacity &lt; initialCapacity)</span><br><span class="line">            capacity &lt;&lt;= 1;</span><br><span class="line">        // 创建Entry数组，用来保存数据</span><br><span class="line">        table = new Entry[capacity];</span><br><span class="line">        // 设置“加载因子”</span><br><span class="line">        this.loadFactor = loadFactor;</span><br><span class="line">        // 设置“WeakHashMap阈值”，当WeakHashMap中存储数据的数量达到threshold时，就需要将WeakHashMap的容量加倍。</span><br><span class="line">        threshold = (int)(capacity * loadFactor);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 指定“容量大小”的构造函数</span><br><span class="line">    public WeakHashMap(int initialCapacity) &#123;</span><br><span class="line">        this(initialCapacity, DEFAULT_LOAD_FACTOR);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 默认构造函数。</span><br><span class="line">    public WeakHashMap() &#123;</span><br><span class="line">        this.loadFactor = DEFAULT_LOAD_FACTOR;</span><br><span class="line">        threshold = (int)(DEFAULT_INITIAL_CAPACITY);</span><br><span class="line">        table = new Entry[DEFAULT_INITIAL_CAPACITY];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 包含“子Map”的构造函数</span><br><span class="line">    public WeakHashMap(Map&lt;? extends K, ? extends V&gt; m) &#123;</span><br><span class="line">        this(Math.max((int) (m.size() / DEFAULT_LOAD_FACTOR) + 1, 16),</span><br><span class="line">             DEFAULT_LOAD_FACTOR);</span><br><span class="line">        // 将m中的全部元素逐个添加到WeakHashMap中</span><br><span class="line">        putAll(m);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 键为null的mask值。</span><br><span class="line">    // 因为WeakReference中允许“null的key”，若直接插入“null的key”，将其当作弱引用时，会被删除。</span><br><span class="line">    // 因此，这里对于“key为null”的清空，都统一替换为“key为NULL_KEY”，“NULL_KEY”是“静态的final常量”。</span><br><span class="line">    private static final Object NULL_KEY = new Object();</span><br><span class="line"></span><br><span class="line">    // 对“null的key”进行特殊处理</span><br><span class="line">    private static Object maskNull(Object key) &#123;</span><br><span class="line">        return (key == null ? NULL_KEY : key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 还原对“null的key”的特殊处理</span><br><span class="line">    private static &lt;K&gt; K unmaskNull(Object key) &#123;</span><br><span class="line">        return (K) (key == NULL_KEY ? null : key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 判断“x”和“y”是否相等</span><br><span class="line">    static boolean eq(Object x, Object y) &#123;</span><br><span class="line">        return x == y || x.equals(y);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回索引值</span><br><span class="line">    // h &amp; (length-1)保证返回值的小于length</span><br><span class="line">    static int indexFor(int h, int length) &#123;</span><br><span class="line">        return h &amp; (length-1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 清空table中无用键值对。原理如下：</span><br><span class="line">    // (01) 当WeakHashMap中某个“弱引用的key”由于没有再被引用而被GC收回时，</span><br><span class="line">    //   被回收的“该弱引用key”也被会被添加到&quot;ReferenceQueue(queue)&quot;中。</span><br><span class="line">    // (02) 当我们执行expungeStaleEntries时，</span><br><span class="line">    //   就遍历&quot;ReferenceQueue(queue)&quot;中的所有key</span><br><span class="line">    //   然后就在“WeakReference的table”中删除与“ReferenceQueue(queue)中key”对应的键值对</span><br><span class="line">    private void expungeStaleEntries() &#123;</span><br><span class="line">        Entry&lt;K,V&gt; e;</span><br><span class="line">        while ( (e = (Entry&lt;K,V&gt;) queue.poll()) != null) &#123;</span><br><span class="line">            int h = e.hash;</span><br><span class="line">            int i = indexFor(h, table.length);</span><br><span class="line"></span><br><span class="line">            Entry&lt;K,V&gt; prev = table[i];</span><br><span class="line">            Entry&lt;K,V&gt; p = prev;</span><br><span class="line">            while (p != null) &#123;</span><br><span class="line">                Entry&lt;K,V&gt; next = p.next;</span><br><span class="line">                if (p == e) &#123;</span><br><span class="line">                    if (prev == e)</span><br><span class="line">                        table[i] = next;</span><br><span class="line">                    else</span><br><span class="line">                        prev.next = next;</span><br><span class="line">                    e.next = null;  // Help GC</span><br><span class="line">                    e.value = null; //  &quot;   &quot;</span><br><span class="line">                    size--;</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">                prev = p;</span><br><span class="line">                p = next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 获取WeakHashMap的table(存放键值对的数组)</span><br><span class="line">    private Entry[] getTable() &#123;</span><br><span class="line">        // 删除table中“已被GC回收的key对应的键值对”</span><br><span class="line">        expungeStaleEntries();</span><br><span class="line">        return table;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 获取WeakHashMap的实际大小</span><br><span class="line">    public int size() &#123;</span><br><span class="line">        if (size == 0)</span><br><span class="line">            return 0;</span><br><span class="line">        // 删除table中“已被GC回收的key对应的键值对”</span><br><span class="line">        expungeStaleEntries();</span><br><span class="line">        return size;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public boolean isEmpty() &#123;</span><br><span class="line">        return size() == 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 获取key对应的value</span><br><span class="line">    public V get(Object key) &#123;</span><br><span class="line">        Object k = maskNull(key);</span><br><span class="line">        // 获取key的hash值。</span><br><span class="line">        int h = HashMap.hash(k.hashCode());</span><br><span class="line">        Entry[] tab = getTable();</span><br><span class="line">        int index = indexFor(h, tab.length);</span><br><span class="line">        Entry&lt;K,V&gt; e = tab[index];</span><br><span class="line">        // 在“该hash值对应的链表”上查找“键值等于key”的元素</span><br><span class="line">        while (e != null) &#123;</span><br><span class="line">            if (e.hash == h &amp;&amp; eq(k, e.get()))</span><br><span class="line">                return e.value;</span><br><span class="line">            e = e.next;</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // WeakHashMap是否包含key</span><br><span class="line">    public boolean containsKey(Object key) &#123;</span><br><span class="line">        return getEntry(key) != null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回“键为key”的键值对</span><br><span class="line">    Entry&lt;K,V&gt; getEntry(Object key) &#123;</span><br><span class="line">        Object k = maskNull(key);</span><br><span class="line">        int h = HashMap.hash(k.hashCode());</span><br><span class="line">        Entry[] tab = getTable();</span><br><span class="line">        int index = indexFor(h, tab.length);</span><br><span class="line">        Entry&lt;K,V&gt; e = tab[index];</span><br><span class="line">        while (e != null &amp;&amp; !(e.hash == h &amp;&amp; eq(k, e.get())))</span><br><span class="line">            e = e.next;</span><br><span class="line">        return e;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 将“key-value”添加到WeakHashMap中</span><br><span class="line">    public V put(K key, V value) &#123;</span><br><span class="line">        K k = (K) maskNull(key);</span><br><span class="line">        int h = HashMap.hash(k.hashCode());</span><br><span class="line">        Entry[] tab = getTable();</span><br><span class="line">        int i = indexFor(h, tab.length);</span><br><span class="line"></span><br><span class="line">        for (Entry&lt;K,V&gt; e = tab[i]; e != null; e = e.next) &#123;</span><br><span class="line">            // 若“该key”对应的键值对已经存在，则用新的value取代旧的value。然后退出！</span><br><span class="line">            if (h == e.hash &amp;&amp; eq(k, e.get())) &#123;</span><br><span class="line">                V oldValue = e.value;</span><br><span class="line">                if (value != oldValue)</span><br><span class="line">                    e.value = value;</span><br><span class="line">                return oldValue;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 若“该key”对应的键值对不存在于WeakHashMap中，则将“key-value”添加到table中</span><br><span class="line">        modCount++;</span><br><span class="line">        Entry&lt;K,V&gt; e = tab[i];</span><br><span class="line">        tab[i] = new Entry&lt;K,V&gt;(k, value, queue, h, e);</span><br><span class="line">        if (++size &gt;= threshold)</span><br><span class="line">            resize(tab.length * 2);</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 重新调整WeakHashMap的大小，newCapacity是调整后的单位</span><br><span class="line">    void resize(int newCapacity) &#123;</span><br><span class="line">        Entry[] oldTable = getTable();</span><br><span class="line">        int oldCapacity = oldTable.length;</span><br><span class="line">        if (oldCapacity == MAXIMUM_CAPACITY) &#123;</span><br><span class="line">            threshold = Integer.MAX_VALUE;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 新建一个newTable，将“旧的table”的全部元素添加到“新的newTable”中，</span><br><span class="line">        // 然后，将“新的newTable”赋值给“旧的table”。</span><br><span class="line">        Entry[] newTable = new Entry[newCapacity];</span><br><span class="line">        transfer(oldTable, newTable);</span><br><span class="line">        table = newTable;</span><br><span class="line"></span><br><span class="line">        if (size &gt;= threshold / 2) &#123;</span><br><span class="line">            threshold = (int)(newCapacity * loadFactor);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // 删除table中“已被GC回收的key对应的键值对”</span><br><span class="line">            expungeStaleEntries();</span><br><span class="line">            transfer(newTable, oldTable);</span><br><span class="line">            table = oldTable;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 将WeakHashMap中的全部元素都添加到newTable中</span><br><span class="line">    private void transfer(Entry[] src, Entry[] dest) &#123;</span><br><span class="line">        for (int j = 0; j &lt; src.length; ++j) &#123;</span><br><span class="line">            Entry&lt;K,V&gt; e = src[j];</span><br><span class="line">            src[j] = null;</span><br><span class="line">            while (e != null) &#123;</span><br><span class="line">                Entry&lt;K,V&gt; next = e.next;</span><br><span class="line">                Object key = e.get();</span><br><span class="line">                if (key == null) &#123;</span><br><span class="line">                    e.next = null;  // Help GC</span><br><span class="line">                    e.value = null; //  &quot;   &quot;</span><br><span class="line">                    size--;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    int i = indexFor(e.hash, dest.length);</span><br><span class="line">                    e.next = dest[i];</span><br><span class="line">                    dest[i] = e;</span><br><span class="line">                &#125;</span><br><span class="line">                e = next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 将&quot;m&quot;的全部元素都添加到WeakHashMap中</span><br><span class="line">    public void putAll(Map&lt;? extends K, ? extends V&gt; m) &#123;</span><br><span class="line">        int numKeysToBeAdded = m.size();</span><br><span class="line">        if (numKeysToBeAdded == 0)</span><br><span class="line">            return;</span><br><span class="line"></span><br><span class="line">        // 计算容量是否足够，</span><br><span class="line">        // 若“当前实际容量 &lt; 需要的容量”，则将容量x2。</span><br><span class="line">        if (numKeysToBeAdded &gt; threshold) &#123;</span><br><span class="line">            int targetCapacity = (int)(numKeysToBeAdded / loadFactor + 1);</span><br><span class="line">            if (targetCapacity &gt; MAXIMUM_CAPACITY)</span><br><span class="line">                targetCapacity = MAXIMUM_CAPACITY;</span><br><span class="line">            int newCapacity = table.length;</span><br><span class="line">            while (newCapacity &lt; targetCapacity)</span><br><span class="line">                newCapacity &lt;&lt;= 1;</span><br><span class="line">            if (newCapacity &gt; table.length)</span><br><span class="line">                resize(newCapacity);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 将“m”中的元素逐个添加到WeakHashMap中。</span><br><span class="line">        for (Map.Entry&lt;? extends K, ? extends V&gt; e : m.entrySet())</span><br><span class="line">            put(e.getKey(), e.getValue());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 删除“键为key”元素</span><br><span class="line">    public V remove(Object key) &#123;</span><br><span class="line">        Object k = maskNull(key);</span><br><span class="line">        // 获取哈希值。</span><br><span class="line">        int h = HashMap.hash(k.hashCode());</span><br><span class="line">        Entry[] tab = getTable();</span><br><span class="line">        int i = indexFor(h, tab.length);</span><br><span class="line">        Entry&lt;K,V&gt; prev = tab[i];</span><br><span class="line">        Entry&lt;K,V&gt; e = prev;</span><br><span class="line"></span><br><span class="line">        // 删除链表中“键为key”的元素</span><br><span class="line">        // 本质是“删除单向链表中的节点”</span><br><span class="line">        while (e != null) &#123;</span><br><span class="line">            Entry&lt;K,V&gt; next = e.next;</span><br><span class="line">            if (h == e.hash &amp;&amp; eq(k, e.get())) &#123;</span><br><span class="line">                modCount++;</span><br><span class="line">                size--;</span><br><span class="line">                if (prev == e)</span><br><span class="line">                    tab[i] = next;</span><br><span class="line">                else</span><br><span class="line">                    prev.next = next;</span><br><span class="line">                return e.value;</span><br><span class="line">            &#125;</span><br><span class="line">            prev = e;</span><br><span class="line">            e = next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 删除“键值对”</span><br><span class="line">    Entry&lt;K,V&gt; removeMapping(Object o) &#123;</span><br><span class="line">        if (!(o instanceof Map.Entry))</span><br><span class="line">            return null;</span><br><span class="line">        Entry[] tab = getTable();</span><br><span class="line">        Map.Entry entry = (Map.Entry)o;</span><br><span class="line">        Object k = maskNull(entry.getKey());</span><br><span class="line">        int h = HashMap.hash(k.hashCode());</span><br><span class="line">        int i = indexFor(h, tab.length);</span><br><span class="line">        Entry&lt;K,V&gt; prev = tab[i];</span><br><span class="line">        Entry&lt;K,V&gt; e = prev;</span><br><span class="line"></span><br><span class="line">        // 删除链表中的“键值对e”</span><br><span class="line">        // 本质是“删除单向链表中的节点”</span><br><span class="line">        while (e != null) &#123;</span><br><span class="line">            Entry&lt;K,V&gt; next = e.next;</span><br><span class="line">            if (h == e.hash &amp;&amp; e.equals(entry)) &#123;</span><br><span class="line">                modCount++;</span><br><span class="line">                size--;</span><br><span class="line">                if (prev == e)</span><br><span class="line">                    tab[i] = next;</span><br><span class="line">                else</span><br><span class="line">                    prev.next = next;</span><br><span class="line">                return e;</span><br><span class="line">            &#125;</span><br><span class="line">            prev = e;</span><br><span class="line">            e = next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 清空WeakHashMap，将所有的元素设为null</span><br><span class="line">    public void clear() &#123;</span><br><span class="line">        while (queue.poll() != null)</span><br><span class="line">            ;</span><br><span class="line"></span><br><span class="line">        modCount++;</span><br><span class="line">        Entry[] tab = table;</span><br><span class="line">        for (int i = 0; i &lt; tab.length; ++i)</span><br><span class="line">            tab[i] = null;</span><br><span class="line">        size = 0;</span><br><span class="line"></span><br><span class="line">        while (queue.poll() != null)</span><br><span class="line">            ;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 是否包含“值为value”的元素</span><br><span class="line">    public boolean containsValue(Object value) &#123;</span><br><span class="line">        // 若“value为null”，则调用containsNullValue()查找</span><br><span class="line">        if (value==null)</span><br><span class="line">            return containsNullValue();</span><br><span class="line"></span><br><span class="line">        // 若“value不为null”，则查找WeakHashMap中是否有值为value的节点。</span><br><span class="line">        Entry[] tab = getTable();</span><br><span class="line">        for (int i = tab.length ; i-- &gt; 0 ;)</span><br><span class="line">            for (Entry e = tab[i] ; e != null ; e = e.next)</span><br><span class="line">                if (value.equals(e.value))</span><br><span class="line">                    return true;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 是否包含null值</span><br><span class="line">    private boolean containsNullValue() &#123;</span><br><span class="line">        Entry[] tab = getTable();</span><br><span class="line">        for (int i = tab.length ; i-- &gt; 0 ;)</span><br><span class="line">            for (Entry e = tab[i] ; e != null ; e = e.next)</span><br><span class="line">                if (e.value==null)</span><br><span class="line">                    return true;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Entry是单向链表。</span><br><span class="line">    // 它是 “WeakHashMap链式存储法”对应的链表。</span><br><span class="line">    // 它实现了Map.Entry 接口，即实现getKey(), getValue(), setValue(V value), equals(Object o), hashCode()这些函数</span><br><span class="line">    private static class Entry&lt;K,V&gt; extends WeakReference&lt;K&gt; implements Map.Entry&lt;K,V&gt; &#123;</span><br><span class="line">        private V value;</span><br><span class="line">        private final int hash;</span><br><span class="line">        // 指向下一个节点</span><br><span class="line">        private Entry&lt;K,V&gt; next;</span><br><span class="line"></span><br><span class="line">        // 构造函数。</span><br><span class="line">        Entry(K key, V value,</span><br><span class="line">          ReferenceQueue&lt;K&gt; queue,</span><br><span class="line">              int hash, Entry&lt;K,V&gt; next) &#123;</span><br><span class="line">            super(key, queue);</span><br><span class="line">            this.value = value;</span><br><span class="line">            this.hash  = hash;</span><br><span class="line">            this.next  = next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public K getKey() &#123;</span><br><span class="line">            return WeakHashMap.&lt;K&gt;unmaskNull(get());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public V getValue() &#123;</span><br><span class="line">            return value;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public V setValue(V newValue) &#123;</span><br><span class="line">        V oldValue = value;</span><br><span class="line">            value = newValue;</span><br><span class="line">            return oldValue;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 判断两个Entry是否相等</span><br><span class="line">        // 若两个Entry的“key”和“value”都相等，则返回true。</span><br><span class="line">        // 否则，返回false</span><br><span class="line">        public boolean equals(Object o) &#123;</span><br><span class="line">            if (!(o instanceof Map.Entry))</span><br><span class="line">                return false;</span><br><span class="line">            Map.Entry e = (Map.Entry)o;</span><br><span class="line">            Object k1 = getKey();</span><br><span class="line">            Object k2 = e.getKey();</span><br><span class="line">            if (k1 == k2 || (k1 != null &amp;&amp; k1.equals(k2))) &#123;</span><br><span class="line">                Object v1 = getValue();</span><br><span class="line">                Object v2 = e.getValue();</span><br><span class="line">                if (v1 == v2 || (v1 != null &amp;&amp; v1.equals(v2)))</span><br><span class="line">                    return true;</span><br><span class="line">            &#125;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 实现hashCode()</span><br><span class="line">        public int hashCode() &#123;</span><br><span class="line">            Object k = getKey();</span><br><span class="line">            Object v = getValue();</span><br><span class="line">            return  ((k==null ? 0 : k.hashCode()) ^</span><br><span class="line">                     (v==null ? 0 : v.hashCode()));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public String toString() &#123;</span><br><span class="line">            return getKey() + &quot;=&quot; + getValue();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // HashIterator是WeakHashMap迭代器的抽象出来的父类，实现了公共了函数。</span><br><span class="line">    // 它包含“key迭代器(KeyIterator)”、“Value迭代器(ValueIterator)”和“Entry迭代器(EntryIterator)”3个子类。</span><br><span class="line">    private abstract class HashIterator&lt;T&gt; implements Iterator&lt;T&gt; &#123;</span><br><span class="line">        // 当前索引</span><br><span class="line">        int index;</span><br><span class="line">        // 当前元素</span><br><span class="line">        Entry&lt;K,V&gt; entry = null;</span><br><span class="line">        // 上一次返回元素</span><br><span class="line">        Entry&lt;K,V&gt; lastReturned = null;</span><br><span class="line">        // expectedModCount用于实现fast-fail机制。</span><br><span class="line">        int expectedModCount = modCount;</span><br><span class="line"></span><br><span class="line">        // 下一个键(强引用)</span><br><span class="line">        Object nextKey = null;</span><br><span class="line"></span><br><span class="line">        // 当前键(强引用)</span><br><span class="line">        Object currentKey = null;</span><br><span class="line"></span><br><span class="line">        // 构造函数</span><br><span class="line">        HashIterator() &#123;</span><br><span class="line">            index = (size() != 0 ? table.length : 0);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 是否存在下一个元素</span><br><span class="line">        public boolean hasNext() &#123;</span><br><span class="line">            Entry[] t = table;</span><br><span class="line"></span><br><span class="line">            // 一个Entry就是一个单向链表</span><br><span class="line">            // 若该Entry的下一个节点不为空，就将next指向下一个节点;</span><br><span class="line">            // 否则，将next指向下一个链表(也是下一个Entry)的不为null的节点。</span><br><span class="line">            while (nextKey == null) &#123;</span><br><span class="line">                Entry&lt;K,V&gt; e = entry;</span><br><span class="line">                int i = index;</span><br><span class="line">                while (e == null &amp;&amp; i &gt; 0)</span><br><span class="line">                    e = t[--i];</span><br><span class="line">                entry = e;</span><br><span class="line">                index = i;</span><br><span class="line">                if (e == null) &#123;</span><br><span class="line">                    currentKey = null;</span><br><span class="line">                    return false;</span><br><span class="line">                &#125;</span><br><span class="line">                nextKey = e.get(); // hold on to key in strong ref</span><br><span class="line">                if (nextKey == null)</span><br><span class="line">                    entry = entry.next;</span><br><span class="line">            &#125;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 获取下一个元素</span><br><span class="line">        protected Entry&lt;K,V&gt; nextEntry() &#123;</span><br><span class="line">            if (modCount != expectedModCount)</span><br><span class="line">                throw new ConcurrentModificationException();</span><br><span class="line">            if (nextKey == null &amp;&amp; !hasNext())</span><br><span class="line">                throw new NoSuchElementException();</span><br><span class="line"></span><br><span class="line">            lastReturned = entry;</span><br><span class="line">            entry = entry.next;</span><br><span class="line">            currentKey = nextKey;</span><br><span class="line">            nextKey = null;</span><br><span class="line">            return lastReturned;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 删除当前元素</span><br><span class="line">        public void remove() &#123;</span><br><span class="line">            if (lastReturned == null)</span><br><span class="line">                throw new IllegalStateException();</span><br><span class="line">            if (modCount != expectedModCount)</span><br><span class="line">                throw new ConcurrentModificationException();</span><br><span class="line"></span><br><span class="line">            WeakHashMap.this.remove(currentKey);</span><br><span class="line">            expectedModCount = modCount;</span><br><span class="line">            lastReturned = null;</span><br><span class="line">            currentKey = null;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // value的迭代器</span><br><span class="line">    private class ValueIterator extends HashIterator&lt;V&gt; &#123;</span><br><span class="line">        public V next() &#123;</span><br><span class="line">            return nextEntry().value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // key的迭代器</span><br><span class="line">    private class KeyIterator extends HashIterator&lt;K&gt; &#123;</span><br><span class="line">        public K next() &#123;</span><br><span class="line">            return nextEntry().getKey();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Entry的迭代器</span><br><span class="line">    private class EntryIterator extends HashIterator&lt;Map.Entry&lt;K,V&gt;&gt; &#123;</span><br><span class="line">        public Map.Entry&lt;K,V&gt; next() &#123;</span><br><span class="line">            return nextEntry();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // WeakHashMap的Entry对应的集合</span><br><span class="line">    private transient Set&lt;Map.Entry&lt;K,V&gt;&gt; entrySet = null;</span><br><span class="line"></span><br><span class="line">    // 返回“key的集合”，实际上返回一个“KeySet对象”</span><br><span class="line">    public Set&lt;K&gt; keySet() &#123;</span><br><span class="line">        Set&lt;K&gt; ks = keySet;</span><br><span class="line">        return (ks != null ? ks : (keySet = new KeySet()));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Key对应的集合</span><br><span class="line">    // KeySet继承于AbstractSet，说明该集合中没有重复的Key。</span><br><span class="line">    private class KeySet extends AbstractSet&lt;K&gt; &#123;</span><br><span class="line">        public Iterator&lt;K&gt; iterator() &#123;</span><br><span class="line">            return new KeyIterator();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public int size() &#123;</span><br><span class="line">            return WeakHashMap.this.size();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public boolean contains(Object o) &#123;</span><br><span class="line">            return containsKey(o);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public boolean remove(Object o) &#123;</span><br><span class="line">            if (containsKey(o)) &#123;</span><br><span class="line">                WeakHashMap.this.remove(o);</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">                return false;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void clear() &#123;</span><br><span class="line">            WeakHashMap.this.clear();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回“value集合”，实际上返回的是一个Values对象</span><br><span class="line">    public Collection&lt;V&gt; values() &#123;</span><br><span class="line">        Collection&lt;V&gt; vs = values;</span><br><span class="line">        return (vs != null ?  vs : (values = new Values()));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // “value集合”</span><br><span class="line">    // Values继承于AbstractCollection，不同于“KeySet继承于AbstractSet”，</span><br><span class="line">    // Values中的元素能够重复。因为不同的key可以指向相同的value。</span><br><span class="line">    private class Values extends AbstractCollection&lt;V&gt; &#123;</span><br><span class="line">        public Iterator&lt;V&gt; iterator() &#123;</span><br><span class="line">            return new ValueIterator();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public int size() &#123;</span><br><span class="line">            return WeakHashMap.this.size();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public boolean contains(Object o) &#123;</span><br><span class="line">            return containsValue(o);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void clear() &#123;</span><br><span class="line">            WeakHashMap.this.clear();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回“WeakHashMap的Entry集合”</span><br><span class="line">    // 它实际是返回一个EntrySet对象</span><br><span class="line">    public Set&lt;Map.Entry&lt;K,V&gt;&gt; entrySet() &#123;</span><br><span class="line">        Set&lt;Map.Entry&lt;K,V&gt;&gt; es = entrySet;</span><br><span class="line">        return es != null ? es : (entrySet = new EntrySet());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // EntrySet对应的集合</span><br><span class="line">    // EntrySet继承于AbstractSet，说明该集合中没有重复的EntrySet。</span><br><span class="line">    private class EntrySet extends AbstractSet&lt;Map.Entry&lt;K,V&gt;&gt; &#123;</span><br><span class="line">        public Iterator&lt;Map.Entry&lt;K,V&gt;&gt; iterator() &#123;</span><br><span class="line">            return new EntryIterator();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 是否包含“值(o)”</span><br><span class="line">        public boolean contains(Object o) &#123;</span><br><span class="line">            if (!(o instanceof Map.Entry))</span><br><span class="line">                return false;</span><br><span class="line">            Map.Entry e = (Map.Entry)o;</span><br><span class="line">            Object k = e.getKey();</span><br><span class="line">            Entry candidate = getEntry(e.getKey());</span><br><span class="line">            return candidate != null &amp;&amp; candidate.equals(e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 删除“值(o)”</span><br><span class="line">        public boolean remove(Object o) &#123;</span><br><span class="line">            return removeMapping(o) != null;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 返回WeakHashMap的大小</span><br><span class="line">        public int size() &#123;</span><br><span class="line">            return WeakHashMap.this.size();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 清空WeakHashMap</span><br><span class="line">        public void clear() &#123;</span><br><span class="line">            WeakHashMap.this.clear();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 拷贝函数。将WeakHashMap中的全部元素都拷贝到List中</span><br><span class="line">        private List&lt;Map.Entry&lt;K,V&gt;&gt; deepCopy() &#123;</span><br><span class="line">            List&lt;Map.Entry&lt;K,V&gt;&gt; list = new ArrayList&lt;Map.Entry&lt;K,V&gt;&gt;(size());</span><br><span class="line">            for (Map.Entry&lt;K,V&gt; e : this)</span><br><span class="line">                list.add(new AbstractMap.SimpleEntry&lt;K,V&gt;(e));</span><br><span class="line">            return list;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 返回Entry对应的Object[]数组</span><br><span class="line">        public Object[] toArray() &#123;</span><br><span class="line">            return deepCopy().toArray();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 返回Entry对应的T[]数组(T[]我们新建数组时，定义的数组类型)</span><br><span class="line">        public &lt;T&gt; T[] toArray(T[] a) &#123;</span><br><span class="line">            return deepCopy().toArray(a);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>说明：WeakHashMap和HashMap都是通过”拉链法”实现的散列表。它们的源码绝大部分内容都一样，这里就只是对它们不同的部分就是说明。<br>WeakReference是“弱键”实现的哈希表。它这个“弱键”的目的就是：实现对“键值对”的动态回收。当“弱键”不再被使用到时，GC会回收它，WeakReference也会将“弱键”对应的键值对删除。<br>“弱键”是一个“弱引用(WeakReference)”，在Java中，WeakReference和ReferenceQueue 是联合使用的。在WeakHashMap中亦是如此：如果弱引用所引用的对象被垃圾回收，Java虚拟机就会把这个弱引用加入到与之关联的引用队列中。 接着，WeakHashMap会根据“引用队列”，来删除“WeakHashMap中已被GC回收的‘弱键’对应的键值对”。<br>另外，理解上面思想的重点是通过 expungeStaleEntries() 函数去理解。</p>
+<h1 id="WeakHashMap遍历方式"><a href="#WeakHashMap遍历方式" class="headerlink" title="WeakHashMap遍历方式"></a>WeakHashMap遍历方式</h1><h2 id="遍历WeakHashMap的键值对"><a href="#遍历WeakHashMap的键值对" class="headerlink" title="遍历WeakHashMap的键值对"></a>遍历WeakHashMap的键值对</h2><ul>
+<li>根据entrySet()获取WeakHashMap的“键值对”的Set集合。</li>
+<li>通过Iterator迭代器遍历“第一步”得到的集合。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 假设map是WeakHashMap对象</span><br><span class="line">// map中的key是String类型，value是Integer类型</span><br><span class="line">Integer integ = null;</span><br><span class="line">Iterator iter = map.entrySet().iterator();</span><br><span class="line">while(iter.hasNext()) &#123;</span><br><span class="line">    Map.Entry entry = (Map.Entry)iter.next();</span><br><span class="line">    // 获取key</span><br><span class="line">    key = (String)entry.getKey();</span><br><span class="line">        // 获取value</span><br><span class="line">    integ = (Integer)entry.getValue();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="遍历WeakHashMap的键"><a href="#遍历WeakHashMap的键" class="headerlink" title="遍历WeakHashMap的键"></a>遍历WeakHashMap的键</h2><ul>
+<li>根据keySet()获取WeakHashMap的“键”的Set集合。</li>
+<li>通过Iterator迭代器遍历“第一步”得到的集合。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 假设map是WeakHashMap对象</span><br><span class="line">// map中的key是String类型，value是Integer类型</span><br><span class="line">String key = null;</span><br><span class="line">Integer integ = null;</span><br><span class="line">Iterator iter = map.keySet().iterator();</span><br><span class="line">while (iter.hasNext()) &#123;</span><br><span class="line">        // 获取key</span><br><span class="line">    key = (String)iter.next();</span><br><span class="line">        // 根据key，获取value</span><br><span class="line">    integ = (Integer)map.get(key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="遍历WeakHashMap的值"><a href="#遍历WeakHashMap的值" class="headerlink" title="遍历WeakHashMap的值"></a>遍历WeakHashMap的值</h2><ul>
+<li>根据value()获取WeakHashMap的“值”的集合。</li>
+<li>通过Iterator迭代器遍历“第一步”得到的集合。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 假设map是WeakHashMap对象</span><br><span class="line">// map中的key是String类型，value是Integer类型</span><br><span class="line">Integer value = null;</span><br><span class="line">Collection c = map.values();</span><br><span class="line">Iterator iter= c.iterator();</span><br><span class="line">while (iter.hasNext()) &#123;</span><br><span class="line">    value = (Integer)iter.next();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="WeakHashMap示例"><a href="#WeakHashMap示例" class="headerlink" title="WeakHashMap示例"></a>WeakHashMap示例</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Iterator;</span><br><span class="line">import java.util.Map;</span><br><span class="line">import java.util.WeakHashMap;</span><br><span class="line">import java.util.Date;</span><br><span class="line">import java.lang.ref.WeakReference;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @desc WeakHashMap测试程序</span><br><span class="line"> *</span><br><span class="line"> * @author skywang</span><br><span class="line"> * @email kuiwu-wang@163.com</span><br><span class="line"> */</span><br><span class="line">public class WeakHashMapTest &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws Exception &#123;</span><br><span class="line">        testWeakHashMapAPIs();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static void testWeakHashMapAPIs() &#123;</span><br><span class="line">        // 初始化3个“弱键”</span><br><span class="line">        String w1 = new String(&quot;one&quot;);</span><br><span class="line">        String w2 = new String(&quot;two&quot;);</span><br><span class="line">        String w3 = new String(&quot;three&quot;);</span><br><span class="line">        // 新建WeakHashMap</span><br><span class="line">        Map wmap = new WeakHashMap();</span><br><span class="line"></span><br><span class="line">        // 添加键值对</span><br><span class="line">        wmap.put(w1, &quot;w1&quot;);</span><br><span class="line">        wmap.put(w2, &quot;w2&quot;);</span><br><span class="line">        wmap.put(w3, &quot;w3&quot;);</span><br><span class="line"></span><br><span class="line">        // 打印出wmap</span><br><span class="line">        System.out.printf(&quot;\nwmap:%s\n&quot;,wmap );</span><br><span class="line"></span><br><span class="line">        // containsKey(Object key) :是否包含键key</span><br><span class="line">        System.out.printf(&quot;contains key two : %s\n&quot;,wmap.containsKey(&quot;two&quot;));</span><br><span class="line">        System.out.printf(&quot;contains key five : %s\n&quot;,wmap.containsKey(&quot;five&quot;));</span><br><span class="line"></span><br><span class="line">        // containsValue(Object value) :是否包含值value</span><br><span class="line">        System.out.printf(&quot;contains value 0 : %s\n&quot;,wmap.containsValue(new Integer(0)));</span><br><span class="line"></span><br><span class="line">        // remove(Object key) ： 删除键key对应的键值对</span><br><span class="line">        wmap.remove(&quot;three&quot;);</span><br><span class="line"></span><br><span class="line">        System.out.printf(&quot;wmap: %s\n&quot;,wmap );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        // ---- 测试 WeakHashMap 的自动回收特性 ----</span><br><span class="line">    </span><br><span class="line">        // 将w1设置null。</span><br><span class="line">        // 这意味着“弱键”w1再没有被其它对象引用，调用gc时会回收WeakHashMap中与“w1”对应的键值对</span><br><span class="line">        w1 = null;</span><br><span class="line">        // 内存回收。这里，会回收WeakHashMap中与“w1”对应的键值对</span><br><span class="line">        System.gc();</span><br><span class="line"></span><br><span class="line">        // 遍历WeakHashMap</span><br><span class="line">        Iterator iter = wmap.entrySet().iterator();</span><br><span class="line">        while (iter.hasNext()) &#123;</span><br><span class="line">            Map.Entry en = (Map.Entry)iter.next();</span><br><span class="line">            System.out.printf(&quot;next : %s - %s\n&quot;,en.getKey(),en.getValue());</span><br><span class="line">        &#125;</span><br><span class="line">        // 打印WeakHashMap的实际大小</span><br><span class="line">        System.out.printf(&quot; after gc WeakHashMap size:%s\n&quot;, wmap.size());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/集合/" rel="tag"># 集合</a>
+          
+            <a href="/tags/Map/" rel="tag"># Map</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/01/TreeMap/" rel="next" title="TreeMap">
+                <i class="fa fa-chevron-left"></i> TreeMap
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/02/Map总结/" rel="prev" title="Map总结">
+                Map总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#WeakHashMap介绍"><span class="nav-number">1.</span> <span class="nav-text">WeakHashMap介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WeakHashMap的构造函数"><span class="nav-number">2.</span> <span class="nav-text">WeakHashMap的构造函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WeakHashMap的API"><span class="nav-number">3.</span> <span class="nav-text">WeakHashMap的API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WeakHashMap的数据结构"><span class="nav-number">4.</span> <span class="nav-text">WeakHashMap的数据结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WeakHashMap源码解析"><span class="nav-number">5.</span> <span class="nav-text">WeakHashMap源码解析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WeakHashMap遍历方式"><span class="nav-number">6.</span> <span class="nav-text">WeakHashMap遍历方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#遍历WeakHashMap的键值对"><span class="nav-number">6.1.</span> <span class="nav-text">遍历WeakHashMap的键值对</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#遍历WeakHashMap的键"><span class="nav-number">6.2.</span> <span class="nav-text">遍历WeakHashMap的键</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#遍历WeakHashMap的值"><span class="nav-number">6.3.</span> <span class="nav-text">遍历WeakHashMap的值</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WeakHashMap示例"><span class="nav-number">7.</span> <span class="nav-text">WeakHashMap示例</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

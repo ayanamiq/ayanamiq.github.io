@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="mysql数据类型主要包括以下五大类：123456789整数类型：BIT、BOOL、TINY INT、SMALL INT、MEDIUM INT、 INT、 BIG INT浮点数类型：FLOAT、DOUBLE、DECIMAL字符串类型：CHAR、VARCHAR、TINY TEXT、TEXT、MEDIUM TEXT、LONGTEXT、TINY BLOB、BLOB、MEDIUM BLOB、LONG BL">
+<meta name="keywords" content="mysql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql数据类型">
+<meta property="og:url" content="https://jingyao066.gitee.io/2018/12/25/mysql数据类型/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="mysql数据类型主要包括以下五大类：123456789整数类型：BIT、BOOL、TINY INT、SMALL INT、MEDIUM INT、 INT、 BIG INT浮点数类型：FLOAT、DOUBLE、DECIMAL字符串类型：CHAR、VARCHAR、TINY TEXT、TEXT、MEDIUM TEXT、LONGTEXT、TINY BLOB、BLOB、MEDIUM BLOB、LONG BL">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.332Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mysql数据类型">
+<meta name="twitter:description" content="mysql数据类型主要包括以下五大类：123456789整数类型：BIT、BOOL、TINY INT、SMALL INT、MEDIUM INT、 INT、 BIG INT浮点数类型：FLOAT、DOUBLE、DECIMAL字符串类型：CHAR、VARCHAR、TINY TEXT、TEXT、MEDIUM TEXT、LONGTEXT、TINY BLOB、BLOB、MEDIUM BLOB、LONG BL">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2018/12/25/mysql数据类型/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>mysql数据类型 | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2018/12/25/mysql数据类型/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">mysql数据类型
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-25 11:31:38" itemprop="dateCreated datePublished" datetime="2018-12-25T11:31:38+08:00">2018-12-25</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2018/12/25/mysql数据类型/" class="leancloud_visitors" data-flag-title="mysql数据类型">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="mysql数据类型"><a href="#mysql数据类型" class="headerlink" title="mysql数据类型"></a>mysql数据类型</h1><p>主要包括以下五大类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">整数类型：BIT、BOOL、TINY INT、SMALL INT、MEDIUM INT、 INT、 BIG INT</span><br><span class="line"></span><br><span class="line">浮点数类型：FLOAT、DOUBLE、DECIMAL</span><br><span class="line"></span><br><span class="line">字符串类型：CHAR、VARCHAR、TINY TEXT、TEXT、MEDIUM TEXT、LONGTEXT、TINY BLOB、BLOB、MEDIUM BLOB、LONG BLOB</span><br><span class="line"></span><br><span class="line">日期类型：Date、DateTime、TimeStamp、Time、Year</span><br><span class="line"></span><br><span class="line">其他数据类型：BINARY、VARBINARY、ENUM、SET、Geometry、Point、MultiPoint、LineString、MultiLineString、Polygon、GeometryCollection等</span><br></pre></td></tr></table></figure></p>
+<h2 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h2><table>
+<thead>
+<tr>
+<th>MySQL数据类型</th>
+<th>含义（有符号）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tinyint(m)</td>
+<td>1个字节  范围(-128~127)</td>
+</tr>
+<tr>
+<td>smallint(m)</td>
+<td>2个字节  范围(-32768~32767)</td>
+</tr>
+<tr>
+<td>mediumint(m)</td>
+<td>3个字节  范围(-8388608~8388607)</td>
+</tr>
+<tr>
+<td>int(m)</td>
+<td>4个字节  范围(-2147483648~2147483647)</td>
+</tr>
+<tr>
+<td>bigint(m)</td>
+<td>8个字节  范围(+-9.22*10的18次方)</td>
+</tr>
+</tbody>
+</table>
+<p>取值范围如果加了unsigned，则最大值翻倍，如tinyint unsigned的取值范围为(0~256)。<br>int(m)里的m是表示SELECT查询结果集中的显示宽度，并不影响实际的取值范围。也不影响插入的内容，如：<br>设置字段test_length为int(1)，即显示宽度为1，不影响插入内容，即：<br><code>insert into test (test_length) values(1000000)</code><br>是可以正常插入的。<br>但是，想要真正影响显示宽度，还需要一个属性，zerofill，即Navicat中的<code>填充零</code>选项，数据长度不足的，将会以0填充在前边。<br>设置zerofill之后，如果设置int(3)，即显示长度为3，插入10，select出的结果为：010，若不设置zerofill，结果为：10<br>超出设置长度，则正常显示。</p>
+<h2 id="浮点型与定点型"><a href="#浮点型与定点型" class="headerlink" title="浮点型与定点型"></a>浮点型与定点型</h2><table>
+<thead>
+<tr>
+<th>MySQL数据类型</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>float(m,d)</td>
+<td>单精度浮点型    8位精度(4字节)     m总个数，d小数位</td>
+</tr>
+<tr>
+<td>double(m,d)</td>
+<td>双精度浮点型    16位精度(8字节)    m总个数，d小数位</td>
+</tr>
+<tr>
+<td>DECIMAL(m,d)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>1.MySQL中可以指定浮点数和定点数的精度。其基本形式如下：数据类型(M,D)，M参数称为精度，是数据的总长度，小数点也占位置(MYSQL5.8)。D参数称为标度，是指小数点后面的长度是D<br>例：float(4,2)的含义数据是float型，数据长度是4，小数点后保留2位。所以，12.34是符合要求的。4指数据总长度是4，包含小数点的长度，如果插入123.45，就会报错：<br><code>Out of range value for column</code><br>意思是超出了范围值。<br>而且，float(m,d)，d不能比m大，m只能 &gt;= d， 这是在数据表创建时规定的，否则会报<br><code>M must &gt;= D</code><br>若m=d，即float(4,4)，则只能插入比1小的数，即0.1234；<br>d表示小数点位数，若数据超出指定长度：<br>.float和double类型，会直接截断指定长度之后的数据<br>.decimal类型，则遵守四舍五入<br>这就是为什么float和double类型会损失精度，所以尽量少去使用这两种类型。</p>
+<p>2.上述指定的小数精度的方法虽然都适用于浮点数和定点数，但不是浮点数的标准用法。建议在定义浮点数时，如果不是实际情况需要，最好不要使用，如果使用了，可能会影响数据库的迁移。</p>
+<p>3.如果插入值的精度高于实际定义的精度，系统会自动进行四舍五入处理，使值的精度达到要求。</p>
+<p>4.浮点型在数据库中存放的是近似值，而定点类型在数据库中存放的是精确值</p>
+<p>5.未指定精度：<br>.float和double默认会保存实际精度，但这与操作系统和硬件的精度有关。<br>.decimal型的默认整数位为10，小数位为0，即默认为整数。</p>
+<p>6.在MySQL中，定点数以字符串形式存储，因此，其精度比浮点数要高，而且浮点数会出现误差，这是浮点数一直存在的缺陷。<br>如果要对数据的精度要求比较高，比如订单价格、商品售价等等，还是选择定点数decimal比较安全。</p>
+<h2 id="字符串-char-varchar-text"><a href="#字符串-char-varchar-text" class="headerlink" title="字符串(char,varchar,_text)"></a>字符串(char,varchar,_text)</h2><table>
+<thead>
+<tr>
+<th>MySQL数据类型</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>char(n)</td>
+<td>n个字节，1 &lt;= n &lt;= 255，固定长度，最多255个字符</td>
+</tr>
+<tr>
+<td>varchar(n)</td>
+<td>可变长度，最多65535个字符</td>
+</tr>
+<tr>
+<td>tinytext</td>
+<td>可变长度，最多255个字符</td>
+</tr>
+<tr>
+<td>text</td>
+<td>可变长度，最多65535个字符</td>
+</tr>
+<tr>
+<td>mediumtext</td>
+<td>可变长度，最多2的24次方-1个字符</td>
+</tr>
+<tr>
+<td>longtext</td>
+<td>可变长度，最多2的32次方-1个字符</td>
+</tr>
+</tbody>
+</table>
+<h3 id="char"><a href="#char" class="headerlink" title="char"></a>char</h3><p><code>char(n)</code><br>1.若存入字符数小于n，则以空格补于其后，查询之时再将空格去掉。所以char类型存储的字符串末尾不能有空格<br>2.存入字符数不能大于n,若超出，则会报：<br><code>Data too long for column</code><br>3.固定长度，占用n(指定长度)个字节</p>
+<h3 id="varchar"><a href="#varchar" class="headerlink" title="varchar"></a>varchar</h3><p>1.varchar是存入的实际字符数+1个字节</p>
+<h3 id="速度对比"><a href="#速度对比" class="headerlink" title="速度对比"></a>速度对比</h3><p>char &gt; varchar &gt; text<br>char、varchar可直接创建索引，text创建索引要指定前多少个字符。varchar查询速度快于text,在都创建索引的情况下，text的索引似乎不起作用。</p>
+<h4 id="关于varchar的长度"><a href="#关于varchar的长度" class="headerlink" title="关于varchar的长度"></a>关于varchar的长度</h4><p>有必要单独说明，比较复杂：</p>
+<p>1.编码长度限制<br>字符类型若为latin1，每个字符最多占1个字节，最大长度不能超过65535;<br>字符类型若为gbk，每个字符最多占2个字节，最大长度不能超过32766;<br>字符类型若为utf8，每个字符最多占3个字节，最大长度不能超过21845。<br>若定义的时候超过上述限制，则varchar字段会被强行转为text类型，并产生warning。</p>
+<p>2.存储限制<br>varchar最多能存储65535个字节的数据。varchar 的最大长度受限于最大行长度（max row size，65535bytes）。65535并不是一个很精确的上限，可以继续缩小这个上限。<br>65535个字节包括所有字段的长度，变长字段的长度标识（每个变长字段额外使用1或者2个字节记录实际数据长度）、NULL标识位的累计。</p>
+<p>NULL标识位：<br>如果varchar字段定义中带有default null允许列空,则需要需要1bit来标识，每8个bits的标识组成一个字段。一张表中存在N个varchar字段，那么需要（N+7）/8 （取整）bytes存储所有的NULL标识位。</p>
+<p>最大行长度：<br>MySQL要求一个行的定义长度不能超过65535。若定义的表长度超过这个值，则提示：<br><code>ERROR 1118 (42000): Row size too large. The maximum row size for the used table type, not counting BLOBs, is 65535. You have to change some columns to TEXT or BLOBs。</code><br>即：一行中所有字段加起来的长度，不能超过65535。<br>如：一行有两个字段，一个char(100)，那么另外varchar字段的长度只能是(65435):65535 - 100,超出会报上面的错误。</p>
+<p>如果数据表只有一个varchar字段且该字段DEFAULT NULL，那么该varchar字段的最大长度为65532个字节，即65535-2-1=65532 byte。<br>为什么 -2 -1 ？<br>字符集是latin1，占用1个字节。<br>null标识位，( 1 + 7 ) / 8 =1,所以null标识位占用1个字节。<br>因为varchar类型存储变长字段的字符类型，与char类型不同的是，其存储时需要在前缀长度列表加上实际存储的字符，当存储的字符串长度小于255字节时，其需要1字节的空间，当大于255字节时，需要2字节的空间。</p>
+<p>3.行长度限制<br>即最大行长度限制。</p>
+<h5 id="举例说明实际长度的计算"><a href="#举例说明实际长度的计算" class="headerlink" title="举例说明实际长度的计算"></a>举例说明实际长度的计算</h5><p>1.若一个表只有一个varchar类型，如定义为<br>create table t4(c varchar(N)) charset=gbk;<br>则此处N的最大值为(65535-1-2)/2= 32766。<br>减1的原因是实际行存储从第二个字节开始;<br>减2的原因是varchar头部的2个字节表示长度;<br>除2的原因是字符编码是gbk。</p>
+<p>2.若一个表定义为<br>create table t4(c int, c2 char(30), c3 varchar(N)) charset=utf8;<br>则此处N的最大值为 (65535-1-2-4-30<em>3)/3=21812<br>减1和减2与上例相同;<br>减4的原因是int类型的c占4个字节;<br>减30</em>3的原因是char(30)占用90个字节，编码是utf8。<br>如果被varchar超过上述的b规则，被强转成text类型，则每个字段占用定义长度为11字节，当然这已经不是varchar了。<br>则此处N的最大值为 (65535-1-2-4-30*3)/3=21812</p>
+<p>3.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE t6 (</span><br><span class="line">id int,</span><br><span class="line">a VARCHAR(100) DEFAULT NULL,</span><br><span class="line">b VARCHAR(100) DEFAULT NULL,</span><br><span class="line">c VARCHAR(100) DEFAULT NULL,</span><br><span class="line">d VARCHAR(100) DEFAULT NULL,</span><br><span class="line">e VARCHAR(100) DEFAULT NULL,</span><br><span class="line">f VARCHAR(100) DEFAULT NULL,</span><br><span class="line">g VARCHAR(100) DEFAULT NULL,</span><br><span class="line">h VARCHAR(100) DEFAULT NULL,</span><br><span class="line">i VARCHAR(N) DEFAULT NULL</span><br><span class="line">) CHARSET=utf8;</span><br></pre></td></tr></table></figure></p>
+<p>每个NULL字段用1bit标识，10个字段都是default null，那么需要用(10+7)/8bit = 2 bytes存储NULL标识位。int占用4个 byte。<br>(65535 - 1 - 2<em>8  -4 - 100</em>3*8 -2)/3=21037</p>
+<p>我想，这样应该能够很好的说明varchar的长度问题了。<br>参考内容：&lt;&lt;MySQL技术内幕–InnoDB引擎第二版&gt;&gt;</p>
+<h2 id="日期时间类型"><a href="#日期时间类型" class="headerlink" title="日期时间类型"></a>日期时间类型</h2><table>
+<thead>
+<tr>
+<th>MySQL数据类型</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>date</td>
+<td>日期 ‘2008-12-2’</td>
+</tr>
+<tr>
+<td>time</td>
+<td>时间 ‘12:25:36’</td>
+</tr>
+<tr>
+<td>datetime</td>
+<td>日期时间 ‘2008-12-2 22:06:44’</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>自动存储记录修改时间</td>
+</tr>
+</tbody>
+</table>
+<p>若定义一个字段为timestamp，这个字段里的时间数据会随其他字段修改的时候自动刷新，所以这个数据类型的字段可以存放这条记录最后被修改的时间。</p>
+<h2 id="数据类型的属性"><a href="#数据类型的属性" class="headerlink" title="数据类型的属性"></a>数据类型的属性</h2><table>
+<thead>
+<tr>
+<th>MySQL关键字</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NULL</td>
+<td>数据列可包含NULL值</td>
+</tr>
+<tr>
+<td>NOT NULL</td>
+<td>数据列不允许包含NULL值</td>
+</tr>
+<tr>
+<td>DEFAULT</td>
+<td>默认值</td>
+</tr>
+<tr>
+<td>PRIMARY KEY</td>
+<td>主键</td>
+</tr>
+<tr>
+<td>AUTO_INCREMENT</td>
+<td>自动递增，适用于整数类型</td>
+</tr>
+<tr>
+<td>UNSIGNED</td>
+<td>无符号</td>
+</tr>
+<tr>
+<td>CHARACTER SET name</td>
+<td>指定一个字符集</td>
+</tr>
+</tbody>
+</table>
+<h2 id="数据类型长度和范围一览"><a href="#数据类型长度和范围一览" class="headerlink" title="数据类型长度和范围一览"></a>数据类型长度和范围一览</h2><table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>字节长度</th>
+<th>范围或用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bit</td>
+<td>1</td>
+<td>无符号[0,255]，有符号[-128,127]，BIT和BOOL布尔型都占用1字节</td>
+</tr>
+<tr>
+<td>TinyInt</td>
+<td>1</td>
+<td>整数[0,255]</td>
+</tr>
+<tr>
+<td>SmallInt</td>
+<td>2</td>
+<td>无符号[0,65535]，有符号[-32768,32767]</td>
+</tr>
+<tr>
+<td>MediumInt</td>
+<td>3</td>
+<td>无符号[0,2^24-1]，有符号[-2^23,2^23-1]]</td>
+</tr>
+<tr>
+<td>Int</td>
+<td>4</td>
+<td>无符号[0,2^32-1]，有符号[-2^31,2^31-1]</td>
+</tr>
+<tr>
+<td>BigInt</td>
+<td>8</td>
+<td>无符号[0,2^64-1]，有符号[-2^63 ,2^63 -1]</td>
+</tr>
+<tr>
+<td>Float(M,D)</td>
+<td>4</td>
+<td>单精度浮点数</td>
+</tr>
+<tr>
+<td>Double(M,D)</td>
+<td>8</td>
+<td>双精度浮点。</td>
+</tr>
+<tr>
+<td>Decimal(M,D)</td>
+<td>M+1或M+2</td>
+<td>未打包的浮点数，用法类似于FLOAT和DOUBLE</td>
+</tr>
+<tr>
+<td>Date</td>
+<td>3</td>
+<td>以YYYY-MM-DD的格式显示，比如：2009-07-19</td>
+</tr>
+<tr>
+<td>Date Time</td>
+<td>8</td>
+<td>以YYYY-MM-DD HH:MM:SS的格式显示，比如：2009-07-19 11：22：30</td>
+</tr>
+<tr>
+<td>TimeStamp</td>
+<td>4</td>
+<td>以YYYY-MM-DD的格式显示，比如：2009-07-19</td>
+</tr>
+<tr>
+<td>Time</td>
+<td>3</td>
+<td>以HH:MM:SS的格式显示。比如：11：22：30</td>
+</tr>
+<tr>
+<td>Year</td>
+<td>1</td>
+<td>以YYYY的格式显示。比如：2009</td>
+</tr>
+<tr>
+<td>Char(M)</td>
+<td>M</td>
+<td>定长字符串。</td>
+</tr>
+<tr>
+<td>VarChar(M)</td>
+<td>M</td>
+<td>变长字符串，要求M&lt;=255</td>
+</tr>
+<tr>
+<td>Binary(M)</td>
+<td>M</td>
+<td>类似Char的二进制存储，特点是插入定长不足补0</td>
+</tr>
+<tr>
+<td>VarBinary(M)</td>
+<td>M</td>
+<td>类似VarChar的变长二进制存储，特点是定长不补0</td>
+</tr>
+<tr>
+<td>Tiny Text</td>
+<td>Max:255</td>
+<td>大小写不敏感</td>
+</tr>
+<tr>
+<td>Text</td>
+<td>Max:64K</td>
+<td>大小写不敏感</td>
+</tr>
+<tr>
+<td>Medium Text</td>
+<td>Max:16M</td>
+<td>大小写不敏感</td>
+</tr>
+<tr>
+<td>Long Text</td>
+<td>Max:4G</td>
+<td>大小写不敏感</td>
+</tr>
+<tr>
+<td>TinyBlob</td>
+<td>Max:255</td>
+<td>大小写敏感</td>
+</tr>
+<tr>
+<td>Blob</td>
+<td>Max:64K</td>
+<td>大小写敏感</td>
+</tr>
+<tr>
+<td>MediumBlob</td>
+<td>Max:16M</td>
+<td>大小写敏感</td>
+</tr>
+<tr>
+<td>LongBlob</td>
+<td>Max:4G</td>
+<td>大小写敏感</td>
+</tr>
+<tr>
+<td>Enum</td>
+<td>1或2</td>
+<td>最大可达65535个不同的枚举值</td>
+</tr>
+<tr>
+<td>Set</td>
+<td>可达8</td>
+<td>最大可达64个不同的值</td>
+</tr>
+<tr>
+<td>Geometry</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Point</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>LineString</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Polygon</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>MultiPoint</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>MultiLineString</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>MultiPolygon</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>GeometryCollection</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/25/git/" rel="next" title="git">
+                <i class="fa fa-chevron-left"></i> git
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/26/mysql高级/" rel="prev" title="mysql高级">
+                mysql高级 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#mysql数据类型"><span class="nav-number">1.</span> <span class="nav-text">mysql数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#整型"><span class="nav-number">1.1.</span> <span class="nav-text">整型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浮点型与定点型"><span class="nav-number">1.2.</span> <span class="nav-text">浮点型与定点型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串-char-varchar-text"><span class="nav-number">1.3.</span> <span class="nav-text">字符串(char,varchar,_text)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#char"><span class="nav-number">1.3.1.</span> <span class="nav-text">char</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#varchar"><span class="nav-number">1.3.2.</span> <span class="nav-text">varchar</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#速度对比"><span class="nav-number">1.3.3.</span> <span class="nav-text">速度对比</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#关于varchar的长度"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">关于varchar的长度</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#举例说明实际长度的计算"><span class="nav-number">1.3.3.1.1.</span> <span class="nav-text">举例说明实际长度的计算</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#日期时间类型"><span class="nav-number">1.4.</span> <span class="nav-text">日期时间类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型的属性"><span class="nav-number">1.5.</span> <span class="nav-text">数据类型的属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型长度和范围一览"><span class="nav-number">1.6.</span> <span class="nav-text">数据类型长度和范围一览</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="input设置为disabled，后台无法接受到数据W3C的规范，disabled=”disabled”不能向后台提交，改为readonly = “readonly”即可 两种提交表单的方式 $(&amp;quot;#addForm&amp;quot;).serialize将表单数据收集成json字符串，name=小红&amp;amp;age=25的形式  $(&amp;quot;#addForm&amp;quot;).serializ">
+<meta name="keywords" content="js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jsDaily">
+<meta property="og:url" content="https://jingyao066.gitee.io/2019/05/20/jsDaily/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="input设置为disabled，后台无法接受到数据W3C的规范，disabled=”disabled”不能向后台提交，改为readonly = “readonly”即可 两种提交表单的方式 $(&amp;quot;#addForm&amp;quot;).serialize将表单数据收集成json字符串，name=小红&amp;amp;age=25的形式  $(&amp;quot;#addForm&amp;quot;).serializ">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.314Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jsDaily">
+<meta name="twitter:description" content="input设置为disabled，后台无法接受到数据W3C的规范，disabled=”disabled”不能向后台提交，改为readonly = “readonly”即可 两种提交表单的方式 $(&amp;quot;#addForm&amp;quot;).serialize将表单数据收集成json字符串，name=小红&amp;amp;age=25的形式  $(&amp;quot;#addForm&amp;quot;).serializ">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2019/05/20/jsDaily/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>jsDaily | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2019/05/20/jsDaily/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">jsDaily
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-20 10:04:27" itemprop="dateCreated datePublished" datetime="2019-05-20T10:04:27+08:00">2019-05-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/05/20/jsDaily/" class="leancloud_visitors" data-flag-title="jsDaily">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="input设置为disabled，后台无法接受到数据"><a href="#input设置为disabled，后台无法接受到数据" class="headerlink" title="input设置为disabled，后台无法接受到数据"></a>input设置为disabled，后台无法接受到数据</h1><p>W3C的规范，<code>disabled=”disabled”</code>不能向后台提交，改为<code>readonly = “readonly”</code>即可</p>
+<h1 id="两种提交表单的方式"><a href="#两种提交表单的方式" class="headerlink" title="两种提交表单的方式"></a>两种提交表单的方式</h1><ol>
+<li><p><code>$(&quot;#addForm&quot;).serialize</code><br>将表单数据收集成json字符串，<code>name=小红&amp;age=25</code>的形式</p>
+</li>
+<li><p><code>$(&quot;#addForm&quot;).serializeArray();</code><br>以数组形式收集表单数据，这个方法可以通过push方法向结果集中添加数据，如果想提交表单之外的数据，可以用这种方式：<br><code>dataParam.push({&quot;name&quot;: &quot;specName&quot;, &quot;value&quot;: specName});</code></p>
+</li>
+</ol>
+<p>另外：需要在ajax的中设置参数<br><code>traditional: true,</code></p>
+<h1 id="Js实现返回上一页并刷新"><a href="#Js实现返回上一页并刷新" class="headerlink" title="Js实现返回上一页并刷新"></a>Js实现返回上一页并刷新</h1><p><code>self.location=document.referrer</code></p>
+<h1 id="复选框全选，全不选"><a href="#复选框全选，全不选" class="headerlink" title="复选框全选，全不选"></a>复选框全选，全不选</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$(&apos;#checkAll&apos;).click(function()&#123; </span><br><span class="line">	    $(&quot;.checkSon&quot;).prop(&quot;checked&quot;,this.checked); </span><br><span class="line">	&#125;);</span><br><span class="line">//用attr不行,因为jq版本问题,复选框最好用prop</span><br></pre></td></tr></table></figure>
+<h1 id="限制input框输入只能为非负数且不能有小数点"><a href="#限制input框输入只能为非负数且不能有小数点" class="headerlink" title="限制input框输入只能为非负数且不能有小数点"></a>限制input框输入只能为非负数且不能有小数点</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=<span class="string">"number"</span> name=<span class="string">"quantity"</span> value=<span class="string">"1"</span> min=<span class="string">'1'</span> onkeyup=<span class="string">"onlyNonNegative(this)"</span>/&gt;</span><br><span class="line"><span class="comment">//通过2步做到输入的为非负数</span></span><br><span class="line"><span class="comment">//1.去掉多余的小数点</span></span><br><span class="line"><span class="comment">//2.保证只能输入小数点或数字</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">onlyNonNegative</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> inputChar = event.keyCode;</span><br><span class="line">    <span class="comment">//alert(event.keyCode);</span></span><br><span class="line">    <span class="comment">//1.判断是否有多于一个小数点</span></span><br><span class="line">    <span class="keyword">if</span> (inputChar == <span class="number">190</span>) &#123;<span class="comment">//输入的是否为.</span></span><br><span class="line">        <span class="keyword">var</span> index1 = obj.value.indexOf(<span class="string">"."</span>) + <span class="number">1</span>;<span class="comment">//取第一次出现.的后一个位置</span></span><br><span class="line">        <span class="keyword">if</span> (index1 == <span class="number">1</span>) &#123;<span class="comment">//如果第一个值就是点</span></span><br><span class="line">            obj.value = obj.value.replace(<span class="regexp">/[^\d]/g</span>, <span class="string">''</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">var</span> index2 = obj.value.indexOf(<span class="string">"."</span>, index1);</span><br><span class="line">        <span class="keyword">while</span> (index2 != <span class="number">-1</span>) &#123;</span><br><span class="line">            <span class="comment">//alert("有多个.");</span></span><br><span class="line">            obj.value = obj.value.substring(<span class="number">0</span>, index2);</span><br><span class="line">            index2 = obj.value.indexOf(<span class="string">"."</span>, index1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//2.如果输入的不是.或者不是数字，替换 g:全局替换</span></span><br><span class="line">    obj.value = obj.value.replace(<span class="regexp">/[^\d]/g</span>, <span class="string">''</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="选中颜色添加边框-相邻的去除边框"><a href="#选中颜色添加边框-相邻的去除边框" class="headerlink" title="选中颜色添加边框,相邻的去除边框"></a>选中颜色添加边框,相邻的去除边框</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function getColor(obj)&#123;</span><br><span class="line">	$(obj).siblings(&apos;div&apos;).removeClass(&apos;selected&apos;);</span><br><span class="line">	$(obj).addClass(&apos;selected&apos;);</span><br><span class="line">&#125;</span><br><span class="line">规定一个css属性</span><br><span class="line">.selected&#123;</span><br><span class="line">  border:3px solid #339999 !important;</span><br><span class="line">&#125;	</span><br><span class="line">Html</span><br><span class="line">&lt;div onclick=&quot;getColor(this)&quot;&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="JQ获取选中复选框的值"><a href="#JQ获取选中复选框的值" class="headerlink" title="JQ获取选中复选框的值"></a>JQ获取选中复选框的值</h1><p>本以为：<br><code>var arr = $(&#39;input[name=&quot;ck&quot;]:checked&#39;).val();</code><br>返回的直接是一个数组，错了。必须<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var checkArr = [];</span><br><span class="line">$(&apos;input[name=&quot;ck&quot;]:checked&apos;).each(function(index,i)&#123;</span><br><span class="line">      checkArr.push(i);</span><br><span class="line">&#125;)</span><br><span class="line">console.log(&quot;选中的&quot;+checkArr.length);</span><br></pre></td></tr></table></figure></p>
+<p>选中之后遍历，向数组中push</p>
+<h1 id="vue给input绑定value值"><a href="#vue给input绑定value值" class="headerlink" title="vue给input绑定value值"></a>vue给input绑定value值</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;tr v-for=&quot;business in businessList.list&quot;&gt;</span><br><span class="line">  &lt;td&gt;&lt;input type=&quot;checkbox&quot; name=&quot;ck&quot; :value=&quot;business.id&quot;&gt;&lt;/td&gt;</span><br><span class="line">  &lt;td&gt;&#123;&#123;business.businessName&#125;&#125;&lt;/td&gt;</span><br><span class="line">  &lt;td&gt;&#123;&#123;business.businessMobile&#125;&#125;&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="JQ-ajax向后台传递数组"><a href="#JQ-ajax向后台传递数组" class="headerlink" title="JQ ajax向后台传递数组"></a>JQ ajax向后台传递数组</h1><p>因为jQuery需要调用jQuery.param序列化参数，jQuery.param( obj, traditional )，<br>默认的话，traditional为false，即jquery会深度序列化参数对象，我们可以通过设置traditional 为true阻止深度序列化，然后序列化结果如下：<br>p: [“123”, “456”, “789”]    =&gt;    p=123&amp;p=456&amp;p=456<br>随即，我们就可以在后台通过request.getParameterValues()来获取参数的值数组了，<br>所以，比如我们前台有多个checkbox，js代码可以写成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var values = $(&quot;input[type=checkbox]&quot;).map(function()&#123;</span><br><span class="line">	return $(this).val();</span><br><span class="line">&#125;).get();</span><br><span class="line">$.ajax&#123;</span><br><span class="line">  url:&quot;xxxx&quot;,</span><br><span class="line">  traditional: true,</span><br><span class="line">  data:&#123;</span><br><span class="line">	p: values </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="td中的内容，超出长度显示省略号"><a href="#td中的内容，超出长度显示省略号" class="headerlink" title="td中的内容，超出长度显示省略号"></a>td中的内容，超出长度显示省略号</h1><p>内容必须包在p标签中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">.msg&#123;</span><br><span class="line">    width: 200px;</span><br><span class="line">    text-overflow: ellipsis;</span><br><span class="line">    overflow: hidden;</span><br><span class="line">    white-space: nowrap;</span><br><span class="line">&#125;</span><br><span class="line">&lt;td&gt;</span><br><span class="line">    &lt;p class=&quot;msg&quot;&gt;</span><br><span class="line">         $&#123;(i.message)!&apos;&apos;&#125;</span><br><span class="line">    &lt;/p&gt;</span><br><span class="line">&lt;/td&gt;</span><br></pre></td></tr></table></figure></p>
+<h1 id="ajax-提交富文本-数据截断"><a href="#ajax-提交富文本-数据截断" class="headerlink" title="ajax 提交富文本 数据截断"></a>ajax 提交富文本 数据截断</h1><p>富文本中有特殊符号，如：&amp;，富文本的字符串会被截断。<br>解决方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var data = $(&quot;#addForm&quot;).serializeArray();</span><br><span class="line">var content =  $.trim($(&apos;#summernote&apos;).summernote(&apos;code&apos;));</span><br><span class="line">data.push(&#123;&quot;name&quot;: &quot;content&quot;, &quot;value&quot;: content&#125;);</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/09/Manage-System/" rel="next" title="Manage System">
+                <i class="fa fa-chevron-left"></i> Manage System
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/23/SecureCRT/" rel="prev" title="SecureCRT">
+                SecureCRT <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#input设置为disabled，后台无法接受到数据"><span class="nav-number">1.</span> <span class="nav-text">input设置为disabled，后台无法接受到数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#两种提交表单的方式"><span class="nav-number">2.</span> <span class="nav-text">两种提交表单的方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Js实现返回上一页并刷新"><span class="nav-number">3.</span> <span class="nav-text">Js实现返回上一页并刷新</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#复选框全选，全不选"><span class="nav-number">4.</span> <span class="nav-text">复选框全选，全不选</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#限制input框输入只能为非负数且不能有小数点"><span class="nav-number">5.</span> <span class="nav-text">限制input框输入只能为非负数且不能有小数点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#选中颜色添加边框-相邻的去除边框"><span class="nav-number">6.</span> <span class="nav-text">选中颜色添加边框,相邻的去除边框</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JQ获取选中复选框的值"><span class="nav-number">7.</span> <span class="nav-text">JQ获取选中复选框的值</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vue给input绑定value值"><span class="nav-number">8.</span> <span class="nav-text">vue给input绑定value值</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JQ-ajax向后台传递数组"><span class="nav-number">9.</span> <span class="nav-text">JQ ajax向后台传递数组</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#td中的内容，超出长度显示省略号"><span class="nav-number">10.</span> <span class="nav-text">td中的内容，超出长度显示省略号</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ajax-提交富文本-数据截断"><span class="nav-number">11.</span> <span class="nav-text">ajax 提交富文本 数据截断</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

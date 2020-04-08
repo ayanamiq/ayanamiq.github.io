@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="List概括List的框架图  List是一个接口，继承于Collection接口，代表有序队列。 AbstractList是一个抽象类，继承于AbstractCollection。AbstractList实现List接口中除size()、get(int location)之外的函数。 AbstractSequentialList 是一个抽象类，它继承于AbstractList。AbstractS">
+<meta name="keywords" content="collection">
+<meta property="og:type" content="article">
+<meta property="og:title" content="List总结">
+<meta property="og:url" content="https://jingyao066.gitee.io/2018/12/19/List总结/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="List概括List的框架图  List是一个接口，继承于Collection接口，代表有序队列。 AbstractList是一个抽象类，继承于AbstractCollection。AbstractList实现List接口中除size()、get(int location)之外的函数。 AbstractSequentialList 是一个抽象类，它继承于AbstractList。AbstractS">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/19/List总结/1.jpg">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.263Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="List总结">
+<meta name="twitter:description" content="List概括List的框架图  List是一个接口，继承于Collection接口，代表有序队列。 AbstractList是一个抽象类，继承于AbstractCollection。AbstractList实现List接口中除size()、get(int location)之外的函数。 AbstractSequentialList 是一个抽象类，它继承于AbstractList。AbstractS">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2018/12/19/List总结/1.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2018/12/19/List总结/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>List总结 | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2018/12/19/List总结/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">List总结
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-19 16:01:54" itemprop="dateCreated datePublished" datetime="2018-12-19T16:01:54+08:00">2018-12-19</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2018/12/19/List总结/" class="leancloud_visitors" data-flag-title="List总结">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="List概括"><a href="#List概括" class="headerlink" title="List概括"></a>List概括</h1><p>List的框架图<br><img src="/2018/12/19/List总结/1.jpg" alt=""></p>
+<ul>
+<li>List是一个接口，继承于Collection接口，代表有序队列。</li>
+<li>AbstractList是一个抽象类，继承于AbstractCollection。AbstractList实现List接口中除size()、get(int location)之外的函数。</li>
+<li>AbstractSequentialList 是一个抽象类，它继承于AbstractList。AbstractSequentialList 实现了“链表中，根据index索引值操作链表的全部函数”。</li>
+<li>ArrayList, LinkedList, Vector, Stack是List的4个实现类。<br>ArrayList是一个数组队列，相当于动态数组。它由数组实现，随机访问效率高，随机插入、随机删除效率低。<br>LinkedList是一个双向链表。它也可以被当作堆栈、队列或双端队列进行操作。LinkedList随机访问效率低，但随机插入、随机删除效率高。<br>Vector是矢量队列，和ArrayList一样，它也是一个动态数组，由数组实现。但是ArrayList是非线程安全的，而Vector是线程安全的。<br>Stack是栈，它继承于Vector。它的特性是：先进后出(FILO, First In Last Out)。</li>
+</ul>
+<h1 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h1><p>如果涉及到“栈”、“队列”、“链表”等操作，应该考虑用List，具体的选择哪个List，根据下面的标准来取舍。</p>
+<ul>
+<li>对于需要快速插入，删除元素，应该使用LinkedList。</li>
+<li>对于需要快速随机访问元素，应该使用ArrayList。</li>
+<li>对于“单线程环境” 或者 “多线程环境，但List仅仅只会被单个线程操作”，此时应该使用非同步的类(如ArrayList)。对于“多线程环境，且List可能同时被多个线程操作”，此时，应该使用同步的类(如Vector)。</li>
+</ul>
+<p>通过下面的测试程序，验证上面前两条结论：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">import java.util.*;</span><br><span class="line">import java.lang.Class;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * @desc 对比ArrayList和LinkedList的插入、随机读取效率、删除的效率</span><br><span class="line"> */</span><br><span class="line">public class ListCompareTest &#123;</span><br><span class="line"></span><br><span class="line">    private static final int COUNT = 100000;</span><br><span class="line"></span><br><span class="line">    private static LinkedList linkedList = new LinkedList();</span><br><span class="line">    private static ArrayList arrayList = new ArrayList();</span><br><span class="line">    private static Vector vector = new Vector();</span><br><span class="line">    private static Stack stack = new Stack();</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        // 换行符</span><br><span class="line">        System.out.println();</span><br><span class="line">        // 插入</span><br><span class="line">        insertByPosition(stack) ;</span><br><span class="line">        insertByPosition(vector) ;</span><br><span class="line">        insertByPosition(linkedList) ;</span><br><span class="line">        insertByPosition(arrayList) ;</span><br><span class="line"></span><br><span class="line">        // 换行符</span><br><span class="line">        System.out.println();</span><br><span class="line">        // 随机读取</span><br><span class="line">        readByPosition(stack);</span><br><span class="line">        readByPosition(vector);</span><br><span class="line">        readByPosition(linkedList);</span><br><span class="line">        readByPosition(arrayList);</span><br><span class="line"></span><br><span class="line">        // 换行符</span><br><span class="line">        System.out.println();</span><br><span class="line">        // 删除 </span><br><span class="line">        deleteByPosition(stack);</span><br><span class="line">        deleteByPosition(vector);</span><br><span class="line">        deleteByPosition(linkedList);</span><br><span class="line">        deleteByPosition(arrayList);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 获取list的名称</span><br><span class="line">    private static String getListName(List list) &#123;</span><br><span class="line">        if (list instanceof LinkedList) &#123;</span><br><span class="line">            return &quot;LinkedList&quot;;</span><br><span class="line">        &#125; else if (list instanceof ArrayList) &#123;</span><br><span class="line">            return &quot;ArrayList&quot;;</span><br><span class="line">        &#125; else if (list instanceof Stack) &#123;</span><br><span class="line">            return &quot;Stack&quot;;</span><br><span class="line">        &#125; else if (list instanceof Vector) &#123;</span><br><span class="line">            return &quot;Vector&quot;;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return &quot;List&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 向list的指定位置插入COUNT个元素，并统计时间</span><br><span class="line">    private static void insertByPosition(List list) &#123;</span><br><span class="line">        long startTime = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">        // 向list的位置0插入COUNT个数</span><br><span class="line">        for (int i=0; i&lt;COUNT; i++)</span><br><span class="line">            list.add(0, i);</span><br><span class="line"></span><br><span class="line">        long endTime = System.currentTimeMillis();</span><br><span class="line">        long interval = endTime - startTime;</span><br><span class="line">        System.out.println(getListName(list) + &quot; : insert &quot;+COUNT+&quot; elements into the 1st position use time：&quot; + interval+&quot; ms&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 从list的指定位置删除COUNT个元素，并统计时间</span><br><span class="line">    private static void deleteByPosition(List list) &#123;</span><br><span class="line">        long startTime = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">        // 删除list第一个位置元素</span><br><span class="line">        for (int i=0; i&lt;COUNT; i++)</span><br><span class="line">            list.remove(0);</span><br><span class="line"></span><br><span class="line">        long endTime = System.currentTimeMillis();</span><br><span class="line">        long interval = endTime - startTime;</span><br><span class="line">        System.out.println(getListName(list) + &quot; : delete &quot;+COUNT+&quot; elements from the 1st position use time：&quot; + interval+&quot; ms&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 根据position，不断从list中读取元素，并统计时间</span><br><span class="line">    private static void readByPosition(List list) &#123;</span><br><span class="line">        long startTime = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">        // 读取list元素</span><br><span class="line">        for (int i=0; i&lt;COUNT; i++)</span><br><span class="line">            list.get(i);</span><br><span class="line"></span><br><span class="line">        long endTime = System.currentTimeMillis();</span><br><span class="line">        long interval = endTime - startTime;</span><br><span class="line">        System.out.println(getListName(list) + &quot; : read &quot;+COUNT+&quot; elements by position use time：&quot; + interval+&quot; ms&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Stack : insert 100000 elements into the 1st position use time：1640 ms</span><br><span class="line">Vector : insert 100000 elements into the 1st position use time：1607 ms</span><br><span class="line">LinkedList : insert 100000 elements into the 1st position use time：29 ms</span><br><span class="line">ArrayList : insert 100000 elements into the 1st position use time：1617 ms</span><br><span class="line"></span><br><span class="line">Stack : read 100000 elements by position use time：9 ms</span><br><span class="line">Vector : read 100000 elements by position use time：6 ms</span><br><span class="line">LinkedList : read 100000 elements by position use time：10809 ms</span><br><span class="line">ArrayList : read 100000 elements by position use time：5 ms</span><br><span class="line"></span><br><span class="line">Stack : delete 100000 elements from the 1st position use time：1916 ms</span><br><span class="line">Vector : delete 100000 elements from the 1st position use time：1910 ms</span><br><span class="line">LinkedList : delete 100000 elements from the 1st position use time：15 ms</span><br><span class="line">ArrayList : delete 100000 elements from the 1st position use time：1909 ms</span><br></pre></td></tr></table></figure></p>
+<p>从中，我们可以发现：<br>插入10万个元素，LinkedList所花时间最短：29ms。<br>删除10万个元素，LinkedList所花时间最短：15ms。<br>遍历10万个元素，LinkedList所花时间最长：10809 ms；而ArrayList、Stack和Vector则相差不多，都只用了几秒。</p>
+<p>考虑到Vector是支持同步的，而Stack又是继承于Vector的；因此，得出结论：<br>(01) 对于需要快速插入，删除元素，应该使用LinkedList。<br>(02) 对于需要快速随机访问元素，应该使用ArrayList。<br>(03) 对于“单线程环境” 或者 “多线程环境，但List仅仅只会被单个线程操作”，此时应该使用非同步的类。</p>
+<h1 id="LinkedList和ArrayList性能差异分析"><a href="#LinkedList和ArrayList性能差异分析" class="headerlink" title="LinkedList和ArrayList性能差异分析"></a>LinkedList和ArrayList性能差异分析</h1><p>通过查看源码，看看为什么LinkedList插入元素快，ArrayList插入慢。</p>
+<h2 id="LinkedList-java中向指定位置插入元素的代码如下"><a href="#LinkedList-java中向指定位置插入元素的代码如下" class="headerlink" title="LinkedList.java中向指定位置插入元素的代码如下"></a>LinkedList.java中向指定位置插入元素的代码如下</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">// 在index前添加节点，且节点的值为element</span><br><span class="line">public void add(int index, E element) &#123;</span><br><span class="line">    addBefore(element, (index==size ? header : entry(index)));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 获取双向链表中指定位置的节点</span><br><span class="line">private Entry&lt;E&gt; entry(int index) &#123;</span><br><span class="line">    if (index &lt; 0 || index &gt;= size)</span><br><span class="line">        throw new IndexOutOfBoundsException(&quot;Index: &quot;+index+&quot;, Size: &quot;+size);</span><br><span class="line">    Entry&lt;E&gt; e = header;</span><br><span class="line">    // 获取index处的节点。</span><br><span class="line">    // 若index &lt; 双向链表长度的1/2,则从前向后查找;</span><br><span class="line">    // 否则，从后向前查找。</span><br><span class="line">    if (index &lt; (size &gt;&gt; 1)) &#123;</span><br><span class="line">        for (int i = 0; i &lt;= index; i++)</span><br><span class="line">            e = e.next;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        for (int i = size; i &gt; index; i--)</span><br><span class="line">            e = e.previous;</span><br><span class="line">    &#125;</span><br><span class="line">    return e;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 将节点(节点数据是e)添加到entry节点之前。</span><br><span class="line">private Entry&lt;E&gt; addBefore(E e, Entry&lt;E&gt; entry) &#123;</span><br><span class="line">    // 新建节点newEntry，将newEntry插入到节点e之前；并且设置newEntry的数据是e</span><br><span class="line">    Entry&lt;E&gt; newEntry = new Entry&lt;E&gt;(e, entry, entry.previous);</span><br><span class="line">    // 插入newEntry到链表中</span><br><span class="line">    newEntry.previous.next = newEntry;</span><br><span class="line">    newEntry.next.previous = newEntry;</span><br><span class="line">    size++;</span><br><span class="line">    modCount++;</span><br><span class="line">    return newEntry;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从中，我们可以看出：通过add(int index, E element)向LinkedList插入元素时。先是在双向链表中找到要插入节点的位置index；找到之后，再插入一个新节点。<br>双向链表查找index位置的节点时，有一个加速动作：若index &lt; 双向链表长度的1/2，则从前向后查找; 否则，从后向前查找。</p>
+<h2 id="ArrayList-java中向指定位置插入元素的代码。如下："><a href="#ArrayList-java中向指定位置插入元素的代码。如下：" class="headerlink" title="ArrayList.java中向指定位置插入元素的代码。如下："></a>ArrayList.java中向指定位置插入元素的代码。如下：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// 将e添加到ArrayList的指定位置</span><br><span class="line">public void add(int index, E element) &#123;</span><br><span class="line">    if (index &gt; size || index &lt; 0)</span><br><span class="line">        throw new IndexOutOfBoundsException(</span><br><span class="line">        &quot;Index: &quot;+index+&quot;, Size: &quot;+size);</span><br><span class="line"></span><br><span class="line">    ensureCapacity(size+1);  // Increments modCount!!</span><br><span class="line">    System.arraycopy(elementData, index, elementData, index + 1,</span><br><span class="line">         size - index);</span><br><span class="line">    elementData[index] = element;</span><br><span class="line">    size++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>ensureCapacity(size+1)</code>的作用是“确认ArrayList的容量，若容量不够，则增加容量”<br>真正耗时的操作是<br><code>System.arraycopy(elementData, index, elementData, index + 1, size - index);</code></p>
+<p>Sun JDK包的java/lang/System.java中的arraycopy()声明如下：<br><code>public static native void arraycopy(Object src, int srcPos, Object dest, int destPos, int length);</code></p>
+<p>arraycopy()是个JNI函数，它是在JVM中实现的。Sun JDK中看不到源码，不过可以在OpenJDK包中看到的源码。网上有对arraycopy()的分析说明，请参考：<br><a href="http://gutspot.com/2011/11/16/system-arraycopy%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" target="_blank" rel="noopener">http://gutspot.com/2011/11/16/system-arraycopy%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</a><br>实际上，我们只需要了解：<br><code>System.arraycopy(elementData, index, elementData, index + 1, size - index);</code><br>会移动index之后所有元素即可。这就意味着，<code>ArrayList的add(int index, E element)</code>函数，会引起index之后所有元素的改变。</p>
+<p>通过上面的分析，我们就能理解为什么LinkedList中插入元素很快，而ArrayList中插入元素很慢。<br>“删除元素”与“插入元素”的原理类似，这里就不再过多说明。</p>
+<p>接下来，我们看看 为什么LinkedList中随机访问很慢，而ArrayList中随机访问很快。<br>先看看LinkedList随机访问的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// 返回LinkedList指定位置的元素</span><br><span class="line">public E get(int index) &#123;</span><br><span class="line">    return entry(index).element;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 获取双向链表中指定位置的节点</span><br><span class="line">private Entry&lt;E&gt; entry(int index) &#123;</span><br><span class="line">    if (index &lt; 0 || index &gt;= size)</span><br><span class="line">        throw new IndexOutOfBoundsException(&quot;Index: &quot;+index+</span><br><span class="line">                                            &quot;, Size: &quot;+size);</span><br><span class="line">    Entry&lt;E&gt; e = header;</span><br><span class="line">    // 获取index处的节点。</span><br><span class="line">    // 若index &lt; 双向链表长度的1/2,则从前先后查找;</span><br><span class="line">    // 否则，从后向前查找。</span><br><span class="line">    if (index &lt; (size &gt;&gt; 1)) &#123;</span><br><span class="line">        for (int i = 0; i &lt;= index; i++)</span><br><span class="line">            e = e.next;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        for (int i = size; i &gt; index; i--)</span><br><span class="line">            e = e.previous;</span><br><span class="line">    &#125;</span><br><span class="line">    return e;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从中，我们可以看出：通过get(int index)获取LinkedList第index个元素时。先是在双向链表中找到要index位置的元素；找到之后再返回。<br>双向链表查找index位置的节点时，有一个加速动作：若index &lt; 双向链表长度的1/2，则从前向后查找; 否则，从后向前查找。</p>
+<p>下面在看看ArrayList随机访问的源码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// 获取index位置的元素值</span><br><span class="line">public E get(int index) &#123;</span><br><span class="line">    RangeCheck(index);</span><br><span class="line"></span><br><span class="line">    return (E) elementData[index];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private void RangeCheck(int index) &#123;</span><br><span class="line">    if (index &gt;= size)</span><br><span class="line">        throw new IndexOutOfBoundsException(</span><br><span class="line">        &quot;Index: &quot;+index+&quot;, Size: &quot;+size);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从中，我们可以看出：通过get(int index)获取ArrayList第index个元素时。直接返回数组中index位置的元素，而不需要像LinkedList一样进行查找。</p>
+<h1 id="Vector和ArrayList比较"><a href="#Vector和ArrayList比较" class="headerlink" title="Vector和ArrayList比较"></a>Vector和ArrayList比较</h1><h2 id="相同之处"><a href="#相同之处" class="headerlink" title="相同之处"></a>相同之处</h2><ol>
+<li><p>都是List<br>它们都继承于AbstractList，并且实现List接口。ArrayList和Vector的类定义如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// ArrayList的定义</span><br><span class="line">public class ArrayList&lt;E&gt; extends AbstractList&lt;E&gt;</span><br><span class="line">        implements List&lt;E&gt;, RandomAccess, Cloneable, java.io.Serializable</span><br><span class="line"></span><br><span class="line">// Vector的定义</span><br><span class="line">public class Vector&lt;E&gt; extends AbstractList&lt;E&gt;</span><br><span class="line">    implements List&lt;E&gt;, RandomAccess, Cloneable, java.io.Serializable &#123;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>它们都实现了RandomAccess和Cloneable接口<br>实现RandomAccess接口，意味着它们都支持快速随机访问；<br>实现Cloneable接口，意味着它们能克隆自己。</p>
+</li>
+<li><p>它们都是通过数组实现的，本质上都是动态数组<br>ArrayList.java中定义数组elementData用于保存元素</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 保存ArrayList中数据的数组</span><br><span class="line">private transient Object[] elementData;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>Vector.java中也定义了数组elementData用于保存元素<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 保存Vector中数据的数组</span><br><span class="line">protected Object[] elementData;</span><br></pre></td></tr></table></figure></p>
+<ol start="4">
+<li>默认数组容量都是10<br>若创建ArrayList或Vector时，没指定容量大小；则使用默认容量大小10。<br>ArrayList的默认构造函数如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// ArrayList构造函数。默认容量是10。</span><br><span class="line">public ArrayList() &#123;</span><br><span class="line">    this(10);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>Vector的默认构造函数如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// Vector构造函数。默认容量是10。</span><br><span class="line">public Vector() &#123;</span><br><span class="line">    this(10);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li><p>都支持Iterator和listIterator遍历<br>它们都继承于AbstractList，而AbstractList中分别实现了 “iterator()接口返回Iterator迭代器” 和 “listIterator()返回ListIterator迭代器”。</p>
+</li>
+<li><p>都支持序列化，即可以通过序列化的方式传输</p>
+</li>
+</ol>
+<h2 id="不同之处"><a href="#不同之处" class="headerlink" title="不同之处"></a>不同之处</h2><ol>
+<li><p>线程安全性不一样<br>ArrayList是非线程安全，而Vector是线程安全的，它的函数都是synchronized的，即都是支持同步的。<br>ArrayList适用于单线程，Vector适用于多线程。</p>
+</li>
+<li><p>构造函数个数不同<br>ArrayList有3个构造函数，Vector有4个构造函数，Vector除了包括和ArrayList类似的3个构造函数之外，另外的一个构造函数可以指定容量增加系数。</p>
+<ul>
+<li><p>ArrayList的构造函数如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 默认构造函数</span><br><span class="line">ArrayList()</span><br><span class="line"></span><br><span class="line">// capacity是ArrayList的默认容量大小。当由于增加数据导致容量不足时，容量会添加上一次容量大小的一半。</span><br><span class="line">ArrayList(int capacity)</span><br><span class="line"></span><br><span class="line">// 创建一个包含collection的ArrayList</span><br><span class="line">ArrayList(Collection&lt;? extends E&gt; collection)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Vector的构造函数如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 默认构造函数</span><br><span class="line">Vector()</span><br><span class="line"></span><br><span class="line">// capacity是Vector的默认容量大小。当由于增加数据导致容量增加时，每次容量会增加一倍。</span><br><span class="line">Vector(int capacity)</span><br><span class="line"></span><br><span class="line">// 创建一个包含collection的Vector</span><br><span class="line">Vector(Collection&lt;? extends E&gt; collection)</span><br><span class="line"></span><br><span class="line">// capacity是Vector的默认容量大小，capacityIncrement是每次Vector容量增加时的增量值。</span><br><span class="line">Vector(int capacity, int capacityIncrement)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>容量增加方式不同</p>
+<ul>
+<li><p>逐个添加元素，Arraylist扩容方式为：<br><code>int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1);</code><br>将其向右一位再加上原来的数，实际上是扩充了1.5倍。<br>Vector的容量增长与“增长系数有关”。<br>若指定了增长系数，且增长系数有效(即，大于0)；那么，每次容量不足时，新的容量=原始容量+增长系数。<br>若增长系数无效(即，小于/等于0)，则新的容量=原始容量 x 2<br>ArrayList中容量增长的主要函数如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">private void grow(int minCapacity) &#123;</span><br><span class="line">        // overflow-conscious code</span><br><span class="line">        int oldCapacity = elementData.length;</span><br><span class="line">        int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1);</span><br><span class="line">        if (newCapacity - minCapacity &lt; 0)</span><br><span class="line">            newCapacity = minCapacity;</span><br><span class="line">        if (newCapacity - MAX_ARRAY_SIZE &gt; 0)</span><br><span class="line">            newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">        // minCapacity is usually close to size, so this is a win:</span><br><span class="line">        elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">    &#125;</span><br><span class="line">//注：这是jdk1.8中重构了扩容的方式，与jdk1.6中的`新的容量”=“(原始容量x3)/2 + 1`有所不同</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Vector中容量增长的主要函数如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">private void grow(int minCapacity) &#123;</span><br><span class="line">        // overflow-conscious code</span><br><span class="line">        int oldCapacity = elementData.length;</span><br><span class="line">        int newCapacity = oldCapacity + ((capacityIncrement &gt; 0) ?</span><br><span class="line">                                         capacityIncrement : oldCapacity);</span><br><span class="line">        if (newCapacity - minCapacity &lt; 0)</span><br><span class="line">            newCapacity = minCapacity;</span><br><span class="line">        if (newCapacity - MAX_ARRAY_SIZE &gt; 0)</span><br><span class="line">            newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">        elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">    &#125;</span><br><span class="line">//注：jdk1.8重构了。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>对Enumeration的支持不同。Vector支持通过Enumeration去遍历，而List不支持</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public Enumeration&lt;E&gt; elements() &#123;</span><br><span class="line">    // 通过匿名类实现Enumeration</span><br><span class="line">    return new Enumeration&lt;E&gt;() &#123;</span><br><span class="line">        int count = 0;</span><br><span class="line"></span><br><span class="line">        // 是否存在下一个元素</span><br><span class="line">        public boolean hasMoreElements() &#123;</span><br><span class="line">            return count &lt; elementCount;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 获取下一个元素</span><br><span class="line">        public E nextElement() &#123;</span><br><span class="line">            synchronized (Vector.this) &#123;</span><br><span class="line">                if (count &lt; elementCount) &#123;</span><br><span class="line">                    return (E)elementData[count++];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            throw new NoSuchElementException(&quot;Vector Enumeration&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/collection/" rel="tag"># collection</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/19/Stack/" rel="next" title="Stack">
+                <i class="fa fa-chevron-left"></i> Stack
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/20/Map/" rel="prev" title="Map">
+                Map <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#List概括"><span class="nav-number">1.</span> <span class="nav-text">List概括</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用场景"><span class="nav-number">2.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LinkedList和ArrayList性能差异分析"><span class="nav-number">3.</span> <span class="nav-text">LinkedList和ArrayList性能差异分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#LinkedList-java中向指定位置插入元素的代码如下"><span class="nav-number">3.1.</span> <span class="nav-text">LinkedList.java中向指定位置插入元素的代码如下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ArrayList-java中向指定位置插入元素的代码。如下："><span class="nav-number">3.2.</span> <span class="nav-text">ArrayList.java中向指定位置插入元素的代码。如下：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Vector和ArrayList比较"><span class="nav-number">4.</span> <span class="nav-text">Vector和ArrayList比较</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#相同之处"><span class="nav-number">4.1.</span> <span class="nav-text">相同之处</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不同之处"><span class="nav-number">4.2.</span> <span class="nav-text">不同之处</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

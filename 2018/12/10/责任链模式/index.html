@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="类型：行为型123456责任链模式是一种对象的行为模式。在责任链模式里，很多对象由每一个对象对其下家的的引用而连起来形成一条链。请求在这条链上传递，直到链上的某一个对象决定处理这个请求。发出这个请求的客户端并不知道链上的哪一个对象最终处理这个请求，这使得系统可以在不影响客户端的情况下，动态的重新组织和分配责任。 从击鼓传花谈起击鼓传花是一种热闹而又紧张的饮酒游戏。在酒宴上宾客依次坐定位置，由一人击">
+<meta name="keywords" content="设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="责任链模式">
+<meta property="og:url" content="https://jingyao066.gitee.io/2018/12/10/责任链模式/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="类型：行为型123456责任链模式是一种对象的行为模式。在责任链模式里，很多对象由每一个对象对其下家的的引用而连起来形成一条链。请求在这条链上传递，直到链上的某一个对象决定处理这个请求。发出这个请求的客户端并不知道链上的哪一个对象最终处理这个请求，这使得系统可以在不影响客户端的情况下，动态的重新组织和分配责任。 从击鼓传花谈起击鼓传花是一种热闹而又紧张的饮酒游戏。在酒宴上宾客依次坐定位置，由一人击">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/10/责任链模式/1.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/10/责任链模式/2.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/10/责任链模式/3.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/10/责任链模式/4.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/10/责任链模式/5.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/10/责任链模式/6.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/10/责任链模式/7.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/10/责任链模式/8.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/10/责任链模式/9.png">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.381Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="责任链模式">
+<meta name="twitter:description" content="类型：行为型123456责任链模式是一种对象的行为模式。在责任链模式里，很多对象由每一个对象对其下家的的引用而连起来形成一条链。请求在这条链上传递，直到链上的某一个对象决定处理这个请求。发出这个请求的客户端并不知道链上的哪一个对象最终处理这个请求，这使得系统可以在不影响客户端的情况下，动态的重新组织和分配责任。 从击鼓传花谈起击鼓传花是一种热闹而又紧张的饮酒游戏。在酒宴上宾客依次坐定位置，由一人击">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2018/12/10/责任链模式/1.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2018/12/10/责任链模式/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>责任链模式 | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2018/12/10/责任链模式/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">责任链模式
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-10 17:41:36" itemprop="dateCreated datePublished" datetime="2018-12-10T17:41:36+08:00">2018-12-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2018/12/10/责任链模式/" class="leancloud_visitors" data-flag-title="责任链模式">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="类型：行为型"><a href="#类型：行为型" class="headerlink" title="类型：行为型"></a>类型：行为型</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">责任链模式是一种对象的行为模式。</span><br><span class="line">在责任链模式里，很多对象由每一个对象对其下家的的引用而连起来形成一条链。</span><br><span class="line">请求在这条链上传递，直到链上的某一个对象决定处理这个请求。</span><br><span class="line">发出这个请求的客户端并不知道链上的哪一个对象最终处理这个请求，</span><br><span class="line">这使得系统可以在不影响客户端的情况下，</span><br><span class="line">动态的重新组织和分配责任。</span><br></pre></td></tr></table></figure>
+<h3 id="从击鼓传花谈起"><a href="#从击鼓传花谈起" class="headerlink" title="从击鼓传花谈起"></a>从击鼓传花谈起</h3><p>击鼓传花是一种热闹而又紧张的饮酒游戏。在酒宴上宾客依次坐定位置，由一人击鼓，击鼓的地方与传花的地方是分开的，以示公正。开始击鼓时，花束就开始依次传递，鼓声一落，如果花束在某人手中，则该人就得饮酒。<br>比如说，贾母、贾赦、贾政、贾宝玉和贾环是五个参加击鼓传花游戏的传花者，他们组成一个环链。击鼓者将花传给贾母，开始传花游戏。花由贾母传给贾赦，由贾赦传给贾政，由贾政传给贾宝玉，又贾宝玉传给贾环，由贾环传回给贾母，如此往复，如下图所示。当鼓声停止时，手中有花的人就得执行酒令。<br><img src="/2018/12/10/责任链模式/1.png" alt=""></p>
+<p>击鼓传花便是责任链模式的应用。<br>责任链可以是一条直线，一个环链或者一个树状结构的一部分。</p>
+<h3 id="责任链模式的结构"><a href="#责任链模式的结构" class="headerlink" title="责任链模式的结构"></a>责任链模式的结构</h3><p>下面使用了一个责任链模式的最简单的实现。<br><img src="/2018/12/10/责任链模式/2.png" alt=""></p>
+<p>责任链模式涉及到的角色如下所示：<br>抽象处理者(Handler)：<br>定义出一个处理请求的接口。<br>如果需要，接口可以定义出一个方法以设定和返回对下家的引用。<br>这个角色通常由一个JAVA抽象类或者JAVA接口实现。<br>上图中的Handler类的聚合关系给出了具体子类对下家的引用。<br>抽象方法handlerReuqest()规范了类处理请求的操作。</p>
+<p>具体处理者(ConcreteHandler)：<br>具体处理者接到请求后，可以选择将请求处理掉，或者将请求传给下家。<br>由于具体处理者持有对下家的引用，因此，如果需要，<br>具体处理者可以方法下家。</p>
+<h3 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h3><p>抽象处理者：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public abstract class Handler &#123;</span><br><span class="line"></span><br><span class="line">    //持有后继的责任对象</span><br><span class="line">    protected Handler successor;</span><br><span class="line">    /** 示意处理请求的方法，虽然这个示意方法是没有传入参数的</span><br><span class="line">     * 但实际是可以传入参数的，根据具体需求来选择是否传递参数</span><br><span class="line">     * */</span><br><span class="line">    public abstract void handlerRequest();</span><br><span class="line"></span><br><span class="line">    public Handler getSuccessor() &#123;</span><br><span class="line">        return successor;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setSuccessor(Handler successor) &#123;</span><br><span class="line">        this.successor = successor;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>具体处理者：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public class ConcreteHandler extends Handler&#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 处理方法，调用此方法处理请求</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    public void handlerRequest() &#123;</span><br><span class="line">        /**</span><br><span class="line">         * 判断是否有后继的责任对象</span><br><span class="line">         * 如果有，就转发请求有给后继的责任对象</span><br><span class="line">         * 如果没有，则处理请求</span><br><span class="line">         * */</span><br><span class="line">        if(getSuccessor() != null)&#123;</span><br><span class="line">            System.out.println(&quot;放过请求&quot;);</span><br><span class="line">            getSuccessor().handlerRequest();</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            System.out.println(&quot;处理请求&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>客户端：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class Client &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        //组装责任链</span><br><span class="line">        Handler h1 = new ConcreteHandler();</span><br><span class="line">        Handler h2 = new ConcreteHandler();</span><br><span class="line">        h1.setSuccessor(h2);</span><br><span class="line">        //提交请求</span><br><span class="line">        h1.handlerRequest();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看出，客户端创建了两个处理者对象，<br>并指定第一个处理者对象的下家是第二个处理者对象，而第二个处理者对象没有下家。<br>然后客户端将请求传递给第一个处理者对象。</p>
+<p>由于本实例的传递逻辑非常简单：<br>只要有下家，就传递给下家处理；<br>如果没有下家，就自行处理。<br>因此，第一个处理者对象接到请求后，会将请求传递给第二个处理者对象。<br>由于第二个处理者对象没有下家，于是自行处理请求。<br>活动时序图如下所示：<br><img src="/2018/12/10/责任链模式/3.png" alt=""></p>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>来考虑这样一个功能:申请聚餐费用的管理。</p>
+<p>　　很多公司都是这样的福利，就是项目组或者是部门可以向公司申请一些聚餐费用，用于组织项目组成员或者是部门成员进行聚餐活动。</p>
+<p>　　申请聚餐费用的大致流程一般是：由申请人先填写申请单，然后交给领导审批，如果申请批准下来，领导会通知申请人审批通过，然后申请人去财务领取费用，如果没有批准下来，领导会通知申请人审批未通过，此事也就此作罢。</p>
+<p>　　不同级别的领导，对于审批的额度是不一样的，比如，项目经理只能审批500元以内的申请；部门经理能审批1000元以内的申请；而总经理可以审核任意额度的申请。</p>
+<p>　　也就是说，当某人提出聚餐费用申请的请求后，该请求会经由项目经理、部门经理、总经理之中的某一位领导来进行相应的处理，但是提出申请的人并不知道最终会由谁来处理他的请求，一般申请人是把自己的申请提交给项目经理，或许最后是由总经理来处理他的请求。</p>
+<p>可以使用责任链模式来实现上述功能：当某人提出聚餐费用申请的请求后，该请求会在 项目经理—〉部门经理—〉总经理 这样一条领导处理链上进行传递，发出请求的人并不知道谁会来处理他的请求，每个领导会根据自己的职责范围，来判断是处理请求还是把请求交给更高级别的领导，只要有领导处理了，传递就结束了。</p>
+<p>需要把每位领导的处理独立出来，实现成单独的职责处理对象，然后为它们提供一个公共的、抽象的父职责对象，这样就可以在客户端来动态地组合职责链，实现不同的功能要求了。</p>
+<p><img src="/2018/12/10/责任链模式/4.png" alt=""></p>
+<h3 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h3><p>抽象处理者角色类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public abstract class Handler &#123;</span><br><span class="line">    /**</span><br><span class="line">     * 持有下一个处理请求的对象</span><br><span class="line">     */</span><br><span class="line">    protected Handler successor = null;</span><br><span class="line">    /**</span><br><span class="line">     * 取值方法</span><br><span class="line">     */</span><br><span class="line">    public Handler getSuccessor() &#123;</span><br><span class="line">        return successor;</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 设置下一个处理请求的对象</span><br><span class="line">     */</span><br><span class="line">    public void setSuccessor(Handler successor) &#123;</span><br><span class="line">        this.successor = successor;</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 处理聚餐费用的申请</span><br><span class="line">     * @param user    申请人</span><br><span class="line">     * @param fee    申请的钱数</span><br><span class="line">     * @return        成功或失败的具体通知</span><br><span class="line">     */</span><br><span class="line">    public abstract String handleFeeRequest(String user , double fee);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>具体处理者角色：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">public class ProjectManager extends Handler &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String handleFeeRequest(String user, double fee) &#123;</span><br><span class="line">        </span><br><span class="line">        String str = &quot;&quot;;</span><br><span class="line">        //项目经理权限比较小，只能在500以内</span><br><span class="line">        if(fee &lt; 500)</span><br><span class="line">        &#123;</span><br><span class="line">            //为了测试，简单点，只同意张三的请求</span><br><span class="line">            if(&quot;张三&quot;.equals(user))</span><br><span class="line">            &#123;</span><br><span class="line">                str = &quot;成功：项目经理同意【&quot; + user + &quot;】的聚餐费用，金额为&quot; + fee + &quot;元&quot;;    </span><br><span class="line">            &#125;else</span><br><span class="line">            &#123;</span><br><span class="line">                //其他人一律不同意</span><br><span class="line">                str = &quot;失败：项目经理不同意【&quot; + user + &quot;】的聚餐费用，金额为&quot; + fee + &quot;元&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;else</span><br><span class="line">        &#123;</span><br><span class="line">            //超过500，继续传递给级别更高的人处理</span><br><span class="line">            if(getSuccessor() != null)</span><br><span class="line">            &#123;</span><br><span class="line">                return getSuccessor().handleFeeRequest(user, fee);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return str;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">public class DeptManager extends Handler &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String handleFeeRequest(String user, double fee) &#123;</span><br><span class="line">        </span><br><span class="line">        String str = &quot;&quot;;</span><br><span class="line">        //部门经理的权限只能在1000以内</span><br><span class="line">        if(fee &lt; 1000)</span><br><span class="line">        &#123;</span><br><span class="line">            //为了测试，简单点，只同意张三的请求</span><br><span class="line">            if(&quot;张三&quot;.equals(user))</span><br><span class="line">            &#123;</span><br><span class="line">                str = &quot;成功：部门经理同意【&quot; + user + &quot;】的聚餐费用，金额为&quot; + fee + &quot;元&quot;;    </span><br><span class="line">            &#125;else</span><br><span class="line">            &#123;</span><br><span class="line">                //其他人一律不同意</span><br><span class="line">                str = &quot;失败：部门经理不同意【&quot; + user + &quot;】的聚餐费用，金额为&quot; + fee + &quot;元&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;else</span><br><span class="line">        &#123;</span><br><span class="line">            //超过1000，继续传递给级别更高的人处理</span><br><span class="line">            if(getSuccessor() != null)</span><br><span class="line">            &#123;</span><br><span class="line">                return getSuccessor().handleFeeRequest(user, fee);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return str;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">public class GeneralManager extends Handler &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String handleFeeRequest(String user, double fee) &#123;</span><br><span class="line">        </span><br><span class="line">        String str = &quot;&quot;;</span><br><span class="line">        //总经理的权限很大，只要请求到了这里，他都可以处理</span><br><span class="line">        if(fee &gt;= 1000)</span><br><span class="line">        &#123;</span><br><span class="line">            //为了测试，简单点，只同意张三的请求</span><br><span class="line">            if(&quot;张三&quot;.equals(user))</span><br><span class="line">            &#123;</span><br><span class="line">                str = &quot;成功：总经理同意【&quot; + user + &quot;】的聚餐费用，金额为&quot; + fee + &quot;元&quot;;    </span><br><span class="line">            &#125;else</span><br><span class="line">            &#123;</span><br><span class="line">                //其他人一律不同意</span><br><span class="line">                str = &quot;失败：总经理不同意【&quot; + user + &quot;】的聚餐费用，金额为&quot; + fee + &quot;元&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;else</span><br><span class="line">        &#123;</span><br><span class="line">            //如果还有后继的处理对象，继续传递</span><br><span class="line">            if(getSuccessor() != null)</span><br><span class="line">            &#123;</span><br><span class="line">                return getSuccessor().handleFeeRequest(user, fee);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return str;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">public class Client &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        //先要组装责任链</span><br><span class="line">        Handler h1 = new GeneralManager();</span><br><span class="line">        Handler h2 = new DeptManager();</span><br><span class="line">        Handler h3 = new ProjectManager();</span><br><span class="line">        h3.setSuccessor(h2);</span><br><span class="line">        h2.setSuccessor(h1);</span><br><span class="line">        </span><br><span class="line">        //开始测试</span><br><span class="line">        String test1 = h3.handleFeeRequest(&quot;张三&quot;, 300);</span><br><span class="line">        System.out.println(&quot;test1 = &quot; + test1);</span><br><span class="line">        String test2 = h3.handleFeeRequest(&quot;李四&quot;, 300);</span><br><span class="line">        System.out.println(&quot;test2 = &quot; + test2);</span><br><span class="line">        System.out.println(&quot;---------------------------------------&quot;);</span><br><span class="line">        </span><br><span class="line">        String test3 = h3.handleFeeRequest(&quot;张三&quot;, 700);</span><br><span class="line">        System.out.println(&quot;test3 = &quot; + test3);</span><br><span class="line">        String test4 = h3.handleFeeRequest(&quot;李四&quot;, 700);</span><br><span class="line">        System.out.println(&quot;test4 = &quot; + test4);</span><br><span class="line">        System.out.println(&quot;---------------------------------------&quot;);</span><br><span class="line">        </span><br><span class="line">        String test5 = h3.handleFeeRequest(&quot;张三&quot;, 1500);</span><br><span class="line">        System.out.println(&quot;test5 = &quot; + test5);</span><br><span class="line">        String test6 = h3.handleFeeRequest(&quot;李四&quot;, 1500);</span><br><span class="line">        System.out.println(&quot;test6 = &quot; + test6);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/2018/12/10/责任链模式/5.png" alt=""></p>
+<h3 id="纯与不纯的责任链模式"><a href="#纯与不纯的责任链模式" class="headerlink" title="纯与不纯的责任链模式"></a>纯与不纯的责任链模式</h3><p>一个纯的责任链模式要求一个具体的处理者对象只能在两个行为中选择一个：<br>一是承担责任，二是把责任推给下家。<br>不允许出现某一个具体的处理者对象在承担了一部分责任后，<br>又把责任向下传递的情况。</p>
+<p>在一个纯的责任链模式里面，一个请求必须被某一个处理者对象所接收；<br>在一个不纯的责任链模式里面，一个请求最终可以不被任何接收端对象所接收。</p>
+<p>纯的责任链模式的实际例子很难找到，一般看到的例子均是不纯的责任链模式的实现。<br>有些人认为不纯的责任链根本不是责任链模式，这也许是有道理的。但是在实际的系统里，纯的责任链很难找到。如果坚持责任链不纯便不是责任链模式，那么责任链模式便不会有太大意义了。</p>
+<h3 id="责任链模式在Tomcat中的应用"><a href="#责任链模式在Tomcat中的应用" class="headerlink" title="责任链模式在Tomcat中的应用"></a>责任链模式在Tomcat中的应用</h3><p>众所周知Tomcat中的Filter就是使用了责任链模式，创建一个Filter除了要在web.xml文件中做相应配置外，还需要实现javax.servlet.Filter接口。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class TestFilter implements Filter&#123;</span><br><span class="line"></span><br><span class="line">    public void doFilter(ServletRequest request, ServletResponse response,</span><br><span class="line">            FilterChain chain) throws IOException, ServletException &#123;</span><br><span class="line">        </span><br><span class="line">        chain.doFilter(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void destroy() &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void init(FilterConfig filterConfig) throws ServletException &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="/2018/12/10/责任链模式/6.png" alt=""></p>
+<p>其实在真正执行到TestFilter类之前，会经过很多Tomcat内部的类。<br>顺带提一下其实Tomcat的容器设置也是责任链模式，注意被红色方框所圈中的类，从Engine到Host再到Context一直到Wrapper都是通过一个链传递请求。被绿色方框所圈中的地方有一个名为ApplicationFilterChain的类，ApplicationFilterChain类所扮演的就是抽象处理者角色，而具体处理者角色由各个Filter扮演。</p>
+<p>第一个疑问是ApplicationFilterChain将所有的Filter存放在哪里？<br>答案是保存在ApplicationFilterChain类中的一个ApplicationFilterConfig对象的数组中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * Filters.</span><br><span class="line">     */</span><br><span class="line">    private ApplicationFilterConfig[] filters = </span><br><span class="line">        new ApplicationFilterConfig[0];</span><br></pre></td></tr></table></figure></p>
+<p>那ApplicationFilterConfig对象又是什么呢？<br>ApplicationFilterConfig是一个Filter容器。以下是ApplicationFilterConfig类的声明：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Implementation of a &lt;code&gt;javax.servlet.FilterConfig&lt;/code&gt; useful in</span><br><span class="line"> * managing the filter instances instantiated when a web application</span><br><span class="line"> * is first started.</span><br><span class="line"> *</span><br><span class="line"> * @author Craig R. McClanahan</span><br><span class="line"> * @version $Id: ApplicationFilterConfig.java 1201569 2011-11-14 01:36:07Z kkolinko $</span><br><span class="line"> */</span><br></pre></td></tr></table></figure></p>
+<p>当一个web应用首次启动时ApplicationFilterConfig会自动实例化，它会从该web应用的web.xml文件中读取配置的Filter的信息，然后装进该容器。<br>刚刚看到在ApplicationFilterChain类中所创建的ApplicationFilterConfig数组长度为零，那它是在什么时候被重新赋值的呢？<br><code>private ApplicationFilterConfig[] filters = new ApplicationFilterConfig[0];</code><br>是在调用ApplicationFilterChain类的addFilter()方法时。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * The int which gives the current number of filters in the chain.</span><br><span class="line">     */</span><br><span class="line">    private int n = 0;</span><br></pre></td></tr></table></figure></p>
+<p><code>public static final int INCREMENT = 10;</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">void addFilter(ApplicationFilterConfig filterConfig) &#123;</span><br><span class="line"></span><br><span class="line">        // Prevent the same filter being added multiple times</span><br><span class="line">        for(ApplicationFilterConfig filter:filters)</span><br><span class="line">            if(filter==filterConfig)</span><br><span class="line">                return;</span><br><span class="line"></span><br><span class="line">        if (n == filters.length) &#123;</span><br><span class="line">            ApplicationFilterConfig[] newFilters =</span><br><span class="line">                new ApplicationFilterConfig[n + INCREMENT];</span><br><span class="line">            System.arraycopy(filters, 0, newFilters, 0, n);</span><br><span class="line">            filters = newFilters;</span><br><span class="line">        &#125;</span><br><span class="line">        filters[n++] = filterConfig;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>变量n用来记录当前过滤器链里面拥有的过滤器数目，默认情况下n等于0，ApplicationFilterConfig对象数组的长度也等于0，所以当第一次调用addFilter()方法时，if (n == filters.length)的条件成立，ApplicationFilterConfig数组长度被改变。之后filters[n++] = filterConfig;将变量filterConfig放入ApplicationFilterConfig数组中并将当前过滤器链里面拥有的过滤器数目+1。</p>
+<p><strong>那ApplicationFilterChain的addFilter()方法又是在什么地方被调用的呢？</strong><br>是在ApplicationFilterFactory类的createFilterChain()方法中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line">public ApplicationFilterChain createFilterChain</span><br><span class="line">        (ServletRequest request, Wrapper wrapper, Servlet servlet) &#123;</span><br><span class="line"></span><br><span class="line">        // get the dispatcher type</span><br><span class="line">        DispatcherType dispatcher = null; </span><br><span class="line">        if (request.getAttribute(DISPATCHER_TYPE_ATTR) != null) &#123;</span><br><span class="line">            dispatcher = (DispatcherType) request.getAttribute(DISPATCHER_TYPE_ATTR);</span><br><span class="line">        &#125;</span><br><span class="line">        String requestPath = null;</span><br><span class="line">        Object attribute = request.getAttribute(DISPATCHER_REQUEST_PATH_ATTR);</span><br><span class="line">        </span><br><span class="line">        if (attribute != null)&#123;</span><br><span class="line">            requestPath = attribute.toString();</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        // If there is no servlet to execute, return null</span><br><span class="line">        if (servlet == null)</span><br><span class="line">            return (null);</span><br><span class="line"></span><br><span class="line">        boolean comet = false;</span><br><span class="line">        </span><br><span class="line">        // Create and initialize a filter chain object</span><br><span class="line">        ApplicationFilterChain filterChain = null;</span><br><span class="line">        if (request instanceof Request) &#123;</span><br><span class="line">            Request req = (Request) request;</span><br><span class="line">            comet = req.isComet();</span><br><span class="line">            if (Globals.IS_SECURITY_ENABLED) &#123;</span><br><span class="line">                // Security: Do not recycle</span><br><span class="line">                filterChain = new ApplicationFilterChain();</span><br><span class="line">                if (comet) &#123;</span><br><span class="line">                    req.setFilterChain(filterChain);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                filterChain = (ApplicationFilterChain) req.getFilterChain();</span><br><span class="line">                if (filterChain == null) &#123;</span><br><span class="line">                    filterChain = new ApplicationFilterChain();</span><br><span class="line">                    req.setFilterChain(filterChain);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // Request dispatcher in use</span><br><span class="line">            filterChain = new ApplicationFilterChain();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        filterChain.setServlet(servlet);</span><br><span class="line"></span><br><span class="line">        filterChain.setSupport</span><br><span class="line">            (((StandardWrapper)wrapper).getInstanceSupport());</span><br><span class="line"></span><br><span class="line">        // Acquire the filter mappings for this Context</span><br><span class="line">        StandardContext context = (StandardContext) wrapper.getParent();</span><br><span class="line">        FilterMap filterMaps[] = context.findFilterMaps();</span><br><span class="line"></span><br><span class="line">        // If there are no filter mappings, we are done</span><br><span class="line">        if ((filterMaps == null) || (filterMaps.length == 0))</span><br><span class="line">            return (filterChain);</span><br><span class="line"></span><br><span class="line">        // Acquire the information we will need to match filter mappings</span><br><span class="line">        String servletName = wrapper.getName();</span><br><span class="line"></span><br><span class="line">        // Add the relevant path-mapped filters to this filter chain</span><br><span class="line">        for (int i = 0; i &lt; filterMaps.length; i++) &#123;</span><br><span class="line">            if (!matchDispatcher(filterMaps[i] ,dispatcher)) &#123;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line">            if (!matchFiltersURL(filterMaps[i], requestPath))</span><br><span class="line">                continue;</span><br><span class="line">            ApplicationFilterConfig filterConfig = (ApplicationFilterConfig)</span><br><span class="line">                context.findFilterConfig(filterMaps[i].getFilterName());</span><br><span class="line">            if (filterConfig == null) &#123;</span><br><span class="line">                // FIXME - log configuration problem</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line">            boolean isCometFilter = false;</span><br><span class="line">            if (comet) &#123;</span><br><span class="line">                try &#123;</span><br><span class="line">                    isCometFilter = filterConfig.getFilter() instanceof CometFilter;</span><br><span class="line">                &#125; catch (Exception e) &#123;</span><br><span class="line">                    // Note: The try catch is there because getFilter has a lot of </span><br><span class="line">                    // declared exceptions. However, the filter is allocated much</span><br><span class="line">                    // earlier</span><br><span class="line">                    Throwable t = ExceptionUtils.unwrapInvocationTargetException(e);</span><br><span class="line">                    ExceptionUtils.handleThrowable(t);</span><br><span class="line">                &#125;</span><br><span class="line">                if (isCometFilter) &#123;</span><br><span class="line">                    filterChain.addFilter(filterConfig);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                filterChain.addFilter(filterConfig);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Add filters that match on servlet name second</span><br><span class="line">        for (int i = 0; i &lt; filterMaps.length; i++) &#123;</span><br><span class="line">            if (!matchDispatcher(filterMaps[i] ,dispatcher)) &#123;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line">            if (!matchFiltersServlet(filterMaps[i], servletName))</span><br><span class="line">                continue;</span><br><span class="line">            ApplicationFilterConfig filterConfig = (ApplicationFilterConfig)</span><br><span class="line">                context.findFilterConfig(filterMaps[i].getFilterName());</span><br><span class="line">            if (filterConfig == null) &#123;</span><br><span class="line">                // FIXME - log configuration problem</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line">            boolean isCometFilter = false;</span><br><span class="line">            if (comet) &#123;</span><br><span class="line">                try &#123;</span><br><span class="line">                    isCometFilter = filterConfig.getFilter() instanceof CometFilter;</span><br><span class="line">                &#125; catch (Exception e) &#123;</span><br><span class="line">                    // Note: The try catch is there because getFilter has a lot of </span><br><span class="line">                    // declared exceptions. However, the filter is allocated much</span><br><span class="line">                    // earlier</span><br><span class="line">                &#125;</span><br><span class="line">                if (isCometFilter) &#123;</span><br><span class="line">                    filterChain.addFilter(filterConfig);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                filterChain.addFilter(filterConfig);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Return the completed filter chain</span><br><span class="line">        return (filterChain);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以将如上代码分为两段，51行之前为第一段，51行之后为第二段。<br>第一段的主要目的是创建ApplicationFilterChain对象以及一些参数设置。<br>第二段的主要目的是从上下文中获取所有Filter信息，之后使用for循环遍历并调用filterChain.addFilter(filterConfig);将filterConfig放入ApplicationFilterChain对象的ApplicationFilterConfig数组中。</p>
+<p><strong>那ApplicationFilterFactory类的createFilterChain()方法又是在什么地方被调用的呢？</strong><br>是在StandardWrapperValue类的invoke()方法中被调用的。<br><img src="/2018/12/10/责任链模式/7.png" alt=""></p>
+<p>由于invoke()方法较长，所以将很多地方省略。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public final void invoke(Request request, Response response)</span><br><span class="line">        throws IOException, ServletException &#123;</span><br><span class="line">   ...省略中间代码</span><br><span class="line">　　　　 // Create the filter chain for this request</span><br><span class="line">        ApplicationFilterFactory factory =</span><br><span class="line">            ApplicationFilterFactory.getInstance();</span><br><span class="line">        ApplicationFilterChain filterChain =</span><br><span class="line">            factory.createFilterChain(request, wrapper, servlet);</span><br><span class="line">　　...省略中间代码</span><br><span class="line">         filterChain.doFilter(request.getRequest(), response.getResponse());</span><br><span class="line">　　...省略中间代码</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>那正常的流程应该是这样的：</strong><br>在StandardWrapperValue类的invoke()方法中调用ApplicationFilterChai类的createFilterChain()方法<br>–&gt;<br>在ApplicationFilterChai类的createFilterChain()方法中调用ApplicationFilterChain类的addFilter()方法<br>–&gt;<br>在ApplicationFilterChain类的addFilter()方法中给ApplicationFilterConfig数组赋值。</p>
+<p><img src="/2018/12/10/责任链模式/8.png" alt=""><br>根据上面的代码可以看出StandardWrapperValue类的invoke()方法在执行完createFilterChain()方法后，会继续执行ApplicationFilterChain类的doFilter()方法，然后在doFilter()方法中会调用internalDoFilter()方法。</p>
+<p>以下是internalDoFilter()方法的部分代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">// Call the next filter if there is one</span><br><span class="line">        if (pos &lt; n) &#123;</span><br><span class="line">　　　　　　　//拿到下一个Filter，将指针向下移动一位</span><br><span class="line">            //pos它来标识当前ApplicationFilterChain（当前过滤器链）执行到哪个过滤器</span><br><span class="line">            ApplicationFilterConfig filterConfig = filters[pos++];</span><br><span class="line">            Filter filter = null;</span><br><span class="line">            try &#123;</span><br><span class="line">　　　　　　　　　 //获取当前指向的Filter的实例</span><br><span class="line">                filter = filterConfig.getFilter();</span><br><span class="line">                support.fireInstanceEvent(InstanceEvent.BEFORE_FILTER_EVENT,</span><br><span class="line">                                          filter, request, response);</span><br><span class="line">                </span><br><span class="line">                if (request.isAsyncSupported() &amp;&amp; &quot;false&quot;.equalsIgnoreCase(</span><br><span class="line">                        filterConfig.getFilterDef().getAsyncSupported())) &#123;</span><br><span class="line">                    request.setAttribute(Globals.ASYNC_SUPPORTED_ATTR,</span><br><span class="line">                            Boolean.FALSE);</span><br><span class="line">                &#125;</span><br><span class="line">                if( Globals.IS_SECURITY_ENABLED ) &#123;</span><br><span class="line">                    final ServletRequest req = request;</span><br><span class="line">                    final ServletResponse res = response;</span><br><span class="line">                    Principal principal = </span><br><span class="line">                        ((HttpServletRequest) req).getUserPrincipal();</span><br><span class="line"></span><br><span class="line">                    Object[] args = new Object[]&#123;req, res, this&#125;;</span><br><span class="line">                    SecurityUtil.doAsPrivilege</span><br><span class="line">                        (&quot;doFilter&quot;, filter, classType, args, principal);</span><br><span class="line">                    </span><br><span class="line">                &#125; else &#123;</span><br><span class="line">　　　　　　　　　　　　//调用Filter的doFilter()方法  </span><br><span class="line">                    filter.doFilter(request, response, this);</span><br><span class="line">                &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里的filter.doFilter(request, response, this);就是调用我们前面创建的TestFilter中的doFilter()方法。<br>而TestFilter中的doFilter()方法会继续调用chain.doFilter(request, response);方法，而这个chain其实就是ApplicationFilterChain,所以调用过程又回到了上面调用dofilter和调用internalDoFilter方法，这样执行直到里面的过滤器全部执行。</p>
+<p>如果定义两个过滤器，则Debug结果如下：</p>
+<p><img src="/2018/12/10/责任链模式/9.png" alt=""></p>
+<p>end—</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/10/策略模式/" rel="next" title="策略模式">
+                <i class="fa fa-chevron-left"></i> 策略模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/10/设计模式概览/" rel="prev" title="设计模式概览">
+                设计模式概览 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#类型：行为型"><span class="nav-number">1.</span> <span class="nav-text">类型：行为型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从击鼓传花谈起"><span class="nav-number">2.</span> <span class="nav-text">从击鼓传花谈起</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#责任链模式的结构"><span class="nav-number">3.</span> <span class="nav-text">责任链模式的结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#源代码"><span class="nav-number">4.</span> <span class="nav-text">源代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用场景"><span class="nav-number">5.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#源码"><span class="nav-number">6.</span> <span class="nav-text">源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#纯与不纯的责任链模式"><span class="nav-number">7.</span> <span class="nav-text">纯与不纯的责任链模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#责任链模式在Tomcat中的应用"><span class="nav-number">8.</span> <span class="nav-text">责任链模式在Tomcat中的应用</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

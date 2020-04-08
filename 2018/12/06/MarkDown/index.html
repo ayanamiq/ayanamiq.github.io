@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="标题总共六级标题，建议在井号后加一个空格，这是最标准的 Markdown 语法。 一级标题二级标题三级标题四级标题五级标题六级标题和h1到h6一样，字体由大到小 文本样式 加粗字体两边各加两个星号 ** 快捷键ctrl+b  斜体字体两边各加  __ 快捷键 ctrl+i  删除线各加两个波浪线。  快捷键：ctrl+u ,和uc浏览器有热键冲突  换行换行：只需在行末加两个空格键和一个回车键即可">
+<meta name="keywords" content="other">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MarkDown">
+<meta property="og:url" content="https://jingyao066.gitee.io/2018/12/06/MarkDown/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="标题总共六级标题，建议在井号后加一个空格，这是最标准的 Markdown 语法。 一级标题二级标题三级标题四级标题五级标题六级标题和h1到h6一样，字体由大到小 文本样式 加粗字体两边各加两个星号 ** 快捷键ctrl+b  斜体字体两边各加  __ 快捷键 ctrl+i  删除线各加两个波浪线。  快捷键：ctrl+u ,和uc浏览器有热键冲突  换行换行：只需在行末加两个空格键和一个回车键即可">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/06/MarkDown/1.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/06/MarkDown/2.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/06/MarkDown/3.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/06/MarkDown/4.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/06/MarkDown/5.png">
+<meta property="og:updated_time" content="2020-04-08T02:37:28.729Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MarkDown">
+<meta name="twitter:description" content="标题总共六级标题，建议在井号后加一个空格，这是最标准的 Markdown 语法。 一级标题二级标题三级标题四级标题五级标题六级标题和h1到h6一样，字体由大到小 文本样式 加粗字体两边各加两个星号 ** 快捷键ctrl+b  斜体字体两边各加  __ 快捷键 ctrl+i  删除线各加两个波浪线。  快捷键：ctrl+u ,和uc浏览器有热键冲突  换行换行：只需在行末加两个空格键和一个回车键即可">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2018/12/06/MarkDown/1.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2018/12/06/MarkDown/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>MarkDown | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2018/12/06/MarkDown/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MarkDown
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-06 14:48:51" itemprop="dateCreated datePublished" datetime="2018-12-06T14:48:51+08:00">2018-12-06</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-04-08 10:37:28" itemprop="dateModified" datetime="2020-04-08T10:37:28+08:00">2020-04-08</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2018/12/06/MarkDown/" class="leancloud_visitors" data-flag-title="MarkDown">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h1><p>总共六级标题，建议在井号后加一个空格，这是最标准的 Markdown 语法。</p>
+<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><p>和h1到h6一样，字体由大到小</p>
+<h1 id="文本样式"><a href="#文本样式" class="headerlink" title="文本样式"></a>文本样式</h1><ul>
+<li><p>加粗<br>字体两边各加两个星号 ** 快捷键ctrl+b</p>
+</li>
+<li><p>斜体<br>字体两边各加  __ 快捷键 ctrl+i</p>
+</li>
+<li><p>删除线<br>各加两个波浪线。  快捷键：ctrl+u ,和uc浏览器有热键冲突<br><img src="/2018/12/06/MarkDown/1.png" alt="文本样式"></p>
+</li>
+<li><p>换行<br>换行：只需在行末加两个空格键和一个回车键即可换行</p>
+</li>
+<li><p>分段<br>分段：段落之间空一行即可。</p>
+</li>
+</ul>
+<h1 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h1><ul>
+<li><p>无序列表<br>使用星号(*)、加号(+)或是减号(-)作为列表标记，注意符号后边一定要跟一个空格。<br>在星号前加两个空格键或者一个tab键就可以产生一个子列表。</p>
+</li>
+<li><p>有序列表<br>在文本前加字母或数字即可生成一个有序列表。<br>注意，当你第一个序号使用什么作为标记的，那么同级别的列表就会自动使用其作为标记。<br><img src="/2018/12/06/MarkDown/2.png" alt=""></p>
+</li>
+</ul>
+<h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><p>文本前加大于号  &gt;  即可<br><img src="/2018/12/06/MarkDown/3.png" alt=""></p>
+<h1 id="图片和连接"><a href="#图片和连接" class="headerlink" title="图片和连接"></a>图片和连接</h1><ul>
+<li><p>图片<br><code>![图片描述](连接地址)：感叹号+中括号[图片描述]+小括号(连接地址)</code></p>
+</li>
+<li><p>连接<br><code>[文本内容](连接地址)：中括号+小括号</code><br>图片比连接多一个感叹号<br><img src="/2018/12/06/MarkDown/4.png" alt=""></p>
+</li>
+</ul>
+<h1 id="水平线"><a href="#水平线" class="headerlink" title="水平线"></a>水平线</h1><p>三个减号<code>---</code>或者三个星号<code>***</code>都可以画出一条水平分割线，需要和上边的内容空出一行</p>
+<hr>
+<h1 id="代码段"><a href="#代码段" class="headerlink" title="代码段"></a>代码段</h1><p>点：指的是键盘tab上边那个小点<br><code>这是一行代码，用两点包裹</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">这是一段代码，</span><br><span class="line">上下分别用三个点包裹</span><br></pre></td></tr></table></figure>
+<p>在围栏式代码块中，你可以指定一个可选的语言标识符，然后我们就可以为它启用语法着色了。方法是在第一排的三个点右边加上想要的语言标识符。<br>目前已知可用：<br>java<br>js<br>javascript<br>sql<br>xml</p>
+<h1 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h1><p>在 Markdown下制作表格，是非常非常麻烦的一件事，必须画出来才行。<br><img src="/2018/12/06/MarkDown/5.png" alt=""><br>我这么懒，肯定不会画的…</p>
+<h1 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h1><p><code>&lt;!-- 一段注释 --&gt;</code><br>和html里的注释是一样，注释是给自己看的，预览时也不会出现，当然发布出去别人也不会看见。</p>
+<h1 id="制表"><a href="#制表" class="headerlink" title="制表"></a>制表</h1><p>记录一种最简单的制表方法</p>
+<table>
+<thead>
+<tr>
+<th>title1</th>
+<th>title1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>content1</td>
+<td>content2</td>
+</tr>
+<tr>
+<td>content3</td>
+<td>content4</td>
+</tr>
+<tr>
+<td>content5</td>
+<td>content6</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">title1 | title1</span><br><span class="line">-- | --</span><br><span class="line">content1 | content2</span><br><span class="line">content3 | content4</span><br><span class="line">content5 | content6</span><br></pre></td></tr></table></figure>
+<p>表头必须和内容间隔一行，表头和内容之间由<br>– | –<br>分隔，一个 – 表示一个表头，中间由竖线分隔，不需要加空格。如果表头有四个，<br>– | – | – | –<br>这样就可以了。<br>内容由竖线分隔。</p>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>代码块中，tab补齐的地方，在文件里看着是齐的，但是在页面上就是不齐，只能用空格去补齐。我日，为什么</p>
+<h1 id="MarkDown页面添加锚点-跳转到本页指定位置"><a href="#MarkDown页面添加锚点-跳转到本页指定位置" class="headerlink" title="MarkDown页面添加锚点,跳转到本页指定位置"></a>MarkDown页面添加锚点,跳转到本页指定位置</h1><p>在需要跳转的位置添加锚点，语法如下：<br><code>&lt;span id=&quot;jump&quot;&gt;跳转到的地方&lt;/span&gt;</code></p>
+<p>在需要点击跳转的位置，使用上面的id，格式类似超链接的形式：<br><code>[点击跳转](#jump)</code></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/other/" rel="tag"># other</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/05/Hexo/" rel="next" title="Hexo">
+                <i class="fa fa-chevron-left"></i> Hexo
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/06/nginx/" rel="prev" title="nginx">
+                nginx <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#标题"><span class="nav-number">1.</span> <span class="nav-text">标题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一级标题"><span class="nav-number">2.</span> <span class="nav-text">一级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#二级标题"><span class="nav-number">2.1.</span> <span class="nav-text">二级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#三级标题"><span class="nav-number">2.1.1.</span> <span class="nav-text">三级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#四级标题"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">四级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#五级标题"><span class="nav-number">2.1.1.1.1.</span> <span class="nav-text">五级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#六级标题"><span class="nav-number">2.1.1.1.1.1.</span> <span class="nav-text">六级标题</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文本样式"><span class="nav-number">3.</span> <span class="nav-text">文本样式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#列表"><span class="nav-number">4.</span> <span class="nav-text">列表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#引用"><span class="nav-number">5.</span> <span class="nav-text">引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图片和连接"><span class="nav-number">6.</span> <span class="nav-text">图片和连接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#水平线"><span class="nav-number">7.</span> <span class="nav-text">水平线</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码段"><span class="nav-number">8.</span> <span class="nav-text">代码段</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#表格"><span class="nav-number">9.</span> <span class="nav-text">表格</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注释"><span class="nav-number">10.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#制表"><span class="nav-number">11.</span> <span class="nav-text">制表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题"><span class="nav-number">12.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MarkDown页面添加锚点-跳转到本页指定位置"><span class="nav-number">13.</span> <span class="nav-text">MarkDown页面添加锚点,跳转到本页指定位置</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

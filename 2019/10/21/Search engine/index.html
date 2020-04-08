@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="全文搜索引擎全文搜索引擎是目前广泛应用的主流搜索引擎。它的工作原理是计算机索引程序通过扫描文章中的每一个词，对每一个词建立一个索引，指明该词在文章中出现的次数和位置，当用户查询时，检索程序就根据事先建立的索引进行查找，并将查找的结果反馈给用户的检索方式。这个过程类似于通过字典中的检索字表查字的过程。 我们生活中的数据总体分为两种：结构化数据 和 非结构化数据。结构化数据： 指具有固定格式或有限长度">
+<meta name="keywords" content="other">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Search engine">
+<meta property="og:url" content="https://jingyao066.gitee.io/2019/10/21/Search engine/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="全文搜索引擎全文搜索引擎是目前广泛应用的主流搜索引擎。它的工作原理是计算机索引程序通过扫描文章中的每一个词，对每一个词建立一个索引，指明该词在文章中出现的次数和位置，当用户查询时，检索程序就根据事先建立的索引进行查找，并将查找的结果反馈给用户的检索方式。这个过程类似于通过字典中的检索字表查字的过程。 我们生活中的数据总体分为两种：结构化数据 和 非结构化数据。结构化数据： 指具有固定格式或有限长度">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/21/Search%20engine/full_text_search_overview.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/21/Search%20engine/elastic_basic.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/21/Search%20engine/1.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/21/Search%20engine/2.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/21/Search%20engine/3.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/21/Search%20engine/4.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/21/Search%20engine/5.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/21/Search%20engine/6.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/21/Search%20engine/a1.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/21/Search%20engine/a2.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/21/Search%20engine/12.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/21/Search%20engine/13.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/21/Search%20engine/14.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/21/Search%20engine/15.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/21/Search%20engine/16.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/21/Search%20engine/17.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/21/Search%20engine/18.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/21/Search%20engine/19.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/10/21/Search%20engine/20.png">
+<meta property="og:updated_time" content="2020-01-13T02:17:38.201Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Search engine">
+<meta name="twitter:description" content="全文搜索引擎全文搜索引擎是目前广泛应用的主流搜索引擎。它的工作原理是计算机索引程序通过扫描文章中的每一个词，对每一个词建立一个索引，指明该词在文章中出现的次数和位置，当用户查询时，检索程序就根据事先建立的索引进行查找，并将查找的结果反馈给用户的检索方式。这个过程类似于通过字典中的检索字表查字的过程。 我们生活中的数据总体分为两种：结构化数据 和 非结构化数据。结构化数据： 指具有固定格式或有限长度">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2019/10/21/Search%20engine/full_text_search_overview.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2019/10/21/Search engine/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Search engine | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2019/10/21/Search engine/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Search engine
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-21 16:07:30" itemprop="dateCreated datePublished" datetime="2019-10-21T16:07:30+08:00">2019-10-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-01-13 10:17:38" itemprop="dateModified" datetime="2020-01-13T10:17:38+08:00">2020-01-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/10/21/Search engine/" class="leancloud_visitors" data-flag-title="Search engine">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="全文搜索引擎"><a href="#全文搜索引擎" class="headerlink" title="全文搜索引擎"></a>全文搜索引擎</h1><p>全文搜索引擎是目前广泛应用的主流搜索引擎。它的工作原理是计算机索引程序通过扫描文章中的每一个词，对每一个词建立一个索引，指明该词在文章中出现的次数和位置，当用户查询时，检索程序就根据事先建立的索引进行查找，并将查找的结果反馈给用户的检索方式。这个过程类似于通过字典中的检索字表查字的过程。</p>
+<p>我们生活中的数据总体分为两种：结构化数据 和 非结构化数据。<br>结构化数据： 指具有固定格式或有限长度的数据，如数据库，元数据等。<br>非结构化数据： 非结构化数据又可称为全文数据，指不定长或无固定格式的数据，如邮件，word文档等。<br>当然有的地方还会有第三种：半结构化数据，如XML，HTML等，当根据需要可按结构化数据来处理，也可抽取出纯文本按非结构化数据来处理。</p>
+<p>根据两种数据分类，搜索也分为相应的两种：结构化数据搜索和非结构化数据搜索。<br>对于结构化数据，我们一般都是可以通过关系型数据库(mysql，oracle等)的 table 的方式存储和搜索，也可以建立索引。<br>对于非结构化数据，即对全文数据的搜索主要有两种方法：顺序扫描法、全文检索。<br>顺序扫描：通过文字名称也可了解到它的大概搜索方式，即按照顺序扫描的方式查询特定的关键字。<br>例如给你一张报纸，让你找到该报纸中“dota2”的文字在哪些地方出现过。你肯定需要从头到尾把报纸阅读扫描一遍然后标记出关键字在哪些版块出现过以及它的出现位置。<br>这种方式无疑是最耗时的最低效的，如果报纸排版字体小，而且版块较多甚至有多份报纸，等你扫描完你的眼睛也差不多了。</p>
+<p>全文搜索：对非结构化数据顺序扫描很慢，我们是否可以进行优化？把我们的非结构化数据想办法弄得有一定结构不就行了吗？将非结构化数据中的一部分信息提取出来，重新组织，使其变得有一定结构，然后对此有一定结构的数据进行搜索，从而达到搜索相对较快的目的。这种方式就构成了全文检索的基本思路。这部分从非结构化数据中提取出的然后重新组织的信息，我们称之索引。<br>还以读报纸为例，我们想关注最近TI10的新闻，假如都是 PSG.LGD 的粉丝，如何快速找到 LGD 新闻的报纸和版块呢？全文搜索的方式就是，将所有报纸中所有版块中关键字进行提取，如”LGD”，”Liquid”，”FW”，”战队”，”DOTA2”等。然后对这些关键字建立索引，通过索引我们就可以对应到该关键词出现的报纸和版块。注意区别目录搜索引擎。</p>
+<h1 id="为何要用搜索引擎"><a href="#为何要用搜索引擎" class="headerlink" title="为何要用搜索引擎"></a>为何要用搜索引擎</h1><p>之前，有同事问我，为什么要用搜索引擎？我们的所有数据在数据库里面都有，而且 Oracle、SQL Server 等数据库里也能提供查询检索或者聚类分析功能，直接通过数据库查询不就可以了吗？确实，我们大部分的查询功能都可以通过数据库查询获得，如果查询效率低下，还可以通过建数据库索引，优化SQL等方式进行提升效率，甚至通过引入缓存来加快数据的返回速度。如果数据量更大，就可以分库分表来分担查询压力。<br>那为什么还要全文搜索引擎呢？我们主要从以下几个原因分析：</p>
+<ul>
+<li>数据类型<br>全文索引搜索支持非结构化数据的搜索，可以更好地快速搜索大量存在的任何单词或单词组的非结构化文本。<br>例如 Google，百度类的网站搜索，它们都是根据网页中的关键字生成索引，我们在搜索的时候输入关键字，它们会将该关键字即索引匹配到的所有网页返回；还有常见的项目中应用日志的搜索等等。对于这些非结构化的数据文本，关系型数据库搜索不是能很好的支持。</li>
+<li>索引的维护<br>一般传统数据库，全文检索都实现的很鸡肋，因为一般也没人用数据库存文本字段。进行全文检索需要扫描整个表，如果数据量大的话即使对SQL的语法优化，也收效甚微。建立了索引，但是维护起来也很麻烦，对于 insert 和 update 操作都会重新构建索引。</li>
+</ul>
+<p>什么时候使用全文搜索引擎：<br>搜索的数据对象是大量的非结构化的文本数据。<br>文件记录量达到数十万或数百万个甚至更多。<br>支持大量基于交互式文本的查询。<br>需求非常灵活的全文搜索查询。<br>对高度相关的搜索结果的有特殊需求，但是没有可用的关系数据库可以满足。<br>对不同记录类型、非文本数据操作或安全事务处理的需求相对较少的情况。</p>
+<h1 id="Lucene，Solr，ElasticSearch"><a href="#Lucene，Solr，ElasticSearch" class="headerlink" title="Lucene，Solr，ElasticSearch"></a>Lucene，Solr，ElasticSearch</h1><p>现在主流的搜索引擎大概就是：Lucene，Solr，ElasticSearch。<br>它们的索引建立都是根据倒排索引的方式生成索引，何谓倒排索引？<br>维基百科<br>倒排索引（英语：Inverted index），也常被称为反向索引、置入档案或反向档案，是一种索引方法，被用来存储在全文搜索下某个单词在一个文档或者一组文档中的存储位置的映射。它是文档检索系统中最常用的数据结构。</p>
+<h2 id="Lucene"><a href="#Lucene" class="headerlink" title="Lucene"></a>Lucene</h2><p>Lucene是一个Java全文搜索引擎，完全用Java编写。Lucene不是一个完整的应用程序，而是一个代码库和API，可以很容易地用于向应用程序添加搜索功能。<br>Lucene通过简单的API提供强大的功能：<br><strong>可扩展的高性能索引</strong></p>
+<ul>
+<li>在现代硬件上超过150GB /小时</li>
+<li>小RAM要求 - 只有1MB堆</li>
+<li>增量索引与批量索引一样快</li>
+<li>索引大小约为索引文本大小的20-30％</li>
+</ul>
+<p><strong>强大，准确，高效的搜索算法</strong></p>
+<ul>
+<li>排名搜索 - 首先返回最佳结果</li>
+<li>许多强大的查询类型：短语查询，通配符查询，邻近查询，范围查询等</li>
+<li>现场搜索（例如标题，作者，内容）</li>
+<li>按任何字段排序</li>
+<li>使用合并结果进行多索引搜索</li>
+<li>允许同时更新和搜索</li>
+<li>灵活的分面，突出显示，连接和结果分组</li>
+<li>快速，内存效率和错误容忍的建议</li>
+<li>可插拔排名模型，包括矢量空间模型和Okapi BM25</li>
+<li>可配置存储引擎（编解码器）</li>
+</ul>
+<p><strong>跨平台解决方案</strong></p>
+<ul>
+<li>作为Apache许可下的开源软件提供 ，允许您在商业和开源程序中使用Lucene</li>
+<li>100％-pure Java</li>
+<li>可用的其他编程语言中的实现是索引兼容的</li>
+</ul>
+<p>Apache软件基金会<br>在Apache软件基金会提供的开源软件项目的Apache社区的支持。<br>但是Lucene只是一个框架，要充分利用它的功能，需要使用JAVA，并且在程序中集成Lucene。需要很多的学习了解，才能明白它是如何运行的，熟练运用Lucene确实非常复杂。</p>
+<h2 id="Solr"><a href="#Solr" class="headerlink" title="Solr"></a>Solr</h2><p>Apache Solr是一个基于名为Lucene的Java库构建的开源搜索平台。它以用户友好的方式提供Apache Lucene的搜索功能。作为一个行业参与者近十年，它是一个成熟的产品，拥有强大而广泛的用户社区。它提供分布式索引，复制，负载平衡查询以及自动故障转移和恢复。如果它被正确部署然后管理得好，它就能够成为一个高度可靠，可扩展且容错的搜索引擎。很多互联网巨头，如Netflix，eBay，Instagram和亚马逊（CloudSearch）都使用Solr，因为它能够索引和搜索多个站点。</p>
+<p>主要功能列表包括：</p>
+<ul>
+<li>全文搜索</li>
+<li>突出</li>
+<li>分面搜索</li>
+<li>实时索引</li>
+<li>动态群集</li>
+<li>数据库集成</li>
+<li>NoSQL功能和丰富的文档处理（例如Word和PDF文件）</li>
+</ul>
+<h2 id="ElasticSearch"><a href="#ElasticSearch" class="headerlink" title="ElasticSearch"></a>ElasticSearch</h2><p>Elasticsearch是一个开源（Apache 2许可证），是一个基于Apache Lucene库构建的RESTful搜索引擎。<br>Elasticsearch是在Solr之后几年推出的。它提供了一个分布式，多租户能力的全文搜索引擎，具有HTTP Web界面（REST）和无架构JSON文档。Elasticsearch的官方客户端库提供Java，Groovy，PHP，Ruby，Perl，Python，.NET和Javascript。<br>分布式搜索引擎包括可以划分为分片的索引，并且每个分片可以具有多个副本。每个Elasticsearch节点都可以有一个或多个分片，其引擎也可以充当协调器，将操作委派给正确的分片。<br>Elasticsearch可通过近实时搜索进行扩展。其主要功能之一是多​​租户。<br>主要功能列表包括：</p>
+<ul>
+<li>分布式搜索</li>
+<li>多租户</li>
+<li>分析搜索</li>
+<li>分组和聚合</li>
+</ul>
+<h2 id="ElasticSearch-vs-solr"><a href="#ElasticSearch-vs-solr" class="headerlink" title="ElasticSearch vs solr"></a>ElasticSearch vs solr</h2><p>由于Lucene的复杂性，一般很少会考虑它作为搜索的第一选择，排除一些公司需要自研搜索框架，底层需要依赖Lucene。所以这里我们重点分析 Elasticsearch 和 Solr。<br>Elasticsearch vs. Solr。哪一个更好？他们有什么不同？你应该使用哪一个？</p>
+<h3 id="历史比较"><a href="#历史比较" class="headerlink" title="历史比较"></a>历史比较</h3><p>Apache Solr是一个成熟的项目，拥有庞大而活跃的开发和用户社区，以及Apache品牌。Solr于2006年首次发布到开源，长期以来一直占据着搜索引擎领域，并且是任何需要搜索功能的人的首选引擎。它的成熟转化为丰富的功能，而不仅仅是简单的文本索引和搜索； 如分面，分组，强大的过滤，可插入的文档处理，可插入的搜索链组件，语言检测等。<br>Solr 在搜索领域占据了多年的主导地位。然后，在2010年左右，Elasticsearch成为市场上的另一种选择。那时候，它远没有Solr那么稳定，没有Solr的功能深度，没有思想分享，品牌等等。<br>Elasticsearch虽然很年轻，但它也自己的一些优势，Elasticsearch 建立在更现代的原则上，针对更现代的用例，并且是为了更容易处理大型索引和高查询率而构建的。此外，由于它太年轻，没有社区可以合作，它可以自由地向前推进，而不需要与其他人（用户或开发人员）达成任何共识或合作，向后兼容，或任何其他更成熟的软件通常必须处理。<br>因此，它在Solr之前就公开了一些非常受欢迎的功能(例如，接近实时搜索，英文：Near Real-Time Search)。从技术上讲，NRT搜索的能力确实来自Lucene，它是 Solr 和 Elasticsearch 使用的基础搜索库。具有讽刺意味的是，因为 Elasticsearch 首先公开了NRT搜索，所以人们将NRT搜索与Elasticsearch 联系在一起，尽管 Solr 和 Lucene 都是同一个 Apache 项目的一部分，因此，人们会首先期望 Solr 具有如此高要求的功能。</p>
+<h3 id="特征差异比较"><a href="#特征差异比较" class="headerlink" title="特征差异比较"></a>特征差异比较</h3><p>这两个搜索引擎都是流行的，先进的的开源搜索引擎。它们都是围绕核心底层搜索库 - Lucene构建的 - 但它们又是不同的。像所有东西一样，每个都有其优点和缺点，根据您的需求和期望，每个都可能更好或更差。Solr和Elasticsearch都在快速发展，所以，话不多说，先来看下它们的差异清单：</p>
+<table>
+<thead>
+<tr>
+<th>特征</th>
+<th>Solr/SolrCloud</th>
+<th>Elasticsearch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>社区和开发者</td>
+<td>Apache 软件基金和社区支持</td>
+<td>单一商业实体及其员工</td>
+</tr>
+<tr>
+<td>节点发现</td>
+<td>Apache Zookeeper，在大量项目中成熟且经过实战测试</td>
+<td>Zen内置于Elasticsearch本身，需要专用的主节点才能进行分裂脑保护</td>
+</tr>
+<tr>
+<td>碎片放置</td>
+<td>本质上是静态，需要手动工作来迁移分片，从Solr 7开始 - Autoscaling API允许一些动态操作</td>
+<td>动态，可以根据群集状态按需移动分片</td>
+</tr>
+<tr>
+<td>高速缓存</td>
+<td>全局，每个段更改无效</td>
+<td>每段，更适合动态更改数据</td>
+</tr>
+<tr>
+<td>分析引擎性能</td>
+<td>非常适合精确计算的静态数据    结果的准确性取决于数据放置</td>
+</tr>
+<tr>
+<td>全文搜索功能</td>
+<td>基于Lucene的语言分析，多建议，拼写检查，丰富的高亮显示支持</td>
+<td>基于Lucene的语言分析，单一建议API实现，高亮显示重新计算</td>
+</tr>
+<tr>
+<td>DevOps支持</td>
+<td>尚未完全，但即将到来</td>
+<td>非常好的API</td>
+</tr>
+<tr>
+<td>非平面数据处理</td>
+<td>嵌套文档和父-子支持</td>
+<td>嵌套和对象类型的自然支持允许几乎无限的嵌套和父-子支持</td>
+</tr>
+<tr>
+<td>查询DSL</td>
+<td>JSON（有限），XML（有限）或URL参数</td>
+<td>JSON</td>
+</tr>
+<tr>
+<td>索引/收集领导控制</td>
+<td>领导者安置控制和领导者重新平衡甚至可以节点上的负载</td>
+<td>不可能</td>
+</tr>
+<tr>
+<td>机器学</td>
+<td>内置 - 在流聚合之上，专注于逻辑回归和学习排名贡献模块</td>
+<td>商业功能，专注于异常和异常值以及时间序列数据</td>
+</tr>
+</tbody>
+</table>
+<p><a href="http://solr-vs-elasticsearch.com/" target="_blank" rel="noopener">了解更多</a></p>
+<h3 id="综合比较"><a href="#综合比较" class="headerlink" title="综合比较"></a>综合比较</h3><p>另外，我们在从以下几个方面来分析下：</p>
+<ul>
+<li>近几年的流行趋势<br>我们查看一下这两种产品的Google搜索趋势。谷歌趋势表明，与 Solr 相比，Elasticsearch具有很大的吸引力，但这并不意味着Apache Solr已经死亡。虽然有些人可能不这么认为，但Solr仍然是最受欢迎的搜索引擎之一，拥有强大的社区和开源支持。</li>
+<li>安装和配置<br>与Solr相比，Elasticsearch易于安装且非常轻巧。此外，您可以在几分钟内安装并运行Elasticsearch。<br>但是，如果Elasticsearch管理不当，这种易于部署和使用可能会成为一个问题。基于JSON的配置很简单，但如果要为文件中的每个配置指定注释，那么它不适合您。<br>总的来说，如果您的应用使用的是JSON，那么Elasticsearch是一个更好的选择。否则，请使用Solr，因为它的schema.xml和solrconfig.xml都有很好的文档记录。</li>
+<li>社区<br>Solr拥有更大，更成熟的用户，开发者和贡献者社区。ES虽拥有的规模较小但活跃的用户社区以及不断增长的贡献者社区。<br>Solr是真正的开源社区代码。任何人都可以为Solr做出贡献，并且根据优点选出新的Solr开发人员（也称为提交者）。Elasticsearch在技术上是开源的，但在精神上却不那么重要。任何人都可以看到来源，任何人都可以更改它并提供贡献，但只有Elasticsearch的员工才能真正对Elasticsearch进行更改。<br>Solr贡献者和提交者来自许多不同的组织，而Elasticsearch提交者来自单个公司。</li>
+<li>成熟度<br>Solr更成熟，但ES增长迅速，我认为它稳定。</li>
+<li>文档<br>Solr在这里得分很高。它是一个非常有据可查的产品，具有清晰的示例和API用例场景。 Elasticsearch的文档组织良好，但它缺乏好的示例和清晰的配置说明。</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>那么，到底是Solr还是Elasticsearch？<br>有时很难找到明确的答案。无论您选择Solr还是Elasticsearch，首先需要了解正确的用例和未来需求。总结他们的每个属性。</p>
+<ul>
+<li>由于易于使用，Elasticsearch在新开发者中更受欢迎。但是，如果您已经习惯了与Solr合作，请继续使用它，因为迁移到Elasticsearch没有特定的优势。</li>
+<li>如果除了搜索文本之外还需要它来处理分析查询，Elasticsearch是更好的选择。</li>
+<li>如果需要分布式索引，则需要选择Elasticsearch。对于需要良好可伸缩性和性能的云和分布式环境，Elasticsearch是更好的选择。</li>
+<li>两者都有良好的商业支持（咨询，生产支持，整合等）</li>
+<li>两者都有很好的操作工具，尽管Elasticsearch因其易于使用的API而更多地吸引了DevOps人群，因此可以围绕它创建一个更加生动的工具生态系统。</li>
+<li>Elasticsearch在开源日志管理用例中占据主导地位，许多组织在Elasticsearch中索引它们的日志以使其可搜索。虽然Solr现在也可以用于此目的，但它只是错过了这一想法。</li>
+<li>Solr仍然更加面向文本搜索。另一方面，Elasticsearch 通常用于过滤和分组 - 分析查询工作负载 - 而不一定是文本搜索。Elasticsearch 开发人员在 Lucene 和 Elasticsearch 级别上投入了大量精力使此类查询更高效(降低内存占用和CPU使用)。因此，对于不仅需要进行文本搜索，而且需要复杂的搜索时间聚合的应用程序，Elasticsearch是一个更好的选择。</li>
+<li>Elasticsearch更容易上手，一个下载和一个命令就可以启动一切。Solr传统上需要更多的工作和知识，但Solr最近在消除这一点上取得了巨大的进步，现在只需努力改变它的声誉。</li>
+<li>在性能方面，它们大致相同。我说“大致”，因为没有人做过全面和无偏见的基准测试。对于95％的用例，任何一种选择在性能方面都会很好，剩下的5％需要用它们的特定数据和特定的访问模式来测试这两种解决方案。</li>
+<li>从操作上讲，Elasticsearch使用起来比较简单 - 它只有一个进程。Solr在其类似Elasticsearch的完全分布式部署模式SolrCloud中依赖于Apache ZooKeeper。ZooKeeper是超级成熟，超级广泛使用等等，但它仍然是另一个活跃的部分。也就是说，如果您使用的是Hadoop，HBase，Spark，Kafka或其他一些较新的分布式软件，您可能已经在组织的某个地方运行ZooKeeper。</li>
+<li>虽然Elasticsearch内置了类似ZooKeeper的组件Xen，但ZooKeeper可以更好地防止有时在Elasticsearch集群中出现的可怕的裂脑问题。公平地说，Elasticsearch开发人员已经意识到这个问题，并致力于改进Elasticsearch的这个方面。</li>
+<li>如果您喜欢监控和指标，那么使用Elasticsearch，您将会进入天堂。这个东西比新年前夜在时代广场可以挤压的人有更多的指标！Solr暴露了关键指标，但远不及Elasticsearch那么多。</li>
+</ul>
+<h1 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h1><h2 id="全文搜索"><a href="#全文搜索" class="headerlink" title="全文搜索"></a>全文搜索</h2><p><img src="/2019/10/21/Search engine/full_text_search_overview.png" alt=""></p>
+<h2 id="Elastic基础"><a href="#Elastic基础" class="headerlink" title="Elastic基础"></a>Elastic基础</h2><p><img src="/2019/10/21/Search engine/elastic_basic.png" alt=""></p>
+<p><a href="https://www.cnblogs.com/jajian/p/9801154.html" target="_blank" rel="noopener">参考地址</a><br><a href="https://www.cnblogs.com/reycg-blog/p/10048815.html" target="_blank" rel="noopener">参考地址</a></p>
+<h1 id="solr学习"><a href="#solr学习" class="headerlink" title="solr学习"></a>solr学习</h1><p><a href="https://lucene.apache.org/solr/" target="_blank" rel="noopener">solr官网</a><br>下载最新的<code>Binary releases</code>，解压得到<br><img src="/2019/10/21/Search engine/1.png" alt=""></p>
+<p>Solr的运行分为单机运行和集群运行，这里以单机为例。<br>进入到solr的bin目录执行命令：<br><code>solr start</code><br>提示<code>Started Solr server on port 8983 (pid=). Happy searching!</code>，说明启动成功。<br>然后在浏览器输入<a href="http://localhost:8983/solr" target="_blank" rel="noopener">http://localhost:8983/solr</a> 就会进入到solr的管理界面。<br>注意：一定要用windows的cmd启动，而且启动之后cmd窗口不能关闭，git的bash是不行的，虽然提示happy searching，但是无法访问web界面。<br>一些solr常用命令：<br><code>solr start –p 端口号</code>：单机版启动solr服务<br><code>solr restart –p 端口号</code>：重启solr服务<br><code>solr stop –p 端口号</code>：关闭solr服务<br><code>solr create –c name</code>：创建一个core实例(core概念后面介绍)<br><a href="https://lucene.apache.org/solr/guide/7_4/solr-control-script-reference.html" target="_blank" rel="noopener">更多命令参考官方文档</a></p>
+<h2 id="创建core实例"><a href="#创建core实例" class="headerlink" title="创建core实例"></a>创建core实例</h2><p>简单说core就是solr的一个实例，一个solr服务下可以有多个core，每个core下都有自己的索引库和与之相应的配置文件，所以在操作solr创建索引之前要创建一个core，因为索引都存在core下面。</p>
+<ul>
+<li>在bin目录下执行solr create –c name，创建一个core，默认创建出来的位置如下图<br><img src="/2019/10/21/Search engine/2.png" alt=""></li>
+<li>第二种方式是直接使用AdminUI页面创建一个core，如下图<br><img src="/2019/10/21/Search engine/3.png" alt=""><br>创建的时候报错：<br><code>Can&#39;t find resource &#39;solrconfig.xml&#39; in classpath orc</code><br>找到<code>solr-8.2.0/server/configsets/sample_techproducts_configs/conf</code><br>把这个conf文件夹copy到新建的文件夹中。</li>
+</ul>
+<h2 id="配置schema"><a href="#配置schema" class="headerlink" title="配置schema"></a>配置schema</h2><h3 id="schema介绍"><a href="#schema介绍" class="headerlink" title="schema介绍"></a>schema介绍</h3><p>schema是用来告诉solr如何建立索引的，他的配置围绕着一个schema配置文件，这个配置文件决定着solr如何建立索引，每个字段的数据类型，分词方式等，老版本的schema配置文件的名字叫做schema.xml他的配置方式就是手工编辑，但是现在新版本的schema配置文件的名字叫做managed-schema，他的配置方式不再是用手工编辑而是使用schemaAPI来配置，官方给出的解释是使用schemaAPI修改managed-schema内容后不需要重新加载core或者重启solr更适合在生产环境下维护，如果使用手工编辑的方式更改配置不进行重加载core有可能会造成配置丢失，配置文件所在的路径如下图：<br><img src="/2019/10/21/Search engine/4.png" alt=""></p>
+<h3 id="schema主要成员："><a href="#schema主要成员：" class="headerlink" title="schema主要成员："></a>schema主要成员：</h3><ul>
+<li>fieldType：为field定义类型，最主要作用是定义分词器，分词器决定着如何从文档中检索关键字。</li>
+<li>analyzer：他是fieldType下的子元素，这就是传说中的分词器，他由一组tokenizer和filter组成，如下图所示<br><img src="/2019/10/21/Search engine/5.png" alt=""></li>
+<li>field：他是创建索引用的字段，如果想要这个字段生成索引需要配置他的indexed属性为true，stored属性为true表示存储该索引。如下所示每个field都要引用一种fieldType由type属性定义<br><code>&lt;field name=&quot;description&quot; type=&quot;text_tr&quot; indexed=&quot;true&quot; stored=&quot;true&quot;&gt;</code><br>这里描述的只是最常用的三个元素，<a href="http://lucene.apache.org/solr/guide/7_4/documents-fields-and-schema-design.html" target="_blank" rel="noopener">关于更多schema的介绍请参考</a></li>
+</ul>
+<h3 id="Schema-API"><a href="#Schema-API" class="headerlink" title="Schema API"></a>Schema API</h3><p>Schema API其实就是用post请求向solr服务器发送携带json参数的请求，所有操作内容都封装在json中，如果是linux系统直接使用curl工具，如果是windows系统推荐使用Postman<br><img src="/2019/10/21/Search engine/6.png" alt=""><br>这里以添加一个field为例，下面列出其他API：<br>add-field: add a new field with parameters youprovide.<br>delete-field: delete a field.<br>replace-field: replace an existing field withone that is differently configured.<br><a href="http://lucene.apache.org/solr/guide/7_4/schema-api.html" target="_blank" rel="noopener">更多api请参考</a></p>
+<h2 id="中文分词器"><a href="#中文分词器" class="headerlink" title="中文分词器"></a>中文分词器</h2><p>分词，即文本分析，是指把整个文本分解成一系列单词的过程。比如说：北京大学 是一个词那么进行拆分可以得到：北京与大学，甚至北京大学整个词也是一个语义。<br>solr自带了一些中文分词器，比较好用的是SmartChineseAnalyzer，但是扩展性比较差不能自定义扩展中文词库，所以这里选择使用IKAnalyzer，这是第三方的一个分词器可以很好的扩展中文词库。<br><a href="https://search.maven.org/search?q=com.github.magese" target="_blank" rel="noopener">下载IKAnalyzer的jar包</a><br>将下载好的jar包放入solr-7.4.0/server/solr-webapp/webapp/WEB-INF/lib目录中。</p>
+<p>复制新项目的配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/solr-7.4.0</span><br><span class="line">mkdir server/solr/ik</span><br><span class="line">cp -r server/solr/configsets/_default/conf  server/solr/ik/</span><br></pre></td></tr></table></figure></p>
+<p>然后到server/solr/ik/conf目录中打开managed-schema文件，增加如下代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- ik分词器 --&gt;</span><br><span class="line">&lt;fieldType name=&quot;text_ik&quot; class=&quot;solr.TextField&quot;&gt;</span><br><span class="line">  &lt;analyzer type=&quot;index&quot;&gt;</span><br><span class="line">      &lt;tokenizer class=&quot;org.wltea.analyzer.lucene.IKTokenizerFactory&quot; useSmart=&quot;false&quot; conf=&quot;ik.conf&quot;/&gt;</span><br><span class="line">      &lt;filter class=&quot;solr.LowerCaseFilterFactory&quot;/&gt;</span><br><span class="line">  &lt;/analyzer&gt;</span><br><span class="line">  &lt;analyzer type=&quot;query&quot;&gt;</span><br><span class="line">      &lt;tokenizer class=&quot;org.wltea.analyzer.lucene.IKTokenizerFactory&quot; useSmart=&quot;true&quot; conf=&quot;ik.conf&quot;/&gt;</span><br><span class="line">      &lt;filter class=&quot;solr.LowerCaseFilterFactory&quot;/&gt;</span><br><span class="line">  &lt;/analyzer&gt;</span><br><span class="line">&lt;/fieldType&gt;</span><br></pre></td></tr></table></figure></p>
+<p>定义了一个text_ik这个字段类型并采用Ik分词器，接下来在field元素定义式指定type=text_ik就可以把这个分词器应用在这个field中。</p>
+<p>重启solr<br><code>bin/solr restart -force</code><br>新增core：ik，或是在旧的core的manage-schema中增加上边的配置。</p>
+<h3 id="solr7自带分词中文分词器"><a href="#solr7自带分词中文分词器" class="headerlink" title="solr7自带分词中文分词器"></a>solr7自带分词中文分词器</h3><p>复制jar包<br><code>cp contrib/analysis-extras/lucene-libs/lucene-analyzers-smartcn-7.4.0.jar  server/solr-webapp/webapp/WEB-INF/lib</code><br>复制新项目的配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /root/tar/solr-7.4.0</span><br><span class="line">mkdir server/solr/test</span><br><span class="line">cp -r server/solr/configsets/_default/conf  server/solr/test/</span><br></pre></td></tr></table></figure></p>
+<p>然后到server/solr/test/conf目录中打开managed-schema文件，增加如下代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;fieldType name=&quot;text_hmm_chinese&quot; class=&quot;solr.TextField&quot; positionIncrementGap=&quot;100&quot;&gt;</span><br><span class="line">	&lt;analyzer type=&quot;index&quot;&gt;</span><br><span class="line">		&lt;tokenizer class=&quot;org.apache.lucene.analysis.cn.smart.HMMChineseTokenizerFactory&quot;/&gt;</span><br><span class="line">	&lt;/analyzer&gt;</span><br><span class="line">	&lt;analyzer type=&quot;query&quot;&gt;</span><br><span class="line">		&lt;tokenizer class=&quot;org.apache.lucene.analysis.cn.smart.HMMChineseTokenizerFactory&quot;/&gt;</span><br><span class="line">	&lt;/analyzer&gt;</span><br><span class="line">&lt;/fieldType&gt;</span><br></pre></td></tr></table></figure></p>
+<p>定义了一个text_hmm_chinese这个字段类型并采用自带中文分词器，接下来在field元素定义式指定type=text_hmm_chinese就可以把这个分词器应用在这个field中。</p>
+<p>重启solr<br><code>bin/solr restart -force</code><br>新增一个core：test</p>
+<p>对比两个分词的效果<br>IK分词器<br><img src="/2019/10/21/Search engine/a1.png" alt=""></p>
+<p>自带分词器<br><img src="/2019/10/21/Search engine/a2.png" alt=""></p>
+<p>我感觉IK的语义分析更好些。<br><img src="/2019/10/21/Search engine/12.png" alt=""></p>
+<p><a href="https://blog.csdn.net/guyan0319/article/details/81188977" target="_blank" rel="noopener">参考</a></p>
+<h2 id="DIH导入索引数据"><a href="#DIH导入索引数据" class="headerlink" title="DIH导入索引数据"></a>DIH导入索引数据</h2><p>DIH全称是Data Import Handler 数据导入处理器，顾名思义这是向solr中导入数据的，我们的solr目的就是为了能让我们的应用程序更快的查询出用户想要的数据，而数据存储在应用中的各种地方如：xml、pdf、关系数据库中，那么solr首先就要能够获取这些数据并在这些数据中建立索引来达成快速搜索的目的，这里就列举我们最常用的从关系型数据库中向solr导入索引数据。</p>
+<p>在我们自己建立的core的目录下有conf目录，这里面有着几个很重要的配置文件，之前我们用到的managed-schema(老版本是schema.xml)也在其中，另外还有一个solrconfig.xml文件，这是我们DIH配置的第一步，需要在此文件中配置数据导入文件的映射位置如下图：<br><img src="/2019/10/21/Search engine/13.png" alt=""><br>第二步配置数据导入文件，这个文件可以在solr根目录下的示例文件中copy一份到core/conf目录下，也就是跟solrconfig.xml在一个目录下，因为solrconfig.xml中配置的相对路径就是这里，当然也可以写绝对路径。如下图：<br><img src="/2019/10/21/Search engine/14.png" alt=""><br>Copy过去之后这个文件名可以自定义，我就改成了MyDataConfig.xml，下面开始配置如下图：<br><img src="/2019/10/21/Search engine/15.png" alt=""></p>
+<ul>
+<li>首先配置数据源关系型数据库基本四项，驱动类，url，用户名，密码。</li>
+<li>配置document，可以把它当作与mysql中数据库一个层级的对象。</li>
+<li>配置entity，可以把它当作与数据库中一个表对应，在query中书写查询sql。</li>
+<li>配置field与表中的字段与之对应。<br>注意这里容易与schema中的配置混淆，我的理解是schema中配置的是创建索引的配置，而索引的创建需要有数据基础，而现在讲的数据导入文件就是建立索引的数据基础，他是创建索引的元数据。现在配置文件完成后可以用DIH命令执行了。</li>
+</ul>
+<h3 id="DIH-命令"><a href="#DIH-命令" class="headerlink" title="DIH 命令"></a>DIH 命令</h3><p>DIH命令就是用来执行数据导入的，命令种类繁多这里只列出简单常用。DIH命令采用的方式是URL的方式。<br>full-import：全部数据导入例如：<br><img src="/2019/10/21/Search engine/16.png" alt=""></p>
+<p>接下来验证下数据是否真的导入成功了，如下图<br><img src="/2019/10/21/Search engine/17.png" alt=""><br>fq:过滤的字段，df：默认查询字段，start，rows：分页配置，sort：排序，<a href="http://lucene.apache.org/solr/guide/7_4/searching.html" target="_blank" rel="noopener">更多关于查询语句的介绍请参考</a></p>
+<h2 id="solrJ-java客户端"><a href="#solrJ-java客户端" class="headerlink" title="solrJ(java客户端)"></a>solrJ(java客户端)</h2><p>solrJ是java访问solr的客户端工具包，solr也提供了其他语言访问的客户端，可以到官方文档查看，现在solr的索引和数据导入都已经有，但是作为项目中应用的一个组件，少不了java与solr的沟通。</p>
+<p>导入solrJ依赖<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.apache.solr&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;solr-solrj&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;7.4.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p>从solr中查询索引<br><img src="/2019/10/21/Search engine/18.png" alt=""></p>
+<p>向solr添加更改索引，java实体对象与solr索引映射<br><img src="/2019/10/21/Search engine/19.png" alt=""></p>
+<p>向solr添加或更新索引，如果此实体在solr索引库中已有则作为更新操作<br><img src="/2019/10/21/Search engine/20.png" alt=""><br><a href="https://blog.csdn.net/u010510107/article/details/81051795" target="_blank" rel="noopener">参考地址</a></p>
+<p>如果是springb boot项目，只需要导入starter即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-data-solr&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p>在配置文件<code>application.properties</code>中加入如下配置：<br><code>spring.data.solr.host=http://localhost:8983/solr/new_core</code><br>路径<code>solr/</code>后面的内容，是新建的core的名字。这里可以理解为数据库的概念。在操作的时，如果有多个core，可以切换数据库，也就是切换 core。</p>
+<h2 id="solr加上baseAuth安全认证后，使用solrj查询数据和添加索引"><a href="#solr加上baseAuth安全认证后，使用solrj查询数据和添加索引" class="headerlink" title="solr加上baseAuth安全认证后，使用solrj查询数据和添加索引"></a>solr加上baseAuth安全认证后，使用solrj查询数据和添加索引</h2><p>Using BasicAuth with SolrJ<br>In SolrJ, the basic authentication credentials need to be set for each request as in this example:</p>
+<p>//create a new request object<br>SolrRequest req ;<br>req.setBasicAuthCredentials(userName, password); solrClient.request(req);</p>
+<p>Query example:<br>QueryRequest req = new QueryRequest(new SolrQuery(“<em>:</em>“));<br>req.setBasicAuthCredentials(userName, password);<br>QueryResponse rsp = req.process(solrClient);</p>
+<h4 id="solr操作"><a href="#solr操作" class="headerlink" title="solr操作"></a>solr操作</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"solr"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SolrController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> SolrClient client;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 新增/修改 索引</span></span><br><span class="line"><span class="comment">     * 当id存在的时候, 此方法是修改</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"add"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">add</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            SolrInputDocument doc = <span class="keyword">new</span> SolrInputDocument();</span><br><span class="line">            doc.setField(<span class="string">"id"</span>, uuid);</span><br><span class="line">            doc.setField(<span class="string">"content_ik"</span>, <span class="string">"我是中国人, 我爱中国"</span>);</span><br><span class="line">            <span class="comment">//如果spring.data.solr.host 里面配置core了, 那么这里就不需要传 collection1 这个参数</span></span><br><span class="line">            client.add(<span class="string">"collection1"</span>, doc);</span><br><span class="line">            <span class="comment">//client.commit();</span></span><br><span class="line">            client.commit(<span class="string">"collection1"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"error"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 根据id删除索引</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"delete"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">delete</span><span class="params">(String id)</span>  </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            client.deleteById(<span class="string">"collection1"</span>,id);</span><br><span class="line">            client.commit(<span class="string">"collection1"</span>);</span><br><span class="line">            <span class="keyword">return</span> id;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"error"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 删除所有的索引</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"deleteAll"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">deleteAll</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            client.deleteByQuery(<span class="string">"collection1"</span>,<span class="string">"*:*"</span>);</span><br><span class="line">            client.commit(<span class="string">"collection1"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"success"</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"error"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 根据id查询索引</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"getById"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getById</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        SolrDocument document = client.getById(<span class="string">"collection1"</span>, <span class="string">"536563"</span>);</span><br><span class="line">        System.out.println(document);</span><br><span class="line">        <span class="keyword">return</span> document.toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 综合查询: 在综合查询中, 有按条件查询, 条件过滤, 排序, 分页, 高亮显示, 获取部分域信息</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"search"</span>)</span><br><span class="line">    <span class="keyword">public</span> Map&lt;String, Map&lt;String, List&lt;String&gt;&gt;&gt; search()&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            SolrQuery params = <span class="keyword">new</span> SolrQuery();</span><br><span class="line">            <span class="comment">//查询条件, 这里的 q 对应 下面图片标红的地方</span></span><br><span class="line">            params.set(<span class="string">"q"</span>, <span class="string">"手机"</span>);</span><br><span class="line">            <span class="comment">//过滤条件</span></span><br><span class="line">            params.set(<span class="string">"fq"</span>, <span class="string">"product_price:[100 TO 100000]"</span>);</span><br><span class="line">            <span class="comment">//排序</span></span><br><span class="line">            params.addSort(<span class="string">"product_price"</span>, SolrQuery.ORDER.asc);</span><br><span class="line">            <span class="comment">//分页</span></span><br><span class="line">            params.setStart(<span class="number">0</span>);</span><br><span class="line">            params.setRows(<span class="number">20</span>);</span><br><span class="line">            <span class="comment">//默认域</span></span><br><span class="line">            params.set(<span class="string">"df"</span>, <span class="string">"product_title"</span>);</span><br><span class="line">            <span class="comment">//只查询指定域</span></span><br><span class="line">            params.set(<span class="string">"fl"</span>, <span class="string">"id,product_title,product_price"</span>);</span><br><span class="line">			</span><br><span class="line">            <span class="comment">//高亮</span></span><br><span class="line">            <span class="comment">//打开开关</span></span><br><span class="line">            params.setHighlight(<span class="keyword">true</span>);</span><br><span class="line">            <span class="comment">//指定高亮域</span></span><br><span class="line">            params.addHighlightField(<span class="string">"product_title"</span>);</span><br><span class="line">            <span class="comment">//设置前缀</span></span><br><span class="line">            params.setHighlightSimplePre(<span class="string">"&lt;span style='color:red'&gt;"</span>);</span><br><span class="line">            <span class="comment">//设置后缀</span></span><br><span class="line">            params.setHighlightSimplePost(<span class="string">"&lt;/span&gt;"</span>);</span><br><span class="line">            <span class="comment">//执行查询</span></span><br><span class="line">            QueryResponse queryResponse = client.query(params);</span><br><span class="line">            <span class="comment">//获取查询结果</span></span><br><span class="line">            SolrDocumentList results = queryResponse.getResults();</span><br><span class="line">            <span class="comment">//结果条数</span></span><br><span class="line">            System.out.println(results.getNumFound());</span><br><span class="line"></span><br><span class="line">　　　　　　<span class="comment">//获取高亮显示的结果, 高亮显示的结果和查询结果是分开放的</span></span><br><span class="line">            Map&lt;String, Map&lt;String, List&lt;String&gt;&gt;&gt; highlight = queryResponse.getHighlighting();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (SolrDocument result : results) &#123;</span><br><span class="line">                System.out.println(result.get(<span class="string">"id"</span>));</span><br><span class="line">                System.out.println(result.get(<span class="string">"product_title"</span>));</span><br><span class="line">                <span class="comment">//System.out.println(result.get("product_num"));</span></span><br><span class="line">                System.out.println(result.get(<span class="string">"product_price"</span>));</span><br><span class="line">                <span class="comment">//System.out.println(result.get("product_image"));</span></span><br><span class="line"></span><br><span class="line">                Map&lt;String, List&lt;String&gt;&gt; map = highlight.get(result.get(<span class="string">"id"</span>));</span><br><span class="line">                List&lt;String&gt; list = map.get(<span class="string">"product_title"</span>);</span><br><span class="line">                System.out.println(list.get(<span class="number">0</span>));</span><br><span class="line"></span><br><span class="line">                System.out.println(<span class="string">"------------------"</span>);</span><br><span class="line">                System.out.println();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> highlight;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://blog.csdn.net/ryuenkyo/article/details/81061144" target="_blank" rel="noopener">高亮查询参考</a><br><a href="https://www.cnblogs.com/chinaifae/articles/10218885.html" target="_blank" rel="noopener">高亮查询</a></p>
+<p>新增索引时发现报错：<br><code>solr Expected mime type application/octet-stream but got text/html</code><br>解决：<br>在代码中，重复指定了core<br><code>client.commit(&quot;test_core&quot;);</code><br>commit中就不要带参数了。</p>
+<p><a href="https://www.cnblogs.com/elvinle/p/8149256.html" target="_blank" rel="noopener">参考一</a><br><a href="https://www.jianshu.com/p/05a161add1a6" target="_blank" rel="noopener">参考二</a><br><a href="https://blog.csdn.net/qixiang_chen/article/details/82562410" target="_blank" rel="noopener">参考三</a></p>
+<h3 id="solr查询参数"><a href="#solr查询参数" class="headerlink" title="solr查询参数"></a>solr查询参数</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>q</td>
+<td>查询的关键字，此参数最为重要，例如，q=id:1，默认为q=:，</td>
+</tr>
+<tr>
+<td>fl</td>
+<td>指定返回哪些字段，用逗号或空格分隔，注意：字段区分大小写，例如，fl= id,title,sort</td>
+</tr>
+<tr>
+<td>start</td>
+<td>返回结果的第几条记录开始，一般分页用，默认0开始</td>
+</tr>
+<tr>
+<td>rows</td>
+<td>指定返回结果最多有多少条记录，默认值为 10，配合start实现分页</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>排序方式，例如id desc 表示按照 “id” 降序</td>
+</tr>
+<tr>
+<td>wt</td>
+<td>(writer type)指定输出格式，有 xml, json, php等</td>
+</tr>
+<tr>
+<td>fq</td>
+<td>（filter query）过虑查询，提供一个可选的筛选器查询。返回在q查询符合结果中同时符合的fq条件的查询结果，例如：q=id:1&amp;fq=sort:[1 TO 5]，找关键字id为1 的，并且sort是1到5之间的。</td>
+</tr>
+<tr>
+<td>df</td>
+<td>默认的查询字段，一般默认指定。</td>
+</tr>
+<tr>
+<td>qt</td>
+<td>（query type）指定那个类型来处理查询请求，一般不用指定，默认是standard。</td>
+</tr>
+<tr>
+<td>indent</td>
+<td>返回的结果是否缩进，默认关闭，用 indent=true</td>
+</tr>
+<tr>
+<td>version</td>
+<td>查询语法的版本，建议不使用它，由服务器指定默认值。</td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://www.cnblogs.com/cuihongyu3503319/p/9875628.html" target="_blank" rel="noopener">参考</a><br><a href="https://blog.csdn.net/zuihongyan518/article/details/90060175" target="_blank" rel="noopener">参考</a><br><a href="https://www.cnblogs.com/zhangweizhong/p/5056884.html" target="_blank" rel="noopener">参考</a></p>
+<h4 id="多条件查询"><a href="#多条件查询" class="headerlink" title="多条件查询"></a>多条件查询</h4><p><strong>请求参数：</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>必选</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pageNum</td>
+<td>是</td>
+<td>string</td>
+<td>页码</td>
+</tr>
+<tr>
+<td>pageSize</td>
+<td>是</td>
+<td>string</td>
+<td>步长</td>
+</tr>
+<tr>
+<td>params</td>
+<td>是</td>
+<td>string</td>
+<td>条件字符串</td>
+</tr>
+</tbody>
+</table>
+<p>params拼接格式：<br><code>字段1：值 AND 字段2：值 AND 字段3：值</code><br><strong>AND必须大写</strong>，且前后要有空格</p>
+<p>如果需要模糊查询，需要在<code>值</code>的两端拼上<code>*</code>，示例：<br><code>title:*测试*</code></p>
+<p>每新增一个条件在后边拼接一个参数即可。</p>
+<p>后台service实现类代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: wjy</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>: 综合查询</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Map&lt;String, Object&gt; <span class="title">solrQuery</span><span class="params">(Map&lt;String,String&gt; paramMap)</span> </span>&#123;</span><br><span class="line">	Map&lt;String,Object&gt; resultMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		<span class="comment">//创建查询对象</span></span><br><span class="line">		SolrQuery q = <span class="keyword">new</span> SolrQuery();</span><br><span class="line">		q.setQuery(paramMap.get(<span class="string">"params"</span>));</span><br><span class="line"></span><br><span class="line">		<span class="comment">//设置分页</span></span><br><span class="line">		q.setStart(paramMap.get(<span class="string">"pageNum"</span>) == <span class="keyword">null</span> ? <span class="number">0</span> : Integer.parseInt(paramMap.get(<span class="string">"pageNum"</span>)));</span><br><span class="line">		q.setRows(paramMap.get(<span class="string">"pageSize"</span>) == <span class="keyword">null</span> ? <span class="number">10</span> : Integer.parseInt(paramMap.get(<span class="string">"pageSize"</span>)));</span><br><span class="line">		<span class="comment">//执行查询</span></span><br><span class="line">		QueryResponse queryResponse = client.query(q);</span><br><span class="line">		<span class="comment">//取查询结果</span></span><br><span class="line">		SolrDocumentList solrDocumentList = queryResponse.getResults();</span><br><span class="line">		<span class="comment">//转换成对象</span></span><br><span class="line">		resultMap.put(<span class="string">"data"</span>, SolrUtil.getBeans(Archive.class, solrDocumentList));</span><br><span class="line">	&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> resultMap;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="solr删除数据"><a href="#solr删除数据" class="headerlink" title="solr删除数据"></a>solr删除数据</h3><ul>
+<li>solr的web页面删除<br>左侧列表选择你的索引库，选择<code>Documents</code>，<code>Document Type</code>选择xml，在下面输入<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;delete&gt;&lt;query&gt;*:*&lt;/query&gt;&lt;/delete&gt;</span><br><span class="line">&lt;commit/&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="solr设置密码后代码访问solr"><a href="#solr设置密码后代码访问solr" class="headerlink" title="solr设置密码后代码访问solr"></a>solr设置密码后代码访问solr</h3><p>url 格式修改成下边这种：<br><code>http://test:admin123@localhost:8983/solr/my_core</code></p>
+<p>引入必备依赖：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- https://mvnrepository.com/artifact/commons-codec/commons-codec --&gt;</span><br><span class="line">&lt;dependency&gt; </span><br><span class="line">  &lt;groupId&gt;commons-codec&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;commons-codec&lt;/artifactId&gt;</span><br><span class="line">  &lt;version&gt;1.7&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://blog.csdn.net/lbf5210/article/details/51207043" target="_blank" rel="noopener">参考</a></p>
+<h3 id="solr报错"><a href="#solr报错" class="headerlink" title="solr报错"></a>solr报错</h3><p><code>Exception writing document id 7 to the index; possible analysis error: cannot change DocValues type from SORTED_NUMERIC to SORTED for field &quot;archive_no&quot;</code><br>solr新增或者修改字段的类型后出现该异常, 可以通过以下两种方法解决。</p>
+<ul>
+<li>reload对应的core<br>solr的控制台左侧列表<code>Core Admin</code>，找到你的core，点击右侧的<code>Reload</code></li>
+<li>若第一种方法不行, 则需要清空当前core的所有数据</li>
+</ul>
+<h3 id="solr查出的数据不匹配"><a href="#solr查出的数据不匹配" class="headerlink" title="solr查出的数据不匹配"></a>solr查出的数据不匹配</h3><p>如我查<br><code>title:测试</code><br>把和测试完全不相干的数据也查出来了。<br>这时需要在索引词的两端加上<code>&quot;&quot;</code>双引号即可。</p>
+<h3 id="solr关键字匹配问题"><a href="#solr关键字匹配问题" class="headerlink" title="solr关键字匹配问题"></a>solr关键字匹配问题</h3><p><a href="https://segmentfault.com/q/1010000012584778" target="_blank" rel="noopener">参考</a></p>
+<h3 id="facet结果分组"><a href="#facet结果分组" class="headerlink" title="facet结果分组"></a>facet结果分组</h3><p>在solr控制台(web页面)找到<br><code>Raw Query Parameters</code><br>在下面填入：<br><code>facet=true&amp;facet.field=category_name</code></p>
+<p>需要注意，被匹配的字段在solr的配置文件<code>managed-schema</code>中，必须是<code>string</code>类型，不能是<code>text_general</code>类型，否则如果该字段有中文的话，他会把中文的每个字都按一组划分。<br>更改字段类型后，需要</p>
+<ol>
+<li>重启solr</li>
+<li>将数据全部删除</li>
+<li>在solr控制台reload你的core</li>
+</ol>
+<h3 id="id相同数据覆盖问题"><a href="#id相同数据覆盖问题" class="headerlink" title="id相同数据覆盖问题"></a>id相同数据覆盖问题</h3><p>由于之前大意没有配置UUID出现ID覆盖问题导致每个ID只能显示一个 重复的ID数据只有一个</p>
+<p>修改managed-schema配置<br><code>vim managed-schema</code></p>
+<p>添加UUID fieldType<br><code>&lt;fieldType name=&quot;uuid&quot; class=&quot;solr.UUIDField&quot; indexed=&quot;true&quot;/&gt;</code></p>
+<p>然后找到field为id，修改id的type为uuid</p>
+<p>修改后发现solr控制台报错<br><code>_root_ field must be defined using the exact same fieldType as the uniqueKey field (id) uses: uuid</code></p>
+<p>发现<code>_root_</code>这个字段的类型是string，遂将改字段的type修改为和id相同的类型<code>uuid</code></p>
+<p>因为数据库里的数据也叫id，遂给id起个别名，dataId，就可以保证不同表的数据都能存入solr了。</p>
+<h3 id="使用实体类返回solr数据"><a href="#使用实体类返回solr数据" class="headerlink" title="使用实体类返回solr数据"></a>使用实体类返回solr数据</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.archive.util;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.commons.beanutils.BeanUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.solr.common.SolrDocument;</span><br><span class="line"><span class="keyword">import</span> org.apache.solr.common.SolrDocumentList;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: wjy</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>: Create in 12:26 2019/11/3</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span> :</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SolrUtil</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> &lt;T&gt; <span class="function">List&lt;T&gt; <span class="title">getBeans</span><span class="params">(Class&lt;T&gt; clazz,</span></span></span><br><span class="line"><span class="function"><span class="params">                                             SolrDocumentList solrDocumentList)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        List&lt;T&gt; list = <span class="keyword">new</span> ArrayList&lt;T&gt;();</span><br><span class="line">        T t = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">for</span> (SolrDocument solrDocument : solrDocumentList)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//反射出实例</span></span><br><span class="line">            t = clazz.newInstance();</span><br><span class="line">            <span class="comment">//获取所有属性</span></span><br><span class="line">            Field[] fields = clazz.getDeclaredFields();</span><br><span class="line">            <span class="keyword">for</span> (Field field : fields)</span><br><span class="line">            &#123;</span><br><span class="line">                Object val = solrDocument.get(field.getName());</span><br><span class="line">                <span class="keyword">if</span>(val != <span class="keyword">null</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    String val2 = val.toString();</span><br><span class="line">                    <span class="keyword">if</span>(val2.startsWith(<span class="string">"["</span>) &amp;&amp; val2.endsWith(<span class="string">"]"</span>))</span><br><span class="line">                        val2 = val2.substring(<span class="number">1</span>,val2.length()-<span class="number">1</span>);</span><br><span class="line">                    System.out.println(field.getName()+<span class="string">","</span>+val2);</span><br><span class="line">                    BeanUtils.setProperty(t, field.getName(), val2);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            list.add(t);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> list;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> &lt;T&gt; <span class="function">T <span class="title">getBean</span><span class="params">(Class&lt;T&gt; clazz,</span></span></span><br><span class="line"><span class="function"><span class="params">                                      SolrDocument solrDocument)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">//反射出实例</span></span><br><span class="line">        T t = clazz.newInstance();</span><br><span class="line">        <span class="comment">//获取所有属性</span></span><br><span class="line">        Field[] fields = clazz.getDeclaredFields();</span><br><span class="line">        <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">            <span class="comment">// 如果注解为默认的 采用此属性的name来从solr中获取值</span></span><br><span class="line">            BeanUtils.setProperty(t, field.getName(), solrDocument.get(field.getName()));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> t;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调用方法<br><code>resultMap.put(&quot;data&quot;, SolrUtil.getBeans(SolrDto.class, solrDocumentList));</code></p>
+<p>需要注意，实体类字段名必须和solr里存的字段名一致。<br>如：实体类中是<code>pageNo</code>，solr里也要是<code>pageNo</code>，<br>实体类中是<code>page_no</code>，solr里也要是<code>page_no</code>，否则会映射不上。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/other/" rel="tag"># other</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/28/windows/" rel="next" title="windows">
+                <i class="fa fa-chevron-left"></i> windows
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/23/workflow/" rel="prev" title="workflow">
+                workflow <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#全文搜索引擎"><span class="nav-number">1.</span> <span class="nav-text">全文搜索引擎</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为何要用搜索引擎"><span class="nav-number">2.</span> <span class="nav-text">为何要用搜索引擎</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Lucene，Solr，ElasticSearch"><span class="nav-number">3.</span> <span class="nav-text">Lucene，Solr，ElasticSearch</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Lucene"><span class="nav-number">3.1.</span> <span class="nav-text">Lucene</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solr"><span class="nav-number">3.2.</span> <span class="nav-text">Solr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ElasticSearch"><span class="nav-number">3.3.</span> <span class="nav-text">ElasticSearch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ElasticSearch-vs-solr"><span class="nav-number">3.4.</span> <span class="nav-text">ElasticSearch vs solr</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#历史比较"><span class="nav-number">3.4.1.</span> <span class="nav-text">历史比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特征差异比较"><span class="nav-number">3.4.2.</span> <span class="nav-text">特征差异比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#综合比较"><span class="nav-number">3.4.3.</span> <span class="nav-text">综合比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">3.4.4.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#思维导图"><span class="nav-number">4.</span> <span class="nav-text">思维导图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#全文搜索"><span class="nav-number">4.1.</span> <span class="nav-text">全文搜索</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Elastic基础"><span class="nav-number">4.2.</span> <span class="nav-text">Elastic基础</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#solr学习"><span class="nav-number">5.</span> <span class="nav-text">solr学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建core实例"><span class="nav-number">5.1.</span> <span class="nav-text">创建core实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置schema"><span class="nav-number">5.2.</span> <span class="nav-text">配置schema</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#schema介绍"><span class="nav-number">5.2.1.</span> <span class="nav-text">schema介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#schema主要成员："><span class="nav-number">5.2.2.</span> <span class="nav-text">schema主要成员：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Schema-API"><span class="nav-number">5.2.3.</span> <span class="nav-text">Schema API</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中文分词器"><span class="nav-number">5.3.</span> <span class="nav-text">中文分词器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#solr7自带分词中文分词器"><span class="nav-number">5.3.1.</span> <span class="nav-text">solr7自带分词中文分词器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DIH导入索引数据"><span class="nav-number">5.4.</span> <span class="nav-text">DIH导入索引数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DIH-命令"><span class="nav-number">5.4.1.</span> <span class="nav-text">DIH 命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#solrJ-java客户端"><span class="nav-number">5.5.</span> <span class="nav-text">solrJ(java客户端)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#solr加上baseAuth安全认证后，使用solrj查询数据和添加索引"><span class="nav-number">5.6.</span> <span class="nav-text">solr加上baseAuth安全认证后，使用solrj查询数据和添加索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#solr操作"><span class="nav-number">5.6.0.1.</span> <span class="nav-text">solr操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#solr查询参数"><span class="nav-number">5.6.1.</span> <span class="nav-text">solr查询参数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#多条件查询"><span class="nav-number">5.6.1.1.</span> <span class="nav-text">多条件查询</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#solr删除数据"><span class="nav-number">5.6.2.</span> <span class="nav-text">solr删除数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#solr设置密码后代码访问solr"><span class="nav-number">5.6.3.</span> <span class="nav-text">solr设置密码后代码访问solr</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#solr报错"><span class="nav-number">5.6.4.</span> <span class="nav-text">solr报错</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#solr查出的数据不匹配"><span class="nav-number">5.6.5.</span> <span class="nav-text">solr查出的数据不匹配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#solr关键字匹配问题"><span class="nav-number">5.6.6.</span> <span class="nav-text">solr关键字匹配问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#facet结果分组"><span class="nav-number">5.6.7.</span> <span class="nav-text">facet结果分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#id相同数据覆盖问题"><span class="nav-number">5.6.8.</span> <span class="nav-text">id相同数据覆盖问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用实体类返回solr数据"><span class="nav-number">5.6.9.</span> <span class="nav-text">使用实体类返回solr数据</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

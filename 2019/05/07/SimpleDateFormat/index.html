@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="DateFormat 介绍DateFormat 的作用是 格式化并解析“日期/时间”。实际上，它是Date的格式化工具，它能帮助我们格式化Date，进而将Date转换成我们想要的String字符串供我们使用不过DateFormat的格式化Date的功能有限，没有SimpleDateFormat强大；但DateFormat是SimpleDateFormat的父类。所以，我们先对DateFormat有">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SimpleDateFormat">
+<meta property="og:url" content="https://jingyao066.gitee.io/2019/05/07/SimpleDateFormat/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="DateFormat 介绍DateFormat 的作用是 格式化并解析“日期/时间”。实际上，它是Date的格式化工具，它能帮助我们格式化Date，进而将Date转换成我们想要的String字符串供我们使用不过DateFormat的格式化Date的功能有限，没有SimpleDateFormat强大；但DateFormat是SimpleDateFormat的父类。所以，我们先对DateFormat有">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.282Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SimpleDateFormat">
+<meta name="twitter:description" content="DateFormat 介绍DateFormat 的作用是 格式化并解析“日期/时间”。实际上，它是Date的格式化工具，它能帮助我们格式化Date，进而将Date转换成我们想要的String字符串供我们使用不过DateFormat的格式化Date的功能有限，没有SimpleDateFormat强大；但DateFormat是SimpleDateFormat的父类。所以，我们先对DateFormat有">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2019/05/07/SimpleDateFormat/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>SimpleDateFormat | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2019/05/07/SimpleDateFormat/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SimpleDateFormat
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-07 11:38:40" itemprop="dateCreated datePublished" datetime="2019-05-07T11:38:40+08:00">2019-05-07</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/05/07/SimpleDateFormat/" class="leancloud_visitors" data-flag-title="SimpleDateFormat">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="DateFormat-介绍"><a href="#DateFormat-介绍" class="headerlink" title="DateFormat 介绍"></a>DateFormat 介绍</h1><p>DateFormat 的作用是 格式化并解析“日期/时间”。实际上，它是Date的格式化工具，它能帮助我们格式化Date，进而将Date转换成我们想要的String字符串供我们使用<br>不过DateFormat的格式化Date的功能有限，没有SimpleDateFormat强大；但DateFormat是SimpleDateFormat的父类。所以，我们先对DateFormat有个整体了解，然后再学习SimpleDateFormat。<br>DateFormat 的作用是格式化Date。它支持格式化风格包括 FULL、LONG、MEDIUM 和 SHORT 共4种：</p>
+<ul>
+<li>DateFormat.SHORT<br>  完全为数字，如 12.13.52 或 3:30pm</li>
+<li>DateFormat.MEDIUM<br>  较长，如 Jan 12, 1952</li>
+<li>DateFormat.LONG<br>  更长，如 January 12, 1952 或 3:30:32pm</li>
+<li>DateFormat.FULL<br>  是完全指定，如 Tuesday、April 12、1952 AD 或 3:30:42pm PST。</li>
+</ul>
+<h1 id="DateFormat-的定义如下"><a href="#DateFormat-的定义如下" class="headerlink" title="DateFormat 的定义如下"></a>DateFormat 的定义如下</h1><p><code>public abstract class NumberFormat extends Format {}</code></p>
+<h1 id="DateFormat-的函数接口"><a href="#DateFormat-的函数接口" class="headerlink" title="DateFormat 的函数接口"></a>DateFormat 的函数接口</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 默认构造函数</span></span><br><span class="line">DateFormat()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 非构造函数</span></span><br><span class="line"><span class="function">Object                   <span class="title">clone</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span>                  <span class="title">equals</span><span class="params">(Object object)</span></span></span><br><span class="line"><span class="function"><span class="keyword">abstract</span> StringBuffer    <span class="title">format</span><span class="params">(Date date, StringBuffer buffer, FieldPosition field)</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> StringBuffer       <span class="title">format</span><span class="params">(Object object, StringBuffer buffer, FieldPosition field)</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> String             <span class="title">format</span><span class="params">(Date date)</span></span></span><br><span class="line"><span class="function"><span class="keyword">static</span> Locale[]          <span class="title">getAvailableLocales</span><span class="params">()</span></span></span><br><span class="line"><span class="function">Calendar                 <span class="title">getCalendar</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">static</span> DateFormat     <span class="title">getInstance</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">static</span> DateFormat     <span class="title">getDateInstance</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">static</span> DateFormat     <span class="title">getDateInstance</span><span class="params">(<span class="keyword">int</span> style)</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">static</span> DateFormat     <span class="title">getDateInstance</span><span class="params">(<span class="keyword">int</span> style, Locale locale)</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">static</span> DateFormat     <span class="title">getTimeInstance</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">static</span> DateFormat     <span class="title">getTimeInstance</span><span class="params">(<span class="keyword">int</span> style)</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">static</span> DateFormat     <span class="title">getTimeInstance</span><span class="params">(<span class="keyword">int</span> style, Locale locale)</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">static</span> DateFormat     <span class="title">getDateTimeInstance</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">static</span> DateFormat     <span class="title">getDateTimeInstance</span><span class="params">(<span class="keyword">int</span> dateStyle, <span class="keyword">int</span> timeStyle)</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">static</span> DateFormat     <span class="title">getDateTimeInstance</span><span class="params">(<span class="keyword">int</span> dateStyle, <span class="keyword">int</span> timeStyle, Locale locale)</span></span></span><br><span class="line"><span class="function">NumberFormat     <span class="title">getNumberFormat</span><span class="params">()</span></span></span><br><span class="line"><span class="function">TimeZone         <span class="title">getTimeZone</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>              <span class="title">hashCode</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span>          <span class="title">isLenient</span><span class="params">()</span></span></span><br><span class="line"><span class="function">Date             <span class="title">parse</span><span class="params">(String string)</span></span></span><br><span class="line"><span class="function"><span class="keyword">abstract</span> Date    <span class="title">parse</span><span class="params">(String string, ParsePosition position)</span></span></span><br><span class="line"><span class="function">Object           <span class="title">parseObject</span><span class="params">(String string, ParsePosition position)</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span>             <span class="title">setCalendar</span><span class="params">(Calendar cal)</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span>             <span class="title">setLenient</span><span class="params">(<span class="keyword">boolean</span> value)</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span>             <span class="title">setNumberFormat</span><span class="params">(NumberFormat format)</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span>             <span class="title">setTimeZone</span><span class="params">(TimeZone timezone)</span></span></span><br></pre></td></tr></table></figure>
+<p>注意：DateFormat是一个抽象类。</p>
+<p>当我们通过DateFormat的 getInstance(), getDateInstance()和getDateTimeInstance() 获取DateFormat实例时；实际上是返回的SimpleDateFormat对象。<br>下面的函数实际上都是返回的SimpleDateFormat对象。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">static</span> DateFormat <span class="title">getInstance</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">static</span> DateFormat <span class="title">getTimeInstance</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">static</span> DateFormat <span class="title">getTimeInstance</span><span class="params">(<span class="keyword">int</span> style)</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">static</span> DateFormat <span class="title">getTimeInstance</span><span class="params">(<span class="keyword">int</span> style, Locale locale)</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">static</span> DateFormat <span class="title">getDateInstance</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">static</span> DateFormat <span class="title">getDateInstance</span><span class="params">(<span class="keyword">int</span> style)</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">static</span> DateFormat <span class="title">getDateInstance</span><span class="params">(<span class="keyword">int</span> style, Locale locale)</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">static</span> DateFormat <span class="title">getDateTimeInstance</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">static</span> DateFormat <span class="title">getDateTimeInstance</span><span class="params">(<span class="keyword">int</span> dateStyle, <span class="keyword">int</span> timeStyle)</span></span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">static</span> DateFormat <span class="title">getDateTimeInstance</span><span class="params">(<span class="keyword">int</span> dateStyle, <span class="keyword">int</span> timeStyle, Locale locale)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>这些函数在SimpleDateFormat.java中的定义如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> FULL = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> LONG = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MEDIUM = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SHORT = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT = MEDIUM;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> DateFormat <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> getDateTimeInstance(SHORT, SHORT);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> DateFormat <span class="title">getTimeInstance</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> get(DEFAULT, <span class="number">0</span>, <span class="number">1</span>, Locale.getDefault());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> DateFormat <span class="title">getTimeInstance</span><span class="params">(<span class="keyword">int</span> style)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> get(style, <span class="number">0</span>, <span class="number">1</span>, Locale.getDefault());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> DateFormat <span class="title">getTimeInstance</span><span class="params">(<span class="keyword">int</span> style,</span></span></span><br><span class="line"><span class="function"><span class="params">                                             Locale aLocale)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> get(style, <span class="number">0</span>, <span class="number">1</span>, aLocale);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> DateFormat <span class="title">getDateInstance</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> get(<span class="number">0</span>, DEFAULT, <span class="number">2</span>, Locale.getDefault());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> DateFormat <span class="title">getDateInstance</span><span class="params">(<span class="keyword">int</span> style)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> get(<span class="number">0</span>, style, <span class="number">2</span>, Locale.getDefault());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> DateFormat <span class="title">getDateInstance</span><span class="params">(<span class="keyword">int</span> style,</span></span></span><br><span class="line"><span class="function"><span class="params">                                             Locale aLocale)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> get(<span class="number">0</span>, style, <span class="number">2</span>, aLocale);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> DateFormat <span class="title">getDateTimeInstance</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> get(DEFAULT, DEFAULT, <span class="number">3</span>, Locale.getDefault());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> DateFormat <span class="title">getDateTimeInstance</span><span class="params">(<span class="keyword">int</span> dateStyle,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                   <span class="keyword">int</span> timeStyle)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> get(timeStyle, dateStyle, <span class="number">3</span>, Locale.getDefault());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> DateFormat</span><br><span class="line">    getDateTimeInstance(<span class="keyword">int</span> dateStyle, <span class="keyword">int</span> timeStyle, Locale aLocale)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> get(timeStyle, dateStyle, <span class="number">3</span>, aLocale);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取DateFormat实例，实际上是返回SimpleDateFormat对象。</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * timeStyle -- 值可以为“FULL”或“LONG”或“MEDIUM”或“SHORT”</span></span><br><span class="line"><span class="comment"> * dateStyle -- 值可以为“FULL”或“LONG”或“MEDIUM”或“SHORT”</span></span><br><span class="line"><span class="comment"> * flags     -- 值可以为“1”或“2”或“3”。</span></span><br><span class="line"><span class="comment"> *       1 表示获取“时间样式”</span></span><br><span class="line"><span class="comment"> *       2 表示获取“日期样式”</span></span><br><span class="line"><span class="comment"> *       3 表示获取“时间和日期样式”</span></span><br><span class="line"><span class="comment"> * loc       -- locale对象，表示“区域”</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> DateFormat <span class="title">get</span><span class="params">(<span class="keyword">int</span> timeStyle, <span class="keyword">int</span> dateStyle,</span></span></span><br><span class="line"><span class="function"><span class="params">                              <span class="keyword">int</span> flags, Locale loc)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> ((flags &amp; <span class="number">1</span>) != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (timeStyle &lt; <span class="number">0</span> || timeStyle &gt; <span class="number">3</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Illegal time style "</span> + timeStyle);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        timeStyle = -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ((flags &amp; <span class="number">2</span>) != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (dateStyle &lt; <span class="number">0</span> || dateStyle &gt; <span class="number">3</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Illegal date style "</span> + dateStyle);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        dateStyle = -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// Check whether a provider can provide an implementation that's closer </span></span><br><span class="line">        <span class="comment">// to the requested locale than what the Java runtime itself can provide.</span></span><br><span class="line">        LocaleServiceProviderPool pool =</span><br><span class="line">            LocaleServiceProviderPool.getPool(DateFormatProvider.class);</span><br><span class="line">        <span class="keyword">if</span> (pool.hasProviders()) &#123;</span><br><span class="line">            DateFormat providersInstance = pool.getLocalizedObject(</span><br><span class="line">                                                DateFormatGetter.INSTANCE,</span><br><span class="line">                                                loc, </span><br><span class="line">                                                timeStyle,</span><br><span class="line">                                                dateStyle,</span><br><span class="line">                                                flags);</span><br><span class="line">            <span class="keyword">if</span> (providersInstance != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> providersInstance;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SimpleDateFormat(timeStyle, dateStyle, loc);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (MissingResourceException e) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SimpleDateFormat(<span class="string">"M/d/yy h:mm a"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过上面的代码，我们能够进一步的认识到：DateFormat的作用是格式化Date；帮助我们将Date转换成我们需要的String字符串。DateFormat提供的功能非常有限，它只能支持FULL、LONG、MEDIUM 和 SHORT 这4种格式。而且，我们获取DateFormat实例时，实际上是返回的SimpleDateFormat对象。</p>
+<h1 id="DateFormat-实例"><a href="#DateFormat-实例" class="headerlink" title="DateFormat 实例"></a>DateFormat 实例</h1><p>下面，我们通过实例学习使用DateFormat的常用API。<br>源码如下(DateFormatTest.java):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> java.util.Locale;</span><br><span class="line"><span class="keyword">import</span> java.text.DateFormat;</span><br><span class="line"><span class="keyword">import</span> java.text.FieldPosition;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * DateFormat 的API测试程序</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> skywang</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@email</span> kuiwu-wang@163.com</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DateFormatTest</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 只显示“时间”：调用getTimeInstance()函数</span></span><br><span class="line">        testGetTimeInstance() ;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 只显示“日期”：调用getDateInstance()函数</span></span><br><span class="line">        testGetDateInstance() ;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 显示“日期”+“时间”：调用getDateTimeInstance()函数</span></span><br><span class="line">        testGetDateTimeInstance() ;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 测试format()函数</span></span><br><span class="line">        testFormat();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试DateFormat的getTimeInstance()函数</span></span><br><span class="line"><span class="comment">     * 它共有3种重载形式：</span></span><br><span class="line"><span class="comment">     * (01) getTimeInstance()</span></span><br><span class="line"><span class="comment">     * (02) getTimeInstance(int style)</span></span><br><span class="line"><span class="comment">     * (03) getTimeInstance(int style, Locale locale)</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> skywang</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testGetTimeInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Date date = <span class="keyword">new</span> Date(); </span><br><span class="line"></span><br><span class="line">        <span class="comment">//Locale locale = new Locale("fr", "FR");</span></span><br><span class="line">        Locale locale = <span class="keyword">new</span> Locale(<span class="string">"zh"</span>, <span class="string">"CN"</span>); </span><br><span class="line"></span><br><span class="line">        <span class="comment">// 等价于 DateFormat.getTimeInstance( DateFormat.MEDIUM); </span></span><br><span class="line">        DateFormat short0  = DateFormat.getTimeInstance( ); </span><br><span class="line"></span><br><span class="line">        <span class="comment">// 参数是：“时间的显示样式”</span></span><br><span class="line">        DateFormat short1  = DateFormat.getTimeInstance( DateFormat.SHORT); </span><br><span class="line">        DateFormat medium1 = DateFormat.getTimeInstance( DateFormat.MEDIUM); </span><br><span class="line">        DateFormat long1   = DateFormat.getTimeInstance( DateFormat.LONG); </span><br><span class="line">        DateFormat full1   = DateFormat.getTimeInstance( DateFormat.FULL); </span><br><span class="line"></span><br><span class="line">        <span class="comment">// 参数是：“时间的显示样式” 和 “地区”</span></span><br><span class="line">        DateFormat short2  = DateFormat.getTimeInstance( DateFormat.SHORT, locale); </span><br><span class="line">        DateFormat medium2 = DateFormat.getTimeInstance( DateFormat.MEDIUM, locale); </span><br><span class="line">        DateFormat long2   = DateFormat.getTimeInstance( DateFormat.LONG, locale); </span><br><span class="line">        DateFormat full2   = DateFormat.getTimeInstance( DateFormat.FULL, locale); </span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"\n----getTimeInstance ----\n"</span></span><br><span class="line">                + <span class="string">"(1.0) Empty Param   : "</span> + short0.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(2.1) One Param(s)  : "</span> + short1.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(2.2) One Param(m)  : "</span> + medium1.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(2.3) One Param(l)  : "</span> + long1.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(2.4) One Param(f)  : "</span> + full1.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(3.1) One Param(s,l): "</span> + short2.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(3.2) One Param(m,l): "</span> + medium2.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(3.3) One Param(l,l): "</span> + long2.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(3.4) One Param(f,l): "</span> + full2.format(date) +<span class="string">"\n"</span></span><br><span class="line">                ); </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试DateFormat的getDateTimeInstance()函数</span></span><br><span class="line"><span class="comment">     * 它共有3种重载形式：</span></span><br><span class="line"><span class="comment">     * (01) getDateInstance()</span></span><br><span class="line"><span class="comment">     * (02) getDateInstance(int style)</span></span><br><span class="line"><span class="comment">     * (03) getDateInstance(int style, Locale locale)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testGetDateTimeInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Date date = <span class="keyword">new</span> Date(); </span><br><span class="line"></span><br><span class="line">        Locale locale = <span class="keyword">new</span> Locale(<span class="string">"zh"</span>, <span class="string">"CN"</span>); </span><br><span class="line"></span><br><span class="line">        <span class="comment">// 等价于 DateFormat.getDateTimeInstance( DateFormat.MEDIUM); </span></span><br><span class="line">        DateFormat short0  = DateFormat.getDateTimeInstance( ); </span><br><span class="line"></span><br><span class="line">        DateFormat short1  = DateFormat.getDateTimeInstance( DateFormat.SHORT, DateFormat.SHORT); </span><br><span class="line">        DateFormat medium1 = DateFormat.getDateTimeInstance( DateFormat.MEDIUM, DateFormat.MEDIUM); </span><br><span class="line">        DateFormat long1   = DateFormat.getDateTimeInstance( DateFormat.LONG, DateFormat.LONG); </span><br><span class="line">        DateFormat full1   = DateFormat.getDateTimeInstance( DateFormat.FULL, DateFormat.FULL); </span><br><span class="line"></span><br><span class="line">        DateFormat short2  = DateFormat.getDateTimeInstance( DateFormat.SHORT, DateFormat.SHORT, locale); </span><br><span class="line">        DateFormat medium2 = DateFormat.getDateTimeInstance( DateFormat.MEDIUM, DateFormat.MEDIUM, locale); </span><br><span class="line">        DateFormat long2   = DateFormat.getDateTimeInstance( DateFormat.LONG, DateFormat.LONG, locale); </span><br><span class="line">        DateFormat full2   = DateFormat.getDateTimeInstance( DateFormat.FULL, DateFormat.FULL, locale); </span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"\n----getDateTimeInstance ----\n"</span></span><br><span class="line">                + <span class="string">"(1.0) Empty Param   : "</span> + short0.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(2.1) One Param(s)  : "</span> + short1.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(2.2) One Param(m)  : "</span> + medium1.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(2.3) One Param(l)  : "</span> + long1.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(2.4) One Param(f)  : "</span> + full1.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(3.1) One Param(s,l): "</span> + short2.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(3.2) One Param(m,l): "</span> + medium2.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(3.3) One Param(l,l): "</span> + long2.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(3.4) One Param(f,l): "</span> + full2.format(date) +<span class="string">"\n"</span></span><br><span class="line">                ); </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试DateFormat的getDateInstance()函数</span></span><br><span class="line"><span class="comment">     * 它共有3种重载形式：</span></span><br><span class="line"><span class="comment">     * (01) getDateTimeInstance()</span></span><br><span class="line"><span class="comment">     * (02) getDateTimeInstance(int dateStyle, int timeStyle)</span></span><br><span class="line"><span class="comment">     * (03) getDateTimeInstance(int dateStyle, int timeStyle, Locale locale)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testGetDateInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Date date = <span class="keyword">new</span> Date(); </span><br><span class="line"></span><br><span class="line">        <span class="comment">//Locale locale = new Locale("en", "US"); </span></span><br><span class="line">        Locale locale = <span class="keyword">new</span> Locale(<span class="string">"zh"</span>, <span class="string">"CN"</span>); </span><br><span class="line"></span><br><span class="line">        <span class="comment">// 等价于 DateFormat.getDateInstance( DateFormat.MEDIUM); </span></span><br><span class="line">        DateFormat short0  = DateFormat.getDateInstance( ); </span><br><span class="line"></span><br><span class="line">        DateFormat short1  = DateFormat.getDateInstance( DateFormat.SHORT); </span><br><span class="line">        DateFormat medium1 = DateFormat.getDateInstance( DateFormat.MEDIUM); </span><br><span class="line">        DateFormat long1   = DateFormat.getDateInstance( DateFormat.LONG); </span><br><span class="line">        DateFormat full1   = DateFormat.getDateInstance( DateFormat.FULL); </span><br><span class="line"></span><br><span class="line">        DateFormat short2  = DateFormat.getDateInstance( DateFormat.SHORT, locale); </span><br><span class="line">        DateFormat medium2 = DateFormat.getDateInstance( DateFormat.MEDIUM, locale); </span><br><span class="line">        DateFormat long2   = DateFormat.getDateInstance( DateFormat.LONG, locale); </span><br><span class="line">        DateFormat full2   = DateFormat.getDateInstance( DateFormat.FULL, locale); </span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"\n----getDateInstance ----\n"</span></span><br><span class="line">                + <span class="string">"(1.0) Empty Param   : "</span> + short0.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(2.1) One Param(s)  : "</span> + short1.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(2.2) One Param(m)  : "</span> + medium1.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(2.3) One Param(l)  : "</span> + long1.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(2.4) One Param(f)  : "</span> + full1.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(3.1) One Param(s,l): "</span> + short2.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(3.2) One Param(m,l): "</span> + medium2.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(3.3) One Param(l,l): "</span> + long2.format(date) +<span class="string">"\n"</span></span><br><span class="line">                + <span class="string">"(3.4) One Param(f,l): "</span> + full2.format(date) +<span class="string">"\n"</span></span><br><span class="line">                ); </span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试DateFormat的format()函数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testFormat</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Date date = <span class="keyword">new</span> Date(); </span><br><span class="line">        StringBuffer sb = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">        FieldPosition field = <span class="keyword">new</span> FieldPosition(DateFormat.YEAR_FIELD);</span><br><span class="line">        DateFormat format = DateFormat.getDateTimeInstance();</span><br><span class="line"></span><br><span class="line">        sb =  format.format(date, sb, field);</span><br><span class="line">        System.out.println(<span class="string">"\ntestFormat"</span>); </span><br><span class="line">        System.out.printf(<span class="string">"sb=%s\n"</span>, sb);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">----getTimeInstance ----</span><br><span class="line">(1.0) Empty Param   : 4:54:22 PM</span><br><span class="line">(2.1) One Param(s)  : 4:54 PM</span><br><span class="line">(2.2) One Param(m)  : 4:54:22 PM</span><br><span class="line">(2.3) One Param(l)  : 4:54:22 PM CST</span><br><span class="line">(2.4) One Param(f)  : 4:54:22 PM CST</span><br><span class="line">(3.1) One Param(s,l): 下午4:54</span><br><span class="line">(3.2) One Param(m,l): 16:54:22</span><br><span class="line">(3.3) One Param(l,l): 下午04时54分22秒</span><br><span class="line">(3.4) One Param(f,l): 下午04时54分22秒 CST</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">----getDateInstance ----</span><br><span class="line">(1.0) Empty Param   : Jan 23, 2014</span><br><span class="line">(2.1) One Param(s)  : 1/23/14</span><br><span class="line">(2.2) One Param(m)  : Jan 23, 2014</span><br><span class="line">(2.3) One Param(l)  : January 23, 2014</span><br><span class="line">(2.4) One Param(f)  : Thursday, January 23, 2014</span><br><span class="line">(3.1) One Param(s,l): 14-1-23</span><br><span class="line">(3.2) One Param(m,l): 2014-1-23</span><br><span class="line">(3.3) One Param(l,l): 2014年1月23日</span><br><span class="line">(3.4) One Param(f,l): 2014年1月23日 星期四</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">----getDateTimeInstance ----</span><br><span class="line">(1.0) Empty Param   : Jan 23, 2014 4:54:23 PM</span><br><span class="line">(2.1) One Param(s)  : 1/23/14 4:54 PM</span><br><span class="line">(2.2) One Param(m)  : Jan 23, 2014 4:54:23 PM</span><br><span class="line">(2.3) One Param(l)  : January 23, 2014 4:54:23 PM CST</span><br><span class="line">(2.4) One Param(f)  : Thursday, January 23, 2014 4:54:23 PM CST</span><br><span class="line">(3.1) One Param(s,l): 14-1-23 下午4:54</span><br><span class="line">(3.2) One Param(m,l): 2014-1-23 16:54:23</span><br><span class="line">(3.3) One Param(l,l): 2014年1月23日 下午04时54分23秒</span><br><span class="line">(3.4) One Param(f,l): 2014年1月23日 星期四 下午04时54分23秒 CST</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">testFormat</span><br><span class="line">sb=Jan 23, 2014 4:54:23 PM</span><br></pre></td></tr></table></figure></p>
+<h1 id="SimpleDateFormat-介绍"><a href="#SimpleDateFormat-介绍" class="headerlink" title="SimpleDateFormat 介绍"></a>SimpleDateFormat 介绍</h1><p>SimpleDateFormat 是一个格式化Date 以及 解析日期字符串 的工具。它的最常用途是，能够按照指定的格式来对Date进行格式化，然后我们使用可以格式化Date后得到的字符串。<br>更严格的说，SimpleDateFormat 是一个以与语言环境有关的方式来格式化和解析日期的具体类。它允许进行格式化（日期 -&gt; 文本）、解析（文本 -&gt; 日期）和规范化。</p>
+<h2 id="SimpleDateFormat的构造函数："><a href="#SimpleDateFormat的构造函数：" class="headerlink" title="SimpleDateFormat的构造函数："></a>SimpleDateFormat的构造函数：</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 构造函数</span></span><br><span class="line">SimpleDateFormat()</span><br><span class="line">SimpleDateFormat(String pattern)</span><br><span class="line">SimpleDateFormat(String template, DateFormatSymbols value)</span><br><span class="line">SimpleDateFormat(String template, Locale locale)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 非构造函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span>                             <span class="title">applyLocalizedPattern</span><span class="params">(String template)</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span>                             <span class="title">applyPattern</span><span class="params">(String template)</span></span></span><br><span class="line"><span class="function">Object                           <span class="title">clone</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span>                          <span class="title">equals</span><span class="params">(Object object)</span></span></span><br><span class="line"><span class="function">StringBuffer                     <span class="title">format</span><span class="params">(Date date, StringBuffer buffer, FieldPosition fieldPos)</span></span></span><br><span class="line"><span class="function">AttributedCharacterIterator      <span class="title">formatToCharacterIterator</span><span class="params">(Object object)</span></span></span><br><span class="line"><span class="function">Date                             <span class="title">get2DigitYearStart</span><span class="params">()</span></span></span><br><span class="line"><span class="function">DateFormatSymbols                <span class="title">getDateFormatSymbols</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>                              <span class="title">hashCode</span><span class="params">()</span></span></span><br><span class="line"><span class="function">Date                             <span class="title">parse</span><span class="params">(String string, ParsePosition position)</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span>                             <span class="title">set2DigitYearStart</span><span class="params">(Date date)</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span>                             <span class="title">setDateFormatSymbols</span><span class="params">(DateFormatSymbols value)</span></span></span><br><span class="line"><span class="function">String                           <span class="title">toLocalizedPattern</span><span class="params">()</span></span></span><br><span class="line"><span class="function">String                           <span class="title">toPattern</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="SimpleDateFormat-简单示范："><a href="#SimpleDateFormat-简单示范：" class="headerlink" title="SimpleDateFormat 简单示范："></a>SimpleDateFormat 简单示范：</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 新建date对象，时间是2013-09-19</span></span><br><span class="line">Date date = <span class="keyword">new</span> Date(<span class="number">113</span>,<span class="number">8</span>,<span class="number">19</span>); </span><br><span class="line"><span class="comment">// 新建“SimpleDateFormat对象”，并设置 sdf 的“格式化模式”</span></span><br><span class="line">SimpleDateFormat sdf = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd"</span>);</span><br><span class="line"><span class="comment">// 用 sdf 格式化 date，并返回字符串。</span></span><br><span class="line">String str = sdf.format(date);</span><br></pre></td></tr></table></figure>
+<h1 id="SimpleDateFormat-相关格式说明"><a href="#SimpleDateFormat-相关格式说明" class="headerlink" title="SimpleDateFormat 相关格式说明"></a>SimpleDateFormat 相关格式说明</h1><p>日期和时间模式<br>日期和时间格式由日期和时间模式 字符串指定。在日期和时间模式字符串中，未加引号的字母 ‘A’ 到 ‘Z’ 和 ‘a’ 到 ‘z’ 被解释为模式字母，用来表示日期或时间字符串元素。文本可以使用单引号 (‘) 引起来，以免进行解释。”‘’” 表示单引号。所有其他字符均不解释；只是在格式化时将它们简单复制到输出字符串，或者在解析时与输入字符串进行匹配。<br>定义了以下模式字母（所有其他字符 ‘A’ 到 ‘Z’ 和 ‘a’ 到 ‘z’ 都被保留）：</p>
+<table>
+<thead>
+<tr>
+<th>字母</th>
+<th>日期或时间元素</th>
+<th>表示</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G</td>
+<td>Era 标志符</td>
+<td>Text</td>
+<td>AD</td>
+</tr>
+<tr>
+<td>y</td>
+<td>年</td>
+<td>Year</td>
+<td>1996;96</td>
+</tr>
+<tr>
+<td>M</td>
+<td>年中的月份</td>
+<td>Month</td>
+<td>July; Jul; 07</td>
+</tr>
+<tr>
+<td>w</td>
+<td>年中的周数</td>
+<td>Number</td>
+<td>27</td>
+</tr>
+<tr>
+<td>W</td>
+<td>月份中的周数</td>
+<td>Number</td>
+<td>2</td>
+</tr>
+<tr>
+<td>D</td>
+<td>年中的天数</td>
+<td>Number</td>
+<td>189</td>
+</tr>
+<tr>
+<td>d</td>
+<td>月份中的天数</td>
+<td>Number</td>
+<td>10</td>
+</tr>
+<tr>
+<td>F</td>
+<td>月份中的星期</td>
+<td>Number</td>
+<td>2</td>
+</tr>
+<tr>
+<td>E</td>
+<td>星期中的天数</td>
+<td>Text</td>
+<td>Tuesday; Tue</td>
+</tr>
+<tr>
+<td>a</td>
+<td>Am/pm 标记</td>
+<td>Text</td>
+<td>PM</td>
+</tr>
+<tr>
+<td>H</td>
+<td>一天中的小时数（0-23）</td>
+<td>Number</td>
+<td>0</td>
+</tr>
+<tr>
+<td>k</td>
+<td>一天中的小时数（1-24）</td>
+<td>Number</td>
+<td>24</td>
+</tr>
+<tr>
+<td>K</td>
+<td>am/pm 中的小时数（0-11）</td>
+<td>Number</td>
+<td>0</td>
+</tr>
+<tr>
+<td>h</td>
+<td>am/pm 中的小时数（1-12）</td>
+<td>Number</td>
+<td>12</td>
+</tr>
+<tr>
+<td>m</td>
+<td>小时中的分钟数</td>
+<td>Number</td>
+<td>30</td>
+</tr>
+<tr>
+<td>s</td>
+<td>分钟中的秒数</td>
+<td>Number</td>
+<td>55</td>
+</tr>
+<tr>
+<td>S</td>
+<td>毫秒数</td>
+<td>Number</td>
+<td>978</td>
+</tr>
+<tr>
+<td>z</td>
+<td>时区</td>
+<td>General time zone</td>
+<td>Pacific Standard Time; PST; GMT-08:00</td>
+</tr>
+<tr>
+<td>Z</td>
+<td>时区</td>
+<td>RFC 822 time zone</td>
+<td>-0800</td>
+</tr>
+</tbody>
+</table>
+<p>模式字母通常是重复的，其数量确定其精确表示：</p>
+<p>Text: 对于格式化来说，如果模式字母的数量大于等于 4，则使用完全形式；否则，在可用的情况下使用短形式或缩写形式。对于解析来说，两种形式都是可接受的，与模式字母的数量无关。<br>Number: 对于格式化来说，模式字母的数量是最小的数位，如果数位不够，则用 0 填充以达到此数量。对于解析来说，模式字母的数量被忽略，除非必须分开两个相邻字段。<br>Year: 如果格式器的 Calendar 是格里高利历，则应用以下规则。<br>Month: 如果模式字母的数量为 3 或大于 3，则将月份解释为 text；否则解释为 number。<br>对于格式化来说，如果模式字母的数量为 2，则年份截取为 2 位数,否则将年份解释为 number。<br>对于解析来说，如果模式字母的数量大于 2，则年份照字面意义进行解释，而不管数位是多少。因此使用模式 “MM/dd/yyyy”，将 “01/11/12” 解析为公元 12 年 1 月 11 日。<br>在解析缩写年份模式（”y” 或 “yy”）时，SimpleDateFormat 必须相对于某个世纪来解释缩写的年份。这通过将日期调整为 SimpleDateFormat 实例创建之前的 80 年和之后 20 年范围内来完成。例如，在 “MM/dd/yy” 模式下，如果 SimpleDateFormat 实例是在 1997 年 1 月 1 日创建的，则字符串 “01/11/12” 将被解释为 2012 年 1 月 11 日，而字符串 “05/04/64” 将被解释为 1964 年 5 月 4 日。在解析时，只有恰好由两位数字组成的字符串（如 Character#isDigit(char) 所定义的）被解析为默认的世纪。其他任何数字字符串将照字面意义进行解释，例如单数字字符串，3 个或更多数字组成的字符串，或者不都是数字的两位数字字符串（例如”-1”）。因此，在相同的模式下， “01/02/3” 或 “01/02/003” 解释为公元 3 年 1 月 2 日。同样，”01/02/-3” 解析为公元前 4 年 1 月 2 日。<br>否则，则应用日历系统特定的形式。对于格式化和解析，如果模式字母的数量为 4 或大于 4，则使用日历特定的 long form。否则，则使用日历特定的 short or abbreviated form。<br>SimpleDateFormat 还支持本地化日期和时间模式 字符串。在这些字符串中，以上所述的模式字母可以用其他与语言环境有关的模式字母来替换。SimpleDateFormat 不处理除模式字母之外的文本本地化；而由类的客户端来处理。<br>示例</p>
+<p>以下示例显示了如何在美国语言环境中解释日期和时间模式。给定的日期和时间为美国太平洋时区的本地时间 2001-07-04 12:08:56。</p>
+<table>
+<thead>
+<tr>
+<th>日期和时间模式</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“yyyy.MM.dd G ‘at’ HH:mm:ss z”</td>
+<td>2001.07.04 AD at 12:08:56 PDT</td>
+</tr>
+<tr>
+<td>“EEE, MMM d, ‘’yy”</td>
+<td>Wed, Jul 4, ‘01</td>
+</tr>
+<tr>
+<td>“h:mm a”</td>
+<td>12:08 PM</td>
+</tr>
+<tr>
+<td>“hh ‘o’’clock’ a, zzzz”</td>
+<td>12 o’clock PM, Pacific Daylight Time</td>
+</tr>
+<tr>
+<td>“K:mm a, z”</td>
+<td>0:08 PM, PDT</td>
+</tr>
+<tr>
+<td>“yyyyy.MMMMM.dd GGG hh:mm aaa”</td>
+<td>02001.July.04 AD 12:08 PM</td>
+</tr>
+<tr>
+<td>“EEE, d MMM yyyy HH:mm:ss Z”</td>
+<td>Wed, 4 Jul 2001 12:08:56 -0700</td>
+</tr>
+<tr>
+<td>“yyMMddHHmmssZ”</td>
+<td>010704120856-0700</td>
+</tr>
+<tr>
+<td>“yyyy-MM-dd’T’HH:mm:ss.SSSZ”</td>
+<td>2001-07-04T12:08:56.235-0700</td>
+</tr>
+</tbody>
+</table>
+<p>日期格式是不同步的。建议为每个线程创建独立的格式实例。如果多个线程同时访问一个格式，则它必须是外部同步的。</p>
+<h1 id="SimpleDateFormat-示例"><a href="#SimpleDateFormat-示例" class="headerlink" title="SimpleDateFormat 示例"></a>SimpleDateFormat 示例</h1><p>下面，我们通过实例学习如何使用SimpleDateFormat。<br>源码如下(SimpleDateFormatTest.java)：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> java.util.Locale;</span><br><span class="line"><span class="keyword">import</span> java.util.Calendar;</span><br><span class="line"><span class="keyword">import</span> java.text.DateFormat;</span><br><span class="line"><span class="keyword">import</span> java.text.SimpleDateFormat;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * SimpleDateFormat 的API测试程序</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> skywang</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@email</span> kuiwu-wang@163.com</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleDateFormatTest</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 通过SimpleDateFormat 获取日期/时间：有多种格式</span></span><br><span class="line">        testSimpleDateFormats() ;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 通过DateFormat 获取日期/时间</span></span><br><span class="line">        superTest() ;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 通过SimpleDateFormat 获取日期/时间。有多种格式可以选择</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testSimpleDateFormats</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String[] formats = <span class="keyword">new</span> String[] &#123;</span><br><span class="line">            <span class="string">"HH:mm"</span>,                                <span class="comment">// 14:22</span></span><br><span class="line">            <span class="string">"h:mm a"</span>,                               <span class="comment">// 2:22 下午</span></span><br><span class="line">            <span class="string">"HH:mm z"</span>,                              <span class="comment">// 14:22 CST</span></span><br><span class="line">            <span class="string">"HH:mm Z"</span>,                              <span class="comment">// 14:22 +0800</span></span><br><span class="line">            <span class="string">"HH:mm zzzz"</span>,                           <span class="comment">// 14:22 中国标准时间</span></span><br><span class="line">            <span class="string">"HH:mm:ss"</span>,                             <span class="comment">// 14:22:30</span></span><br><span class="line">            <span class="string">"yyyy-MM-dd"</span>,                           <span class="comment">// 2013-09-19</span></span><br><span class="line">            <span class="string">"yyyy-MM-dd HH:mm"</span>,                     <span class="comment">// 2013-09-19 14:22</span></span><br><span class="line">            <span class="string">"yyyy-MM-dd HH:mm:ss"</span>,                  <span class="comment">// 2013-09-19 14:22:30</span></span><br><span class="line">            <span class="string">"yyyy-MM-dd HH:mm:ss zzzz"</span>,             <span class="comment">// 2013-09-19 14:22:30 中国标准时间</span></span><br><span class="line">            <span class="string">"EEEE yyyy-MM-dd HH:mm:ss zzzz"</span>,        <span class="comment">// 星期四 2013-09-19 14:22:30 中国标准时间</span></span><br><span class="line">            <span class="string">"yyyy-MM-dd HH:mm:ss.SSSZ"</span>,             <span class="comment">// 2013-09-19 14:22:30.000+0800</span></span><br><span class="line">            <span class="string">"yyyy-MM-dd'T'HH:mm:ss.SSSZ"</span>,           <span class="comment">// 2013-09-19T14:22:30.000+0800</span></span><br><span class="line">            <span class="string">"yyyy.MM.dd G 'at' HH:mm:ss z"</span>,         <span class="comment">// 2013.09.19 公元 at 14:22:30 CST</span></span><br><span class="line">            <span class="string">"K:mm a"</span>,                               <span class="comment">// 2:22 下午, CST</span></span><br><span class="line">            <span class="string">"EEE, MMM d, ''yy"</span>,                     <span class="comment">// 星期四, 九月 19, '13</span></span><br><span class="line">            <span class="string">"hh 'o''clock' a, zzzz"</span>,                <span class="comment">// 02 o'clock 下午, 中国标准时间</span></span><br><span class="line">            <span class="string">"yyyyy.MMMMM.dd GGG hh:mm aaa"</span>,         <span class="comment">// 02013.九月.19 公元 02:22 下午</span></span><br><span class="line">            <span class="string">"EEE, d MMM yyyy HH:mm:ss Z"</span>,           <span class="comment">// 星期四, 19 九月 2013 14:22:30 +0800</span></span><br><span class="line">            <span class="string">"yyMMddHHmmssZ"</span>,                        <span class="comment">// 130919142230+0800</span></span><br><span class="line">            <span class="string">"yyyy-MM-dd'T'HH:mm:ss.SSSZ"</span>,           <span class="comment">// 2013-09-19T14:22:30.000+0800</span></span><br><span class="line">            <span class="string">"EEEE 'DATE('yyyy-MM-dd')' 'TIME('HH:mm:ss')' zzzz"</span>,        <span class="comment">// 星期四 2013-09-19 14:22:30 中国标准时间</span></span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//Date date = (new Date(0));                    // date为1970-01-01 07:00:00</span></span><br><span class="line">        <span class="comment">//Date date = Calendar.getInstance().getTime(); // date为当前时间</span></span><br><span class="line">        Date date = <span class="keyword">new</span> Date(<span class="number">113</span>, <span class="number">8</span>, <span class="number">19</span>, <span class="number">14</span>, <span class="number">22</span>, <span class="number">30</span>);   <span class="comment">// date为2013-09-19 14:22:30</span></span><br><span class="line">        <span class="keyword">for</span> (String format : formats) &#123;</span><br><span class="line">            SimpleDateFormat sdf = <span class="keyword">new</span> SimpleDateFormat(format, Locale.SIMPLIFIED_CHINESE);</span><br><span class="line">            <span class="comment">//SimpleDateFormat sdf = new SimpleDateFormat(format);</span></span><br><span class="line">            System.out.format(<span class="string">"%30s    %s\n"</span>, format, sdf.format(date));</span><br><span class="line">         &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 通过DateFormat 获取日期/时间</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">superTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 新建date对象，时间是2013-09-19 14:22:30</span></span><br><span class="line">        <span class="comment">// (01) 年=“‘目标年’ - 1900”，</span></span><br><span class="line">        <span class="comment">// (02) 月。 0是一月，1是二月，依次类推。</span></span><br><span class="line">        <span class="comment">// (03) 日。 1-31之间的数</span></span><br><span class="line">        Date mDate = <span class="keyword">new</span> Date(<span class="number">113</span>, <span class="number">8</span>, <span class="number">19</span>, <span class="number">14</span>, <span class="number">22</span>, <span class="number">30</span>);</span><br><span class="line">        Locale locale = <span class="keyword">new</span> Locale(<span class="string">"zh"</span>, <span class="string">"CN"</span>); </span><br><span class="line"></span><br><span class="line">        <span class="comment">// 14:22:30</span></span><br><span class="line">        String time = DateFormat.getTimeInstance( DateFormat.MEDIUM, Locale.SIMPLIFIED_CHINESE).format(mDate);</span><br><span class="line">        <span class="comment">// 2013-09-19</span></span><br><span class="line">        String date = DateFormat.getDateInstance( DateFormat.MEDIUM, Locale.SIMPLIFIED_CHINESE).format(mDate);</span><br><span class="line">        <span class="comment">// 2013-09-19 14:22:30</span></span><br><span class="line">        String datetime = DateFormat.getDateTimeInstance( DateFormat.MEDIUM, DateFormat.MEDIUM, Locale.SIMPLIFIED_CHINESE).format(mDate);</span><br><span class="line"></span><br><span class="line">        System.out.printf(<span class="string">"\ntime=%s\ndate=%s\ndatetime=%s\n"</span>,time,date,datetime); </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">HH:mm    14:22</span><br><span class="line">                        h:mm a    2:22 下午</span><br><span class="line">                       HH:mm z    14:22 CST</span><br><span class="line">                       HH:mm Z    14:22 +0800</span><br><span class="line">                    HH:mm zzzz    14:22 中国标准时间</span><br><span class="line">                      HH:mm:ss    14:22:30</span><br><span class="line">                    yyyy-MM-dd    2013-09-19</span><br><span class="line">              yyyy-MM-dd HH:mm    2013-09-19 14:22</span><br><span class="line">           yyyy-MM-dd HH:mm:ss    2013-09-19 14:22:30</span><br><span class="line">      yyyy-MM-dd HH:mm:ss zzzz    2013-09-19 14:22:30 中国标准时间</span><br><span class="line"> EEEE yyyy-MM-dd HH:mm:ss zzzz    星期四 2013-09-19 14:22:30 中国标准时间</span><br><span class="line">      yyyy-MM-dd HH:mm:ss.SSSZ    2013-09-19 14:22:30.000+0800</span><br><span class="line">    yyyy-MM-dd&apos;T&apos;HH:mm:ss.SSSZ    2013-09-19T14:22:30.000+0800</span><br><span class="line">  yyyy.MM.dd G &apos;at&apos; HH:mm:ss z    2013.09.19 公元 at 14:22:30 CST</span><br><span class="line">                        K:mm a    2:22 下午</span><br><span class="line">              EEE, MMM d, &apos;&apos;yy    星期四, 九月 19, &apos;13</span><br><span class="line">         hh &apos;o&apos;&apos;clock&apos; a, zzzz    02 o&apos;clock 下午, 中国标准时间</span><br><span class="line">  yyyyy.MMMMM.dd GGG hh:mm aaa    02013.九月.19 公元 02:22 下午</span><br><span class="line">    EEE, d MMM yyyy HH:mm:ss Z    星期四, 19 九月 2013 14:22:30 +0800</span><br><span class="line">                 yyMMddHHmmssZ    130919142230+0800</span><br><span class="line">    yyyy-MM-dd&apos;T&apos;HH:mm:ss.SSSZ    2013-09-19T14:22:30.000+0800</span><br><span class="line">EEEE &apos;DATE(&apos;yyyy-MM-dd&apos;)&apos; &apos;TIME(&apos;HH:mm:ss&apos;)&apos; zzzz    星期四 DATE(2013-09-19) TIME(14:22:30) 中国标准时间</span><br><span class="line"></span><br><span class="line">time=14:22:30</span><br><span class="line">date=2013-9-19</span><br><span class="line">datetime=2013-9-19 14:22:30</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/07/Date/" rel="next" title="Date">
+                <i class="fa fa-chevron-left"></i> Date
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/07/locale-and-timezone/" rel="prev" title="locale and timezone">
+                locale and timezone <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#DateFormat-介绍"><span class="nav-number">1.</span> <span class="nav-text">DateFormat 介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DateFormat-的定义如下"><span class="nav-number">2.</span> <span class="nav-text">DateFormat 的定义如下</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DateFormat-的函数接口"><span class="nav-number">3.</span> <span class="nav-text">DateFormat 的函数接口</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DateFormat-实例"><span class="nav-number">4.</span> <span class="nav-text">DateFormat 实例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SimpleDateFormat-介绍"><span class="nav-number">5.</span> <span class="nav-text">SimpleDateFormat 介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SimpleDateFormat的构造函数："><span class="nav-number">5.1.</span> <span class="nav-text">SimpleDateFormat的构造函数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SimpleDateFormat-简单示范："><span class="nav-number">5.2.</span> <span class="nav-text">SimpleDateFormat 简单示范：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SimpleDateFormat-相关格式说明"><span class="nav-number">6.</span> <span class="nav-text">SimpleDateFormat 相关格式说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SimpleDateFormat-示例"><span class="nav-number">7.</span> <span class="nav-text">SimpleDateFormat 示例</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

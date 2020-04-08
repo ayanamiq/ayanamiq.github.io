@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="记录自己idea的个性化设置。记得定期将自己的setting导出，新环境直接导入就好了。file-&amp;gt;export setting 插件安装热部署jRebelhttps://blog.csdn.net/xingbaozhen1210/article/details/81093041 Mybatis Plugin 提供Mapper接口与配置文件中对应SQL的导航 编辑XML文件时自动补全..等">
+<meta name="keywords" content="idea">
+<meta property="og:type" content="article">
+<meta property="og:title" content="idea-Setting">
+<meta property="og:url" content="https://jingyao066.gitee.io/2018/12/08/idea-Setting/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="记录自己idea的个性化设置。记得定期将自己的setting导出，新环境直接导入就好了。file-&amp;gt;export setting 插件安装热部署jRebelhttps://blog.csdn.net/xingbaozhen1210/article/details/81093041 Mybatis Plugin 提供Mapper接口与配置文件中对应SQL的导航 编辑XML文件时自动补全..等">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2018/12/08/idea-Setting/1.png">
+<meta property="og:updated_time" content="2019-12-25T07:47:36.284Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="idea-Setting">
+<meta name="twitter:description" content="记录自己idea的个性化设置。记得定期将自己的setting导出，新环境直接导入就好了。file-&amp;gt;export setting 插件安装热部署jRebelhttps://blog.csdn.net/xingbaozhen1210/article/details/81093041 Mybatis Plugin 提供Mapper接口与配置文件中对应SQL的导航 编辑XML文件时自动补全..等">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2018/12/08/idea-Setting/1.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2018/12/08/idea-Setting/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>idea-Setting | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2018/12/08/idea-Setting/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">idea-Setting
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-08 20:55:11" itemprop="dateCreated datePublished" datetime="2018-12-08T20:55:11+08:00">2018-12-08</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-12-25 15:47:36" itemprop="dateModified" datetime="2019-12-25T15:47:36+08:00">2019-12-25</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2018/12/08/idea-Setting/" class="leancloud_visitors" data-flag-title="idea-Setting">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>记录自己idea的个性化设置。<br>记得定期将自己的setting导出，新环境直接导入就好了。<br>file-&gt;export setting</p>
+<h1 id="插件安装"><a href="#插件安装" class="headerlink" title="插件安装"></a>插件安装</h1><h2 id="热部署jRebel"><a href="#热部署jRebel" class="headerlink" title="热部署jRebel"></a>热部署jRebel</h2><p><a href="https://blog.csdn.net/xingbaozhen1210/article/details/81093041" target="_blank" rel="noopener">https://blog.csdn.net/xingbaozhen1210/article/details/81093041</a></p>
+<h2 id="Mybatis-Plugin"><a href="#Mybatis-Plugin" class="headerlink" title="Mybatis Plugin"></a>Mybatis Plugin</h2><ul>
+<li>提供Mapper接口与配置文件中对应SQL的导航</li>
+<li>编辑XML文件时自动补全..等</li>
+</ul>
+<p>File-&gt;settings-&gt;左上角搜索plugin-&gt;选择marketplace-&gt;输入Mybatis Plugin，回车搜索。<br>筛选结果有free mybatis plugin，和mybatis plugin。这里安装free的就好，免费版的已经可以满足日常使用需求。</p>
+<h2 id="彩色进度条"><a href="#彩色进度条" class="headerlink" title="彩色进度条"></a>彩色进度条</h2><p>Plugins-&gt;Marketplace，搜索<code>Nyan Progress Bar</code>，一个彩色的进度条。</p>
+<h2 id="lombok"><a href="#lombok" class="headerlink" title="lombok"></a>lombok</h2><p>lombok插件用来避免使用lombok的注解(@Data\@AllArgsConstructor等)，显示编译错误的红色标记。</p>
+<h2 id="阿里巴巴Java开发规约插件p3c"><a href="#阿里巴巴Java开发规约插件p3c" class="headerlink" title="阿里巴巴Java开发规约插件p3c"></a>阿里巴巴Java开发规约插件p3c</h2><p>2017年初，阿里公开了java代码规范标准手册，《阿里巴巴Java开发手册》。<br>然后阿里基于该手册，开发了一款插件。<a href="https://github.com/alibaba/p3c" target="_blank" rel="noopener">github地址</a></p>
+<p>idea插件中心搜索<code>Alibaba Java Coding Guidelines</code>，下载并重启idea。</p>
+<h2 id="安装mybatis-generator-自动生成三件套"><a href="#安装mybatis-generator-自动生成三件套" class="headerlink" title="安装mybatis-generator(自动生成三件套)"></a>安装mybatis-generator(自动生成三件套)</h2><p>官网：<a href="http://www.mybatis.org/generator/" target="_blank" rel="noopener">http://www.mybatis.org/generator/</a><br>github：<a href="https://github.com/mybatis/generator/releases" target="_blank" rel="noopener">https://github.com/mybatis/generator/releases</a><br>在pom.xml中添加如下插件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;plugin&gt;</span><br><span class="line">    &lt;groupId&gt;org.mybatis.generator&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mybatis-generator-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.3.2&lt;/version&gt;</span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;5.1.38&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line">    &lt;configuration&gt;</span><br><span class="line">        &lt;!--配置文件的路径--&gt;</span><br><span class="line">        &lt;configurationFile&gt;src/main/resources/MBG/generatorConfig.xml&lt;/configurationFile&gt;</span><br><span class="line">        &lt;overwrite&gt;true&lt;/overwrite&gt;</span><br><span class="line">    &lt;/configuration&gt;</span><br><span class="line">&lt;/plugin&gt;</span><br></pre></td></tr></table></figure></p>
+<p>加入配置文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE generatorConfiguration</span><br><span class="line">        PUBLIC &quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&quot;</span><br><span class="line">        &quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;generatorConfiguration&gt;</span><br><span class="line">    &lt;!--修改驱动包的路径--&gt;</span><br><span class="line">    &lt;classPathEntry location=&quot;/home/wjy/.m2/repository/mysql/mysql-connector-java/5.1.38/mysql-connector-java-5.1.38.jar&quot; /&gt;</span><br><span class="line">    &lt;context id=&quot;testTables&quot; targetRuntime=&quot;MyBatis3&quot;&gt;</span><br><span class="line">        &lt;property name=&quot;javaFileEncoding&quot; value=&quot;UTF-8&quot;/&gt;</span><br><span class="line">        &lt;!-- 生成toString --&gt;</span><br><span class="line">        &lt;plugin type=&quot;org.mybatis.generator.plugins.ToStringPlugin&quot; /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- JavaBean 实现 序列化 接口 --&gt;</span><br><span class="line">        &lt;plugin type=&quot;org.mybatis.generator.plugins.SerializablePlugin&quot;&gt;</span><br><span class="line">        &lt;/plugin&gt;</span><br><span class="line">        &lt;!--generate entity时，生成hashcode和equals方法--&gt;</span><br><span class="line">        &lt;plugin type=&quot;org.mybatis.generator.plugins.EqualsHashCodePlugin&quot; /&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &lt;commentGenerator&gt;</span><br><span class="line">            &lt;!-- 是否去除自动生成的注释 true：是 ： false:否 --&gt;</span><br><span class="line">            &lt;property name=&quot;suppressAllComments&quot; value=&quot;true&quot; /&gt;</span><br><span class="line">        &lt;/commentGenerator&gt;</span><br><span class="line">        &lt;!--数据库连接的信息：驱动类、连接地址、用户名、密码 --&gt;</span><br><span class="line">        &lt;jdbcConnection driverClass=&quot;com.mysql.jdbc.Driver&quot;</span><br><span class="line">                        connectionURL=&quot;jdbc:mysql://localhost:3306/test?useUnicode=true&amp;amp;characterEncoding=utf8&amp;amp;allowMultiQueries=true&amp;amp;autoReconnect=true&quot;</span><br><span class="line">                        userId=&quot;root&quot; password=&quot;root&quot;&gt;</span><br><span class="line">        &lt;/jdbcConnection&gt;</span><br><span class="line">        &lt;!-- &lt;jdbcConnection driverClass=&quot;oracle.jdbc.OracleDriver&quot;</span><br><span class="line">            connectionURL=&quot;jdbc:oracle:thin:@127.0.0.1:1521:yycg&quot;</span><br><span class="line">            userId=&quot;yycg&quot;</span><br><span class="line">            password=&quot;yycg&quot;&gt;</span><br><span class="line">        &lt;/jdbcConnection&gt; --&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL 和</span><br><span class="line">            NUMERIC 类型解析为java.math.BigDecimal --&gt;</span><br><span class="line">        &lt;javaTypeResolver&gt;</span><br><span class="line">            &lt;property name=&quot;forceBigDecimals&quot; value=&quot;false&quot; /&gt;</span><br><span class="line">        &lt;/javaTypeResolver&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- 生成模型model的包名和位置 --&gt;</span><br><span class="line">        &lt;javaModelGenerator targetPackage=&quot;com.wjy.model&quot; targetProject=&quot;src&quot; &gt;</span><br><span class="line">            &lt;!--&lt;property name=&quot;enableSubPackages&quot; value=&quot;true&quot; /&gt;--&gt;</span><br><span class="line">            &lt;!--&lt;property name=&quot;trimStrings&quot; value=&quot;true&quot; /&gt;--&gt;</span><br><span class="line">        &lt;/javaModelGenerator&gt;</span><br><span class="line">        &lt;!-- 生成的映射文件mapper.xml包名和位置 --&gt;</span><br><span class="line">        &lt;sqlMapGenerator targetPackage=&quot;mapper&quot; targetProject=&quot;src&quot;&gt;</span><br><span class="line">            &lt;!--&lt;property name=&quot;enableSubPackages&quot; value=&quot;true&quot; /&gt;--&gt;</span><br><span class="line">        &lt;/sqlMapGenerator&gt;</span><br><span class="line">        &lt;!-- 生成XXXMapper.java接口文件的包名和位置 --&gt;</span><br><span class="line">        &lt;javaClientGenerator type=&quot;XMLMAPPER&quot; targetPackage=&quot;com.wjy.mapper&quot; targetProject=&quot;src&quot;&gt;</span><br><span class="line">            &lt;!--&lt;property name=&quot;enableSubPackages&quot; value=&quot;true&quot; /&gt;--&gt;</span><br><span class="line">        &lt;/javaClientGenerator&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- 指定数据库表 --&gt;</span><br><span class="line">        &lt;table schema=&quot;test&quot; tableName=&quot;test&quot; enableCountByExample=&quot;false&quot;</span><br><span class="line">               enableUpdateByExample=&quot;false&quot; enableDeleteByExample=&quot;false&quot; enableSelectByExample=&quot;false&quot; selectByExampleQueryId=&quot;fasle&quot; /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!--去掉Mybatis Generator生成的一堆 example</span><br><span class="line">        &lt;table schema=&quot;general&quot; tableName=&quot;tb_table_name&quot; domainObjectName=&quot;EntityName&quot;</span><br><span class="line">               enableCountByExample=&quot;false&quot; enableUpdateByExample=&quot;false&quot; enableDeleteByExample=&quot;false&quot;</span><br><span class="line">               enableSelectByExample=&quot;false&quot; selectByExampleQueryId=&quot;false&quot; &gt;</span><br><span class="line">            &lt;property name=&quot;useActualColumnNames&quot; value=&quot;true&quot;/&gt;</span><br><span class="line">        &lt;/table&gt;</span><br><span class="line">        --&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- 有些表的字段需要指定java类型</span><br><span class="line">         &lt;table schema=&quot;&quot; tableName=&quot;&quot;&gt;</span><br><span class="line">            &lt;columnOverride column=&quot;&quot; javaType=&quot;&quot; /&gt;</span><br><span class="line">        &lt;/table&gt; --&gt;</span><br><span class="line">    &lt;/context&gt;</span><br><span class="line"></span><br><span class="line">&lt;/generatorConfiguration&gt;</span><br></pre></td></tr></table></figure></p>
+<p>需要修改配置文件头部<code>mysql-connector-java</code>的路径，改为本地驱动包路径。(在本地maven仓库中找)<br>需要注意connector的版本号。</p>
+<p>所有配置含义：<br><a href="https://www.jianshu.com/p/e09d2370b796" target="_blank" rel="noopener">https://www.jianshu.com/p/e09d2370b796</a></p>
+<h1 id="注释模板"><a href="#注释模板" class="headerlink" title="注释模板"></a>注释模板</h1><ul>
+<li>类注释模板<br><code>File ---&gt; Setting ---&gt; Editor ---&gt; File and Code Templates ---&gt; Includes ---&gt;File Header</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *@author: wjy</span><br><span class="line"> *@Date: Create in $&#123;TIME&#125; $&#123;DATE&#125;</span><br><span class="line"> *@description:</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>idea设置页的下边，有变量的解释</p>
+<ul>
+<li>方法注释模板<br><code>File ---&gt; Setting ---&gt; Editor ---&gt; Live Templates</code><br>点击右边上面那个绿色的+号，选择Template Group双击，然后弹出一个窗口，起名，然后点击ok<br>然后在列表中，选择刚才新建的Template Group，再次点击右上角的绿色加号，选择第一个选项 live Template<br><img src="/2018/12/08/idea-Setting/1.png" alt=""><br>注释模板中$…$中间的参数要与你刚才设置的参数名一一对应<br>按下 /* 加上你定义的快捷键，再按tab就能生成方法模板了~<br>ps:为了只按/+自定义的快捷键，我们可以在模板的顶端，注意要顶格，<br>加上两个<code>**</code><br>完成后点击应用ok~</li>
+</ul>
+<p>提供两种模板：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">**</span><br><span class="line"> * @author: wjy</span><br><span class="line"> * @description:</span><br><span class="line"> * @date: $date$ $time$</span><br><span class="line"> * @param: $params$</span><br><span class="line"> * @return: $returns$</span><br><span class="line"> */</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">**</span><br><span class="line"> * @author: wjy</span><br><span class="line"> * @description:</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
+<h1 id="窗口开多后自动关闭"><a href="#窗口开多后自动关闭" class="headerlink" title="窗口开多后自动关闭"></a>窗口开多后自动关闭</h1><p>idea 默认的窗口数量只有10个，开多了会自动把前边的关掉，可以将多开数量设置wier30。<br>File-&gt;Settings-&gt;Editor-&gt;General-&gt;Editor Tabs，找到Tab limit，将值设置为30。</p>
+<h1 id="idea输入法不跟随"><a href="#idea输入法不跟随" class="headerlink" title="idea输入法不跟随"></a>idea输入法不跟随</h1><p>jetbrains官方已经在2018.2版本修复了这个问题。但是还是需要新版jdk的加持。<br>目前可以确定，idea–2018.3版本+jdk1.8.0_191没有问题。<br>win10自带的输入法也是没有问题的。<br>如果jdk是升级上来的，就是本机安装的事1.8.0_191以下的版本，然后通过官方升级上来的，貌似就不行。建议去官网重新下载新版jdk。<br>这个问题不同环境需要不同的解决方法，多试几种就是了。</p>
+<p>先摘抄几种网上的方法</p>
+<p>方法1：<br>idea界面按ctrl+shift+a，输入switch IDE Boot JDK，选择自己安装的jdk，默认是idea自带的jre，貌似是有bug。选择完之后重启</p>
+<p>方法2：<br>增加一个环境变量即可。 64位增加的名称为IDEA_JDK_64，32位的为IDEA_JDK，值为本机jdk根目录。</p>
+<p>比较靠谱的就这两种，还有很多说jdk降级，输入法降级的，不建议。</p>
+<h1 id="去掉重复代码检查"><a href="#去掉重复代码检查" class="headerlink" title="去掉重复代码检查"></a>去掉重复代码检查</h1><p>File-&gt;Settings-&gt;Editor-&gt;Inspections-&gt;<br>右侧列表寻找<code>General</code>，去掉<code>Duplicated code fragment</code>的勾选。</p>
+<h1 id="去掉Mybatis-xml文件的浅黄背景色"><a href="#去掉Mybatis-xml文件的浅黄背景色" class="headerlink" title="去掉Mybatis-xml文件的浅黄背景色"></a>去掉Mybatis-xml文件的浅黄背景色</h1><ol>
+<li><p>File-&gt;Settings-&gt;Editor-&gt;Inspections-&gt;<br>右侧列表寻找<code>SQL</code>，去掉<code>No data sources configured</code>和<code>SQL dialect detection</code>勾选项。</p>
+</li>
+<li><p>File-&gt;Settings-&gt;Editor-&gt;Color Scheme-&gt;General<br>在右侧列表寻找code下拉选，找到<code>Injected language fragment</code>，去掉右侧Background勾选。</p>
+</li>
+</ol>
+<h1 id="从Coding拉取代码"><a href="#从Coding拉取代码" class="headerlink" title="从Coding拉取代码"></a>从Coding拉取代码</h1><p>File-&gt;New-&gt;Project from Version Control-&gt;Git<br>在URL一行填写Coding上项目的地址，如：<br><a href="https://git.coding.net/test.git" target="_blank" rel="noopener">https://git.coding.net/test.git</a></p>
+<h1 id="将项目上传到Coding"><a href="#将项目上传到Coding" class="headerlink" title="将项目上传到Coding"></a>将项目上传到Coding</h1><p><a href="https://coding.net/user" target="_blank" rel="noopener">登陆自己的Coding</a>，鼠标移到右上角的加号，点击项目<br>输入必填的项目名称和项目地址，拉到最下面添加项目成员，其他全部默认，点击新建项目，然后进入到项目管理界面。<br>找到右侧的项目地址，复制。</p>
+<h2 id="将Idea中的项目上传"><a href="#将Idea中的项目上传" class="headerlink" title="将Idea中的项目上传"></a>将Idea中的项目上传</h2><ul>
+<li>回到Idea，点击工具栏的VCS，选择<code>Import into Version Control</code>，选择<code>Create Git Repository</code>，选择想要上传到Coding的项目。</li>
+<li>选择到项目根目录(项目名位置)，右键选择Git，选择+ Add。</li>
+<li>再次右键项目，选择Git-&gt;Repository-&gt;remotes，点击加号，name为origin，URL为刚才复制的Coding项目地址。</li>
+<li>然后进行第一次提交。点击工具栏的VCS-&gt;Commit(Ctrl+T)，输入Commit Message，点击右下角Commit位置的下拉选，选择Commit and push(Ctrl+Alt+K)，然后点击Push。<br>然后就其他人就可以拉取代码了。</li>
+</ul>
+<p>提交时报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Can&apos;t update: no tracked branch</span><br><span class="line">No tracked branch configured for branch master.</span><br><span class="line">To make your branch track a remote branch call, for example,</span><br><span class="line">git branch --set-upstream master origin/master</span><br></pre></td></tr></table></figure></p>
+<p>尝试建议的指令：<br><code>git branch --set-upstream master origin/master</code><br>无果。</p>
+<p>解决：<br>到项目的根目录，以此执行：<br><code>git add .</code><br><code>git commit -m &#39;first commit&#39;</code><br><code>git push -u origin master</code><br>push成功，然后就可以通过idea<code>ctrl+K</code>上传，<code>ctrl+T</code>拉取代码了。</p>
+<h2 id="通过命令行上传"><a href="#通过命令行上传" class="headerlink" title="通过命令行上传"></a>通过命令行上传</h2><ul>
+<li>在本地项目的根目录打开git bush或Terminal，输入<code>git init</code>，初始化仓库。</li>
+<li>然后执行<code>git add .</code>、<code>git commit -m &#39;initialize&#39;</code>，将项目添加并提交的本地缓存区。</li>
+<li>执行<code>git remote add origin https://git.coding.net/jingyao/123.git</code>，将本地仓库和远程仓库关联。</li>
+<li>然后可以把本地仓库的内容推送到远程仓库上<code>git push -u origin master</code>，推送需要输入Coding的用户名和密码。</li>
+<li>如果想不是每次推送都输入账号密码，可以添加SSH公钥，参考：<a href="https://coding.net/help/doc/git/ssh-key.html" target="_blank" rel="noopener">https://coding.net/help/doc/git/ssh-key.html</a></li>
+</ul>
+<h1 id="无需插件生成serialVersionUID"><a href="#无需插件生成serialVersionUID" class="headerlink" title="无需插件生成serialVersionUID"></a>无需插件生成serialVersionUID</h1><p>默认情况下Intellij IDEA不会提示继承了Serializable接口的类生成serialVersionUID的警告。如果需要生成serialVersionUID，就要在Preferences里面进行设置。<br><code>Preferences -&gt; Inspections -&gt; Serialization issues -&gt; Serialization class without &#39;serialVersionUID</code><br>打上勾，这时候，在javabean里面，就可以看到编辑器右边有黄色的提示了，可以点开看看，将光标放到类名上，按atl＋enter键，就会提示生成serialVersionUID了。</p>
+<h1 id="字体"><a href="#字体" class="headerlink" title="字体"></a>字体</h1><h2 id="修改菜单字体"><a href="#修改菜单字体" class="headerlink" title="修改菜单字体"></a>修改菜单字体</h2><p><code>settings-&gt;Appearence &amp; Behavior-&gt;Appearence</code>，右侧找到<code>Use custom font</code>，修改右侧的字体和字号。</p>
+<h2 id="修改java字体"><a href="#修改java字体" class="headerlink" title="修改java字体"></a>修改java字体</h2><p><code>settings-&gt;Color Scheme-&gt;Color Scheme font</code>，修改右侧的字体。</p>
+<p>WenQuanYi Micro Hei Mono</p>
+<h1 id="gitignore"><a href="#gitignore" class="headerlink" title=".gitignore"></a><code>.gitignore</code></h1><p>git忽略的原理： git设置本地忽略必须保证git的远程仓库分支上没有这个要忽略的文件，如果远程分支上存在这个文件，本地在设置ignore将不起作用。<br>所以一般是在.gitignore 文件里面加入 .idea/ workspace.xml 即可<br>但是如果你这样做之前已经将此文件提交到了git远程仓库，那就需要执行以下命令了：<br><code>git rm -r --cached .idea</code></p>
+<h1 id="idea断点问题"><a href="#idea断点问题" class="headerlink" title="idea断点问题"></a>idea断点问题</h1><p>当前项目处于分布式环境，在其中一个服务 打上断点后，如果debug选项卡切换到其他提供者上，<br>注意是debug的选项卡，会发现断点失效了，f8和f9都不好用。<br>正常的断点标识是：一个小红圈，中间有个对勾，表明当前断点生效。<br>失效后的断点:红圈内的对勾没有了。此时切回断点所在服务的debug选项卡即可。</p>
+<h1 id="IDEA自动重置LanguageLevel和JavaCompiler版本的问题"><a href="#IDEA自动重置LanguageLevel和JavaCompiler版本的问题" class="headerlink" title="IDEA自动重置LanguageLevel和JavaCompiler版本的问题"></a>IDEA自动重置LanguageLevel和JavaCompiler版本的问题</h1><p>一旦Maven项目有变化，发生自动的update时，IDEA会重置这些配置。<br>解决办法就是在pom.xml中指定maven-compiler-plugin的版本，该版本会同时影响LanguageLevel和JavaCompiler，修改后默认就成了这里设置的版本。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-compiler-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">source</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">source</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">target</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="idea错误信息无法复制"><a href="#idea错误信息无法复制" class="headerlink" title="idea错误信息无法复制"></a>idea错误信息无法复制</h1><p>当鼠标悬浮在错误信息上时，idea会提示错误信息，现在选中之后却无法复制。<br>windows：<br>鼠标光标方法报错的地方，待错误提示出现后，键盘按住 Alt，同时点击鼠标左键(不用ctrl+c)，ctrl+V到百度即可。</p>
+<p>mac：<br>鼠标🖱️悬停在错误信息上，按住option，左键点击，然后黏贴到百度。</p>
+<p>另外，鼠标悬浮在错误信息上，在idea最下边的位置也可以看到错误信息，可以右键复制。</p>
+<h1 id="IDEA设置switch-case代码块自动补齐"><a href="#IDEA设置switch-case代码块自动补齐" class="headerlink" title="IDEA设置switch/case代码块自动补齐"></a>IDEA设置switch/case代码块自动补齐</h1><ul>
+<li><code>settings --&gt; Editor --&gt; Live Templates</code></li>
+<li>点击右侧加号，选择Templates Group，起一个想要的名字，我写wjy。</li>
+<li>然后在左侧列表找到刚才新建的名字，选中并点击右侧加号，选择Live Templates</li>
+<li>Abbreviation，写sw，Description写<code>reate switch/case block</code></li>
+<li>Template text填写如下：  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">switch(param)&#123;</span><br><span class="line">	case param:</span><br><span class="line">		break;</span><br><span class="line">	default:</span><br><span class="line">		break;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>然后右键刚才新建的<code>sw</code>，选择Change context，勾选java，即可。</p>
+<h1 id="Error-73-52-java-source-1-5-中不支持-diamond-运算符-请使用-source-7-或更高版本以启用-diamond-运算符"><a href="#Error-73-52-java-source-1-5-中不支持-diamond-运算符-请使用-source-7-或更高版本以启用-diamond-运算符" class="headerlink" title="Error:(73, 52) java: -source 1.5 中不支持 diamond 运算符 (请使用 -source 7 或更高版本以启用 diamond 运算符)"></a>Error:(73, 52) java: -source 1.5 中不支持 diamond 运算符 (请使用 -source 7 或更高版本以启用 diamond 运算符)</h1><p>已经在<code>project Structure</code>中设置了项目的jdk版本，build还是报这个错。<br>解决：<br>设置搜索<code>java compiler</code>，改成自己的jdk版本。如果还不行，idea重新下载jar包试试。</p>
+<h1 id="关闭idea-maven自动刷新"><a href="#关闭idea-maven自动刷新" class="headerlink" title="关闭idea maven自动刷新"></a>关闭idea maven自动刷新</h1><p>settings-&gt;Build,Execution,Deployment-&gt;Build Tools-&gt;Maven-&gt;Importing，<code>Import Maven projects automatically</code>取消该项的勾选。</p>
+<h1 id="idea-xml文件注释"><a href="#idea-xml文件注释" class="headerlink" title="idea xml文件注释"></a>idea xml文件注释</h1><p>xml的注释变成了这样，而且是顶在行首的，看起来十分难受。<br><code>&lt;!--    播放量+1--&gt;</code></p>
+<p>settings-&gt;Editor-&gt;Code style-&gt;XML<br>找到<code>Code Generation</code>选项卡，将<code>Line comment at first column</code>和<code>Block comment at first column</code>前边的勾选去掉。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/idea/" rel="tag"># idea</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/06/Spring/" rel="next" title="Spring">
+                <i class="fa fa-chevron-left"></i> Spring
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/08/springMVC/" rel="prev" title="springMVC">
+                springMVC <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#插件安装"><span class="nav-number">1.</span> <span class="nav-text">插件安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#热部署jRebel"><span class="nav-number">1.1.</span> <span class="nav-text">热部署jRebel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mybatis-Plugin"><span class="nav-number">1.2.</span> <span class="nav-text">Mybatis Plugin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#彩色进度条"><span class="nav-number">1.3.</span> <span class="nav-text">彩色进度条</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lombok"><span class="nav-number">1.4.</span> <span class="nav-text">lombok</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#阿里巴巴Java开发规约插件p3c"><span class="nav-number">1.5.</span> <span class="nav-text">阿里巴巴Java开发规约插件p3c</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装mybatis-generator-自动生成三件套"><span class="nav-number">1.6.</span> <span class="nav-text">安装mybatis-generator(自动生成三件套)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注释模板"><span class="nav-number">2.</span> <span class="nav-text">注释模板</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#窗口开多后自动关闭"><span class="nav-number">3.</span> <span class="nav-text">窗口开多后自动关闭</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#idea输入法不跟随"><span class="nav-number">4.</span> <span class="nav-text">idea输入法不跟随</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#去掉重复代码检查"><span class="nav-number">5.</span> <span class="nav-text">去掉重复代码检查</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#去掉Mybatis-xml文件的浅黄背景色"><span class="nav-number">6.</span> <span class="nav-text">去掉Mybatis-xml文件的浅黄背景色</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#从Coding拉取代码"><span class="nav-number">7.</span> <span class="nav-text">从Coding拉取代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#将项目上传到Coding"><span class="nav-number">8.</span> <span class="nav-text">将项目上传到Coding</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#将Idea中的项目上传"><span class="nav-number">8.1.</span> <span class="nav-text">将Idea中的项目上传</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过命令行上传"><span class="nav-number">8.2.</span> <span class="nav-text">通过命令行上传</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#无需插件生成serialVersionUID"><span class="nav-number">9.</span> <span class="nav-text">无需插件生成serialVersionUID</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#字体"><span class="nav-number">10.</span> <span class="nav-text">字体</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#修改菜单字体"><span class="nav-number">10.1.</span> <span class="nav-text">修改菜单字体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改java字体"><span class="nav-number">10.2.</span> <span class="nav-text">修改java字体</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#gitignore"><span class="nav-number">11.</span> <span class="nav-text">.gitignore</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#idea断点问题"><span class="nav-number">12.</span> <span class="nav-text">idea断点问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IDEA自动重置LanguageLevel和JavaCompiler版本的问题"><span class="nav-number">13.</span> <span class="nav-text">IDEA自动重置LanguageLevel和JavaCompiler版本的问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#idea错误信息无法复制"><span class="nav-number">14.</span> <span class="nav-text">idea错误信息无法复制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IDEA设置switch-case代码块自动补齐"><span class="nav-number">15.</span> <span class="nav-text">IDEA设置switch/case代码块自动补齐</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Error-73-52-java-source-1-5-中不支持-diamond-运算符-请使用-source-7-或更高版本以启用-diamond-运算符"><span class="nav-number">16.</span> <span class="nav-text">Error:(73, 52) java: -source 1.5 中不支持 diamond 运算符 (请使用 -source 7 或更高版本以启用 diamond 运算符)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关闭idea-maven自动刷新"><span class="nav-number">17.</span> <span class="nav-text">关闭idea maven自动刷新</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#idea-xml文件注释"><span class="nav-number">18.</span> <span class="nav-text">idea xml文件注释</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

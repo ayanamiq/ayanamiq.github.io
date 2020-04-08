@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="查找一个表中存在而另一个表中不存在的记录12345678select j.id,j.job_name,c.member_name as company_id,j.job_address,j.salary,j.flush_timefrom hr_job jleft join HR_COMPANY c on c.id = j.company_idleft join hr_job_apply ja on">
+<meta name="keywords" content="mysql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql技巧">
+<meta property="og:url" content="https://jingyao066.gitee.io/2018/12/06/mysql技巧/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="查找一个表中存在而另一个表中不存在的记录12345678select j.id,j.job_name,c.member_name as company_id,j.job_address,j.salary,j.flush_timefrom hr_job jleft join HR_COMPANY c on c.id = j.company_idleft join hr_job_apply ja on">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-12-26T05:55:43.642Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mysql技巧">
+<meta name="twitter:description" content="查找一个表中存在而另一个表中不存在的记录12345678select j.id,j.job_name,c.member_name as company_id,j.job_address,j.salary,j.flush_timefrom hr_job jleft join HR_COMPANY c on c.id = j.company_idleft join hr_job_apply ja on">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2018/12/06/mysql技巧/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>mysql技巧 | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2018/12/06/mysql技巧/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">mysql技巧
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-06 18:13:55" itemprop="dateCreated datePublished" datetime="2018-12-06T18:13:55+08:00">2018-12-06</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-12-26 13:55:43" itemprop="dateModified" datetime="2019-12-26T13:55:43+08:00">2019-12-26</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2018/12/06/mysql技巧/" class="leancloud_visitors" data-flag-title="mysql技巧">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="查找一个表中存在而另一个表中不存在的记录"><a href="#查找一个表中存在而另一个表中不存在的记录" class="headerlink" title="查找一个表中存在而另一个表中不存在的记录"></a>查找一个表中存在而另一个表中不存在的记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">select j.id,j.job_name,c.member_name as company_id,j.job_address,j.salary,j.flush_time</span><br><span class="line">from hr_job j</span><br><span class="line">left join HR_COMPANY c on c.id = j.company_id</span><br><span class="line">left join hr_job_apply ja on ja.job_id = j.id</span><br><span class="line">where not exists (select ja.id from HR_JOB_APPLY where ja.job_id = j.id)</span><br><span class="line"></span><br><span class="line">select * from t1</span><br><span class="line">where id not in(select id from t2)</span><br></pre></td></tr></table></figure>
+<h1 id="时间相关"><a href="#时间相关" class="headerlink" title="时间相关"></a>时间相关</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">获取今天到明天的数据</span><br><span class="line">where date_format(create_date,&apos;%y-%m-%d&apos;) </span><br><span class="line">BETWEEN date_format(curdate(),&apos;%y-%m-%d&apos;) </span><br><span class="line">and DATE_SUB(curdate(),INTERVAL -1 DAY)</span><br><span class="line"></span><br><span class="line">当天数据1</span><br><span class="line">where date_format(create_date,&apos;%y-%m-%d&apos;) = date_format(curdate(),&apos;%y-%m-%d&apos;)</span><br><span class="line"></span><br><span class="line">当天数据2</span><br><span class="line">select * from 表名 where to_days(时间字段名) = to_days(now());</span><br><span class="line">注：to_days 是mysql的函数</span><br><span class="line"></span><br><span class="line">昨天数据</span><br><span class="line">SELECT * FROM 表名 WHERE TO_DAYS( NOW( ) ) - TO_DAYS( 时间字段名) &lt;= 1</span><br><span class="line"></span><br><span class="line">近7天</span><br><span class="line">SELECT * FROM 表名 where DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(时间字段名)</span><br><span class="line"></span><br><span class="line">近30天</span><br><span class="line">SELECT * FROM 表名 where DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(时间字段名)</span><br><span class="line"></span><br><span class="line">本月</span><br><span class="line">SELECT * FROM 表名 WHERE DATE_FORMAT( 时间字段名, &apos;%Y%m&apos; ) = DATE_FORMAT( CURDATE( ) , &apos;%Y%m&apos; )</span><br><span class="line"></span><br><span class="line">上一月</span><br><span class="line">SELECT * FROM 表名 WHERE PERIOD_DIFF( date_format( now( ) , &apos;%Y%m&apos; ) , date_format( 时间字段名, &apos;%Y%m&apos; ) ) =1</span><br><span class="line"></span><br><span class="line">查询本季度数据</span><br><span class="line">select * from `ht_invoice_information` where QUARTER(create_date)=QUARTER(now());</span><br><span class="line"></span><br><span class="line">查询上季度数据</span><br><span class="line">select * from `ht_invoice_information` where QUARTER(create_date)=QUARTER(DATE_SUB(now(),interval 1 QUARTER));</span><br><span class="line"></span><br><span class="line">查询本年数据</span><br><span class="line">select * from `ht_invoice_information` where YEAR(create_date)=YEAR(NOW());</span><br><span class="line"></span><br><span class="line">查询上年数据</span><br><span class="line">select * from `ht_invoice_information` where year(create_date)=year(date_sub(now(),interval 1 year));</span><br><span class="line"></span><br><span class="line">查询当前这周的数据</span><br><span class="line">SELECT name,submittime FROM enterprise WHERE YEARWEEK(date_format(submittime,&apos;%Y-%m-%d&apos;)) = YEARWEEK(now());</span><br><span class="line"></span><br><span class="line">查询上周的数据</span><br><span class="line">SELECT name,submittime FROM enterprise WHERE YEARWEEK(date_format(submittime,&apos;%Y-%m-%d&apos;)) = YEARWEEK(now())-1;</span><br><span class="line"></span><br><span class="line">查询上个月的数据</span><br><span class="line">select name,submittime from enterprise where date_format(submittime,&apos;%Y-%m&apos;)=date_format(DATE_SUB(curdate(), INTERVAL 1 MONTH),&apos;%Y-%m&apos;)</span><br><span class="line"></span><br><span class="line">select * from user where DATE_FORMAT(pudate,&apos;%Y%m&apos;) = DATE_FORMAT(CURDATE(),&apos;%Y%m&apos;) ; </span><br><span class="line"></span><br><span class="line">select * from user where WEEKOFYEAR(FROM_UNIXTIME(pudate,&apos;%y-%m-%d&apos;)) = WEEKOFYEAR(now()) </span><br><span class="line"></span><br><span class="line">select * from user where MONTH(FROM_UNIXTIME(pudate,&apos;%y-%m-%d&apos;)) = MONTH(now()) </span><br><span class="line"></span><br><span class="line">select * from user where YEAR(FROM_UNIXTIME(pudate,&apos;%y-%m-%d&apos;)) = YEAR(now()) and MONTH(FROM_UNIXTIME(pudate,&apos;%y-%m-%d&apos;)) = MONTH(now()) </span><br><span class="line"></span><br><span class="line">select * from user where pudate between  上月最后一天  and 下月第一天</span><br><span class="line"></span><br><span class="line">查询当前月份的数据 </span><br><span class="line">select name,submittime from enterprise   where date_format(submittime,&apos;%Y-%m&apos;)=date_format(now(),&apos;%Y-%m&apos;)</span><br><span class="line"></span><br><span class="line">查询距离当前现在6个月的数据</span><br><span class="line">select name,submittime from enterprise where submittime between date_sub(now(),interval 6 month) and now();</span><br></pre></td></tr></table></figure>
+<h1 id="几种case-when的形式"><a href="#几种case-when的形式" class="headerlink" title="几种case-when的形式"></a>几种case-when的形式</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CASE b.check_type</span><br><span class="line">when &apos;1&apos; then b.real_name</span><br><span class="line">when &apos;2&apos; then b.association_name</span><br><span class="line">    else u2.name(有else)</span><br><span class="line">end AS &quot;user.name&quot;,</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CASE a.exh_type</span><br><span class="line">when &apos;1&apos; then a.is_art</span><br><span class="line">when &apos;2&apos; then c.is_art</span><br><span class="line">end AS &quot;isArt&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">case (case后边没东西)</span><br><span class="line">when a.end_time &gt; now() then &apos;1&apos;</span><br><span class="line">when a.end_time &amp;lt; now() then &apos;2&apos;</span><br><span class="line">end AS &quot;isPass&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">where a.is_home = &apos;1&apos;</span><br><span class="line">and a.publish_status = &apos;1&apos;</span><br><span class="line">and (</span><br><span class="line">case a.exh_type</span><br><span class="line">    when &apos;1&apos; then a.audit_status = &apos;2&apos;</span><br><span class="line">        else 1 = 1</span><br><span class="line">        end</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h1 id="rand"><a href="#rand" class="headerlink" title="rand()"></a>rand()</h1><p>order by RAND()：随机返回结果，随机函数效率很低，尽量不要使用，因为它的效率会随着数据量的增大，效率越来越低。</p>
+<p>推荐一种：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	* </span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">	<span class="string">`question`</span> <span class="keyword">AS</span> t1</span><br><span class="line">	<span class="keyword">JOIN</span> (</span><br><span class="line">	<span class="keyword">SELECT</span></span><br><span class="line">		<span class="keyword">ROUND</span>(</span><br><span class="line">			<span class="keyword">RAND</span>( ) * ( ( <span class="keyword">SELECT</span> <span class="keyword">MAX</span>( <span class="keyword">id</span> ) <span class="keyword">FROM</span> <span class="string">`question`</span> ) </span><br><span class="line">			- ( <span class="keyword">SELECT</span> <span class="keyword">MIN</span>( <span class="keyword">id</span> ) <span class="keyword">FROM</span> <span class="string">`question`</span> ) ) </span><br><span class="line">			+ ( <span class="keyword">SELECT</span> <span class="keyword">MIN</span>( <span class="keyword">id</span> ) <span class="keyword">FROM</span> <span class="string">`question`</span> ) </span><br><span class="line">		) <span class="keyword">AS</span> <span class="keyword">id</span> </span><br><span class="line">	) <span class="keyword">AS</span> t2 </span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line">	t1.id &gt;= t2.id </span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span></span><br><span class="line">	t1.id </span><br><span class="line">	<span class="keyword">LIMIT</span> <span class="number">5</span>;</span><br></pre></td></tr></table></figure></p>
+<p>加上MIN(id)的判断，是因为最开始测试的时候，因为没有加上MIN(id)的判断，结果有一半的时间总是查询到表中的前面几行。这种方法缺点是会产生id连续的数据。</p>
+<h1 id="并发插入、存在不插入、存在更新操作"><a href="#并发插入、存在不插入、存在更新操作" class="headerlink" title="并发插入、存在不插入、存在更新操作"></a>并发插入、存在不插入、存在更新操作</h1><ol>
+<li><p>通常会，先查询，不存在再插入，但是这样无法避免并发问题，不用考虑了。</p>
+</li>
+<li><p>使用<code>replace into</code>，存在即更新，不存在即插入<br><code>replace into table (id,name) values(1,&quot;小明&quot;)</code><br>如果发现表中已经有此行数据（根据主键或者唯一索引判断），则先删除此行数据，然后插入新的数据，否则，直接插入新数据。所以，插入时如果不插入主键(逐渐默认递增)，就需要保证一列是唯一索引，保证唯一，才可以。</p>
+</li>
+<li><p>存在不插入，不存在再插入(感觉这种方法是最好的)<br>mysql 不能在插入时带where条件，故用临时表处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO demo_in(a,b,c) </span><br><span class="line">SELECT 123, 2, 4 FROM DUAL </span><br><span class="line">WHERE NOT EXISTS(SELECT c FROM demo_in WHERE c = 4);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>用临时表DUAL来标记数据，然后插入到demo_in表中。<br>条件是c=4，并且not exists，也就是当c=4条件满足，则不插入。</p>
+<h1 id="union-union-all-和order-by"><a href="#union-union-all-和order-by" class="headerlink" title="union(union all)和order by"></a>union(union all)和order by</h1><ul>
+<li>每一个子句可以使用()包围，但是当第一个子句使用了()时，其它的子句都必须使用括号包围。</li>
+<li>每一个字句可以包含WHERE，GROUP BY，HAVING，JOIN，LIMIT，但是不能使用ORDER BY，如果需要使用ORDER BY，必须使用()包围子句。</li>
+</ul>
+<h1 id="给查询记录添加自然序号"><a href="#给查询记录添加自然序号" class="headerlink" title="给查询记录添加自然序号"></a>给查询记录添加自然序号</h1><p>表a，数据：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td>张三</td>
+</tr>
+<tr>
+<td>6</td>
+<td>李四</td>
+</tr>
+<tr>
+<td>7</td>
+<td>王五</td>
+</tr>
+</tbody>
+</table>
+<p>通过一条sql获取这三条记录，并且给每行前面加上从1开始的序号</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>id</th>
+<th>name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>5</td>
+<td>张三</td>
+</tr>
+<tr>
+<td>2</td>
+<td>6</td>
+<td>李四</td>
+</tr>
+<tr>
+<td>3</td>
+<td>7</td>
+<td>王五</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	@<span class="keyword">rownum</span> := @<span class="keyword">rownum</span> + <span class="number">1</span> <span class="keyword">AS</span> <span class="keyword">rownum</span>,</span><br><span class="line">	a.* </span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">( <span class="keyword">SELECT</span> @<span class="keyword">rownum</span> := <span class="number">0</span> ) r,</span><br><span class="line"><span class="keyword">table</span> a;</span><br></pre></td></tr></table></figure>
+<p>写法2：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	@rowno := @rowno + <span class="number">1</span> <span class="keyword">AS</span> rowno,</span><br><span class="line">	a.* </span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">	<span class="keyword">table</span> a,</span><br><span class="line">	( <span class="keyword">SELECT</span> @rowno := <span class="number">0</span> ) t</span><br></pre></td></tr></table></figure></p>
+<p>如果有按照某个字段排序，行号会不规则排列，换成先排序，外层加上行号会更加合适。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	@ROWNO := @ROWNO + <span class="number">1</span> <span class="keyword">AS</span> ROWNO,</span><br><span class="line">	T.* </span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">	(</span><br><span class="line">	<span class="keyword">SELECT</span></span><br><span class="line">		a.*</span><br><span class="line">	<span class="keyword">FROM</span></span><br><span class="line">		table_name a</span><br><span class="line">		<span class="keyword">LEFT</span> <span class="keyword">JOIN</span> ...</span><br><span class="line">	<span class="keyword">WHERE</span></span><br><span class="line">		...</span><br><span class="line">	<span class="keyword">ORDER</span> <span class="keyword">BY</span></span><br><span class="line">		... <span class="keyword">desc</span></span><br><span class="line">	) T,( <span class="keyword">SELECT</span> @ROWNO := <span class="number">0</span> ) T3</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span></span><br><span class="line">	ROWNO</span><br></pre></td></tr></table></figure></p>
+<h1 id="MySQL单表多次查询和多表联合查询，哪个效率高？"><a href="#MySQL单表多次查询和多表联合查询，哪个效率高？" class="headerlink" title="MySQL单表多次查询和多表联合查询，哪个效率高？"></a>MySQL单表多次查询和多表联合查询，哪个效率高？</h1><p>很多高性能的应用都会对关联查询进行分解。<br>简单地，可以对每个表进行一次单表查询，然后将结果在应用程序中进行关联。例如，下面这个查询：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select * from tableA a</span><br><span class="line">join tableB b on b.tableA_id = a.id</span><br><span class="line">join tableC c on c.tableB_id = b.id</span><br><span class="line">where a.name = &apos;123&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>可以分解成下面这些查询来代替：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select id from tableA where name = &apos;123&apos;; -- 结果A</span><br><span class="line">select * from tableB where tableA_id = id(结果A) -- 结果B</span><br><span class="line">select * from tableC where id in (结果B)</span><br></pre></td></tr></table></figure></p>
+<p>到底为什么要这样做？<br>起初感觉，这样做并没有什么好处，原本一条查询，这里却变成了多条查询，返回结果又是一模一样。<br>事实上，用分解关联查询的方式重构查询具有如下优势：</p>
+<ul>
+<li>让缓存效率更高<br>对于MySQL的查询缓存来说，如果关联中的某个表发生了变化，那么就无法使用查询缓存了，而拆分后，如果某个表很少改变，那么基于该表的查询就可以重复利用查询缓存结果了。</li>
+<li>可以减少冗余记录的查询。</li>
+<li>查询本身效率也可能会有所提升</li>
+<li>将查询分解后，执行单个查询可以减少锁的竞争。</li>
+<li>在应用层做关联，可以更容易对数据库进行拆分，更容易做到高性能和可扩展。</li>
+<li>这样做相当于在应用中实现了哈希关联，而不是使用MySQL的嵌套环关联，某些场景哈希关联的效率更高很多。</li>
+</ul>
+<h1 id="mysql存储表情"><a href="#mysql存储表情" class="headerlink" title="mysql存储表情"></a>mysql存储表情</h1><p>存储表情时报错：<br><code>java.sql.SQLException: Incorrect string value: &#39;\xF0\x9F\x92\x94&#39; for colum n &#39;name&#39; at row 1</code><br>使用mysql数据库的时候，如果字符集是UTF-8，当存储emoji表情的时候，会抛出以上异常。<br>这是由于字符集不支持的异常，因为utf-8编码有可能是两个，三个，四个字节，其中Emoji表情是四个字节，而mysql的utf-8编码最多三个字节，所以导致数据插不进去。<br>解决：</p>
+<ol>
+<li>修改database,table,column字符集<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ALTER DATABASE database_name CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;</span><br><span class="line">ALTER TABLE table_name CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;</span><br><span class="line">ALTER TABLE table_name CHANGE column_name VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>除了column的字符集，库和表的字符集不是必须修改。</p>
+<ol start="2">
+<li><p>修改mysql配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[client]</span><br><span class="line">default-character-set = utf8mb4</span><br><span class="line">[mysql]</span><br><span class="line">default-character-set = utf8mb4</span><br><span class="line">[mysqld]</span><br><span class="line">character-set-client-handshake = FALSE</span><br><span class="line">character-set-server = utf8mb4</span><br><span class="line">collation-server = utf8mb4_unicode_ci</span><br><span class="line">init_connect=&apos;SET NAMES utf8mb4&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>检查<code>mysql-connector-java</code>版本，必须高于5.1.13否则仍然不能试用utf8mb4</p>
+</li>
+<li>修改链接数据库地址<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">jdbc:mysql://localhost:3306/test?</span><br><span class="line">&quot;useUnicode=true&quot; +</span><br><span class="line">&quot;&amp;characterEncoding=UTF-8&quot; +</span><br><span class="line">&quot;&amp;zeroDateTimeBehavior=convertToNull&quot; +</span><br><span class="line">&quot;&amp;useSSL=false&quot; +</span><br><span class="line">&quot;&amp;allowMultiQueries=true&quot; +</span><br><span class="line">&quot;&amp;autoReconnect=true&quot; +</span><br><span class="line">&quot;&amp;rewriteBatchedStatements=TRUE&quot;);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>如果升级了mysql-connector，其中的characterEncoding=utf8可以自动被识别为utf8mb4（兼容原来的utf8），<br>而autoReconnection（当数据库连接异常中断时，是否自动重新连接？默认为false）强烈建议配上，忽略这个属性，<br>可能导致缓存缘故 ，没有读取到DB最新的配置，导致一直无法试用utf8mb4字符集。</p>
+<h1 id="mysql排序错误"><a href="#mysql排序错误" class="headerlink" title="mysql排序错误"></a>mysql排序错误</h1><p>检查排序的字段是否是int类型，如果是varchar，即使存的是数字，排序也是错误的。<br>这时最好把字段改成int类型，如果非要对varchar里存的数字字段排序，可以<code>order column+0</code></p>
+<p>最好不要对汉字进行排序，如果非要对汉字排序，只要进行简单转换即可排序了。<br>在mysql中使用order by对存储了中文信息的字段，默认出来的结果并不是按汉字拼音的顺序来排序，要想按汉字的拼音来排序，需要把数据库的字符集设置为UTF8，然后在order by 时候强制把该字段信息转换成GBK，这样出来的结果就是按拼音顺序排序的。例如：<br><code>SELECT * FROM table_name ORDER BY CONVERT(column_name USING gbk);</code></p>
+<p>查询的时候，通过convert函数，把查询出来的数据使用的字符集gb2312编码就可以了，然后使用convert之后的中文排序。<br>但是如果真的去把表中字段的字符集改成gb2312，又会涉及到很多编码的问题，页面传值啊，从数据库中存取啊，很麻烦。<br>只要在查询的时候，指定一下字符集，并不是真的把物理字段改成gb2312，很简单。</p>
+<h1 id="mysql进行树状所有子节点的查询"><a href="#mysql进行树状所有子节点的查询" class="headerlink" title="mysql进行树状所有子节点的查询"></a>mysql进行树状所有子节点的查询</h1><p>在Oracle 中我们知道有一个 Hierarchical Queries 通过CONNECT BY 我们可以方便的查了所有当前节点下的所有子节点。但很遗憾，在MySQL的目前版本中还没有对应的功能。<br>在MySQL中如果是有限的层次，比如我们事先如果可以确定这个树的最大深度是4, 那么所有节点为根的树的深度均不会超过4，则我们可以直接通过left join 来实现。<br>但很多时候我们无法控制树的深度。这时就需要在MySQL中用存储过程来实现或在你的程序中来实现这个递归。本文讨论一下几种实现的方法。</p>
+<h2 id="样例数据"><a href="#样例数据" class="headerlink" title="样例数据"></a>样例数据</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">create table treeNodes</span><br><span class="line">	(</span><br><span class="line">	id int primary key,</span><br><span class="line">	nodename varchar(20),</span><br><span class="line">	pid int</span><br><span class="line">	);</span><br><span class="line"></span><br><span class="line">select * from treenodes;</span><br><span class="line">+----+----------+------+</span><br><span class="line">| id | nodename | pid  |</span><br><span class="line">+----+----------+------+</span><br><span class="line">|  1 | A        |    0 |</span><br><span class="line">|  2 | B        |    1 |</span><br><span class="line">|  3 | C        |    1 |</span><br><span class="line">|  4 | D        |    2 |</span><br><span class="line">|  5 | E        |    2 |</span><br><span class="line">|  6 | F        |    3 |</span><br><span class="line">|  7 | G        |    6 |</span><br><span class="line">|  8 | H        |    0 |</span><br><span class="line">|  9 | I        |    8 |</span><br><span class="line">| 10 | J        |    8 |</span><br><span class="line">| 11 | K        |    8 |</span><br><span class="line">| 12 | L        |    9 |</span><br><span class="line">| 13 | M        |    9 |</span><br><span class="line">| 14 | N        |   12 |</span><br><span class="line">| 15 | O        |   12 |</span><br><span class="line">| 16 | P        |   15 |</span><br><span class="line">| 17 | Q        |   15 |</span><br><span class="line">+----+----------+------+</span><br></pre></td></tr></table></figure>
+<p>树形图如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">1:A</span><br><span class="line">  +-- 2:B</span><br><span class="line">  |    +-- 4:D</span><br><span class="line">  |    +-- 5:E</span><br><span class="line">  +-- 3:C</span><br><span class="line">       +-- 6:F</span><br><span class="line">            +-- 7:G</span><br><span class="line"> 8:H</span><br><span class="line">  +-- 9:I</span><br><span class="line">  |    +-- 12:L</span><br><span class="line">  |    |    +--14:N</span><br><span class="line">  |    |    +--15:O</span><br><span class="line">  |    |        +--16:P</span><br><span class="line">  |    |        +--17:Q</span><br><span class="line">  |    +-- 13:M</span><br><span class="line">  +-- 10:J</span><br><span class="line">  +-- 11:K</span><br></pre></td></tr></table></figure></p>
+<h2 id="方法一：利用函数来得到所有子节点号"><a href="#方法一：利用函数来得到所有子节点号" class="headerlink" title="方法一：利用函数来得到所有子节点号"></a>方法一：利用函数来得到所有子节点号</h2><p>创建一个function getChildLst, 得到一个由所有子节点号组成的字符串。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">FUNCTION</span> <span class="string">`getChildLst`</span> ( rootId <span class="built_in">INT</span> ) <span class="keyword">RETURNS</span> <span class="built_in">VARCHAR</span>(<span class="number">1000</span>) <span class="keyword">BEGIN</span></span><br><span class="line"><span class="keyword">DECLARE</span> sTemp <span class="built_in">VARCHAR</span> ( <span class="number">1000</span> );</span><br><span class="line"><span class="keyword">DECLARE</span> sTempChd <span class="built_in">VARCHAR</span> ( <span class="number">1000</span> );        </span><br><span class="line"><span class="keyword">SET</span> sTemp = <span class="string">'$'</span>;</span><br><span class="line"><span class="keyword">SET</span> sTempChd = <span class="keyword">cast</span>( rootId <span class="keyword">AS</span> <span class="built_in">CHAR</span> );	       </span><br><span class="line">WHILE</span><br><span class="line">	sTempChd IS NOT NULL <span class="keyword">DO</span></span><br><span class="line">	<span class="keyword">SET</span> sTemp = <span class="keyword">concat</span>( sTemp, <span class="string">','</span>, sTempChd );</span><br><span class="line">	<span class="keyword">SELECT</span></span><br><span class="line">	<span class="keyword">group_concat</span>( <span class="keyword">id</span> ) <span class="keyword">INTO</span> sTempChd </span><br><span class="line">		<span class="keyword">FROM</span></span><br><span class="line">	treeNodes </span><br><span class="line">		<span class="keyword">WHERE</span></span><br><span class="line">	FIND_IN_SET( pid, sTempChd ) &gt; <span class="number">0</span>;        </span><br><span class="line">	<span class="keyword">END</span> <span class="keyword">WHILE</span>;</span><br><span class="line">	RETURN sTemp;</span><br><span class="line"><span class="keyword">END</span></span><br></pre></td></tr></table></figure></p>
+<p>使用我们直接利用find_in_set函数配合这个getChildlst来查找<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> getChildLst(<span class="number">1</span>);</span><br><span class="line">+<span class="comment">-----------------+</span></span><br><span class="line">| getChildLst(1)  |</span><br><span class="line">+<span class="comment">-----------------+</span></span><br><span class="line">| $,1,2,3,4,5,6,7 |</span><br><span class="line">+<span class="comment">-----------------+</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> treeNodes <span class="keyword">where</span> FIND_IN_SET(<span class="keyword">id</span>, getChildLst(<span class="number">1</span>));</span><br><span class="line">+<span class="comment">----+----------+------+</span></span><br><span class="line">| id | nodename | pid  |</span><br><span class="line">+<span class="comment">----+----------+------+</span></span><br><span class="line">|  1 | A        |    0 |</span><br><span class="line">|  2 | B        |    1 |</span><br><span class="line">|  3 | C        |    1 |</span><br><span class="line">|  4 | D        |    2 |</span><br><span class="line">|  5 | E        |    2 |</span><br><span class="line">|  6 | F        |    3 |</span><br><span class="line">|  7 | G        |    6 |</span><br><span class="line">+<span class="comment">----+----------+------+</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> treeNodes <span class="keyword">where</span> FIND_IN_SET(<span class="keyword">id</span>, getChildLst(<span class="number">3</span>));</span><br><span class="line">+<span class="comment">----+----------+------+</span></span><br><span class="line">| id | nodename | pid  |</span><br><span class="line">+<span class="comment">----+----------+------+</span></span><br><span class="line">|  3 | C        |    1 |</span><br><span class="line">|  6 | F        |    3 |</span><br><span class="line">|  7 | G        |    6 |</span><br><span class="line">+<span class="comment">----+----------+------+</span></span><br></pre></td></tr></table></figure></p>
+<p>优点: 简单，方便，没有递归调用层次深度的限制 (max_sp_recursion_depth,最大255) ；<br>缺点：长度受限，虽然可以扩大 RETURNS varchar(1000)，但总是有最大限制的。<br>MySQL目前版本( 5.1.33-community)中还不支持function 的递归调用。</p>
+<h2 id="方法二：利用临时表和过程递归"><a href="#方法二：利用临时表和过程递归" class="headerlink" title="方法二：利用临时表和过程递归"></a>方法二：利用临时表和过程递归</h2><p>创建存储过程如下。createChildLst 为递归过程，showChildLst为调用入口过程，准备临时表及初始化。</p>
+<p>入口过程<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> showChildLst ( <span class="keyword">IN</span> rootId <span class="built_in">INT</span> ) <span class="keyword">BEGIN</span></span><br><span class="line">	<span class="keyword">CREATE</span> <span class="keyword">TEMPORARY</span> <span class="keyword">TABLE</span></span><br><span class="line">	<span class="keyword">IF</span></span><br><span class="line">		<span class="keyword">NOT</span> <span class="keyword">EXISTS</span> tmpLst ( sno <span class="built_in">INT</span> PRIMARY <span class="keyword">KEY</span> auto_increment, <span class="keyword">id</span> <span class="built_in">INT</span>, <span class="keyword">depth</span> <span class="built_in">INT</span> );</span><br><span class="line">	<span class="keyword">DELETE</span> </span><br><span class="line">	<span class="keyword">FROM</span></span><br><span class="line">		tmpLst;</span><br><span class="line">	<span class="keyword">CALL</span> createChildLst ( rootId, <span class="number">0</span> );</span><br><span class="line">	    <span class="keyword">SELECT</span></span><br><span class="line">	tmpLst.*,</span><br><span class="line">	treeNodes.* </span><br><span class="line">	<span class="keyword">FROM</span></span><br><span class="line">		tmpLst,</span><br><span class="line">		treeNodes </span><br><span class="line">	<span class="keyword">WHERE</span></span><br><span class="line">		tmpLst.id = treeNodes.id </span><br><span class="line">	<span class="keyword">ORDER</span> <span class="keyword">BY</span></span><br><span class="line">	tmpLst.sno;</span><br><span class="line"><span class="keyword">END</span>;</span><br></pre></td></tr></table></figure></p>
+<p>递归过程<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> createChildLst ( <span class="keyword">IN</span> rootId <span class="built_in">INT</span>, <span class="keyword">IN</span> nDepth <span class="built_in">INT</span> ) <span class="keyword">BEGIN</span></span><br><span class="line">	<span class="keyword">DECLARE</span></span><br><span class="line">		done <span class="built_in">INT</span> <span class="keyword">DEFAULT</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">DECLARE</span></span><br><span class="line">		b <span class="built_in">INT</span>;</span><br><span class="line">	<span class="keyword">DECLARE</span></span><br><span class="line">		cur1 <span class="keyword">CURSOR</span> <span class="keyword">FOR</span> <span class="keyword">SELECT</span></span><br><span class="line">		<span class="keyword">id</span> </span><br><span class="line">	<span class="keyword">FROM</span></span><br><span class="line">		treeNodes </span><br><span class="line">	<span class="keyword">WHERE</span></span><br><span class="line">		pid = rootId;</span><br><span class="line">	<span class="keyword">DECLARE</span></span><br><span class="line">		CONTINUE <span class="keyword">HANDLER</span> <span class="keyword">FOR</span> <span class="keyword">NOT</span> <span class="keyword">FOUND</span> </span><br><span class="line">		<span class="keyword">SET</span> done = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">INSERT</span> <span class="keyword">INTO</span> tmpLst</span><br><span class="line">	<span class="keyword">VALUES</span></span><br><span class="line">		( <span class="literal">NULL</span>, rootId, nDepth );</span><br><span class="line">	OPEN cur1;</span><br><span class="line">	FETCH cur1 INTO b;</span><br><span class="line">	WHILE</span><br><span class="line">			done = 0 <span class="keyword">DO</span></span><br><span class="line">			<span class="keyword">CALL</span> createChildLst ( b, nDepth + <span class="number">1</span> );</span><br><span class="line">		FETCH cur1 INTO b;</span><br><span class="line">	<span class="keyword">END</span> <span class="keyword">WHILE</span>;</span><br><span class="line">CLOSE cur1;</span><br><span class="line"><span class="keyword">END</span>;</span><br></pre></td></tr></table></figure></p>
+<p>调用时传入结点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">call showChildLst(1);</span><br><span class="line">+-----+------+-------+----+----------+------+</span><br><span class="line">| sno | id   | depth | id | nodename | pid  |</span><br><span class="line">+-----+------+-------+----+----------+------+</span><br><span class="line">|   4 |    1 |     0 |  1 | A        |    0 |</span><br><span class="line">|   5 |    2 |     1 |  2 | B        |    1 |</span><br><span class="line">|   6 |    4 |     2 |  4 | D        |    2 |</span><br><span class="line">|   7 |    5 |     2 |  5 | E        |    2 |</span><br><span class="line">|   8 |    3 |     1 |  3 | C        |    1 |</span><br><span class="line">|   9 |    6 |     2 |  6 | F        |    3 |</span><br><span class="line">|  10 |    7 |     3 |  7 | G        |    6 |</span><br><span class="line">+-----+------+-------+----+----------+------+</span><br><span class="line"></span><br><span class="line">call showChildLst(3);</span><br><span class="line">+-----+------+-------+----+----------+------+</span><br><span class="line">| sno | id   | depth | id | nodename | pid  |</span><br><span class="line">+-----+------+-------+----+----------+------+</span><br><span class="line">|   1 |    3 |     0 |  3 | C        |    1 |</span><br><span class="line">|   2 |    6 |     1 |  6 | F        |    3 |</span><br><span class="line">|   3 |    7 |     2 |  7 | G        |    6 |</span><br><span class="line">+-----+------+-------+----+----------+------+</span><br></pre></td></tr></table></figure></p>
+<p>depth 为深度，这样可以在程序进行一些显示上的格式化处理。类似于oracle中的 level 伪列。sno 仅供排序控制。这样你还可以通过临时表tmpLst与数据库中其它表进行联接查询。</p>
+<p>MySQL中你可以利用系统参数 max_sp_recursion_depth 来控制递归调用的层数上限。如下例设为12.<br><code>set max_sp_recursion_depth=12;</code></p>
+<p>优点：可以更灵活处理，及层数的显示。并且可以按照树的遍历顺序得到结果。<br>缺点：递归有255的限制</p>
+<h2 id="方法三：利用中间表和过程"><a href="#方法三：利用中间表和过程" class="headerlink" title="方法三：利用中间表和过程"></a>方法三：利用中间表和过程</h2><p>创建存储过程如下。由于MySQL中不允许在同一语句中对临时表多次引用，只以使用普通表tmpLst来实现了。当然你的程序中负责在用完后清除这个表。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">PROCEDURE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span>  showTreeNodes;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> showTreeNodes (<span class="keyword">IN</span> rootid <span class="built_in">INT</span>)</span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"><span class="keyword">DECLARE</span> <span class="keyword">Level</span> <span class="built_in">int</span>;</span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> tmpLst;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> tmpLst (</span><br><span class="line"> <span class="keyword">id</span> <span class="built_in">int</span>,</span><br><span class="line"> nLevel <span class="built_in">int</span>,</span><br><span class="line"> sCort <span class="built_in">varchar</span>(<span class="number">8000</span>)</span><br><span class="line">);</span><br><span class="line"> </span><br><span class="line"><span class="keyword">Set</span> <span class="keyword">Level</span> = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">into</span> tmpLst <span class="keyword">SELECT</span> <span class="keyword">id</span>,<span class="keyword">Level</span>,<span class="keyword">ID</span> <span class="keyword">FROM</span> <span class="keyword">category</span> <span class="keyword">WHERE</span> parent_id = rootid;</span><br><span class="line">WHILE ROW_COUNT() &gt; 0</span><br><span class="line"><span class="keyword">DO</span> <span class="keyword">SET</span> <span class="keyword">Level</span> = <span class="keyword">Level</span> + <span class="number">1</span>;</span><br><span class="line"> <span class="keyword">INSERT</span> <span class="keyword">into</span> tmpLst</span><br><span class="line">  <span class="keyword">SELECT</span> A.ID,<span class="keyword">Level</span>,<span class="keyword">concat</span>(B.sCort,A.ID) <span class="keyword">FROM</span> <span class="keyword">category</span> A,tmpLst B</span><br><span class="line">   <span class="keyword">WHERE</span> A.parent_id = B.ID <span class="keyword">AND</span> B.nLevel = <span class="keyword">Level</span><span class="number">-1</span>;</span><br><span class="line"><span class="keyword">END</span> <span class="keyword">WHILE</span>;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">END</span>;</span><br><span class="line"><span class="keyword">CALL</span> showTreeNodes(<span class="number">0</span>);</span><br></pre></td></tr></table></figure></p>
+<p>执行完后会产生一个tmpLst表，nLevel 为节点深度，sCort 为排序字段。<br>使用方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">SELECT concat(SPACE(B.nLevel*2),&apos;+--&apos;,A.nodename) FROM treeNodes A,tmpLst B WHERE A.ID=B.ID ORDER BY B.sCort;</span><br><span class="line">+--------------------------------------------+</span><br><span class="line">| concat(SPACE(B.nLevel*2),&apos;+--&apos;,A.nodename) |</span><br><span class="line">+--------------------------------------------+</span><br><span class="line">| +--A                                       |</span><br><span class="line">|   +--B                                     |</span><br><span class="line">|     +--D                                   |</span><br><span class="line">|     +--E                                   |</span><br><span class="line">|   +--C                                     |</span><br><span class="line">|     +--F                                   |</span><br><span class="line">|       +--G                                 |</span><br><span class="line">| +--H                                       |</span><br><span class="line">|   +--J                                     |</span><br><span class="line">|   +--K                                     |</span><br><span class="line">|   +--I                                     |</span><br><span class="line">|     +--L                                   |</span><br><span class="line">|       +--N                                 |</span><br><span class="line">|       +--O                                 |</span><br><span class="line">|         +--P                               |</span><br><span class="line">|         +--Q                               |</span><br><span class="line">|     +--M                                   |</span><br><span class="line">+--------------------------------------------+</span><br></pre></td></tr></table></figure></p>
+<p>优点：层数的显示。并且可以按照树的遍历顺序得到结果。没有递归限制。<br>缺点：MySQL中对临时表的限制，只能使用普通表，需做事后清理。</p>
+<p><a href="https://blog.csdn.net/ACMAIN_CHM/article/details/4142971" target="_blank" rel="noopener">参考地址</a></p>
+<h2 id="新的思路"><a href="#新的思路" class="headerlink" title="新的思路"></a>新的思路</h2><p>解决这种树状结构问题，可以在表中加一个字段<code>path</code>，标识这条数据的路径，即父子级结构路径。</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>公司名</th>
+<th>parent_id</th>
+<th>path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>总公司</td>
+<td>0</td>
+<td>/1/</td>
+</tr>
+<tr>
+<td>2</td>
+<td>技术部</td>
+<td>1</td>
+<td>/1/2/</td>
+</tr>
+<tr>
+<td>3</td>
+<td>人力部</td>
+<td>1</td>
+<td>/1/3/</td>
+</tr>
+<tr>
+<td>4</td>
+<td>技术部下-java部门</td>
+<td>2</td>
+<td>/1/2/4/</td>
+</tr>
+</tbody>
+</table>
+<p>这样如果我想查总公司下有哪些部门，只需<code>like id = %1</code>即可。</p>
+<h1 id="一些特殊的sql"><a href="#一些特殊的sql" class="headerlink" title="一些特殊的sql"></a>一些特殊的sql</h1><ul>
+<li>1<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 案件列表 --&gt;</span><br><span class="line">&lt;select id="caseList" resultType="map"&gt;</span><br><span class="line"><span class="keyword">select</span></span><br><span class="line">	<span class="keyword">id</span>,</span><br><span class="line">	<span class="keyword">concat</span>(</span><br><span class="line">	&lt;foreach collection=<span class="string">"list"</span> separator=<span class="string">","</span> item=<span class="string">"i"</span>&gt;</span><br><span class="line">		$&#123;i.columnEnglish&#125;</span><br><span class="line">		&lt;<span class="keyword">if</span> <span class="keyword">test</span>=<span class="string">"null != i.connector and '' != i.connector"</span>&gt;</span><br><span class="line">		  ,$&#123;i.connector&#125;</span><br><span class="line">		&lt;/<span class="keyword">if</span>&gt;</span><br><span class="line">	&lt;/foreach&gt;</span><br><span class="line">	) dataName</span><br><span class="line"><span class="keyword">from</span> <span class="string">`$&#123;tableName&#125;`</span></span><br><span class="line">&lt;/<span class="keyword">select</span>&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>出自：archive档案管理系统，<code>ArchiveMapper.xml</code></p>
+<ul>
+<li>2<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line">	* </span><br><span class="line">from table_name </span><br><span class="line">where id in (1,2,3)</span><br><span class="line">order by field(id,1,2,3)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>根据in里的参数排序。<br>xml写法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">order by field(q.id,</span><br><span class="line">&lt;foreach collection=&quot;questionIdList&quot; separator=&quot;,&quot; item=&quot;i&quot;&gt;</span><br><span class="line">  #&#123;i&#125;</span><br><span class="line">&lt;/foreach&gt;</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<h1 id="mysql导入data文件夹"><a href="#mysql导入data文件夹" class="headerlink" title="mysql导入data文件夹"></a>mysql导入data文件夹</h1><p>昨天服务器被挖矿病毒攻击，导致服务器无法访问，数据库无法连接。<br>解决过程：</p>
+<ul>
+<li>在阿里云控制台备份服务器硬盘快照</li>
+<li>重装操作系统</li>
+<li>将快照挂载到新系统上，我挂载到了<code>/mnt</code>目录下</li>
+<li>进入/mnt目录，查看my.cnf<code>vim etc/my.cnf</code>，发现data文件在<code>var/lib/mysql</code></li>
+<li>进入目录<code>cd var/lib/mysql</code>，将该目录整体打包。</li>
+<li>重新安装mysql，将新装mysql的<code>var/lib/mysql</code>删除，将刚才打包的data目录复制到<code>/var/lib</code></li>
+<li>解压，然后启动mysql</li>
+<li>远程连接发现mysql无法访问，提示<code>table xxxxx doesn&#39;t exist</code></li>
+<li><p>在服务器任意位置输入<code>mysql_upgrade -uroot -p --force</code>，然后提示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Upgrade process completed successfully.</span><br><span class="line">Checking if update is needed.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>再次尝试远程连接，成功，数据都在！</p>
+</li>
+</ul>
+<h1 id="导入-frm和-ibd文件"><a href="#导入-frm和-ibd文件" class="headerlink" title="导入.frm和.ibd文件"></a>导入<code>.frm和.ibd</code>文件</h1><p><code>.frm</code>和<code>.ibd</code>分别对应数据库中的表名和表中的数据。<br>我们进入到mysql的data文件夹，找到一个库进去，可以证实我的想法。</p>
+<h1 id="mysql账户"><a href="#mysql账户" class="headerlink" title="mysql账户"></a>mysql账户</h1><p>添加用户<br><code>create user zhangsan identified by &#39;myPass&#39;;</code><br>上面的命令创建了用户zhangsan，密码是myPass。在mysql.user表里可以查看到新增用户的信息。<br><code>select * from mysql.user</code></p>
+<p>授权<br><code>grant privilegesCode on dbName.tableName to username@host identified by &quot;password&quot;;</code></p>
+<p>示例<br><code>grant all privileges on zhangsanDb.* to zhangsan@&#39;%&#39; identified by &#39;myPass&#39;;</code><br><code>flush privileges;</code><br>上面的语句将zhangsanDb数据库的所有操作权限都授权给了用户zhangsan。<br>在mysql.db表里可以查看到新增数据库权限的信息<br><code>select * from mysql.db where User = &#39;zhangsan&#39;</code></p>
+<p>也可以通过<code>show grants</code>命令查看权限授予执行的命令：<br><code>show grants for &#39;zhangsan&#39;;</code></p>
+<p>privilegesCode表示授予的权限类型，常用的有以下几种类型：<br><code>all privileges</code>：所有权限。<br><code>select</code>：读取权限。<br><code>delete</code>：删除权限。<br><code>update</code>：更新权限。<br><code>create</code>：创建权限。<br><code>drop</code>：删除数据库、数据表权限。</p>
+<p>dbName.tableName表示授予权限的具体库或表，常用的有以下几种选项：<br><code>.</code>：授予该数据库服务器所有数据库的权限。<br><code>dbName.*</code>：授予dbName数据库所有表的权限。<br><code>dbName.dbTable</code>：授予数据库dbName中dbTable表的权限。<br><code>username@host</code>：授予的用户以及允许该用户登录的IP地址。其中Host有以下几种类型：</p>
+<p><code>localhost</code>：只允许该用户在本地登录，不能远程登录。<br><code>%</code>：允许在除本机之外的任何一台机器远程登录。<br><code>192.168.1.15</code>：具体的IP表示只允许该用户从特定IP登录。<br><code>password</code>：指定该用户登录时的密码。<br><code>flush privileges</code>：表示刷新权限变更。</p>
+<p><a href="https://www.cnblogs.com/chanshuyi/p/mysql_user_mng.html" target="_blank" rel="noopener">参考</a></p>
+<h2 id="修改密码"><a href="#修改密码" class="headerlink" title="修改密码"></a>修改密码</h2><p><code>update mysql.user set password = password(&#39;zhangsannew&#39;) where user = &#39;zhangsan&#39; and host = &#39;%&#39;;</code><br><code>flush privileges;</code></p>
+<h2 id="删除用户"><a href="#删除用户" class="headerlink" title="删除用户"></a>删除用户</h2><p><code>drop user zhangsan@&#39;%&#39;;</code></p>
+<h1 id="select执行顺序"><a href="#select执行顺序" class="headerlink" title="select执行顺序"></a>select执行顺序</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(7) SELECT</span><br><span class="line">(8) DISTINCT &lt;select_list&gt;</span><br><span class="line">(1) FROM &lt;left_table&gt;</span><br><span class="line">(3) &lt;join_type&gt; JOIN &lt;right_table&gt;</span><br><span class="line">(2) ON &lt;join_condition&gt;</span><br><span class="line">(4) WHERE &lt;where_condition&gt;</span><br><span class="line">(5) GROUP BY &lt;group_by_list&gt;</span><br><span class="line">(6) HAVING &lt;having_condition&gt;</span><br><span class="line">(9) ORDER BY &lt;order_by_condition&gt;</span><br><span class="line">(10) LIMIT &lt;limit_number&gt;</span><br></pre></td></tr></table></figure>
+<p>MySQL的SELECT执行顺序一共分为10步，如上所标注的那样，最先执行的是FROM操作，最后执行的是LIMIT操作。<br>其中每一次操作都会产生一张虚拟的表，这个虚拟的表作为一个处理的输入，只是这些虚拟的表对用户来说是透明的，<br>但是只有最后一个虚拟的表才会被作为结果返回。如果没有在语句中指定某一个子句，那么将会跳过相应的步骤。</p>
+<p>下面我们来具体分析一下查询处理的每一个阶段</p>
+<ol>
+<li>FORM: 对FROM左边的表和右边的表计算笛卡尔积，产生虚表VT1。</li>
+<li>ON: 对虚表VT1进行ON过滤，只有那些符合<join-condition>的行才会被记录在虚表VT2中。</join-condition></li>
+<li>JOIN： 如果指定了OUTER JOIN（比如left join、 right join），那么保留表中未匹配的行就会作为外部行添加到虚拟表VT2中，产生虚拟表VT3。</li>
+<li>WHERE： 对虚拟表VT3进行WHERE条件过滤。只有符合<where-condition>的记录才会被插入到虚拟表VT4中。</where-condition></li>
+<li>GROUP BY: 根据group by子句中的列，对VT4中的记录进行分组操作，产生VT5。</li>
+<li>HAVING： 对虚拟表VT5应用having过滤，只有符合<having-condition>的记录才会被 插入到虚拟表VT6中。</having-condition></li>
+<li>SELECT： 执行select操作，选择指定的列，插入到虚拟表VT7中。</li>
+<li>DISTINCT： 对VT7中的记录进行去重。产生虚拟表VT8.</li>
+<li>ORDER BY: 将虚拟表VT8中的记录按照&lt;order_by_list&gt;进行排序操作，产生虚拟表VT9.</li>
+<li>LIMIT：取出指定行的记录，产生虚拟表VT10, 并将结果返回。</li>
+</ol>
+<h1 id="group-by-获取最新的数据"><a href="#group-by-获取最新的数据" class="headerlink" title="group by 获取最新的数据"></a>group by 获取最新的数据</h1><p>因为group by 是获取的第一条数据，所以可以通过下面的方法获取最后一条数据。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select * from chapter_user_dub where id in(</span><br><span class="line"> select MAX(id) from chapter_user_dub where user_id = 106175 group by user_id</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/06/mysql基础/" rel="next" title="mysql基础">
+                <i class="fa fa-chevron-left"></i> mysql基础
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/06/JSP+Servlet/" rel="prev" title="JSP+Servlet">
+                JSP+Servlet <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#查找一个表中存在而另一个表中不存在的记录"><span class="nav-number">1.</span> <span class="nav-text">查找一个表中存在而另一个表中不存在的记录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#时间相关"><span class="nav-number">2.</span> <span class="nav-text">时间相关</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#几种case-when的形式"><span class="nav-number">3.</span> <span class="nav-text">几种case-when的形式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#rand"><span class="nav-number">4.</span> <span class="nav-text">rand()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#并发插入、存在不插入、存在更新操作"><span class="nav-number">5.</span> <span class="nav-text">并发插入、存在不插入、存在更新操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#union-union-all-和order-by"><span class="nav-number">6.</span> <span class="nav-text">union(union all)和order by</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#给查询记录添加自然序号"><span class="nav-number">7.</span> <span class="nav-text">给查询记录添加自然序号</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL单表多次查询和多表联合查询，哪个效率高？"><span class="nav-number">8.</span> <span class="nav-text">MySQL单表多次查询和多表联合查询，哪个效率高？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mysql存储表情"><span class="nav-number">9.</span> <span class="nav-text">mysql存储表情</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mysql排序错误"><span class="nav-number">10.</span> <span class="nav-text">mysql排序错误</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mysql进行树状所有子节点的查询"><span class="nav-number">11.</span> <span class="nav-text">mysql进行树状所有子节点的查询</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#样例数据"><span class="nav-number">11.1.</span> <span class="nav-text">样例数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法一：利用函数来得到所有子节点号"><span class="nav-number">11.2.</span> <span class="nav-text">方法一：利用函数来得到所有子节点号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法二：利用临时表和过程递归"><span class="nav-number">11.3.</span> <span class="nav-text">方法二：利用临时表和过程递归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法三：利用中间表和过程"><span class="nav-number">11.4.</span> <span class="nav-text">方法三：利用中间表和过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新的思路"><span class="nav-number">11.5.</span> <span class="nav-text">新的思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一些特殊的sql"><span class="nav-number">12.</span> <span class="nav-text">一些特殊的sql</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mysql导入data文件夹"><span class="nav-number">13.</span> <span class="nav-text">mysql导入data文件夹</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#导入-frm和-ibd文件"><span class="nav-number">14.</span> <span class="nav-text">导入.frm和.ibd文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mysql账户"><span class="nav-number">15.</span> <span class="nav-text">mysql账户</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#修改密码"><span class="nav-number">15.1.</span> <span class="nav-text">修改密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除用户"><span class="nav-number">15.2.</span> <span class="nav-text">删除用户</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#select执行顺序"><span class="nav-number">16.</span> <span class="nav-text">select执行顺序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#group-by-获取最新的数据"><span class="nav-number">17.</span> <span class="nav-text">group by 获取最新的数据</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

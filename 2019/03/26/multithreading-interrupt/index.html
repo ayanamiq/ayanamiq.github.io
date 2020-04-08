@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="interrupt介绍JDK1.8官方文档描述如下：Interrupts this thread.Unless the current thread is interrupting itself, which is always permitted, the checkAccess method of this thread is invoked, which may cause a Securi">
+<meta name="keywords" content="multithreading">
+<meta property="og:type" content="article">
+<meta property="og:title" content="multithreading-interrupt">
+<meta property="og:url" content="https://jingyao066.gitee.io/2019/03/26/multithreading-interrupt/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="interrupt介绍JDK1.8官方文档描述如下：Interrupts this thread.Unless the current thread is interrupting itself, which is always permitted, the checkAccess method of this thread is invoked, which may cause a Securi">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.328Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="multithreading-interrupt">
+<meta name="twitter:description" content="interrupt介绍JDK1.8官方文档描述如下：Interrupts this thread.Unless the current thread is interrupting itself, which is always permitted, the checkAccess method of this thread is invoked, which may cause a Securi">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2019/03/26/multithreading-interrupt/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>multithreading-interrupt | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2019/03/26/multithreading-interrupt/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">multithreading-interrupt
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-26 16:50:17" itemprop="dateCreated datePublished" datetime="2019-03-26T16:50:17+08:00">2019-03-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/03/26/multithreading-interrupt/" class="leancloud_visitors" data-flag-title="multithreading-interrupt">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="interrupt介绍"><a href="#interrupt介绍" class="headerlink" title="interrupt介绍"></a>interrupt介绍</h1><p>JDK1.8官方文档描述如下：<br>Interrupts this thread.<br>Unless the current thread is interrupting itself, which is always permitted, the checkAccess method of this thread is invoked, which may cause a SecurityException to be thrown.<br>If this thread is blocked in an invocation of the wait(), wait(long), or wait(long, int) methods of the Object class, or of the join(), join(long), join(long, int), sleep(long), or sleep(long, int), methods of this class, then its interrupt status will be cleared and it will receive an InterruptedException.<br>If this thread is blocked in an I/O operation upon an InterruptibleChannel then the channel will be closed, the thread’s interrupt status will be set, and the thread will receive a ClosedByInterruptException.<br>If this thread is blocked in a Selector then the thread’s interrupt status will be set and it will return immediately from the selection operation, possibly with a non-zero value, just as if the selector’s wakeup method were invoked.<br>If none of the previous conditions hold then this thread’s interrupt status will be set.<br>Interrupting a thread that is not alive need not have any effect.</p>
+<p>interrupt()的作用是中断本线程。<br>本线程中断自己是被允许的，其它线程调用本线程的interrupt()方法时，会通过checkAccess()检查权限。这有可能抛出SecurityException异常。<br>如果本线程是处于阻塞状态，调用线程的<code>wait(), wait(long)或wait(long, int)</code>、<code>join(), join(long), join(long, int)</code>、<code>sleep(long), sleep(long, int)</code>，都会让它进入阻塞状态。<br>若线程在阻塞状态时，调用了它的<code>interrupt()</code>方法，那么它的<code>中断状态</code>会被清除并且会收到一个<code>InterruptedException</code>异常。<br>例如，线程通过<code>wait()</code>进入阻塞状态，此时通过<code>interrupt()</code>中断该线程；调用<code>interrupt()</code>会立即将线程的中断标记设为<code>true</code>，但是由于线程处于阻塞状态，所以该<code>中断标记</code>会立即被清除为<code>false</code>，同时，会产生一个<code>InterruptedException</code>的异常。<br>如果线程被阻塞在一个<code>Selector选择器</code>中，那么通过<code>interrupt()</code>中断它时；线程的中断标记会被设置为<code>interrupt()</code>，并且它会立即从选择操作中返回。<br>如果不属于前面所说的情况，那么通过<code>interrupt()</code>中断线程时，它的中断标记会被设置为<code>true</code>。<br>中断一个<code>已终止的线程</code>不会产生任何操作。</p>
+<h1 id="终止线程的方式"><a href="#终止线程的方式" class="headerlink" title="终止线程的方式"></a>终止线程的方式</h1><p>Thread中的stop()和suspend()方法，由于固有的不安全性，已经建议不再使用。<br>下面，我先分别讨论线程在<code>阻塞状态</code>和<code>运行状态</code>的终止方式，然后再总结出一个通用的方式。</p>
+<h2 id="终止处于阻塞状态的线程"><a href="#终止处于阻塞状态的线程" class="headerlink" title="终止处于阻塞状态的线程"></a>终止处于<code>阻塞状态</code>的线程</h2><p>通常，我们通过<code>中断</code>方式终止处于<code>阻塞状态</code>的线程。<br>当线程由于被调用了<code>sleep()、wait()、join()</code>等方法而进入阻塞状态；若此时调用线程的<code>interrupt()</code>将线程的中断标记设为<code>true</code>。由于处于阻塞状态，中断标记会被清除，同时产生一个<code>InterruptedException</code>异常。将<code>InterruptedException</code>放在适当的为止就能终止线程，形式如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            <span class="comment">// 执行任务...</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (InterruptedException ie) &#123;</span><br><span class="line">        <span class="comment">// 由于产生InterruptedException异常，退出while(true)循环，线程终止！</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>说明：在<code>while(true)</code>中不断的执行任务，当线程处于阻塞状态时，调用线程的<code>interrupt()</code>产生<code>InterruptedException</code>中断。中断的捕获在<code>while(true)</code>之外，这样就退出了<code>while(true)</code>循环。<br>注意：对<code>InterruptedException</code>的捕获务一般放在<code>while(true)</code>循环体的外面，这样，在产生异常时就退出了<code>while(true)</code>循环。否则，<code>InterruptedException</code>在<code>while(true)</code>循环体之内，就需要额外的添加退出处理。形式如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 执行任务...</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException ie) &#123;  </span><br><span class="line">            <span class="comment">// InterruptedException在while(true)循环体内。</span></span><br><span class="line">            <span class="comment">// 当线程产生了InterruptedException异常时，while(true)仍能继续运行！需要手动退出</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>说明：上面的<code>InterruptedException</code>异常的捕获在<code>whle(true)</code>之内。当产生<code>InterruptedException</code>异常时，被catch处理之外，仍然在<code>while(true)</code>循环体内；要退出<code>while(true)</code>循环体，需要额外的执行退出<code>while(true)</code>的操作。</p>
+<h2 id="终止处于运行状态的线程"><a href="#终止处于运行状态的线程" class="headerlink" title="终止处于运行状态的线程"></a>终止处于<code>运行状态</code>的线程</h2><p>通常，我们通过<code>标记</code>方式终止处于<code>运行状态</code>的线程。其中，包括<code>中断标记</code>和<code>额外添加标记</code>。</p>
+<ol>
+<li><p>通过<code>中断标记</code>终止线程。<br>形式如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (!isInterrupted()) &#123;</span><br><span class="line">        <span class="comment">// 执行任务...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 说明：<code>isInterrupted()</code>是判断线程的中断标记是不是为<code>true</code>。当线程处于运行状态，并且我们需要终止它时；可以调用线程的<code>interrupt()</code>方法，使用线程的中断标记为<code>true</code>，即<code>isInterrupted()</code>会返回<code>true</code>。此时，就会退出<code>while</code>循环。<br>注意：<code>interrupt()</code>并不会终止处于<code>运行状态</code>的线程！它会将线程的中断标记设为true。</p>
+</li>
+<li><p>额外添加标记<br>形式如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">boolean</span> flag= <span class="keyword">true</span>;</span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">stopTask</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    flag = <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (flag) &#123;</span><br><span class="line">        <span class="comment">// 执行任务...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 说明：线程中有一个flag标记，它的默认值是true；并且我们提供<code>stopTask()</code>来设置flag标记。当我们需要终止该线程时，调用该线程的<code>stopTask()</code>方法就可以让线程退出while循环。<br> 注意：将flag定义为<code>volatile</code>类型，是为了保证flag的可见性。即其它线程通过<code>stopTask()</code>修改了flag之后，本线程能看到修改后的flag的值。</p>
+</li>
+</ol>
+<h2 id="通用的终止线程方式"><a href="#通用的终止线程方式" class="headerlink" title="通用的终止线程方式"></a>通用的终止线程方式</h2><p>综合线程处于<code>阻塞状态</code>和<code>运行状态</code>的终止方式，比较通用的终止线程的形式如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 1. isInterrupted()保证，只要中断标记为true就终止线程。</span></span><br><span class="line">        <span class="keyword">while</span> (!isInterrupted()) &#123;</span><br><span class="line">            <span class="comment">// 执行任务...</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (InterruptedException ie) &#123;</span><br><span class="line">        <span class="comment">// 2. InterruptedException异常保证，当InterruptedException异常产生时，线程被终止。</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="终止线程示例"><a href="#终止线程示例" class="headerlink" title="终止线程示例"></a>终止线程示例</h1><p><code>interrupt()</code>常常被用来终止<code>阻塞状态</code>线程。参考下面示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Demo1.java的源码</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyThread</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">            <span class="keyword">while</span> (!isInterrupted()) &#123;</span><br><span class="line">                Thread.sleep(<span class="number">100</span>); <span class="comment">// 休眠100ms</span></span><br><span class="line">                i++;</span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">" ("</span>+<span class="keyword">this</span>.getState()+<span class="string">") loop "</span> + i);  </span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;  </span><br><span class="line">            System.out.println(Thread.currentThread().getName() +<span class="string">" ("</span>+<span class="keyword">this</span>.getState()+<span class="string">") catch InterruptedException."</span>);  </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            Thread t1 = <span class="keyword">new</span> MyThread(<span class="string">"t1"</span>);  <span class="comment">// 新建“线程t1”</span></span><br><span class="line">            System.out.println(t1.getName() +<span class="string">" ("</span>+t1.getState()+<span class="string">") is new."</span>);  </span><br><span class="line"></span><br><span class="line">            t1.start();                      <span class="comment">// 启动“线程t1”</span></span><br><span class="line">            System.out.println(t1.getName() +<span class="string">" ("</span>+t1.getState()+<span class="string">") is started."</span>);  </span><br><span class="line"></span><br><span class="line">            <span class="comment">// 主线程休眠300ms，然后主线程给t1发“中断”指令。</span></span><br><span class="line">            Thread.sleep(<span class="number">300</span>);</span><br><span class="line">            t1.interrupt();</span><br><span class="line">            System.out.println(t1.getName() +<span class="string">" ("</span>+t1.getState()+<span class="string">") is interrupted."</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 主线程休眠300ms，然后查看t1的状态。</span></span><br><span class="line">            Thread.sleep(<span class="number">300</span>);</span><br><span class="line">            System.out.println(t1.getName() +<span class="string">" ("</span>+t1.getState()+<span class="string">") is interrupted now."</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;  </span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">t1 (NEW) is new.</span><br><span class="line">t1 (RUNNABLE) is started.</span><br><span class="line">t1 (RUNNABLE) loop 1</span><br><span class="line">t1 (RUNNABLE) loop 2</span><br><span class="line">t1 (TIMED_WAITING) is interrupted.</span><br><span class="line">t1 (RUNNABLE) catch InterruptedException.</span><br><span class="line">t1 (TERMINATED) is interrupted now.</span><br></pre></td></tr></table></figure></p>
+<p>结果说明：</p>
+<ul>
+<li>主线程main中通过new MyThread(“t1”)创建线程t1，之后通过t1.start()启动线程t1。</li>
+<li>t1启动之后，会不断的检查它的中断标记，如果中断标记为“false”；则休眠100ms。</li>
+<li>t1休眠之后，会切换到主线程main；主线程再次运行时，会执行t1.interrupt()中断线程t1。t1收到中断指令之后，会将t1的中断标记设置“false”，而且会抛出InterruptedException异常。在t1的run()方法中，是在循环体while之外捕获的异常；因此循环被终止。</li>
+</ul>
+<p>我们对上面的结果进行小小的修改，将run()方法中捕获InterruptedException异常的代码块移到while循环体内。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Demo2.java的源码</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyThread</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (!isInterrupted()) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">100</span>); <span class="comment">// 休眠100ms</span></span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException ie) &#123;  </span><br><span class="line">                System.out.println(Thread.currentThread().getName() +<span class="string">" ("</span>+<span class="keyword">this</span>.getState()+<span class="string">") catch InterruptedException."</span>);  </span><br><span class="line">            &#125;</span><br><span class="line">            i++;</span><br><span class="line">            System.out.println(Thread.currentThread().getName()+<span class="string">" ("</span>+<span class="keyword">this</span>.getState()+<span class="string">") loop "</span> + i);  </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo2</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            Thread t1 = <span class="keyword">new</span> MyThread(<span class="string">"t1"</span>);  <span class="comment">// 新建“线程t1”</span></span><br><span class="line">            System.out.println(t1.getName() +<span class="string">" ("</span>+t1.getState()+<span class="string">") is new."</span>);  </span><br><span class="line"></span><br><span class="line">            t1.start();                      <span class="comment">// 启动“线程t1”</span></span><br><span class="line">            System.out.println(t1.getName() +<span class="string">" ("</span>+t1.getState()+<span class="string">") is started."</span>);  </span><br><span class="line"></span><br><span class="line">            <span class="comment">// 主线程休眠300ms，然后主线程给t1发“中断”指令。</span></span><br><span class="line">            Thread.sleep(<span class="number">300</span>);</span><br><span class="line">            t1.interrupt();</span><br><span class="line">            System.out.println(t1.getName() +<span class="string">" ("</span>+t1.getState()+<span class="string">") is interrupted."</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 主线程休眠300ms，然后查看t1的状态。</span></span><br><span class="line">            Thread.sleep(<span class="number">300</span>);</span><br><span class="line">            System.out.println(t1.getName() +<span class="string">" ("</span>+t1.getState()+<span class="string">") is interrupted now."</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;  </span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">t1 (NEW) is new.</span><br><span class="line">t1 (RUNNABLE) is started.</span><br><span class="line">t1 (RUNNABLE) loop 1</span><br><span class="line">t1 (RUNNABLE) loop 2</span><br><span class="line">t1 (TIMED_WAITING) is interrupted.</span><br><span class="line">t1 (RUNNABLE) catch InterruptedException.</span><br><span class="line">t1 (RUNNABLE) loop 3</span><br><span class="line">t1 (RUNNABLE) loop 4</span><br><span class="line">t1 (RUNNABLE) loop 5</span><br><span class="line">t1 (TIMED_WAITING) is interrupted now.</span><br><span class="line">t1 (RUNNABLE) loop 6</span><br><span class="line">t1 (RUNNABLE) loop 7</span><br><span class="line">t1 (RUNNABLE) loop 8</span><br><span class="line">t1 (RUNNABLE) loop 9</span><br></pre></td></tr></table></figure></p>
+<p>结果说明：<br>程序进入了死循环！<br>为什么会这样呢？这是因为，t1在<code>等待(阻塞)状态</code>时，被<code>interrupt()</code>中断；此时，会清除中断标记(即<code>isInterrupted()</code>会返回false)，而且会抛出<code>InterruptedException</code>异常(该异常在while循环体内被捕获)。因此，t1理所当然的会进入死循环了。<br>解决该问题，需要我们在捕获异常时，额外的进行退出while循环的处理。<br>例如，在<code>MyThread的catch(InterruptedException)</code>中添加<code>break</code>或<code>return</code>就能解决该问题。</p>
+<p>下面是通过<code>额外添加标记</code>的方式终止<code>运行状态</code>的线程的示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Demo3.java的源码</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">boolean</span> flag= <span class="keyword">true</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stopTask</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        flag = <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyThread</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span>(<span class="keyword">this</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">                <span class="keyword">while</span> (flag) &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">100</span>); <span class="comment">// 休眠100ms</span></span><br><span class="line">                    i++;</span><br><span class="line">                    System.out.println(Thread.currentThread().getName()+<span class="string">" ("</span>+<span class="keyword">this</span>.getState()+<span class="string">") loop "</span> + i);  </span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException ie) &#123;  </span><br><span class="line">                System.out.println(Thread.currentThread().getName() +<span class="string">" ("</span>+<span class="keyword">this</span>.getState()+<span class="string">") catch InterruptedException."</span>);  </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo3</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            MyThread t1 = <span class="keyword">new</span> MyThread(<span class="string">"t1"</span>);  <span class="comment">// 新建“线程t1”</span></span><br><span class="line">            System.out.println(t1.getName() +<span class="string">" ("</span>+t1.getState()+<span class="string">") is new."</span>);  </span><br><span class="line"></span><br><span class="line">            t1.start();                      <span class="comment">// 启动“线程t1”</span></span><br><span class="line">            System.out.println(t1.getName() +<span class="string">" ("</span>+t1.getState()+<span class="string">") is started."</span>);  </span><br><span class="line"></span><br><span class="line">            <span class="comment">// 主线程休眠300ms，然后主线程给t1发“中断”指令。</span></span><br><span class="line">            Thread.sleep(<span class="number">300</span>);</span><br><span class="line">            t1.stopTask();</span><br><span class="line">            System.out.println(t1.getName() +<span class="string">" ("</span>+t1.getState()+<span class="string">") is interrupted."</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 主线程休眠300ms，然后查看t1的状态。</span></span><br><span class="line">            Thread.sleep(<span class="number">300</span>);</span><br><span class="line">            System.out.println(t1.getName() +<span class="string">" ("</span>+t1.getState()+<span class="string">") is interrupted now."</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;  </span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">t1 (NEW) is new.</span><br><span class="line">t1 (RUNNABLE) is started.</span><br><span class="line">t1 (RUNNABLE) loop 1</span><br><span class="line">t1 (RUNNABLE) loop 2</span><br><span class="line">t1 (TIMED_WAITING) is interrupted.</span><br><span class="line">t1 (RUNNABLE) loop 3</span><br><span class="line">t1 (TERMINATED) is interrupted now.</span><br></pre></td></tr></table></figure></p>
+<h1 id="interrupted-和-isInterrupted-的区别"><a href="#interrupted-和-isInterrupted-的区别" class="headerlink" title="interrupted() 和 isInterrupted()的区别"></a>interrupted() 和 isInterrupted()的区别</h1><p><code>interrupted()</code>和<code>isInterrupted()</code>都能够用于检测对象的<code>中断标记</code>。<br>区别是，<code>interrupted()</code>除了返回中断标记之外，它还会清除中断标记(即将中断标记设为false)；而<code>isInterrupted()</code>仅仅返回中断标记。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/multithreading/" rel="tag"># multithreading</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/26/multithreading-yield+sleep+join/" rel="next" title="multithreading-yield+sleep+join">
+                <i class="fa fa-chevron-left"></i> multithreading-yield+sleep+join
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/27/网站的扩展/" rel="prev" title="网站的扩展">
+                网站的扩展 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#interrupt介绍"><span class="nav-number">1.</span> <span class="nav-text">interrupt介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#终止线程的方式"><span class="nav-number">2.</span> <span class="nav-text">终止线程的方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#终止处于阻塞状态的线程"><span class="nav-number">2.1.</span> <span class="nav-text">终止处于阻塞状态的线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#终止处于运行状态的线程"><span class="nav-number">2.2.</span> <span class="nav-text">终止处于运行状态的线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通用的终止线程方式"><span class="nav-number">2.3.</span> <span class="nav-text">通用的终止线程方式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#终止线程示例"><span class="nav-number">3.</span> <span class="nav-text">终止线程示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#interrupted-和-isInterrupted-的区别"><span class="nav-number">4.</span> <span class="nav-text">interrupted() 和 isInterrupted()的区别</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

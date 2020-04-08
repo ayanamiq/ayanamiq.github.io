@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="模板12345678910111213141516171819202122232425@PostMapping(&quot;/login&quot;)public ResponseUtil login(@RequestBody Map&amp;lt;String,String&amp;gt; paramMap)&amp;#123;    LOGGER.info(    &quot;\n*********************************">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="API-notice">
+<meta property="og:url" content="https://jingyao066.gitee.io/2019/04/03/API-notice/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="模板12345678910111213141516171819202122232425@PostMapping(&quot;/login&quot;)public ResponseUtil login(@RequestBody Map&amp;lt;String,String&amp;gt; paramMap)&amp;#123;    LOGGER.info(    &quot;\n*********************************">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.233Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="API-notice">
+<meta name="twitter:description" content="模板12345678910111213141516171819202122232425@PostMapping(&quot;/login&quot;)public ResponseUtil login(@RequestBody Map&amp;lt;String,String&amp;gt; paramMap)&amp;#123;    LOGGER.info(    &quot;\n*********************************">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2019/04/03/API-notice/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>API-notice | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2019/04/03/API-notice/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">API-notice
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-03 09:54:28" itemprop="dateCreated datePublished" datetime="2019-04-03T09:54:28+08:00">2019-04-03</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/04/03/API-notice/" class="leancloud_visitors" data-flag-title="API-notice">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/login"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> ResponseUtil <span class="title">login</span><span class="params">(@RequestBody Map&lt;String,String&gt; paramMap)</span></span>&#123;</span><br><span class="line">    LOGGER.info(</span><br><span class="line">    <span class="string">"\n***************************************"</span> + <span class="string">"\n"</span> +</span><br><span class="line">            <span class="string">"start login"</span> + <span class="string">"\n"</span> +</span><br><span class="line">            <span class="string">"登录"</span> + <span class="string">"\n"</span> +</span><br><span class="line">            <span class="string">"paramMap = "</span> + paramMap + <span class="string">"\n"</span> +</span><br><span class="line">            <span class="string">"\n********************************************"</span></span><br><span class="line">    );</span><br><span class="line">    ResponseUtil response = ResponseUtil.success();</span><br><span class="line">    CodeEnum code = CodeEnum.FAIL;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        Token token = TokenUtil.getToken(request.getHeader(<span class="string">"token"</span>));</span><br><span class="line">        Assert.isTrue(token != <span class="keyword">null</span>, <span class="string">"token解密失败"</span>);</span><br><span class="line"></span><br><span class="line">        code = CodeEnum.ERROR_2001;</span><br><span class="line">        Assert.isTrue(StringUtils.isNotEmpty(paramMap.get(<span class="string">"mobile"</span>)), <span class="string">"手机号不可为空"</span>);</span><br><span class="line">        response = usersService.login(paramMap,response,token);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        response.setCode(code);</span><br><span class="line">        response.setMessage(e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h1><ul>
+<li>controller只负责收发参数、跳转页面等，不要在controller里写业务逻辑，业务逻辑全部写在接口实现类(serviceImpl)中。</li>
+<li>入参使用<code>@RequestBody Map&lt;String,String&gt; map</code>，返回数据使用<code>@ResponseBody</code></li>
+<li>规范的使用restful</li>
+<li>使用LOGGER.info()打印入参，方便线上调试。</li>
+<li>使用ResponseUtil返回数据、code码和message。<br>  通过code码和message来向前端反馈信息，例如：1000代表成功，message为“请求成功”，2000代表失败，message为“请求失败”，其他自行定义。</li>
+<li>使用断言验证参数：<code>Assert.isTrue()</code></li>
+<li>用户相关的接口都需要token，token需要前端通过header传递。</li>
+</ul>
+<p>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/login"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResponseUtil <span class="title">login</span><span class="params">(@RequestBody Map&lt;String,String&gt; paramMap)</span></span>&#123;</span><br><span class="line">        LOGGER.info(</span><br><span class="line">        <span class="string">"\n***************************************"</span> + <span class="string">"\n"</span> +</span><br><span class="line">                <span class="string">"start login"</span> + <span class="string">"\n"</span> +</span><br><span class="line">                <span class="string">"登录"</span> + <span class="string">"\n"</span> +</span><br><span class="line">                <span class="string">"paramMap = "</span> + paramMap + <span class="string">"\n"</span> +</span><br><span class="line">                <span class="string">"\n********************************************"</span></span><br><span class="line">        );</span><br><span class="line">        ResponseUtil response = ResponseUtil.success();</span><br><span class="line">        CodeEnum code = CodeEnum.FAIL;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Token token = TokenUtil.getToken(request.getHeader(<span class="string">"token"</span>));</span><br><span class="line">            Assert.isTrue(token != <span class="keyword">null</span>, <span class="string">"token解密失败"</span>);</span><br><span class="line">            </span><br><span class="line">            code = CodeEnum.ERROR_2001;</span><br><span class="line">            Assert.isTrue(StringUtils.isNotEmpty(paramMap.get(<span class="string">"mobile"</span>)), <span class="string">"手机号不可为空"</span>);</span><br><span class="line"></span><br><span class="line">            response = usersService.login(paramMap,response,token);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            response.setCode(code);</span><br><span class="line">            response.setMessage(e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">        LOGGER.info(</span><br><span class="line">        <span class="string">"\n***************************************"</span> + <span class="string">"\n"</span> +</span><br><span class="line">                <span class="string">"end getUserInfo"</span> + <span class="string">"\n"</span> +</span><br><span class="line">                <span class="string">"返回个人信息"</span> + <span class="string">"\n"</span> +</span><br><span class="line">                <span class="string">"result = "</span> + result.getData() + <span class="string">"\n"</span> +</span><br><span class="line">                <span class="string">"\n********************************************"</span></span><br><span class="line">        );</span><br><span class="line">        <span class="keyword">return</span> response;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>还有另一种打印日志的样式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LOGGER.info(&quot;\n***************\n start getUserinfo\n 获取个人信息 \n paramMap &quot; + paramMap + &quot;\n***************&quot;);</span><br><span class="line">LOGGER.info(&quot;\n***************\n end getUserinfo\n 返回个人信息 \n result &quot; + result.getData() + &quot;\n***************&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>两种样式二选一</p>
+<p>运行异常时，可以使用logger打印：<br><code>LOGGER.error(&quot;\n********************运行异常********************&quot;, e);</code><br>这种方式和<code>e.printStackTrace();</code>有什么区别？</p>
+<p>需要的LOGGER对象需要在类头部定义：<br><code>private final static Logger LOGGER = LoggerFactory.getLogger(UserInfoController.class);</code></p>
+<p>需要的request、response、session需要在类头部定义：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> HttpServletRequest request;</span><br><span class="line"><span class="keyword">protected</span> HttpServletResponse response;</span><br><span class="line"><span class="keyword">protected</span> HttpSession session;</span><br><span class="line"><span class="comment">//初始化</span></span><br><span class="line"><span class="meta">@ModelAttribute</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.request = request;</span><br><span class="line">        <span class="keyword">this</span>.response = response;</span><br><span class="line">        <span class="keyword">this</span>.session = request.getSession();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="ResponseUtil"><a href="#ResponseUtil" class="headerlink" title="ResponseUtil"></a>ResponseUtil</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ResponseUtil</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> code;</span><br><span class="line">    <span class="keyword">private</span> String message;</span><br><span class="line">    <span class="keyword">private</span> T data;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ResponseUtil</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ResponseUtil</span><span class="params">(CodeEnum code)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.code = code.getCode();</span><br><span class="line">        <span class="keyword">this</span>.message = code.getMessage();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ResponseUtil <span class="title">success</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ResponseUtil(CodeEnum.SUCCESS);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ResponseUtil <span class="title">fail</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ResponseUtil(CodeEnum.FAIL);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCode</span><span class="params">(CodeEnum code)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.code = code.getCode();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getMessage</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> message;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMessage</span><span class="params">(String message)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.message = message;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">getData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> data;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setData</span><span class="params">(T data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.data = data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一般搭配CodeEnum状态码枚举类使用，错误码可自行定义：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">public enum CodeEnum &#123;</span><br><span class="line"></span><br><span class="line">    //请求成功</span><br><span class="line">    SUCCESS(1000,&quot;请求成功&quot;),</span><br><span class="line"></span><br><span class="line">    //请求失败</span><br><span class="line">    FAIL(2000,&quot;请求失败&quot;),</span><br><span class="line"></span><br><span class="line">    //其他错误码</span><br><span class="line">    ERROR_2001(2001),</span><br><span class="line">    ERROR_2002(2002),</span><br><span class="line">    ERROR_2003(2003),</span><br><span class="line">    ERROR_2004(2004),</span><br><span class="line">    ERROR_2005(2005),</span><br><span class="line">    ERROR_2006(2006),</span><br><span class="line">    ERROR_2007(2007),</span><br><span class="line">    ERROR_2008(2008),</span><br><span class="line">    ERROR_2009(2009),</span><br><span class="line">    ERROR_2010(2010);</span><br><span class="line"></span><br><span class="line">    private int code;</span><br><span class="line">    private String message;</span><br><span class="line">    private String desc;</span><br><span class="line"></span><br><span class="line">    private CodeEnum(int code)&#123;</span><br><span class="line">        this.code = code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private CodeEnum(int code, String msg) &#123;</span><br><span class="line">        this.code = code;</span><br><span class="line">        this.message = msg;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int getCode() &#123;</span><br><span class="line">        return code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getMessage() &#123;</span><br><span class="line">        return message;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getDesc() &#123;</span><br><span class="line">        if (desc == null) &#123;</span><br><span class="line">            desc = message;</span><br><span class="line">        &#125;</span><br><span class="line">        return code + &quot;:&quot; + desc;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setDesc(String desc) &#123;</span><br><span class="line">        this.desc = desc;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个枚举类只定义了10个错误码，这里一码对应多种信息，只是从枚举类中获取状态码，具体信息从接口中定义。<br>状态码枚举类还有一种使用方法。就是在类中的每个枚举值定义到具体的信息，即一码对一信息。如：<br><code>ERROR_2020(2020,&quot;一些具体的错误信息&quot;),</code><br>这么写的缺点就是后期该类会变得非常长，不便于维护，而且本来可以用一种码表示多种信息，但是因为枚举值是别人写的，乱改可能会引起问题，也不该乱改，只能在后边加新的枚举值，这样枚举类会变的很长…</p>
+<h1 id="典型接口示例"><a href="#典型接口示例" class="headerlink" title="典型接口示例"></a>典型接口示例</h1><h2 id="分页接口"><a href="#分页接口" class="headerlink" title="分页接口"></a>分页接口</h2><ul>
+<li><p>controller</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/getGoodsList"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> ResponseUtil <span class="title">getGoodsList</span><span class="params">(@RequestBody Map&lt;String, String&gt; paramMap)</span> </span>&#123;</span><br><span class="line">    LOGGER.info(</span><br><span class="line">            <span class="string">"\n***************************************"</span> + <span class="string">"\n"</span> +</span><br><span class="line">                    <span class="string">"start getGoodsList"</span> + <span class="string">"\n"</span> +</span><br><span class="line">                    <span class="string">"商品列表"</span> + <span class="string">"\n"</span> +</span><br><span class="line">                    <span class="string">"paramMap = "</span> + map + <span class="string">"\n"</span> +</span><br><span class="line">                    <span class="string">"\n********************************************"</span></span><br><span class="line">    );</span><br><span class="line">    ResponseUtil response = ResponseUtil.success();</span><br><span class="line">    CodeEnum code = CodeEnum.FAIL;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        result = goodsService.getGoodsList(paramMap);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        response.setCode(code);</span><br><span class="line">        response.setMessage(e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line">    LOGGER.info(</span><br><span class="line">            <span class="string">"\n***************************************"</span> + <span class="string">"\n"</span> +</span><br><span class="line">                    <span class="string">"end getGoodsList"</span> + <span class="string">"\n"</span> +</span><br><span class="line">                    <span class="string">"商品列表"</span> + <span class="string">"\n"</span> +</span><br><span class="line">                    <span class="string">" resultMap "</span> + response.getData() + <span class="string">"\n"</span> +</span><br><span class="line">                    <span class="string">"\n********************************************"</span></span><br><span class="line">    );</span><br><span class="line">    <span class="keyword">return</span> response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>service<br><code>List&lt;Goods&gt; getGoodsList(Map&lt;String, String&gt; paramMap);</code><br>或<br><code>List&lt;Map&lt;String, Object&gt;&gt; getGoodsList(Map&lt;String, String&gt; paramMap);</code></p>
+</li>
+<li><p>serviceImpl</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public List&lt;Goods&gt; getGoodsList(Map&lt;String, String&gt; paramMap) &#123;</span><br><span class="line">    PageHelper.startPage(</span><br><span class="line">            paramMap.get(&quot;pageNum&quot;) == null ? 1 : Integer.parseInt(paramMap.get(&quot;pageNum&quot;)),</span><br><span class="line">            paramMap.get(&quot;pageSize&quot;) == null ? 10 : Integer.parseInt(paramMap.get(&quot;pageSize&quot;)));</span><br><span class="line">    List&lt;Goods&gt; list = goodsMapper.getGoodsList(paramMap);</span><br><span class="line">    return list;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>mapper<br><code>List&lt;Goods&gt; getGoodsList(Map&lt;String,String&gt; map);</code></p>
+</li>
+<li>mapper.xml<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=&quot;getGoodsList&quot; resultMap=&quot;BaseResultMap&quot; parameterType=&quot;map&quot;&gt;</span><br><span class="line">  select</span><br><span class="line">  goods_name,</span><br><span class="line">  cover_img,</span><br><span class="line">  convert(price * #&#123;exchangeRate&#125;,decimal(10,2)) price,</span><br><span class="line">  sales_volume,</span><br><span class="line">  id</span><br><span class="line">  FROM</span><br><span class="line">    goods</span><br><span class="line">  &lt;where&gt;</span><br><span class="line">    &lt;if test=&quot;isNew != null&quot;&gt;</span><br><span class="line">      and is_new = 1</span><br><span class="line">    &lt;/if&gt;</span><br><span class="line">    and status = 1</span><br><span class="line">  &lt;/where&gt;</span><br><span class="line">  and del_flag =  0</span><br><span class="line">  and audit_status = 1</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="注册接口"><a href="#注册接口" class="headerlink" title="注册接口"></a>注册接口</h2><ul>
+<li><p>controller</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">@PostMapping(&quot;/register&quot;)</span><br><span class="line">public ResponseUtil register(@RequestBody Map&lt;String,String&gt; paramMap)&#123;</span><br><span class="line">    LOGGER.info(</span><br><span class="line">    &quot;\n***************************************&quot; + &quot;\n&quot; +</span><br><span class="line">            &quot;start register&quot; + &quot;\n&quot; +</span><br><span class="line">            &quot;注册&quot; + &quot;\n&quot; +</span><br><span class="line">            &quot;paramMap = &quot; + paramMap + &quot;\n&quot; +</span><br><span class="line">            &quot;\n********************************************&quot;</span><br><span class="line">    );</span><br><span class="line">    ResponseUtil response = ResponseUtil.success();</span><br><span class="line">    CodeEnum codeEnum = CodeEnum.FAIL;</span><br><span class="line">    try &#123;</span><br><span class="line">        String regex = &quot;^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]&#123;6,10&#125;$&quot;;</span><br><span class="line">        codeEnum = CodeEnum.ERROR_2002;</span><br><span class="line">        Assert.isTrue(StringUtils.isNotEmpty(paramMap.get(&quot;mobile&quot;)), &quot;手机号码不能为空&quot;);</span><br><span class="line">        codeEnum = CodeEnum.ERROR_2003;</span><br><span class="line">        Assert.isTrue(paramMap.get(&quot;mobile&quot;).length() == 11, &quot;手机号码长度不是11位&quot;);</span><br><span class="line">        codeEnum = CodeEnum.ERROR_2004;</span><br><span class="line">        Assert.isTrue(StringUtils.isNotEmpty(paramMap.get(&quot;password&quot;)), &quot;密码不能为空&quot;);</span><br><span class="line">        codeEnum = CodeEnum.ERROR_2005;</span><br><span class="line">        Assert.isTrue(StringUtils.isNotEmpty(paramMap.get(&quot;confirmPassword&quot;)), &quot;确认密码不能为空&quot;);</span><br><span class="line">        codeEnum = CodeEnum.ERROR_2006;</span><br><span class="line">        Assert.isTrue(paramMap.get(&quot;password&quot;).equals(paramMap.get(&quot;confirmPassword&quot;)), &quot;两次密码不一致&quot;);</span><br><span class="line">        codeEnum = CodeEnum.ERROR_2007;</span><br><span class="line">        Assert.isTrue(paramMap.get(&quot;password&quot;).matches(regex), &quot;请输入6-8位的数字与字母组合&quot;);</span><br><span class="line"></span><br><span class="line">        paramMap.put(&quot;ip&quot;, HttpUtil.getIpAddr(request));</span><br><span class="line">        response = usersService.register(paramMap,response);</span><br><span class="line">        //删除redis中验证码</span><br><span class="line">        redisTemplate.delete(RedisKeyEnum.MOBILE_SMSCODE.getValue() +paramMap.get(&quot;mobile&quot;));</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        response.setCode(codeEnum);</span><br><span class="line">        response.setMessage(e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>service<br><code>ResponseUtil register(Map&lt;String,String&gt; paramMap, ResponseUtil response);</code></p>
+</li>
+<li><p>serviceIMpl</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public ResponseUtil register(Map&lt;String, String&gt; paramMap, ResponseUtil response) &#123;</span><br><span class="line">    Users user = new Users();</span><br><span class="line">    user.setMobile(paramMap.get(&quot;mobile&quot;));</span><br><span class="line">    List&lt;Users&gt; userLIst = usersMapper.getUserByCondition(user);</span><br><span class="line">    //是否已注册</span><br><span class="line">    if (userLIst.size() &gt; 0) &#123;</span><br><span class="line">        response.setMessage(&quot;该手机号已注册，请直接登录&quot;);</span><br><span class="line">        response.setCode(CodeEnum.ERROR_2001);</span><br><span class="line">        return response;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    user = insertUser(paramMap);</span><br><span class="line">    Map&lt;String,Object&gt; resultMap = new HashedMap();</span><br><span class="line">    resultMap.put(&quot;token&quot;,user.getToken());</span><br><span class="line"></span><br><span class="line">    response.setMessage(&quot;注册成功&quot;);</span><br><span class="line">    response.setData(resultMap);</span><br><span class="line">    return response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>因为注册的具体流程还有其他接口需要，所以此处将该方法抽象出来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public Users insertUser(Map&lt;String, String&gt; paramMap) &#123;</span><br><span class="line">    Users newUser = new Users();</span><br><span class="line">    newUser.setMobile(paramMap.get(&quot;mobile&quot;));</span><br><span class="line">    newUser.setPassword(MD5Util.MD5Encode(paramMap.get(&quot;password&quot;)));</span><br><span class="line">    newUser.setPlatform(StringUtils.isEmpty(paramMap.get(&quot;platfrom&quot;)) ? null : Byte.parseByte(paramMap.get(&quot;platfrom&quot;)));</span><br><span class="line">    newUser.setNickname(paramMap.get(&quot;nickname&quot;) == null ? newUser.getMobile().replaceAll(newUser.getMobile().substring(3, 7), &quot;****&quot;) : paramMap.get(&quot;nickname&quot;));</span><br><span class="line">    newUser.setDeviceCode(paramMap.get(&quot;deviceCode&quot;));</span><br><span class="line"></span><br><span class="line">    //执行新增用户</span><br><span class="line">    usersMapper.insertSelective(newUser);</span><br><span class="line">    newUser.setToken(TokenUtil.makeToken(&quot;token&quot;,newUser.getId(),newUser.getMobile(),paramMap.get(&quot;ip&quot;)));</span><br><span class="line"></span><br><span class="line">    //其他业务逻辑</span><br><span class="line"></span><br><span class="line">    return newUser;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>mapper和xml都是自动生成的，这里就不贴了。</p>
+<h2 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h2><h3 id="验证码登录"><a href="#验证码登录" class="headerlink" title="验证码登录"></a>验证码登录</h3><ul>
+<li><p>controller</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">@PostMapping(&quot;/smsCodeLogin&quot;)</span><br><span class="line">public ResponseUtil smsCodeLogin(@RequestBody Map&lt;String,String&gt; paramMap)&#123;</span><br><span class="line">    LOGGER.info(</span><br><span class="line">    &quot;\n***************************************&quot; + &quot;\n&quot; +</span><br><span class="line">            &quot;start smsCodeLogin&quot; + &quot;\n&quot; +</span><br><span class="line">            &quot;验证码登录&quot; + &quot;\n&quot; +</span><br><span class="line">            &quot;paramMap = &quot; + paramMap + &quot;\n&quot; +</span><br><span class="line">            &quot;\n********************************************&quot;</span><br><span class="line">    );</span><br><span class="line">    ResponseUtil response = ResponseUtil.success();</span><br><span class="line">    CodeEnum code = CodeEnum.FAIL;</span><br><span class="line">    try &#123;</span><br><span class="line">        // 获取手机验证码</span><br><span class="line">        code = CodeEnum.ERROR_2001;</span><br><span class="line">        String 	smsCode = redisTemplate.opsForValue().get(RedisKeyEnum.MOBILE_SMSCODE.getValue() + paramMap.get(&quot;mobile&quot;));</span><br><span class="line">        Assert.notNull(smsCode, &quot;未获取验证码或验证码已超时，请先获取验证码&quot;);</span><br><span class="line">        code = CodeEnum.ERROR_2002;</span><br><span class="line">        Assert.isTrue(StringUtils.isNotEmpty(paramMap.get(&quot;mobile&quot;)), &quot;手机号码不能为空&quot;);</span><br><span class="line">        code = CodeEnum.ERROR_2003;</span><br><span class="line">        Assert.isTrue(StringUtils.isNotEmpty(paramMap.get(&quot;smscode&quot;)), &quot;验证码不能为空&quot;);</span><br><span class="line">        code = CodeEnum.ERROR_2004;</span><br><span class="line">        Assert.isTrue(StringUtils.isNotEmpty(paramMap.get(&quot;platfrom&quot;)), &quot;设备平台不可为空&quot;);</span><br><span class="line">        code = CodeEnum.ERROR_2005;</span><br><span class="line">        Assert.isTrue(smsCode.equals(paramMap.get(&quot;smscode&quot;)), &quot;验证码错误&quot;);</span><br><span class="line"></span><br><span class="line">        paramMap.put(&quot;ip&quot;,HttpUtil.getIpAddr(request));</span><br><span class="line"></span><br><span class="line">        if(smsCode.equals(paramMap.get(&quot;smscode&quot;)))&#123;</span><br><span class="line">            response = usersService.login(paramMap,response);</span><br><span class="line">            //登录成功，删除redis中的验证码</span><br><span class="line">            if(response.getCode() == CodeEnum.SUCCESS.getCode())&#123;</span><br><span class="line">                redisTemplate.delete(RedisKeyEnum.MOBILE_SMSCODE.getValue() + paramMap.get(&quot;mobile&quot;));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            response.setCode(code);</span><br><span class="line">            response.setMessage(&quot;验证码错误&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        response.setCode(code);</span><br><span class="line">        response.setMessage(e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line">    return response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>service<br><code>ResponseUtil login(Map&lt;String,String&gt; paramMap, ResponseUtil response);</code></p>
+</li>
+<li><p>serviceImpl</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public ResponseUtil login(Map&lt;String, String&gt; paramMap, ResponseUtil response) &#123;</span><br><span class="line">    Users user = new Users();</span><br><span class="line">    user.setMobile(paramMap.get(&quot;mobile&quot;));</span><br><span class="line">    //密码登录用</span><br><span class="line">    String password = paramMap.get(&quot;password&quot;);</span><br><span class="line">    if(!StringUtils.isEmpty(password))&#123;</span><br><span class="line">        user.setPassword(MD5Util.MD5Encode(paramMap.get(&quot;password&quot;)));</span><br><span class="line">    &#125;</span><br><span class="line">    List&lt;Users&gt; userList = usersMapper.getUserByCondition(user);</span><br><span class="line">    if(userList.size() &gt; 0)&#123;</span><br><span class="line">        user = userList.get(0);</span><br><span class="line">        if(user.getStatus() == 1)&#123;</span><br><span class="line">            response.setCode(CodeEnum.ERROR_2006);</span><br><span class="line">            response.setMessage(&quot;该账户已被禁用&quot;);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            String token = TokenUtil.makeToken(&quot;token&quot;,user.getId(),user.getMobile(),paramMap.get(&quot;ip&quot;));</span><br><span class="line">            user.setToken(token);</span><br><span class="line">            paramMap.put(&quot;id&quot;,user.getId().toString());</span><br><span class="line">            paramMap.put(&quot;token&quot;,token);</span><br><span class="line">            //更新设备码、token</span><br><span class="line">            updateUserInfo(paramMap);</span><br><span class="line">            response.setMessage(&quot;登录成功&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        response.setCode(CodeEnum.ERROR_2007);</span><br><span class="line">        if(!StringUtils.isEmpty(password))&#123;</span><br><span class="line">            response.setMessage(&quot;手机号或密码错误&quot;);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            response.setMessage(&quot;请先注册&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        return response;</span><br><span class="line">    &#125;</span><br><span class="line">    Map&lt;String,Object&gt; resultMap = BeanUtil.beanToMap(user);</span><br><span class="line">    response.setData(resultMap);</span><br><span class="line">    return response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>验证码登录和用户名密码登录业务逻辑十分相似，这里共用了一个service，有需要可以将这两个方法拆分开。</p>
+<h3 id="账号密码登录"><a href="#账号密码登录" class="headerlink" title="账号密码登录"></a>账号密码登录</h3><ul>
+<li>controller<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">@PostMapping(&quot;/login&quot;)</span><br><span class="line">public ResponseUtil login(@RequestBody Map&lt;String,String&gt; paramMap)&#123;</span><br><span class="line">    LOGGER.info(</span><br><span class="line">    &quot;\n***************************************&quot; + &quot;\n&quot; +</span><br><span class="line">            &quot;start login&quot; + &quot;\n&quot; +</span><br><span class="line">            &quot;手机号密码登录&quot; + &quot;\n&quot; +</span><br><span class="line">            &quot;paramMap = &quot; + paramMap + &quot;\n&quot; +</span><br><span class="line">            &quot;\n********************************************&quot;</span><br><span class="line">    );</span><br><span class="line">    ResponseUtil response = ResponseUtil.success();</span><br><span class="line">    CodeEnum code = CodeEnum.FAIL;</span><br><span class="line">    try &#123;</span><br><span class="line">        code = CodeEnum.ERROR_2002;</span><br><span class="line">        Assert.isTrue(StringUtils.isNotEmpty(paramMap.get(&quot;mobile&quot;)), &quot;手机号不能为空&quot;);</span><br><span class="line">        code = CodeEnum.ERROR_2003;</span><br><span class="line">        Assert.isTrue(StringUtils.isNotEmpty(paramMap.get(&quot;password&quot;)), &quot;密码不能为空&quot;);</span><br><span class="line">        code = CodeEnum.ERROR_2004;</span><br><span class="line">        Assert.isTrue(StringUtils.isNotEmpty(paramMap.get(&quot;platfrom&quot;)), &quot;设备平台不可为空&quot;);</span><br><span class="line">        paramMap.put(&quot;ip&quot;,HttpUtil.getIpAddr(request));</span><br><span class="line">        response = usersService.login(paramMap,response);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        response.setCode(code);</span><br><span class="line">        response.setMessage(e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line">    return response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>和上边的验证码登录共用一套service，有需要可以拆分开。</p>
+<h2 id="获取验证码"><a href="#获取验证码" class="headerlink" title="获取验证码"></a>获取验证码</h2><ul>
+<li><p>controller</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">@PostMapping(&quot;/getSmsCode&quot;)</span><br><span class="line">    public ResponseUtil getSmsCode(@RequestBody Map&lt;String,String&gt; paramMap)&#123;</span><br><span class="line">        LOGGER.info(</span><br><span class="line">        &quot;\n***************************************&quot; + &quot;\n&quot; +</span><br><span class="line">                &quot;start getSmsCode&quot; + &quot;\n&quot; +</span><br><span class="line">                &quot;获取验证码&quot; + &quot;\n&quot; +</span><br><span class="line">                &quot;paramMap = &quot; + paramMap + &quot;\n&quot; +</span><br><span class="line">                &quot;\n********************************************&quot;</span><br><span class="line">        );</span><br><span class="line">        ResponseUtil response = ResponseUtil.success();</span><br><span class="line">        CodeEnum codeEnum = CodeEnum.FAIL;</span><br><span class="line">        try &#123;</span><br><span class="line">            String mobile = paramMap.get(&quot;mobile&quot;);</span><br><span class="line">            codeEnum = codeEnum.ERROR_2001;</span><br><span class="line">            Assert.isTrue(StringUtils.isNotEmpty(mobile), &quot;手机号码不能为空&quot;);</span><br><span class="line">            codeEnum = codeEnum.ERROR_2002;</span><br><span class="line">            Assert.isTrue(mobile.length() == 11, &quot;手机号码长度不是11位&quot;);</span><br><span class="line"></span><br><span class="line">            String msg = sendSmsCode(mobile);</span><br><span class="line">            //1分钟只能获取一次验证码</span><br><span class="line">            if(StringUtils.isNotEmpty(msg))&#123;</span><br><span class="line">                response.setCode(CodeEnum.ERROR_2003);</span><br><span class="line">                response.setMessage(msg);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            response.setCode(codeEnum);</span><br><span class="line">            response.setMessage(e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">        return response;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>发送验证码具体方法，注意redis</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">private String sendSmsCode(String mobile)&#123;</span><br><span class="line">    Random random = new Random();</span><br><span class="line">    String smsCode = String.valueOf(1000 + random.nextInt(8999));</span><br><span class="line">    String key = RedisKeyEnum.MOBILE_SMSCODE.getValue() + mobile;</span><br><span class="line">    //检查redis中是否有验证码</span><br><span class="line">    if(redisTemplate.opsForValue().get(key) == null)&#123;</span><br><span class="line">        String msg= &quot;您的短信验证码是&quot; + smsCode + &quot;，打死也不能告诉别人，五分钟内有效。&quot;;</span><br><span class="line">        LOGGER.info(&quot;验证码是：&quot;+msg);</span><br><span class="line">        ChuangLanSmsUtil.sendSmsByPostSimple(mobile,msg);</span><br><span class="line">        //1分钟只能请求一次</span><br><span class="line">        redisTemplate.opsForValue().set(key,smsCode,60,TimeUnit.SECONDS);</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        return &quot;1分钟内只能获取一次验证码&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    return &quot;&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="判断验证码是否正确"><a href="#判断验证码是否正确" class="headerlink" title="判断验证码是否正确"></a>判断验证码是否正确</h2><ul>
+<li><p>controller</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">@PostMapping(&quot;/checkSmsCode&quot;)</span><br><span class="line">public ResponseUtil checkSmsCode(@RequestBody HashMap&lt;String,String&gt; paramMap)&#123;</span><br><span class="line">    LOGGER.info(</span><br><span class="line">    &quot;\n***************************************&quot; + &quot;\n&quot; +</span><br><span class="line">            &quot;start checkSmsCode&quot; + &quot;\n&quot; +</span><br><span class="line">            &quot;判断验证码是否正确&quot; + &quot;\n&quot; +</span><br><span class="line">            &quot;paramMap = &quot; + paramMap + &quot;\n&quot; +</span><br><span class="line">            &quot;\n********************************************&quot;</span><br><span class="line">    );</span><br><span class="line">    ResponseUtil response = ResponseUtil.success();</span><br><span class="line">    CodeEnum code = CodeEnum.FAIL;</span><br><span class="line">    try &#123;</span><br><span class="line">        String smsCode = redisTemplate.opsForValue().get(RedisKeyEnum.MOBILE_SMSCODE.getValue() + paramMap.get(&quot;mobile&quot;));</span><br><span class="line">        code = CodeEnum.ERROR_2001;</span><br><span class="line">        Assert.notNull(smsCode, &quot;未获取验证码或验证码已超时，请先获取验证码&quot;);</span><br><span class="line">        code = CodeEnum.ERROR_2002;</span><br><span class="line">        Assert.isTrue(StringUtils.isNotEmpty(paramMap.get(&quot;mobile&quot;)), &quot;手机号不能为空&quot;);</span><br><span class="line">        code = CodeEnum.ERROR_2003;</span><br><span class="line">        Assert.isTrue(StringUtils.isNotEmpty(paramMap.get(&quot;smscode&quot;)), &quot;验证码不能为空&quot;);</span><br><span class="line"></span><br><span class="line">        Users user = new Users();</span><br><span class="line">        user.setMobile(paramMap.get(&quot;mobile&quot;));</span><br><span class="line">        List&lt;Users&gt; userList =  usersService.getUserByCondition(user);</span><br><span class="line">        if(userList.size() &gt; 0)&#123;</span><br><span class="line">            code = CodeEnum.ERROR_2004;</span><br><span class="line">            response.setCode(code);</span><br><span class="line">            response.setMessage(&quot;该手机号已注册，请直接登录&quot;);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            response = checkSmsCode(smsCode,paramMap.get(&quot;smscode&quot;),paramMap.get(&quot;mobile&quot;));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        response.setCode(code);</span><br><span class="line">        response.setMessage(e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line">    return response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>checkSmsCode方法，判断验证码是否正确</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private ResponseUtil checkSmsCode(String redisSmsCode,String ParamSmsCode,String mobile)&#123;</span><br><span class="line">    ResponseUtil response = ResponseUtil.success();</span><br><span class="line">    if(redisSmsCode.equals(ParamSmsCode))&#123;</span><br><span class="line">        response.setCode(CodeEnum.SUCCESS);</span><br><span class="line">        response.setMessage(&quot;验证码正确&quot;);</span><br><span class="line">        //验证成功后，删除redis中的验证码</span><br><span class="line">        redisTemplate.delete(RedisKeyEnum.MOBILE_SMSCODE.getValue() + mobile);</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        response.setCode(CodeEnum.ERROR_2010);</span><br><span class="line">        response.setMessage(&quot;验证码错误&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    return response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="检查密码是否正确"><a href="#检查密码是否正确" class="headerlink" title="检查密码是否正确"></a>检查密码是否正确</h2><ul>
+<li><p>controller</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">@PostMapping(&quot;/checkPassword&quot;)</span><br><span class="line">public ResponseUtil checkPassword(@RequestBody Map&lt;String,String&gt; paramMap)&#123;</span><br><span class="line">    LOGGER.info(</span><br><span class="line">    &quot;\n***************************************&quot; + &quot;\n&quot; +</span><br><span class="line">            &quot;start checkPassword&quot; + &quot;\n&quot; +</span><br><span class="line">            &quot;检查密码是否正确&quot; + &quot;\n&quot; +</span><br><span class="line">            &quot;paramMap = &quot; + paramMap + &quot;\n&quot; +</span><br><span class="line">            &quot;\n****************************************&quot;</span><br><span class="line">    );</span><br><span class="line">    ResponseUtil response = ResponseUtil.success();</span><br><span class="line">    CodeEnum code = CodeEnum.FAIL;</span><br><span class="line">    try &#123;</span><br><span class="line">        Token token = TokenUtil.getToken(request.getHeader(&quot;token&quot;));</span><br><span class="line">        Assert.isTrue(token != null, &quot;token解密失败&quot;);</span><br><span class="line">        code = CodeEnum.ERROR_2001;</span><br><span class="line">        Assert.isTrue(StringUtils.isNotEmpty(paramMap.get(&quot;password&quot;)), &quot;密码不可为空&quot;);</span><br><span class="line">        response = usersService.checkPassword(paramMap,response,token);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        response.setCode(code);</span><br><span class="line">        response.setMessage(e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line">    return response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>serviceImpl</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public ResponseUtil checkPassword(Map&lt;String, String&gt; paramMap, ResponseUtil response, Token token) &#123;</span><br><span class="line">    Integer id =  token.getId();</span><br><span class="line">    Users user = new Users();</span><br><span class="line">    user.setId(id);</span><br><span class="line">    user = usersMapper.getUserByCondition(user).get(0);</span><br><span class="line">    String password=MD5Util.MD5Encode(paramMap.get(&quot;password&quot;));</span><br><span class="line">    if(!user.getPassword().equals(password))&#123;</span><br><span class="line">        response.setCode(CodeEnum.ERROR_2002);</span><br><span class="line">        response.setMessage(&quot;密码错误&quot;);</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        response.setCode(CodeEnum.SUCCESS);</span><br><span class="line">        response.setMessage(&quot;密码正确&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    return response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="修改密码"><a href="#修改密码" class="headerlink" title="修改密码"></a>修改密码</h2><ul>
+<li><p>controller</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">@PostMapping(&quot;/updatePassword&quot;)</span><br><span class="line">public ResponseUtil updatePassword(@RequestBody Map&lt;String,String&gt; paramMap)&#123;</span><br><span class="line">    LOGGER.info(</span><br><span class="line">    &quot;\n***************************************&quot; + &quot;\n&quot; +</span><br><span class="line">            &quot;start updatePassword&quot; + &quot;\n&quot; +</span><br><span class="line">            &quot;修改密码&quot; + &quot;\n&quot; +</span><br><span class="line">            &quot;paramMap = &quot; + paramMap + &quot;\n&quot; +</span><br><span class="line">            &quot;\n********************************************&quot;</span><br><span class="line">    );</span><br><span class="line">    ResponseUtil response = ResponseUtil.success();</span><br><span class="line">    CodeEnum code = CodeEnum.FAIL;</span><br><span class="line">    try &#123;</span><br><span class="line">        Token token = TokenUtil.getToken(request.getHeader(&quot;token&quot;));</span><br><span class="line">        String regex = &quot;^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]&#123;6,10&#125;$&quot;;</span><br><span class="line">        Assert.isTrue(token != null, &quot;token解密失败&quot;);</span><br><span class="line">        code = CodeEnum.ERROR_2001;</span><br><span class="line">        Assert.isTrue(paramMap.get(&quot;newPassword&quot;)!= null, &quot;新密码不可为空&quot;);</span><br><span class="line">        code = CodeEnum.ERROR_2002;</span><br><span class="line">        Assert.isTrue(paramMap.get(&quot;newPassword&quot;).matches(regex), &quot;请输入6-8位的数字与字母组合&quot;);</span><br><span class="line">        code = CodeEnum.ERROR_2003;</span><br><span class="line">        Assert.isTrue(paramMap.get(&quot;confirmPassword&quot;)!= null, &quot;确认新密码不可为空&quot;);</span><br><span class="line">        code = CodeEnum.ERROR_2004;</span><br><span class="line">        Assert.isTrue(paramMap.get(&quot;newPassword&quot;).equals(paramMap.get(&quot;confirmPassword&quot;)), &quot;两次密码不一致&quot;);</span><br><span class="line"></span><br><span class="line">        response = usersService.updatePassword(paramMap,response,token);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        response.setCode(code);</span><br><span class="line">        response.setMessage(e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line">    return response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>serviceImpl</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public ResponseUtil updatePassword(Map&lt;String, String&gt; paramMap, ResponseUtil response, Token token) &#123;</span><br><span class="line">    Users user = usersMapper.selectByPrimaryKey(token.getId());</span><br><span class="line">    if(null != user)&#123;</span><br><span class="line">        user.setPassword(MD5Util.MD5Encode(paramMap.get(&quot;confirmPassword&quot;)));</span><br><span class="line">        int i = usersMapper.updateByPrimaryKeySelective(user);</span><br><span class="line">        if(i == 1)&#123;</span><br><span class="line">            response.setMessage(&quot;修改密码成功&quot;);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            response.setCode(CodeEnum.ERROR_2005);</span><br><span class="line">            response.setMessage(&quot;修改密码失败&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        response.setCode(CodeEnum.ERROR_2006);</span><br><span class="line">        response.setMessage(&quot;该用户不存在&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    return response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="修改手机号"><a href="#修改手机号" class="headerlink" title="修改手机号"></a>修改手机号</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">@PostMapping(&quot;/modifyMobile&quot;)</span><br><span class="line">public ResponseUtil modifyMobile(@RequestBody Map&lt;String,String&gt; paramMap)&#123;</span><br><span class="line">    LOGGER.info(</span><br><span class="line">    &quot;\n***************************************&quot; + &quot;\n&quot; +</span><br><span class="line">            &quot;start modifyMobile&quot; + &quot;\n&quot; +</span><br><span class="line">            &quot;修改手机号&quot; + &quot;\n&quot; +</span><br><span class="line">            &quot;paramMap = &quot; + paramMap + &quot;\n&quot; +</span><br><span class="line">            &quot;\n********************************************&quot;</span><br><span class="line">    );</span><br><span class="line">    ResponseUtil response = ResponseUtil.success();</span><br><span class="line">    CodeEnum code = CodeEnum.FAIL;</span><br><span class="line">    try &#123;</span><br><span class="line">        Token token = TokenUtil.getToken(request.getHeader(&quot;token&quot;));</span><br><span class="line">        Assert.isTrue(token != null, &quot;token解密失败&quot;);</span><br><span class="line">        // 获取手机验证码</span><br><span class="line">        code = CodeEnum.ERROR_2001;</span><br><span class="line">        String 	smsCode = redisTemplate.opsForValue().get(RedisKeyEnum.MOBILE_SMSCODE.getValue() + paramMap.get(&quot;newMobile&quot;));</span><br><span class="line">        Assert.notNull(smsCode, &quot;未获取验证码或验证码已超时，请先获取验证码&quot;);</span><br><span class="line">        code = CodeEnum.ERROR_2002;</span><br><span class="line">        Assert.isTrue(StringUtils.isNotEmpty(paramMap.get(&quot;smsCode&quot;)), &quot;验证码不能为空&quot;);</span><br><span class="line">        code = CodeEnum.ERROR_2003;</span><br><span class="line">        Assert.isTrue(StringUtils.isNotEmpty(paramMap.get(&quot;newMobile&quot;)), &quot;手机号不可为空&quot;);</span><br><span class="line">        code = CodeEnum.ERROR_2004;</span><br><span class="line">        Assert.isTrue(smsCode.equals(paramMap.get(&quot;smsCode&quot;)), &quot;验证码错误&quot;);</span><br><span class="line">        response = usersService.modifyMobile(paramMap,response,token);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        response.setCode(code);</span><br><span class="line">        response.setMessage(e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line">    return response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>serviceImpl<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public ResponseUtil modifyMobile(Map&lt;String, String&gt; paramMap, ResponseUtil response, Token token) &#123;</span><br><span class="line">    Users oldUser = usersMapper.selectByPrimaryKey(token.getId());</span><br><span class="line">    if(null != oldUser)&#123;</span><br><span class="line">        Users user = new Users();</span><br><span class="line">        user.setMobile(paramMap.get(&quot;newMobile&quot;));</span><br><span class="line">        List&lt;Users&gt; userList = usersMapper.getUserByCondition(user);</span><br><span class="line">        if(userList.isEmpty())&#123;</span><br><span class="line">            oldUser.setMobile(paramMap.get(&quot;newMobile&quot;));</span><br><span class="line">            usersMapper.updateByPrimaryKeySelective(oldUser);</span><br><span class="line">            response.setMessage(&quot;手机号修改成功&quot;);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            response.setCode(CodeEnum.ERROR_2006);</span><br><span class="line">            response.setMessage(&quot;该手机号已被占用&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        response.setCode(CodeEnum.ERROR_2005);</span><br><span class="line">        response.setMessage(&quot;用户不存在&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    return response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="JsonIgnore"><a href="#JsonIgnore" class="headerlink" title="@JsonIgnore"></a>@JsonIgnore</h1><p>作用：在json序列化时将java bean中的一些属性忽略掉，序列化和反序列化都受影响。<br>使用方法：一般标记在属性或者方法上，返回的json数据即不包含该属性。<br>使用场景：给前端返回数据时，不需要<code>xxx</code>属性，那么可以在该属性上加上<code>@JsonIgnore</code>注解。</p>
+<p>引入maven：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-databind<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/02/Map总结/" rel="next" title="Map总结">
+                <i class="fa fa-chevron-left"></i> Map总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/03/HashSet/" rel="prev" title="HashSet">
+                HashSet <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#模板"><span class="nav-number">1.</span> <span class="nav-text">模板</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Controller"><span class="nav-number">2.</span> <span class="nav-text">Controller</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ResponseUtil"><span class="nav-number">3.</span> <span class="nav-text">ResponseUtil</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#典型接口示例"><span class="nav-number">4.</span> <span class="nav-text">典型接口示例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分页接口"><span class="nav-number">4.1.</span> <span class="nav-text">分页接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注册接口"><span class="nav-number">4.2.</span> <span class="nav-text">注册接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#登录"><span class="nav-number">4.3.</span> <span class="nav-text">登录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#验证码登录"><span class="nav-number">4.3.1.</span> <span class="nav-text">验证码登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#账号密码登录"><span class="nav-number">4.3.2.</span> <span class="nav-text">账号密码登录</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取验证码"><span class="nav-number">4.4.</span> <span class="nav-text">获取验证码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#判断验证码是否正确"><span class="nav-number">4.5.</span> <span class="nav-text">判断验证码是否正确</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#检查密码是否正确"><span class="nav-number">4.6.</span> <span class="nav-text">检查密码是否正确</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改密码"><span class="nav-number">4.7.</span> <span class="nav-text">修改密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改手机号"><span class="nav-number">4.8.</span> <span class="nav-text">修改手机号</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JsonIgnore"><span class="nav-number">5.</span> <span class="nav-text">@JsonIgnore</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

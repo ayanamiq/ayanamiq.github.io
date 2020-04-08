@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="冒泡排序12345678910111213141516public static void bubbleSort() &amp;#123;    int a[] = &amp;#123; 5, 62, 99, 98, 56 &amp;#125;;    int temp = 0;    for (int i = 0; i &amp;lt; a.length - 1; i++) &amp;#123;        for (int j =">
+<meta name="keywords" content="算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="简单算法">
+<meta property="og:url" content="https://jingyao066.gitee.io/2018/12/09/简单算法/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="冒泡排序12345678910111213141516public static void bubbleSort() &amp;#123;    int a[] = &amp;#123; 5, 62, 99, 98, 56 &amp;#125;;    int temp = 0;    for (int i = 0; i &amp;lt; a.length - 1; i++) &amp;#123;        for (int j =">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.362Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="简单算法">
+<meta name="twitter:description" content="冒泡排序12345678910111213141516public static void bubbleSort() &amp;#123;    int a[] = &amp;#123; 5, 62, 99, 98, 56 &amp;#125;;    int temp = 0;    for (int i = 0; i &amp;lt; a.length - 1; i++) &amp;#123;        for (int j =">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2018/12/09/简单算法/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>简单算法 | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2018/12/09/简单算法/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">简单算法
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-09 00:34:23" itemprop="dateCreated datePublished" datetime="2018-12-09T00:34:23+08:00">2018-12-09</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2018/12/09/简单算法/" class="leancloud_visitors" data-flag-title="简单算法">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public static void bubbleSort() &#123;</span><br><span class="line">    int a[] = &#123; 5, 62, 99, 98, 56 &#125;;</span><br><span class="line">    int temp = 0;</span><br><span class="line">    for (int i = 0; i &lt; a.length - 1; i++) &#123;</span><br><span class="line">        for (int j = 0; j &lt; a.length - 1 - i; j++) &#123;</span><br><span class="line">            if (a[j] &gt; a[j + 1]) &#123;//若前值大于后值,交换顺序</span><br><span class="line">                temp = a[j];</span><br><span class="line">                a[j] = a[j + 1];</span><br><span class="line">                a[j + 1] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    for (int i = 0; i &lt; a.length; i++)&#123;</span><br><span class="line">        System.out.println(a[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public static void _choiceSort() &#123;</span><br><span class="line">    int a[] = &#123; 5, 62, 99, 98, 56 &#125;;</span><br><span class="line">    for (int i = 0; i &lt; a.length; i++) &#123;</span><br><span class="line">        int min = i;// 最小值下标</span><br><span class="line">        for (int j = i + 1; j &lt; a.length; j++) &#123;</span><br><span class="line">            if (a[min] &gt; a[j]) &#123;// 如果有小于当前最小值的关键字</span><br><span class="line">                min = j;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if (i != min) &#123;// 若min不等于i，说明找到最小值，交换</span><br><span class="line">            int tmp = a[min];</span><br><span class="line">            a[min] = a[i];</span><br><span class="line">            a[i] = tmp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    for (int i = 0; i &lt; a.length; i++)&#123;</span><br><span class="line">        System.out.println(a[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public static void quick_sort(int s[], int l, int r) &#123;</span><br><span class="line">    if (l &lt; r) &#123;</span><br><span class="line">        // Swap(s[l], s[(l + r) / 2]); //将中间的这个数和第一个数交换</span><br><span class="line">        int i = l, j = r, x = s[l];</span><br><span class="line">        while (i &lt; j) &#123;</span><br><span class="line">            while (i &lt; j &amp;&amp; s[j] &gt;= x) &#123; // 从右向左找第一个小于x的数</span><br><span class="line">                j--;</span><br><span class="line">                if (i &lt; j)</span><br><span class="line">                    s[i++] = s[j];</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            while (i &lt; j &amp;&amp; s[i] &lt; x) &#123; // 从左向右找第一个大于等于x的数</span><br><span class="line">                i++;</span><br><span class="line">                if (i &lt; j)</span><br><span class="line">                    s[j--] = s[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        s[i] = x;</span><br><span class="line">        quick_sort(s, l, i - 1); // 递归调用</span><br><span class="line">        quick_sort(s, i + 1, r);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="trim-方法：去除字符串两端的空格"><a href="#trim-方法：去除字符串两端的空格" class="headerlink" title="trim()方法：去除字符串两端的空格"></a>trim()方法：去除字符串两端的空格</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public static String myTrim(String str) &#123;</span><br><span class="line">    //开始值</span><br><span class="line">    int start = 0;</span><br><span class="line">    //结束值</span><br><span class="line">    int end = str.length()-1;</span><br><span class="line">    while(start &lt;= end &amp;&amp; str.charAt(start) == &apos; &apos;) &#123;</span><br><span class="line">        start++;</span><br><span class="line">    &#125;</span><br><span class="line">    while(end &gt;= start &amp;&amp; str.charAt(end) == &apos; &apos;)&#123;</span><br><span class="line">        end--;</span><br><span class="line">    &#125;</span><br><span class="line">    return str.substring(start, end+1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="获取上传的文件名"><a href="#获取上传的文件名" class="headerlink" title="获取上传的文件名"></a>获取上传的文件名</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public static void getFileName() &#123;</span><br><span class="line">    String string = &quot;D:\\20120512\\day12\\Demo1.java&quot;;</span><br><span class="line">//最快捷办法  从后寻找\\</span><br><span class="line">//int index = string.lastIndexOf(&quot;\\&quot;);</span><br><span class="line">//string = string.substring(index+1);</span><br><span class="line">//System.out.println(string);</span><br><span class="line">//第二种方法 切割字符串</span><br><span class="line">    String [] array  = string.split(&quot;\\\\&quot;);</span><br><span class="line">    if (array!=null&amp;&amp;array.length&gt;0) &#123;</span><br><span class="line">        String x = array[array.length-1];</span><br><span class="line">        System.out.println(x);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="字符串逆序"><a href="#字符串逆序" class="headerlink" title="字符串逆序"></a>字符串逆序</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public static void reverse(String string) &#123;</span><br><span class="line">    char[] a = string.toCharArray();</span><br><span class="line">    for (int start=0,end=a.length-1; start&lt;end; start++,end--) &#123;</span><br><span class="line">        char temp = a[start];</span><br><span class="line">        a[start]=a[end];</span><br><span class="line">        a[end]= temp;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(new String(a));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="子串在整串中出现的次数"><a href="#子串在整串中出现的次数" class="headerlink" title="子串在整串中出现的次数"></a>子串在整串中出现的次数</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public static void shownum(String string ,String key) &#123;</span><br><span class="line">    //记录位置</span><br><span class="line">    int index = 0;</span><br><span class="line">    //记录出现次数</span><br><span class="line">    int count = 0;</span><br><span class="line"></span><br><span class="line">    while ( string.indexOf(key)!=-1) &#123;</span><br><span class="line">        index =string.indexOf(key);</span><br><span class="line">        //进行字符串切割</span><br><span class="line">        string= string.substring(index+key.length());</span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(count);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="去除ArrayList集合中的重复元素"><a href="#去除ArrayList集合中的重复元素" class="headerlink" title="去除ArrayList集合中的重复元素"></a>去除ArrayList集合中的重复元素</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">//创建一个数组</span><br><span class="line">ArrayList&lt;String&gt;arrayList = new ArrayList&lt;&gt;();</span><br><span class="line">//追加数据</span><br><span class="line">arrayList.add(&quot;1&quot;);</span><br><span class="line">arrayList.add(&quot;2&quot;);</span><br><span class="line">arrayList.add(&quot;2&quot;);</span><br><span class="line">arrayList.add(&quot;3&quot;);</span><br><span class="line">//创建临时数组</span><br><span class="line">ArrayList&lt;String&gt;temp = new ArrayList&lt;&gt;();</span><br><span class="line">//循环旧数组</span><br><span class="line">for (String string : arrayList) &#123;</span><br><span class="line">    //用旧数组的每个元素比对新数组是否存在</span><br><span class="line">    if (!temp.contains(string)) &#123;</span><br><span class="line">        temp.add(string);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">//如果只是去重，把旧指针重新指向即可</span><br><span class="line">arrayList = temp;</span><br><span class="line">System.out.println(arrayList);</span><br></pre></td></tr></table></figure>
+<h1 id="实现copy一个文件，把之前的a-txt，copy一份到b-txt"><a href="#实现copy一个文件，把之前的a-txt，copy一份到b-txt" class="headerlink" title="实现copy一个文件，把之前的a.txt，copy一份到b.txt"></a>实现copy一个文件，把之前的a.txt，copy一份到b.txt</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">//方法1:不用缓冲流</span><br><span class="line">//获得a的输入流</span><br><span class="line">FileInputStream inputStream = new FileInputStream(&quot;C:\\Users\\wangmeng\\Desktop\\a.txt&quot;);</span><br><span class="line">//获得b的输出流</span><br><span class="line">FileOutputStream outputStream = new FileOutputStream(&quot;C:\\Users\\wangmeng\\Desktop\\b.txt&quot;);</span><br><span class="line">int num = 0;</span><br><span class="line">//循环读取</span><br><span class="line">while ((num=inputStream.read())!=-1) &#123;</span><br><span class="line">    //写入</span><br><span class="line">    outputStream.write(num);</span><br><span class="line">&#125;</span><br><span class="line">//关闭</span><br><span class="line">inputStream.close();</span><br><span class="line">outputStream.close();</span><br><span class="line">//方法2:使用缓冲流</span><br><span class="line">//获得a的输入流</span><br><span class="line">FileInputStream inputStream = new FileInputStream(&quot;C:\\Users\\wangmeng\\Desktop\\a.txt&quot;);</span><br><span class="line">//获得b的输出流</span><br><span class="line">FileOutputStream outputStream = new FileOutputStream(&quot;C:\\Users\\wangmeng\\Desktop\\b.txt&quot;);</span><br><span class="line">//创建缓冲</span><br><span class="line">byte[] bs = new byte[5];</span><br><span class="line">int num=0;</span><br><span class="line">while ((num=inputStream.read())!=-1) &#123;</span><br><span class="line">    //写入b</span><br><span class="line">    outputStream.write(num);</span><br><span class="line">&#125;</span><br><span class="line">inputStream.close();</span><br><span class="line">outputStream.close();</span><br></pre></td></tr></table></figure>
+<h1 id="输出数组a中存在，数组b中不存在的值"><a href="#输出数组a中存在，数组b中不存在的值" class="headerlink" title="输出数组a中存在，数组b中不存在的值"></a>输出数组a中存在，数组b中不存在的值</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">String[] a = &#123;&quot;a&quot;,&quot;c&quot;,&quot;ab&quot;&#125;;</span><br><span class="line">String[] b = &#123;&quot;a&quot;,&quot;cd&quot;,&quot;a&quot;,&quot;b&quot;,&quot;c&quot;&#125;;</span><br><span class="line">for (int i = 0; i &lt; a.length; i++) &#123;</span><br><span class="line">    for (int j = 0; j &lt; b.length; j++) &#123;</span><br><span class="line">        if (a[i] == b[j]) &#123;</span><br><span class="line">            break;</span><br><span class="line">        &#125;else if(j == b.length - 1 )&#123;</span><br><span class="line">            System.out.println(a[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="求1到100之间所有质数的和"><a href="#求1到100之间所有质数的和" class="headerlink" title="求1到100之间所有质数的和"></a>求1到100之间所有质数的和</h1><p>注：<br>1.质数是只能被1和它本身整除的数<br>2.1不是质数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<h1 id="当前有一泛型为integer的LinkedList，依次向list中添加数字，"><a href="#当前有一泛型为integer的LinkedList，依次向list中添加数字，" class="headerlink" title="当前有一泛型为integer的LinkedList，依次向list中添加数字，"></a>当前有一泛型为integer的LinkedList，依次向list中添加数字，</h1><p>要求任何时候这个list都是有序的。<br>如：依次插入3、2、1、2，希望list的顺序是1、2、2、3<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/08/springMVC/" rel="next" title="springMVC">
+                <i class="fa fa-chevron-left"></i> springMVC
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/09/面试题/" rel="prev" title="面试题">
+                面试题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#冒泡排序"><span class="nav-number">1.</span> <span class="nav-text">冒泡排序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#选择排序"><span class="nav-number">2.</span> <span class="nav-text">选择排序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#快速排序"><span class="nav-number">3.</span> <span class="nav-text">快速排序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#trim-方法：去除字符串两端的空格"><span class="nav-number">4.</span> <span class="nav-text">trim()方法：去除字符串两端的空格</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#获取上传的文件名"><span class="nav-number">5.</span> <span class="nav-text">获取上传的文件名</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#字符串逆序"><span class="nav-number">6.</span> <span class="nav-text">字符串逆序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#子串在整串中出现的次数"><span class="nav-number">7.</span> <span class="nav-text">子串在整串中出现的次数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#去除ArrayList集合中的重复元素"><span class="nav-number">8.</span> <span class="nav-text">去除ArrayList集合中的重复元素</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现copy一个文件，把之前的a-txt，copy一份到b-txt"><span class="nav-number">9.</span> <span class="nav-text">实现copy一个文件，把之前的a.txt，copy一份到b.txt</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#输出数组a中存在，数组b中不存在的值"><span class="nav-number">10.</span> <span class="nav-text">输出数组a中存在，数组b中不存在的值</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#求1到100之间所有质数的和"><span class="nav-number">11.</span> <span class="nav-text">求1到100之间所有质数的和</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#当前有一泛型为integer的LinkedList，依次向list中添加数字，"><span class="nav-number">12.</span> <span class="nav-text">当前有一泛型为integer的LinkedList，依次向list中添加数字，</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

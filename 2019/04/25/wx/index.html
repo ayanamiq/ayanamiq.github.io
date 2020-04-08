@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="公众号类型功能介绍微信官方介绍 公众号，是订阅号和服务号的统称。订阅号是公众号、服务号也是公众号。 订阅号：偏于为用户传达资讯，每天只可以发送一条群发，用户不会收到即时消息提醒，因为所有的订阅号都被收在了订阅号文件夹中。订阅号适用于个人和组织。想看一个订阅号的消息，有两种方法：  打开订阅号文件夹查看订阅号有没有更新消息； 打开微信手机通讯录，点开公众号选项，是你关注的所有公众号(包括订阅号和服务">
+<meta name="keywords" content="wx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wx">
+<meta property="og:url" content="https://jingyao066.gitee.io/2019/04/25/wx/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="公众号类型功能介绍微信官方介绍 公众号，是订阅号和服务号的统称。订阅号是公众号、服务号也是公众号。 订阅号：偏于为用户传达资讯，每天只可以发送一条群发，用户不会收到即时消息提醒，因为所有的订阅号都被收在了订阅号文件夹中。订阅号适用于个人和组织。想看一个订阅号的消息，有两种方法：  打开订阅号文件夹查看订阅号有没有更新消息； 打开微信手机通讯录，点开公众号选项，是你关注的所有公众号(包括订阅号和服务">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/04/25/wx/1.jpg">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/04/25/wx/2.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/04/25/wx/3.jpg">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/04/25/wx/4.jpg">
+<meta property="og:updated_time" content="2019-11-22T06:53:01.526Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="wx">
+<meta name="twitter:description" content="公众号类型功能介绍微信官方介绍 公众号，是订阅号和服务号的统称。订阅号是公众号、服务号也是公众号。 订阅号：偏于为用户传达资讯，每天只可以发送一条群发，用户不会收到即时消息提醒，因为所有的订阅号都被收在了订阅号文件夹中。订阅号适用于个人和组织。想看一个订阅号的消息，有两种方法：  打开订阅号文件夹查看订阅号有没有更新消息； 打开微信手机通讯录，点开公众号选项，是你关注的所有公众号(包括订阅号和服务">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2019/04/25/wx/1.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2019/04/25/wx/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>wx | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2019/04/25/wx/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">wx
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-25 10:04:49" itemprop="dateCreated datePublished" datetime="2019-04-25T10:04:49+08:00">2019-04-25</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-11-22 14:53:01" itemprop="dateModified" datetime="2019-11-22T14:53:01+08:00">2019-11-22</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/04/25/wx/" class="leancloud_visitors" data-flag-title="wx">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="公众号类型功能介绍"><a href="#公众号类型功能介绍" class="headerlink" title="公众号类型功能介绍"></a>公众号类型功能介绍</h1><p><a href="http://kf.qq.com/faq/170815aUZjeQ170815mU7bI7.html" target="_blank" rel="noopener">微信官方介绍</a></p>
+<p>公众号，是订阅号和服务号的统称。订阅号是公众号、服务号也是公众号。</p>
+<p>订阅号：偏于为用户传达资讯，每天只可以发送一条群发，用户不会收到即时消息提醒，因为所有的订阅号都被收在了订阅号文件夹中。订阅号适用于个人和组织。<br>想看一个订阅号的消息，有两种方法：</p>
+<ul>
+<li>打开订阅号文件夹查看订阅号有没有更新消息；</li>
+<li>打开微信手机通讯录，点开公众号选项，是你关注的所有公众号(包括订阅号和服务号)。</li>
+</ul>
+<p>服务号：偏于服务交互(如：招商银行信用卡、微信读书、京东白条)，每月可群发四条消息，收费，不适用于个人，微信支付需要<strong>微信认证服务号</strong>才可以。</p>
+<p>选择：<br>想简单的发送消息，达到宣传效果，建议选择订阅号。<br>想用公众号获得更多功能，如开通微信支付，建议选择服务号。</p>
+<p>服务号、订阅号功能对比：<br><img src="/2019/04/25/wx/1.jpg" alt=""></p>
+<h1 id="微信开放平台、公众平台区别"><a href="#微信开放平台、公众平台区别" class="headerlink" title="微信开放平台、公众平台区别"></a>微信开放平台、公众平台区别</h1><ul>
+<li><p>公众平台<br><a href="https://mp.weixin.qq.com/" target="_blank" rel="noopener">官网</a><br><a href="https://mp.weixin.qq.com/wiki" target="_blank" rel="noopener">技术文档</a><br>微信公众平台是运营者通过公众号为微信用户提供资讯和服务的平台，登录公众平台账号后，可以看到它有一个不错的交互界面。可以提供给公司的运营人员使用，用来发布消息和提供服务。</p>
+</li>
+<li><p>开放平台<br><a href="https://open.weixin.qq.com/" target="_blank" rel="noopener">官网</a><br>是为开发者（程序员）提供的一个平台，在这里你可以将你的公众平台下的公众号（订阅号、服务号）绑定到你的开放平台账号下，从而可以基于订阅号、服务号做更多的开发。公众号中的订阅号接口权限是有限的，比如它无法获得网页授权的权限，也就无法通过网页授权获取用户的基本信息（比如openID、unionID等）。</p>
+</li>
+</ul>
+<h1 id="微信h5分享"><a href="#微信h5分享" class="headerlink" title="微信h5分享"></a>微信h5分享</h1><p><a href="https://blog.csdn.net/change_on/article/details/75264843" target="_blank" rel="noopener">参考地址</a></p>
+<p>流程图：<br><img src="/2019/04/25/wx/2.png" alt=""></p>
+<p>准备：公众号、已经备案好的域名</p>
+<p>步骤：</p>
+<ol>
+<li>配置JS回调域名和ip白名单</li>
+<li>获取appId和secret</li>
+<li>从官方代码copy签名函数</li>
+<li>获取access_token、ticket</li>
+<li>获取url，并进行签名</li>
+<li>集成进java web</li>
+<li>前端config函数配置</li>
+</ol>
+<h2 id="获取appId和secret"><a href="#获取appId和secret" class="headerlink" title="获取appId和secret"></a>获取appId和secret</h2><p>可以在基本配置中找到AppID和AppSecret。</p>
+<p>配置JS回调域名：<br>登录微信公众平台-&gt;公众号设置-&gt;功能设置-&gt;JS接口安全域名。填写你要分享的网页所在的域名。</p>
+<p>配置ip白名单：<br>登录微信公众平台-&gt;基本配置-&gt;IP白名单。<br>必须配置ip白名单，否则无法获取access_token</p>
+<h2 id="从官方代码copy签名函数"><a href="#从官方代码copy签名函数" class="headerlink" title="从官方代码copy签名函数"></a>从官方代码copy签名函数</h2><p>打开<a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421141115" target="_blank" rel="noopener">微信分享官方文档</a>，在页面最下面找到并下载<a href="http://demo.open.weixin.qq.com/jssdk/sample.zip" target="_blank" rel="noopener">示例代码</a><br>我们将java中的<code>sign.java</code>直接放到项目中备用。</p>
+<h2 id="获取access-token、ticket"><a href="#获取access-token、ticket" class="headerlink" title="获取access_token、ticket"></a>获取access_token、ticket</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> WxShare <span class="title">getWxEntity</span><span class="params">(String url,StringRedisTemplate template)</span> </span>&#123;</span><br><span class="line">        String access_token = template.opsForValue().get(<span class="string">"wx_base_access_token"</span>);</span><br><span class="line">        String ticket = template.opsForValue().get(<span class="string">"wx_jsapi_ticket"</span>);</span><br><span class="line">        <span class="keyword">if</span>(StringUtils.isEmpty(access_token))&#123;</span><br><span class="line">            System.out.println(<span class="string">"&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;重新获取access_token和ticket&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span>);</span><br><span class="line">            <span class="comment">//已经超时，重新获取</span></span><br><span class="line">            access_token = getAccessToken(template);</span><br><span class="line">            <span class="comment">//如果重新获取了access_token，ticket也要重新获取</span></span><br><span class="line">            ticket = getTicket(access_token,template);</span><br><span class="line">        &#125;</span><br><span class="line">        Map&lt;String,String&gt; resultMap = Sign.sign(ticket, url);</span><br><span class="line">        WxShare wx = <span class="keyword">new</span> WxShare();</span><br><span class="line">        wx.setTicket(resultMap.get(<span class="string">"jsapi_ticket"</span>));</span><br><span class="line">        wx.setSignature(resultMap.get(<span class="string">"signature"</span>));</span><br><span class="line">        wx.setNoncestr(resultMap.get(<span class="string">"nonceStr"</span>));</span><br><span class="line">        wx.setTimestamp(resultMap.get(<span class="string">"timestamp"</span>));</span><br><span class="line">        <span class="keyword">return</span> wx;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取token</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getAccessToken</span><span class="params">(StringRedisTemplate template)</span> </span>&#123;</span><br><span class="line">        String access_token = <span class="string">""</span>;</span><br><span class="line">        <span class="comment">//获取access_token填写client_credential</span></span><br><span class="line">        String grant_type = <span class="string">"client_credential"</span>;</span><br><span class="line">        <span class="comment">//第三方用户唯一凭证</span></span><br><span class="line">        String AppId= PayConstant.WX_H5_APPID;</span><br><span class="line">        <span class="comment">//第三方用户唯一凭证密钥，即appsecret</span></span><br><span class="line">        String secret=PayConstant.WX_H5_APPSECRET;</span><br><span class="line">        <span class="comment">//访问链接,这个url链接地址和参数皆不能变</span></span><br><span class="line">        String url = <span class="string">"https://api.weixin.qq.com/cgi-bin/token?grant_type="</span>+grant_type+<span class="string">"&amp;appid="</span>+AppId+<span class="string">"&amp;secret="</span>+secret;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            URL urlGet = <span class="keyword">new</span> URL(url);</span><br><span class="line">            HttpURLConnection http = (HttpURLConnection) urlGet.openConnection();</span><br><span class="line">            http.setRequestMethod(<span class="string">"GET"</span>); <span class="comment">// 必须是get方式请求</span></span><br><span class="line">            http.setRequestProperty(<span class="string">"Content-Type"</span>,<span class="string">"application/x-www-form-urlencoded"</span>);</span><br><span class="line">            http.setDoOutput(<span class="keyword">true</span>);</span><br><span class="line">            http.setDoInput(<span class="keyword">true</span>);</span><br><span class="line">            <span class="comment">/*System.setProperty("sun.net.client.defaultConnectTimeout", "30000");// 连接超时30秒</span></span><br><span class="line"><span class="comment">            System.setProperty("sun.net.client.defaultReadTimeout", "30000"); // 读取超时30秒 */</span></span><br><span class="line">            http.connect();</span><br><span class="line">            InputStream is = http.getInputStream();</span><br><span class="line">            <span class="keyword">int</span> size = is.available();</span><br><span class="line">            <span class="keyword">byte</span>[] jsonBytes = <span class="keyword">new</span> <span class="keyword">byte</span>[size];</span><br><span class="line">            is.read(jsonBytes);</span><br><span class="line">            String message = <span class="keyword">new</span> String(jsonBytes, <span class="string">"UTF-8"</span>);</span><br><span class="line">            JSONObject demoJson = JSONObject.fromObject(message);</span><br><span class="line">            access_token = demoJson.getString(<span class="string">"access_token"</span>);</span><br><span class="line">            <span class="comment">//缓存到redis，一定要缓存，每天只能请求2000次</span></span><br><span class="line">            template.opsForValue().set(<span class="string">"wx_base_access_token"</span>,access_token,<span class="number">2</span>, TimeUnit.HOURS);</span><br><span class="line">            is.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> access_token;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取ticket</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getTicket</span><span class="params">(String access_token,StringRedisTemplate template)</span> </span>&#123;</span><br><span class="line">        String ticket = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">//这个url链接和参数不能变</span></span><br><span class="line">        String url = <span class="string">"https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token="</span>+ access_token +<span class="string">"&amp;type=jsapi"</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            URL urlGet = <span class="keyword">new</span> URL(url);</span><br><span class="line">            HttpURLConnection http = (HttpURLConnection) urlGet.openConnection();</span><br><span class="line">            http.setRequestMethod(<span class="string">"GET"</span>); <span class="comment">// 必须是get方式请求</span></span><br><span class="line">            http.setRequestProperty(<span class="string">"Content-Type"</span>,<span class="string">"application/x-www-form-urlencoded"</span>);</span><br><span class="line">            http.setDoOutput(<span class="keyword">true</span>);</span><br><span class="line">            http.setDoInput(<span class="keyword">true</span>);</span><br><span class="line">            System.setProperty(<span class="string">"sun.net.client.defaultConnectTimeout"</span>, <span class="string">"30000"</span>);<span class="comment">// 连接超时30秒</span></span><br><span class="line">            System.setProperty(<span class="string">"sun.net.client.defaultReadTimeout"</span>, <span class="string">"30000"</span>); <span class="comment">// 读取超时30秒</span></span><br><span class="line">            http.connect();</span><br><span class="line">            InputStream is = http.getInputStream();</span><br><span class="line">            <span class="keyword">int</span> size = is.available();</span><br><span class="line">            <span class="keyword">byte</span>[] jsonBytes = <span class="keyword">new</span> <span class="keyword">byte</span>[size];</span><br><span class="line">            is.read(jsonBytes);</span><br><span class="line">            String message = <span class="keyword">new</span> String(jsonBytes, <span class="string">"UTF-8"</span>);</span><br><span class="line">            JSONObject demoJson = JSONObject.fromObject(message);</span><br><span class="line">            ticket = demoJson.getString(<span class="string">"ticket"</span>);</span><br><span class="line">            <span class="comment">//缓存到redis，一定要缓存，每天只能请求2000次</span></span><br><span class="line">            template.opsForValue().set(<span class="string">"wx_jsapi_ticket"</span>,ticket,<span class="number">2</span>, TimeUnit.HOURS);</span><br><span class="line">            is.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ticket;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="获取url，并进行签名"><a href="#获取url，并进行签名" class="headerlink" title="获取url，并进行签名"></a>获取url，并进行签名</h2><p>url的获取要特别注意，因为微信在分享时会在原来的url上加上一些&amp;from=singlemessage、&amp;from=…的，<br>所以url必须要动态获取，网上有些用ajax，在网页通过“location.href.split(‘#’)“ 获取url，在用ajax传给后台，<br>这种方法可行，但是不推荐，一方面用ajax返回，就要访问分享的逻辑，这样后台分享的逻辑增加复杂度，带来不便，<br>是代码不易于维护，可读性低！另一方面分享是返回页面，而ajax是返回json，又增加了复杂度。所以，<br>一个java程序员是不会通过ajax从前台获取url的，这里我们用HttpRequest的方法即可，不管微信加多少后缀，都可以获取到完整的当前url。</p>
+<p>获取url的controller如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">@PostMapping(&quot;/share&quot;)</span><br><span class="line">public ResponseUtil getQuestionList(@RequestBody Map&lt;String,String&gt; paramMap)&#123;</span><br><span class="line">	LOGGER.info(</span><br><span class="line">	&quot;\n***************************************&quot; + &quot;\n&quot; +</span><br><span class="line">			&quot;start share&quot; + &quot;\n&quot; +</span><br><span class="line">			&quot;分享&quot; + &quot;\n&quot; +</span><br><span class="line">			&quot;\n********************************************&quot;</span><br><span class="line">	);</span><br><span class="line">	ResponseUtil response = ResponseUtil.success();</span><br><span class="line">	CodeEnum code = CodeEnum.FAIL;</span><br><span class="line">	try &#123;</span><br><span class="line">		LOGGER.info(&quot;前端传过来的&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;：&quot; + paramMap.get(&quot;strUrl&quot;));</span><br><span class="line">		LOGGER.info(&quot;URI解码&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;：&quot; + URI.create(paramMap.get(&quot;strUrl&quot;)).getPath());</span><br><span class="line">		response.setData(wxUtil.getWxEntity(URI.create(paramMap.get(&quot;strUrl&quot;)).getPath(),redisTemplate));</span><br><span class="line">	&#125; catch (Exception e) &#123;</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">		response.setCode(code);</span><br><span class="line">		response.setMessage(e.getMessage());</span><br><span class="line">	&#125;</span><br><span class="line">	return response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>需要注意：这个url是前端动态获取的，不能写死。如果带参数，或是中文，前端要对url做<code>encodeURIComponent</code>转码，后台再使用<code>URI.create(paramMap.get(&quot;strUrl&quot;)).getPath()</code>进行解码。</p>
+<p>我们再新建一个存放微信信息的实体类：wx.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">wx</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String access_token;</span><br><span class="line">    <span class="keyword">private</span> String ticket ;</span><br><span class="line">    <span class="keyword">private</span> String noncestr;</span><br><span class="line">    <span class="keyword">private</span> String timestamp;</span><br><span class="line">    <span class="keyword">private</span> String str;</span><br><span class="line">    <span class="keyword">private</span> String signature;</span><br><span class="line"></span><br><span class="line">   ...setter and getter...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>sign类里面有一个签名的方法<code>sign</code>，传入ticket和url即可。也就是WeinXinUtil的getWinXinEntity方法，并将返回的map的信息读取存入WinXinEntity中。<br>在调试时，把sign返回的map打印出来，主要看看生成的signature。然后，把jsapi_ticket、noncestr、timestamp、url 复制到微信提供的<a href="https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=jsapisign" target="_blank" rel="noopener">微信 JS 接口签名校验工具</a>，<br>比较代码签名生成的signature与校验工具生成的签名signature是否一致，如果一致，说明前面的步骤都是正确的，如果不一致，仔细检查。</p>
+<h2 id="controller"><a href="#controller" class="headerlink" title="controller"></a>controller</h2><p>我们把微信分享分解成3个工具类，现在在处理分享的controller，只要两句话就可以调用微信分享，一句获取url，一句获取WinXinEntity，代码已经在上边给出了。</p>
+<h2 id="前端config函数配置"><a href="#前端config函数配置" class="headerlink" title="前端config函数配置"></a>前端config函数配置</h2><p>下面的代码放在网页js代码的最前面！<br>”var url = location.href.split(‘#’)[0];“ 页面的url也可以从后台传过来，也可以通过location.href.split(‘#’)[0]获取。<br>为了一点微不足道的速度，这里才用网页获取方式。（网页的url跟前面的后台签名时得url是一样的，只是绕过了ajax）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"http://res.wx.qq.com/open/js/jweixin-1.2.0.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">var</span> url = location.href.split(<span class="string">'#'</span>)[<span class="number">0</span>];</span><br><span class="line">    wx.config(&#123;</span><br><span class="line">    debug: <span class="literal">false</span>,</span><br><span class="line">    appId: <span class="string">'xxxxxxxxxxxxxx'</span>,</span><br><span class="line">    timestamp: <span class="string">"$&#123;wx.timestamp&#125;"</span>,</span><br><span class="line">    nonceStr: <span class="string">"$&#123;wx.noncestr&#125;"</span>,</span><br><span class="line">    signature: <span class="string">"$&#123;wx.signature&#125;"</span>,</span><br><span class="line">    jsApiList: [</span><br><span class="line">      <span class="comment">// 所有要调用的 API 都要加到这个列表中</span></span><br><span class="line">       <span class="string">'checkJsApi'</span>,</span><br><span class="line">       <span class="string">'onMenuShareTimeline'</span>,</span><br><span class="line">       <span class="string">'onMenuShareAppMessage'</span>,</span><br><span class="line">    ]</span><br><span class="line">  &#125;);</span><br><span class="line">  wx.ready(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 在这里调用 API</span></span><br><span class="line">     wx.onMenuShareTimeline(&#123;</span><br><span class="line">    title: <span class="string">'xxxxxxxxxx'</span>, <span class="comment">// 分享标题</span></span><br><span class="line">    link: url, <span class="comment">// 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致</span></span><br><span class="line">    imgUrl: <span class="string">'xxxxxxxxxxxxxx'</span>, <span class="comment">// 分享图标</span></span><br><span class="line">    success: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 用户确认分享后执行的回调函数</span></span><br><span class="line">    &#125;,</span><br><span class="line">    cancel: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 用户取消分享后执行的回调函数</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">wx.onMenuShareAppMessage(&#123;</span><br><span class="line">   title: <span class="string">'xxxxxxxxxxx'</span>, <span class="comment">// 分享标题</span></span><br><span class="line">    desc: <span class="string">'xxxxxxxxxxx'</span>, <span class="comment">// 分享描述</span></span><br><span class="line">    link: url, <span class="comment">// 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致</span></span><br><span class="line">    imgUrl: <span class="string">'xxxxxxxxxx'</span>, <span class="comment">// 分享图标</span></span><br><span class="line">    type: <span class="string">''</span>, <span class="comment">// 分享类型,music、video或link，不填默认为link</span></span><br><span class="line">    dataUrl: <span class="string">''</span>, <span class="comment">// 如果type是music或video，则要提供数据链接，默认为空</span></span><br><span class="line">    success: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 用户确认分享后执行的回调函数</span></span><br><span class="line">    &#125;,</span><br><span class="line">    cancel: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 用户取消分享后执行的回调函数</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">&#125;);</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="全局返回码说明"><a href="#全局返回码说明" class="headerlink" title="全局返回码说明"></a>全局返回码说明</h1><p><a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1433747234" target="_blank" rel="noopener">官方说明</a></p>
+<h1 id="链接带参数"><a href="#链接带参数" class="headerlink" title="链接带参数"></a>链接带参数</h1><p>前端的链接如果带参数，<code>www.xxx.com/xxx?a=1&amp;b=2</code>，传给后台必须使用<code>encodeURIComponent</code>转码，<a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421141115" target="_blank" rel="noopener">参考官方文档</a>，<br>但是官方文档并没有说，后台要把前端传的url再解码！即：<br><code>URI.create(paramMap.get(&quot;strUrl&quot;)).getPath()</code><br>不要使用<code>URLDecoder.decode(paramMap.get(&quot;strUrl&quot;))</code>，该方法将要被废弃。</p>
+<p>不带参数可以不转码，若带参数必须转码，后台再解码！！<br><a href="https://www.cnblogs.com/vipstone/p/6732660.html" target="_blank" rel="noopener">参考地址</a></p>
+<h1 id="微信分享JSSDK-invalid-signature签名错误的解决方案"><a href="#微信分享JSSDK-invalid-signature签名错误的解决方案" class="headerlink" title="微信分享JSSDK-invalid signature签名错误的解决方案"></a>微信分享JSSDK-invalid signature签名错误的解决方案</h1><p>核对官方步骤，确认签名算法。</p>
+<ul>
+<li>确认签名算法正确，可用 <a href="http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=jsapisign" target="_blank" rel="noopener">http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=jsapisign</a> 页面工具进行校验。</li>
+<li>确认config中nonceStr（js中驼峰标准大写S）, timestamp与用以签名中的对应noncestr, timestamp一致。</li>
+<li>确认url是页面完整的url(请在当前页面alert(location.href.split(‘#’)[0])确认)，包括’http(s)://‘部分，以及’？’后面的GET参数部分,但不包括’#’hash后面的部分。</li>
+<li>确认 config 中的 appid 与用来获取 jsapi_ticket 的 appid 一致。</li>
+<li>确保一定缓存access_token和jsapi_ticket。</li>
+<li>确保你获取用来签名的url是动态获取的，动态页面可参见实例代码中php的实现方式。如果是html的静态页面在前端通过ajax将url传到后台签名，前端需要用js获取当前页面除去’#’hash部分的链接（可用location.href.split(‘#’)[0]获取,而且需要encodeURIComponent，后台decodeURIComponent解码），因为页面一旦分享，微信客户端会在你的链接末尾加入其它参数，如果不是动态获取当前链接，将导致分享后的页面签名失败。</li>
+</ul>
+<h1 id="微信小程序登录"><a href="#微信小程序登录" class="headerlink" title="微信小程序登录"></a>微信小程序登录</h1><p><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/login.html" target="_blank" rel="noopener">官方文档</a><br>登录流程时序图<br><img src="/2019/04/25/wx/3.jpg" alt=""><br>微信的文档写的像狗屎，所以我抄了一份时序图：<br><img src="/2019/04/25/wx/4.jpg" alt=""></p>
+<p>大致流程如下：</p>
+<ul>
+<li>程序客户端调用wx.login，回调里面包含js_code。</li>
+<li>然后将js_code发送到服务器A（开发者服务器）,服务器A向微信服务器发起请求附带js_code、appId、secretkey和grant_type参数，以换取用户的openid和session_key（会话密钥）。</li>
+<li>服务器A拿到session_key后，生成一个随机数我们叫3rd_session,以3rdSessionId为key,以session_key + openid为value缓存到redis或memcached中；因为微信团队不建议直接将session_key在网络上传输，由开发者自行生成唯一键与session_key关联。其作用是：<ul>
+<li>将3rdSessionId返回给客户端，维护小程序登录态。</li>
+<li>通过3rdSessionId找到用户session_key和openid。</li>
+</ul>
+</li>
+<li>客户端拿到3rdSessionId后缓存到storage。</li>
+<li>客户端通过wx.getUserIinfo可以获取到用户敏感数据encryptedData。</li>
+<li>客户端将encryptedData、3rdSessionId和偏移量一起发送到服务器A</li>
+<li>服务器A根据3rdSessionId从缓存中获取session_key</li>
+<li>在服务器A使用AES解密encryptedData，从而实现用户敏感数据解密</li>
+</ul>
+<p>重点在6、7、8三个环节。<br>AES解密三个参数：</p>
+<ul>
+<li>密文 encryptedData</li>
+<li>密钥 aesKey</li>
+<li>偏移向量 iv</li>
+</ul>
+<p>服务端解密流程：</p>
+<ul>
+<li>密文和偏移向量由客户端发送给服务端，对这两个参数在服务端进行Base64_decode解编码操作。</li>
+<li>根据3rdSessionId从缓存中获取session_key，对session_key进行Base64_decode可以得到aesKey，aes密钥。</li>
+<li>调用aes解密方法，算法为 AES-128-CBC，数据采用PKCS#7填充。</li>
+</ul>
+<p>下面结合小程序实例说明解密流程：</p>
+<ol>
+<li><p>微信登录，获取用户信息</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> that = <span class="keyword">this</span>;</span><br><span class="line">wx.login(&#123;</span><br><span class="line">success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//微信js_code</span></span><br><span class="line">    that.setData(&#123;<span class="attr">wxcode</span>: res.code&#125;);</span><br><span class="line">    <span class="comment">//获取用户信息</span></span><br><span class="line">    wx.getUserInfo(&#123;</span><br><span class="line">        success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">            <span class="comment">//获取用户敏感数据密文和偏移向量</span></span><br><span class="line">            that.setData(&#123;<span class="attr">encryptedData</span>: res.encryptedData&#125;)</span><br><span class="line">            that.setData(&#123;<span class="attr">iv</span>: res.iv&#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用code换取3rdSessionId</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> httpclient = <span class="built_in">require</span>(<span class="string">'../../utils/httpclient.js'</span>)</span><br><span class="line">VAR that = <span class="keyword">this</span></span><br><span class="line"><span class="comment">//httpclient.req(url, data, method, success, fail)</span></span><br><span class="line">httpclient.req(</span><br><span class="line">  <span class="string">'http://localhost:8090/wxappservice/api/v1/wx/getSession'</span>,</span><br><span class="line">  &#123;</span><br><span class="line">      apiName: <span class="string">'WX_CODE'</span>,</span><br><span class="line">      code: <span class="keyword">this</span>.data.wxcode</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">'GET'</span>,</span><br><span class="line">  <span class="function"><span class="keyword">function</span>(<span class="params">result</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> thirdSessionId = result.data.data.sessionId;</span><br><span class="line">    that.setData(&#123;<span class="attr">thirdSessionId</span>: thirdSessionId&#125;)</span><br><span class="line">    <span class="comment">//将thirdSessionId放入小程序缓存</span></span><br><span class="line">    wx.setStorageSync(<span class="string">'thirdSessionId'</span>, thirdSessionId)</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="function"><span class="keyword">function</span>(<span class="params">result</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(result)</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>发起解密请求</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//httpclient.req(url, data, method, success, fail)</span></span><br><span class="line">httpclient.req(</span><br><span class="line"><span class="string">'http://localhost:8090/wxappservice/api/v1/wx/decodeUserInfo'</span>,</span><br><span class="line">  &#123;</span><br><span class="line">    apiName: <span class="string">'WX_DECODE_USERINFO'</span>,</span><br><span class="line">    encryptedData: <span class="keyword">this</span>.data.encryptedData,</span><br><span class="line">    iv: <span class="keyword">this</span>.data.iv,</span><br><span class="line">    sessionId: wx.getStorageSync(<span class="string">'thirdSessionId'</span>)</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">'GET'</span>,</span><br><span class="line">  <span class="function"><span class="keyword">function</span>(<span class="params">result</span>)</span>&#123;</span><br><span class="line">  <span class="comment">//解密后的数据</span></span><br><span class="line">    <span class="built_in">console</span>.log(result.data)</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="function"><span class="keyword">function</span>(<span class="params">result</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(result)</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过前端获取的code，获取openid和session_key</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * @author: wjy</span><br><span class="line"> * @description: 小程序，通过code获取session_key和openid</span><br><span class="line"> */</span><br><span class="line">@ResponseBody</span><br><span class="line">@PostMapping(&quot;getSessionId&quot;)</span><br><span class="line">public ResponseUtil getSessionId(@RequestBody Map&lt;String,String&gt; paramMap)&#123;</span><br><span class="line">	LOGGER.info(</span><br><span class="line">			&quot;\n***************************************&quot; + &quot;\n&quot; +</span><br><span class="line">					&quot;start getSessionId&quot; + &quot;\n&quot; +</span><br><span class="line">					&quot;通过code获取session_key和openid&quot; + &quot;\n&quot; +</span><br><span class="line">					&quot;paramMap&quot; + paramMap +&quot;\n&quot; +</span><br><span class="line">					&quot;\n********************************************&quot;</span><br><span class="line">	);</span><br><span class="line">	ResponseUtil response = ResponseUtil.success();</span><br><span class="line">	CodeEnum code = CodeEnum.FAIL;</span><br><span class="line">	JSONObject jsonObject;</span><br><span class="line">	try&#123;</span><br><span class="line">		AssertUtil.assertValidate(code,CodeEnum.ERROR_2001.getCode(),&quot;code不能为空&quot;,StringUtils.isNotEmpty(paramMap.get(&quot;code&quot;)));</span><br><span class="line"></span><br><span class="line">		//完整地址示例</span><br><span class="line">		//https://api.weixin.qq.com/sns/jscode2session?appid=APPID&amp;secret=SECRET&amp;js_code=JSCODE&amp;grant_type=authorization_code</span><br><span class="line">		String url = &quot;https://api.weixin.qq.com/sns/jscode2session&quot;;</span><br><span class="line">		String param =</span><br><span class="line">				&quot;appid=&quot; + PayConstant.XCX_APPID +</span><br><span class="line">				&quot;&amp;secret=&quot; + PayConstant.XCX_APPSECRET +</span><br><span class="line">				&quot;&amp;js_code=&quot; + paramMap.get(&quot;code&quot;) +</span><br><span class="line">				&quot;&amp;grant_type=authorization_code&quot;;</span><br><span class="line">		//向微信服务器发送get请求,获取session_key和openid</span><br><span class="line">		String sessionKeyAndOpenid = HttpUtil.sendGet(url, param);</span><br><span class="line">		jsonObject = JSONObject.parseObject(sessionKeyAndOpenid);</span><br><span class="line"></span><br><span class="line">		String uuid = UUID.randomUUID().toString().replaceAll(&quot;-&quot;,&quot;&quot;);</span><br><span class="line"></span><br><span class="line">		LOGGER.info(&quot;session_key是：~~~~~~~~~~~~~~~~&quot; + jsonObject.getString(&quot;session_key&quot;));</span><br><span class="line"></span><br><span class="line">		//将获取到的session_key存入redis，这里不用设置过期时间</span><br><span class="line">		stringRedisTemplate.opsForValue().set(uuid,jsonObject.getString(&quot;session_key&quot;));</span><br><span class="line"></span><br><span class="line">		//把uuid返回给前端</span><br><span class="line">		response.setData(uuid);</span><br><span class="line">	&#125;catch (Exception e)&#123;</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">		response.setCode(code);</span><br><span class="line">		response.setMessage(e.getMessage());</span><br><span class="line">	&#125;</span><br><span class="line">	return response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>后端用session_key，encryptedData，iv解密获取用户信息userinfo。<br>后端解密其实就这么简单，只要流程对了就可以解密，如果解密出错，基本就是流程出错了。不用再去换什么解密算法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">public Object getPhoneNumber(String encryptedData, String session_key, String iv) &#123;</span><br><span class="line">		 // 被加密的数据</span><br><span class="line">		byte[] dataByte = Base64.decode(encryptedData);</span><br><span class="line">		// 加密秘钥</span><br><span class="line">		byte[] keyByte = Base64.decode(session_key);</span><br><span class="line">		// 偏移量</span><br><span class="line">		byte[] ivByte = Base64.decode(iv);</span><br><span class="line">		try &#123;</span><br><span class="line">			// 如果密钥不足16位，那么就补足.  这个if 中的内容很重要</span><br><span class="line">			int base = 16;</span><br><span class="line">			if (keyByte.length % base != 0) &#123;</span><br><span class="line">				int groups = keyByte.length / base + (keyByte.length % base != 0 ? 1 : 0);</span><br><span class="line">				byte[] temp = new byte[groups * base];</span><br><span class="line">				Arrays.fill(temp, (byte) 0);</span><br><span class="line">				System.arraycopy(keyByte, 0, temp, 0, keyByte.length);</span><br><span class="line">				keyByte = temp;</span><br><span class="line">			&#125;</span><br><span class="line">			// 初始化</span><br><span class="line">			Security.addProvider(new BouncyCastleProvider());</span><br><span class="line">			Cipher cipher = Cipher.getInstance(&quot;AES/CBC/PKCS5Padding&quot;);</span><br><span class="line">			SecretKeySpec spec = new SecretKeySpec(keyByte, &quot;AES&quot;);</span><br><span class="line">			AlgorithmParameters parameters = AlgorithmParameters.getInstance(&quot;AES&quot;);</span><br><span class="line">			parameters.init(new IvParameterSpec(ivByte));</span><br><span class="line">			cipher.init(Cipher.DECRYPT_MODE, spec, parameters);// 初始化</span><br><span class="line">			byte[] resultByte = cipher.doFinal(dataByte);</span><br><span class="line">			if (null != resultByte &amp;&amp; resultByte.length &gt; 0) &#123;</span><br><span class="line">				String result = new String(resultByte, &quot;UTF-8&quot;);</span><br><span class="line">				return JSONObject.parseObject(result);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	return null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>上边分别请求了两次后台接口，其实完全可以合并成一次请求，参考下边获取手机号的内容。</p>
+<p><a href="https://www.cnblogs.com/cangqinglang/p/8944681.html" target="_blank" rel="noopener">参考1</a><br><a href="https://blog.csdn.net/qi923701/article/details/81534820" target="_blank" rel="noopener">参考2</a><br><a href="https://blog.csdn.net/weixin_38429587/article/details/82814325" target="_blank" rel="noopener">参考3</a></p>
+<h1 id="小程序获取手机号"><a href="#小程序获取手机号" class="headerlink" title="小程序获取手机号"></a>小程序获取手机号</h1><p><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/getPhoneNumber.html" target="_blank" rel="noopener">官方文档</a></p>
+<ol>
+<li><p>前端调用 wx.login() 获取code</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wx.login(&#123;</span><br><span class="line">    success:function(res)&#123;</span><br><span class="line">        console.log(&apos;loginCode:&apos;, res.code)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>后端拿到该code发送get请求微信接口获取 session_key和openid，返回结果类似：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	&quot;session_key&quot;: &quot;kI+3ookOAYC9olOcGzYPmQ&quot;,</span><br><span class="line">	&quot;openid&quot;: &quot;oNZE65Pu0XfTg2yFP-dFks&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>后台拿到数据后，我们把session_key存到redis，然后把session_key存在redis中的key返回给前端。<br>因为微信官方说：<br><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/login.html" target="_blank" rel="noopener">为了应用自身的数据安全，开发者服务器不应该把会话密钥下发到小程序，也不应该对外提供这个密钥</a></p>
+<ol start="3">
+<li><p>前端调用 getPhoneNumber组件，用户确认授权。拿到encryptedData和iv。并传给后端。<br><code>&lt;button open-type=&quot;getPhoneNumber&quot; bindgetphonenumber=&quot;getPhoneNumber&quot;&gt; &lt;/button&gt;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">getPhoneNumber: function(e) &#123; </span><br><span class="line">    console.log(e.detail.errMsg) </span><br><span class="line">    console.log(e.detail.iv) </span><br><span class="line">    console.log(e.detail.encryptedData) </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>后端用session_key，encryptedData，iv解密获取手机号。<br>后端解密其实就这么简单，只要流程对了就可以解密，如果解密出错，基本就是流程出错了。不用再去换什么解密算法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">public Object getPhoneNumber(String encryptedData, String session_key, String iv) &#123;</span><br><span class="line">		 // 被加密的数据</span><br><span class="line">		byte[] dataByte = Base64.decode(encryptedData);</span><br><span class="line">		// 加密秘钥</span><br><span class="line">		byte[] keyByte = Base64.decode(session_key);</span><br><span class="line">		// 偏移量</span><br><span class="line">		byte[] ivByte = Base64.decode(iv);</span><br><span class="line">		try &#123;</span><br><span class="line">			// 如果密钥不足16位，那么就补足.  这个if 中的内容很重要</span><br><span class="line">			int base = 16;</span><br><span class="line">			if (keyByte.length % base != 0) &#123;</span><br><span class="line">				int groups = keyByte.length / base + (keyByte.length % base != 0 ? 1 : 0);</span><br><span class="line">				byte[] temp = new byte[groups * base];</span><br><span class="line">				Arrays.fill(temp, (byte) 0);</span><br><span class="line">				System.arraycopy(keyByte, 0, temp, 0, keyByte.length);</span><br><span class="line">				keyByte = temp;</span><br><span class="line">			&#125;</span><br><span class="line">			// 初始化</span><br><span class="line">			Security.addProvider(new BouncyCastleProvider());</span><br><span class="line">			Cipher cipher = Cipher.getInstance(&quot;AES/CBC/PKCS5Padding&quot;);</span><br><span class="line">			SecretKeySpec spec = new SecretKeySpec(keyByte, &quot;AES&quot;);</span><br><span class="line">			AlgorithmParameters parameters = AlgorithmParameters.getInstance(&quot;AES&quot;);</span><br><span class="line">			parameters.init(new IvParameterSpec(ivByte));</span><br><span class="line">			cipher.init(Cipher.DECRYPT_MODE, spec, parameters);// 初始化</span><br><span class="line">			byte[] resultByte = cipher.doFinal(dataByte);</span><br><span class="line">			if (null != resultByte &amp;&amp; resultByte.length &gt; 0) &#123;</span><br><span class="line">				String result = new String(resultByte, &quot;UTF-8&quot;);</span><br><span class="line">				return JSONObject.parseObject(result);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	return null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>上边是请求了两次接口，其实完全可以只请求一次接口：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * @author: wjy</span><br><span class="line"> * @description: 小程序登录，返回用户信息</span><br><span class="line"> */</span><br><span class="line">@ResponseBody</span><br><span class="line">@PostMapping(&quot;xcxRegisterOrLogin&quot;)</span><br><span class="line">public ResponseUtil xcxRegisterOrLogin(@RequestBody Map&lt;String,String&gt; paramMap)&#123;</span><br><span class="line">	LOGGER.info(</span><br><span class="line">			&quot;\n***************************************&quot; + &quot;\n&quot; +</span><br><span class="line">					&quot;start xcxRegisterOrLogin&quot; + &quot;\n&quot; +</span><br><span class="line">					&quot;小程序登录，返回用户信息&quot; + &quot;\n&quot; +</span><br><span class="line">					&quot;paramMap&quot; + paramMap +&quot;\n&quot; +</span><br><span class="line">					&quot;\n********************************************&quot;</span><br><span class="line">	);</span><br><span class="line">	ResponseUtil response = ResponseUtil.success();</span><br><span class="line">	CodeEnum code = CodeEnum.FAIL;</span><br><span class="line">	JSONObject jsonObject;</span><br><span class="line">	try&#123;</span><br><span class="line">		AssertUtil.assertValidate(code,CodeEnum.ERROR_2001.getCode(),&quot;iv不能为空&quot;,StringUtils.isNotEmpty(paramMap.get(&quot;iv&quot;)));</span><br><span class="line">		AssertUtil.assertValidate(code,CodeEnum.ERROR_2001.getCode(),&quot;code不能为空&quot;,StringUtils.isNotEmpty(paramMap.get(&quot;code&quot;)));</span><br><span class="line">		AssertUtil.assertValidate(code,CodeEnum.ERROR_2003.getCode(),&quot;encryptedData不能为空&quot;,StringUtils.isNotEmpty(paramMap.get(&quot;encryptedData&quot;)));</span><br><span class="line"></span><br><span class="line">		//完整地址示例</span><br><span class="line">		//https://api.weixin.qq.com/sns/jscode2session?appid=APPID&amp;secret=SECRET&amp;js_code=JSCODE&amp;grant_type=authorization_code</span><br><span class="line">		String url = &quot;https://api.weixin.qq.com/sns/jscode2session&quot;;</span><br><span class="line">		String param = &quot;appid=&quot; + PayConstant.XCX_APPID +</span><br><span class="line">				&quot;&amp;secret=&quot; + PayConstant.XCX_APPSECRET +</span><br><span class="line">				&quot;&amp;js_code=&quot; + paramMap.get(&quot;code&quot;) +</span><br><span class="line">				&quot;&amp;grant_type=authorization_code&quot;;</span><br><span class="line">		//向微信服务器发送get请求,获取session_key和openid</span><br><span class="line">		String wxReturnJson = HttpUtil.sendGet(url, param);</span><br><span class="line">		LOGGER.info(&quot;微信返回结果是：~~~~~~~~~~~~~~~~&quot; + wxReturnJson);</span><br><span class="line">		jsonObject = JSONObject.parseObject(wxReturnJson);</span><br><span class="line"></span><br><span class="line">		//解密用户信息</span><br><span class="line">		JSONObject userinfo = XcxUtil.decodeUserInfo(paramMap.get(&quot;encryptedData&quot;),jsonObject.getString(&quot;session_key&quot;),paramMap.get(&quot;iv&quot;));</span><br><span class="line">		//用户手机号</span><br><span class="line">		String phoneNum = userinfo.getString(&quot;purePhoneNumber&quot;);</span><br><span class="line">		LOGGER.info(&quot;用户手机号是：~~~~~~~~~~~~~~~~&quot; + phoneNum);</span><br><span class="line"></span><br><span class="line">		paramMap.put(&quot;mobile&quot;,phoneNum);</span><br><span class="line">		//根据手机号，注册或登录</span><br><span class="line">		response = usersService.registerOrLogin(paramMap,response);</span><br><span class="line">	&#125;catch (Exception e)&#123;</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">		response.setCode(code);</span><br><span class="line">		response.setMessage(e.getMessage());</span><br><span class="line">	&#125;</span><br><span class="line">	return response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个接口，我接收了code、iv、encryptedData三个参数。<br>其中code是前端请求<code>wx.login()</code>返回的，<code>iv、encryptedData</code>是前端请求<code>wx.userinfo()</code>返回的。<br>我的接口中，先通过code请求微信服务器，获取<code>session_key</code>和<code>openid</code>，然后通过<code>session_key、iv、encryptedData</code>进行解密，就得到了用户手机号。<br>后续是自己业务的逻辑，即通过手机号判断自己的数据库是否有这个用户，有-&gt;返回用户信息(即登录)，没有-&gt;注册并返回用户信息。</p>
+<p><a href="https://blog.csdn.net/qq_36466653/article/details/83374485" target="_blank" rel="noopener">参考1</a><br><a href="https://blog.csdn.net/Lonely_Devil/article/details/90024579" target="_blank" rel="noopener">参考2</a></p>
+<p>获取手机号和获取用户信息，两套流程的区别，只在于前端第二次请求微信接口的不同。每个步骤，对于后台来说都是一样的。<br>后台只需要通过前端获取的code，获取session_id和openid，然后再用三个参数<code>session_key，iv，encryptedData</code>进行解密即可。</p>
+<ul>
+<li>获取用户信息，前端调用<code>wx.getUserInfo(Object object)</code><a href="https://developers.weixin.qq.com/miniprogram/dev/api/open-api/user-info/wx.getUserInfo.html" target="_blank" rel="noopener">官方文档</a></li>
+<li>获取手机号，前端调用<code>getPhoneNumber</code><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/getPhoneNumber.html" target="_blank" rel="noopener">官方文档</a></li>
+</ul>
+<p>所以，获取用户信息和获取用户手机号，后台只需一个接口即可，但是需要注意，解密出来的，一个是手机号，一个是用户信息，所以可能还需要在自己的业务中，对两种不同的参数采取不同的处理。</p>
+<p><strong>后台请求微信授权，在本地即可以测试，只要有code或encryptedData和iv(这三个参数需要前端给你)，不用非拿到线上去测。而且，小程序后台，也无需配置服务器域名啥的。</strong></p>
+<h1 id="小程序报错"><a href="#小程序报错" class="headerlink" title="小程序报错"></a>小程序报错</h1><p><code>{&quot;errcode&quot;:40163,&quot;errmsg&quot;:&quot;code been used, hints: [ req_id: UGKfDXXBe-rIpWva ]&quot;}</code><br>前端获取code，通过code请求后台接口，后台通过code获取openid和session_key。偶尔会报上边的错。<br>原因：前端传了重复的code，小程序的code只能用一次，每次使用都要重新获取，不能缓存。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/wx/" rel="tag"># wx</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/17/dubbo/" rel="next" title="dubbo">
+                <i class="fa fa-chevron-left"></i> dubbo
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/30/comparable-and-comparator/" rel="prev" title="comparable and comparator">
+                comparable and comparator <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#公众号类型功能介绍"><span class="nav-number">1.</span> <span class="nav-text">公众号类型功能介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#微信开放平台、公众平台区别"><span class="nav-number">2.</span> <span class="nav-text">微信开放平台、公众平台区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#微信h5分享"><span class="nav-number">3.</span> <span class="nav-text">微信h5分享</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#获取appId和secret"><span class="nav-number">3.1.</span> <span class="nav-text">获取appId和secret</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从官方代码copy签名函数"><span class="nav-number">3.2.</span> <span class="nav-text">从官方代码copy签名函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取access-token、ticket"><span class="nav-number">3.3.</span> <span class="nav-text">获取access_token、ticket</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取url，并进行签名"><span class="nav-number">3.4.</span> <span class="nav-text">获取url，并进行签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#controller"><span class="nav-number">3.5.</span> <span class="nav-text">controller</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前端config函数配置"><span class="nav-number">3.6.</span> <span class="nav-text">前端config函数配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#全局返回码说明"><span class="nav-number">4.</span> <span class="nav-text">全局返回码说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#链接带参数"><span class="nav-number">5.</span> <span class="nav-text">链接带参数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#微信分享JSSDK-invalid-signature签名错误的解决方案"><span class="nav-number">6.</span> <span class="nav-text">微信分享JSSDK-invalid signature签名错误的解决方案</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#微信小程序登录"><span class="nav-number">7.</span> <span class="nav-text">微信小程序登录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小程序获取手机号"><span class="nav-number">8.</span> <span class="nav-text">小程序获取手机号</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小程序报错"><span class="nav-number">9.</span> <span class="nav-text">小程序报错</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

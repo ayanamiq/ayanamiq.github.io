@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'UJCQ3PDF0F',
+      apiKey: 'a3d4ab7cd60617bd0d524169bb08d56d',
+      indexName: 'dev_ayanamiq',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键字","hits_empty":"没有找到关于 ${query} 的文章","hits_stats":"${hits} 相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本章对线程的等待/唤醒方法进行介绍。 wait(), notify(), notifyAll()等方法介绍在Object类中，定义了wait()，notify()和notifyAll()等接口。wait()的作用是让当前线程进入等待状态，同时wait()也会让当前线程释放它持有的锁。而notify()和notifyAll()的作用，则是唤醒当前对象上的等待线程，notify()是唤醒单个线程，no">
+<meta name="keywords" content="multithreading">
+<meta property="og:type" content="article">
+<meta property="og:title" content="multithreading-wait+notify">
+<meta property="og:url" content="https://jingyao066.gitee.io/2019/03/25/multithreading-wait+notify/index.html">
+<meta property="og:site_name" content="王靖尧的博客">
+<meta property="og:description" content="本章对线程的等待/唤醒方法进行介绍。 wait(), notify(), notifyAll()等方法介绍在Object类中，定义了wait()，notify()和notifyAll()等接口。wait()的作用是让当前线程进入等待状态，同时wait()也会让当前线程释放它持有的锁。而notify()和notifyAll()的作用，则是唤醒当前对象上的等待线程，notify()是唤醒单个线程，no">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/03/25/multithreading-wait+notify/1.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/03/25/multithreading-wait+notify/2.png">
+<meta property="og:image" content="https://jingyao066.gitee.io/2019/03/25/multithreading-wait+notify/3.png">
+<meta property="og:updated_time" content="2019-06-13T07:27:32.329Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="multithreading-wait+notify">
+<meta name="twitter:description" content="本章对线程的等待/唤醒方法进行介绍。 wait(), notify(), notifyAll()等方法介绍在Object类中，定义了wait()，notify()和notifyAll()等接口。wait()的作用是让当前线程进入等待状态，同时wait()也会让当前线程释放它持有的锁。而notify()和notifyAll()的作用，则是唤醒当前对象上的等待线程，notify()是唤醒单个线程，no">
+<meta name="twitter:image" content="https://jingyao066.gitee.io/2019/03/25/multithreading-wait+notify/1.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jingyao066.gitee.io/2019/03/25/multithreading-wait+notify/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>multithreading-wait+notify | 王靖尧的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王靖尧的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jingyao066.gitee.io/2019/03/25/multithreading-wait+notify/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王靖尧">
+      <meta itemprop="description" content="一晃而过的时间，都做了些什么">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王靖尧的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">multithreading-wait+notify
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-25 15:04:27" itemprop="dateCreated datePublished" datetime="2019-03-25T15:04:27+08:00">2019-03-25</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 15:27:32" itemprop="dateModified" datetime="2019-06-13T15:27:32+08:00">2019-06-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/03/25/multithreading-wait+notify/" class="leancloud_visitors" data-flag-title="multithreading-wait+notify">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本章对线程的等待/唤醒方法进行介绍。</p>
+<h1 id="wait-notify-notifyAll-等方法介绍"><a href="#wait-notify-notifyAll-等方法介绍" class="headerlink" title="wait(), notify(), notifyAll()等方法介绍"></a>wait(), notify(), notifyAll()等方法介绍</h1><p>在Object类中，定义了wait()，notify()和notifyAll()等接口。wait()的作用是让当前线程进入等待状态，同时wait()也会让当前线程释放它持有的锁。而notify()和notifyAll()的作用，则是唤醒当前对象上的等待线程，notify()是唤醒单个线程，notifyAll()是唤醒所有线程。</p>
+<p>Object类中关于等待/唤醒的API详细信息如下：<br>notify()：唤醒在此对象监视器上等待的单个线程。<br>notifyAll()：唤醒在此对象监视器上等待的所有线程。<br>wait()：让当前线程处于<code>等待(阻塞)状态</code>，直到其他线程调用此对象的notify()方法或notifyAll() 方法，当前线程被唤醒(进入<code>就绪状态</code>)。<br>wait(long timeout)：让当前线程处于<code>等待(阻塞)状态</code>，直到其他线程调用此对象的 notify() 方法或 notifyAll() 方法，或者超过指定的时间量，当前线程被唤醒(进入<code>就绪状态</code>)。<br>wait(long timeout, int nanos)：让当前线程处于<code>等待(阻塞)状态</code>，直到其他线程调用此对象的 notify() 方法或 notifyAll() 方法，或者其他某个线程中断当前线程，或者已超过某个实际时间量，当前线程被唤醒(进入<code>就绪状态</code>)。</p>
+<h1 id="wait-和notify-示例"><a href="#wait-和notify-示例" class="headerlink" title="wait()和notify()示例"></a>wait()和notify()示例</h1><p>下面通过示例演示wait()和notify()配合使用的情形<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// WaitTest.java的源码</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThreadA</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ThreadA</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(name);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName()+<span class="string">" call notify()"</span>);</span><br><span class="line">            <span class="comment">// 唤醒当前的wait线程</span></span><br><span class="line">            notify();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WaitTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ThreadA t1 = <span class="keyword">new</span> ThreadA(<span class="string">"t1"</span>);</span><br><span class="line">        <span class="keyword">synchronized</span>(t1) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">// 启动“线程t1”</span></span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">" start t1"</span>);</span><br><span class="line">                t1.start();</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 主线程等待t1通过notify()唤醒。</span></span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">" wait()"</span>);</span><br><span class="line">                t1.wait();</span><br><span class="line"></span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">" continue"</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">main start t1</span><br><span class="line">main wait()</span><br><span class="line">t1 call notify()</span><br><span class="line">main continue</span><br></pre></td></tr></table></figure></p>
+<p>结果说明：<br>如下图，说明了<code>主线程和线程t1</code>的流程。</p>
+<ul>
+<li>图中主线程代表<code>主线程main</code>。<code>线程t1</code>代表WaitTest中启动的<code>线程t1</code>。 而<code>锁</code>代表<code>t1这个对象的同步锁</code>。</li>
+<li><code>主线程</code>通过<code>new ThreadA(&quot;t1&quot;)</code>新建<code>线程t1</code>。随后通过<code>synchronized(t1)</code>获取<code>t1对象的同步锁</code>。然后调用<code>t1.start()</code>启动<code>线程t1</code>。</li>
+<li><code>主线程</code>执行<code>t1.wait()</code>释放<code>t1对象的锁</code>并且进入<code>等待(阻塞)状态</code>。等待t1对象上的线程通过notify() 或 notifyAll()将其唤醒。</li>
+<li><code>线程t1</code>运行之后，通过<code>synchronized(this)</code>获取<code>当前对象的锁</code>；接着调用notify()唤醒<code>当前对象上的等待线程</code>，也就是唤醒<code>主线程</code>。</li>
+<li><code>线程t1</code>运行完毕之后，释放<code>当前对象的锁</code>。紧接着，<code>主线程</code>获取<code>t1对象的锁</code>，然后接着运行。</li>
+</ul>
+<p><img src="/2019/03/25/multithreading-wait+notify/1.png" alt=""></p>
+<p><code>t1.wait()</code>应该是让<code>线程t1</code>等待，为什么却是让<code>主线程main</code>等待了呢？请看jdk文档中关于wait的一段介绍：<br>Causes the current thread to wait until another thread invokes the notify() method or the notifyAll() method for this object.<br>In other words, this method behaves exactly as if it simply performs the call wait(0).<br>The current thread must own this object’s monitor. The thread releases ownership of this monitor and waits until another thread notifies threads waiting on this object’s monitor to wake up either through a call to the notify method or the notifyAll method. The thread then waits until it can re-obtain ownership of the monitor and resumes execution.</p>
+<p>wait方法会引起<code>当前线程</code>等待，直到另外一个线程调用notify()或notifyAll()唤醒该线程。换句话说，这个方法和wait(0)的效果一样！(补充，对于wait(long millis)方法，当millis为0时，表示无限等待，直到被notify()或notifyAll()唤醒)。<br><code>当前线程</code>在调用<code>wait()</code>时，必须拥有该对象的同步锁。该线程调用<code>wait()</code>之后，会释放该锁；然后一直等待直到<code>其它线程</code>调用对象的同步锁的notify()或notifyAll()方法。然后，该线程继续等待直到它重新获取<code>该对象的同步锁</code>，然后就可以接着运行。<br>注意：<strong>jdk的解释中，说wait()的作用是让<code>当前线程</code>等待，而<code>当前线程</code>是指正在cpu上运行的线程。</strong><br>这也意味着，虽然<code>t1.wait()</code>是通过<code>线程t1</code>调用的<code>wait()</code>方法，但是调用<code>t1.wait()</code>的地方是在<code>主线程main</code>中。而主线程必须是<code>当前线程</code>，也就是运行状态，才可以执行<code>t1.wait()</code>。所以，此时的<code>当前线程</code>是<code>主线程main</code>！因此，<code>t1.wait()</code>是让<code>主线程</code>等待，而不是<code>线程t1</code>。</p>
+<h1 id="wait-long-timeout-和notify"><a href="#wait-long-timeout-和notify" class="headerlink" title="wait(long timeout)和notify()"></a>wait(long timeout)和notify()</h1><p><code>wait(long timeout)</code>会让当前线程处于<code>等待(阻塞)状态</code>，直到其他线程调用此对象的 notify() 方法或 notifyAll() 方法，或者超过指定的时间量，当前线程被唤醒(进入<code>就绪状态</code>)。<br>下面的示例就是演示<code>wait(long timeout)</code>在超时情况下，线程被唤醒的情况。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// WaitTimeoutTest.java的源码</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThreadA</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ThreadA</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(Thread.currentThread().getName() + <span class="string">" run "</span>);</span><br><span class="line">        <span class="comment">// 死循环，不断运行。</span></span><br><span class="line">        <span class="keyword">while</span>(<span class="keyword">true</span>)</span><br><span class="line">            ;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WaitTimeoutTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ThreadA t1 = <span class="keyword">new</span> ThreadA(<span class="string">"t1"</span>);</span><br><span class="line">        <span class="keyword">synchronized</span>(t1) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">// 启动“线程t1”</span></span><br><span class="line">                System.out.println(Thread.currentThread().getName() + <span class="string">" start t1"</span>);</span><br><span class="line">                t1.start();</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 主线程等待t1通过notify()唤醒 或 notifyAll()唤醒，或超过3000ms延时；然后才被唤醒。</span></span><br><span class="line">                System.out.println(Thread.currentThread().getName() + <span class="string">" call wait "</span>);</span><br><span class="line">                t1.wait(<span class="number">3000</span>);</span><br><span class="line"></span><br><span class="line">                System.out.println(Thread.currentThread().getName() + <span class="string">" continue"</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">main start t1</span><br><span class="line">main call wait </span><br><span class="line">t1 run                  // 大约3秒之后...输出“main continue”</span><br><span class="line">main continue</span><br></pre></td></tr></table></figure></p>
+<p>结果说明：<br>如下图，说明了<code>主线程和线程t1</code>的流程。</p>
+<ul>
+<li>图中<code>主线程</code>代表WaitTimeoutTest主线程(即，线程main)。<code>线程t1</code>代表WaitTest中启动的线程t1。 而<code>锁</code>代表<code>t1这个对象的同步锁</code>。</li>
+<li>主线程main执行<code>t1.start()</code>启动<code>线程t1</code>。</li>
+<li>主线程main执行<code>t1.wait(3000)</code>，此时，主线程进入<code>阻塞状态</code>。需要用于t1对象锁的线程通过notify() 或者 notifyAll()将其唤醒或者超时3000ms之后，主线程main才进入到<code>就绪状态</code>，然后才可以运行。</li>
+<li><code>线程t1</code>运行之后，进入了死循环，一直不断的运行。</li>
+<li>超时3000ms之后，主线程main会进入到<code>就绪状态</code>，然后接着进入<code>运行状态</code>。</li>
+</ul>
+<p><img src="/2019/03/25/multithreading-wait+notify/2.png" alt=""></p>
+<h1 id="wait-和notifyAll"><a href="#wait-和notifyAll" class="headerlink" title="wait()和notifyAll()"></a>wait()和notifyAll()</h1><p>通过前面的示例，我们知道<code>notify()</code>可以唤醒在此对象监视器上等待的单个线程。<br>下面，我们通过示例演示<code>notifyAll()</code>的用法；它的作用是唤醒在此对象监视器上等待的所有线程。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NotifyAllTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Object obj = <span class="keyword">new</span> Object();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        ThreadA t1 = <span class="keyword">new</span> ThreadA(<span class="string">"t1"</span>);</span><br><span class="line">        ThreadA t2 = <span class="keyword">new</span> ThreadA(<span class="string">"t2"</span>);</span><br><span class="line">        ThreadA t3 = <span class="keyword">new</span> ThreadA(<span class="string">"t3"</span>);</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">        t3.start();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName()+<span class="string">" sleep(3000)"</span>);</span><br><span class="line">            Thread.sleep(<span class="number">3000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">synchronized</span>(obj) &#123;</span><br><span class="line">            <span class="comment">// 主线程等待唤醒。</span></span><br><span class="line">            System.out.println(Thread.currentThread().getName()+<span class="string">" notifyAll()"</span>);</span><br><span class="line">            obj.notifyAll();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadA</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ThreadA</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">            <span class="keyword">super</span>(name);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (obj) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="comment">// 打印输出结果</span></span><br><span class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">" wait"</span>);</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 唤醒当前的wait线程</span></span><br><span class="line">                    obj.wait();</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 打印输出结果</span></span><br><span class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">" continue"</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">t1 wait</span><br><span class="line">main sleep(3000)</span><br><span class="line">t3 wait</span><br><span class="line">t2 wait</span><br><span class="line">main notifyAll()</span><br><span class="line">t2 continue</span><br><span class="line">t3 continue</span><br><span class="line">t1 continue</span><br></pre></td></tr></table></figure></p>
+<p>结果说明：<br>参考下面的流程图。 </p>
+<ul>
+<li>主线程中新建并且启动了3个线程t1、t2和t3</li>
+<li>主线程通过sleep(3000)休眠3秒。在主线程休眠3秒的过程中，我们假设t1、t2和t3这3个线程都开始运行了。以t1为例，当它运行的时候，它会执行<code>obj.wait()</code>等待其它线程通过notify()或额nofityAll()来唤醒它；相同的道理，t2和t3也会等待其它线程通过nofity()或nofityAll()来唤醒它们。</li>
+<li>主线程休眠3秒之后，接着运行。执行<code>obj.notifyAll()</code>唤醒obj上的等待线程，即唤醒t1、t2和t3这3个线程。 紧接着，主线程的<code>synchronized(obj)</code>运行完毕之后，主线程释放<code>obj锁</code>。这样，t1、t2和t3就可以相继获取<code>obj锁</code>而继续运行了。</li>
+</ul>
+<p><img src="/2019/03/25/multithreading-wait+notify/3.png" alt=""></p>
+<h1 id="为什么notify-wait-等函数定义在Object中，而不是Thread中"><a href="#为什么notify-wait-等函数定义在Object中，而不是Thread中" class="headerlink" title="为什么notify(), wait()等函数定义在Object中，而不是Thread中"></a>为什么notify(), wait()等函数定义在Object中，而不是Thread中</h1><p>Object中的wait()和notify()等函数，和synchronized一样，会对<code>对象的同步锁</code>进行操作。<br>wait()会使当前线程等待，因为线程进入等待状态，所以线程应该释放它所持有的同步锁，否则其他线程会因为获取不到该<code>同步锁</code>而无法运行。<br>线程调用wait()之后，会释放它锁持有的<code>同步锁</code>；而且，根据前面的介绍，我们知道：等待线程可以被notify()或notifyAll()唤醒。<br>notify()是依据什么唤醒等待线程的？或者说，wait()等待线程和notify()之间是通过什么关联起来的？答案是：依据<code>对象的同步锁</code>。<br>负责唤醒等待线程的那个线程(我们称为<code>唤醒线程</code>)，它只有在获取<code>该对象的同步锁</code>(这里的同步锁必须和等待线程的同步锁是同一个)，并且调用notify()或notifyAll()方法之后，才能唤醒等待线程。虽然，等待线程被唤醒；但是，它不能立刻执行，因为唤醒线程还持有<code>该对象的同步锁</code>。必须等到唤醒线程释放了<code>该对象的同步锁</code>之后，等待线程才能获取到<code>该对象的同步锁</code>进而继续运行。</p>
+<p>总之，notify(), wait()依赖于<code>同步锁</code>，而<code>同步锁</code>是对象锁持有，并且每个对象有且仅有一个！这就是为什么notify(), wait()等函数定义在Object类，而不是Thread类中的原因。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/multithreading/" rel="tag"># multithreading</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/20/poem/" rel="next" title="诗">
+                <i class="fa fa-chevron-left"></i> 诗
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/26/multithreading-yield+sleep+join/" rel="prev" title="multithreading-yield+sleep+join">
+                multithreading-yield+sleep+join <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">王靖尧</p>
+              <div class="site-description motion-element" itemprop="description">一晃而过的时间，都做了些什么</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">104</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#wait-notify-notifyAll-等方法介绍"><span class="nav-number">1.</span> <span class="nav-text">wait(), notify(), notifyAll()等方法介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#wait-和notify-示例"><span class="nav-number">2.</span> <span class="nav-text">wait()和notify()示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#wait-long-timeout-和notify"><span class="nav-number">3.</span> <span class="nav-text">wait(long timeout)和notify()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#wait-和notifyAll"><span class="nav-number">4.</span> <span class="nav-text">wait()和notifyAll()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么notify-wait-等函数定义在Object中，而不是Thread中"><span class="nav-number">5.</span> <span class="nav-text">为什么notify(), wait()等函数定义在Object中，而不是Thread中</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王靖尧</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'DFKH5YVSHsNt0wDOVISahMVx-gzGzoHsz',
+                'X-LC-Key': 'ILHc2Y6O0p9xfqi3iAWMwnuv',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
