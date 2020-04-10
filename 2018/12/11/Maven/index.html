@@ -109,7 +109,7 @@
 <meta property="og:image" content="https://jingyao066.gitee.io/2018/12/11/Maven/3.png">
 <meta property="og:image" content="https://jingyao066.gitee.io/2018/12/11/Maven/4.png">
 <meta property="og:image" content="https://jingyao066.gitee.io/2018/12/11/Maven/5.png">
-<meta property="og:updated_time" content="2020-04-07T05:49:44.444Z">
+<meta property="og:updated_time" content="2020-04-09T09:59:00.902Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Maven">
 <meta name="twitter:description" content="概念：Maven用于叙述项目间的依赖关系。通俗讲，就是通过pom.xml文件的配置获取jar包，而不用手动去添加jar包。当然maven还有其他功能，如：构建项目 如果需要使用pom.xml来获取jar包，那么首先该项目就必须为maven项目，maven项目可以这样去想，就是在java项目和web项目的上面包裹了一层maven，本质上java项目还是java项目，web项目还是web项目，但是包裹">
@@ -425,7 +425,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-07 13:49:44" itemprop="dateModified" datetime="2020-04-07T13:49:44+08:00">2020-04-07</time>
+                <time title="修改时间：2020-04-09 17:59:00" itemprop="dateModified" datetime="2020-04-09T17:59:00+08:00">2020-04-09</time>
               
             
           </span>
@@ -535,7 +535,7 @@
 <h1 id="不使用maven导包"><a href="#不使用maven导包" class="headerlink" title="不使用maven导包"></a>不使用maven导包</h1><p>Porject Structure-&gt;Libraries<br>点击左上角的加号，选择<code>java</code>，然后一层层找到你项目中的jar包。</p>
 <h1 id="使用dependency引入的jar包Linux上失效"><a href="#使用dependency引入的jar包Linux上失效" class="headerlink" title="使用dependency引入的jar包Linux上失效"></a>使用dependency引入的jar包Linux上失效</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;aspose-slides&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;aspose-slides&lt;/artifactId&gt;</span><br><span class="line">	&lt;scope&gt;system&lt;/scope&gt;</span><br><span class="line">	&lt;version&gt;19.6&lt;/version&gt;</span><br><span class="line">	&lt;systemPath&gt;$&#123;basedir&#125;/src/main/resources/lib/aspose-slides-19.6.jar&lt;/systemPath&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
 <p>system scope引入的包，在使用jar-with-dependencies打包时将不会被包含，就是如果我<code>maven install</code>打包，这个打不进去。到时候调用的时候就会报：<code>classNotFound</code>。</p>
-<p>执行命令<br>windows:<br><code>mvn install:install-file -DgroupId=aspose-words -DartifactId=aspose-words -Dversion=16.8 -Dpackaging=jar -Dfile=E:\work\aspose-cells-18.9.jar</code></p>
+<p>执行命令<br>windows:<br><code>mvn install:install-file -DgroupId=aspose-cells -DartifactId=aspose-cells -Dversion=16.8 -Dpackaging=jar -Dfile=E:\work\aspose-cells-18.9.jar</code></p>
 <p>linux:<br><code>mvn install:install-file -DgroupId=aspose-words -DartifactId=aspose-words -Dversion=16.8 -Dpackaging=jar -Dfile=/usr/local/src/aspose-words-16.8.0-jdk16.jar</code><br><code>mvn install:install-file -DgroupId=aspose-slides -DartifactId=aspose-slides -Dversion=19.6 -Dpackaging=jar -Dfile=/usr/local/src/aspose-slides-19.6.jar</code><br><code>mvn install:install-file -DgroupId=aspose-cells -DartifactId=aspose-cells -Dversion=18.9 -Dpackaging=jar -Dfile=/usr/local/src/aspose-cells-18.9.jar</code><br>区别只是路径不同，注意修改groupId、artifactId、version和file后的路径。</p>
 <p>然后使用时，在pom中添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">   &lt;groupId&gt;alipay&lt;/groupId&gt;</span><br><span class="line">   &lt;artifactId&gt;alipay-trade-sdk&lt;/artifactId&gt;</span><br><span class="line">   &lt;version&gt;1.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
 <p>这里的groupId、artifactId、version，随便写，只需要和上边命令中的参数一致即可。</p>
