@@ -113,7 +113,7 @@
 <meta property="og:image" content="https://jingyao066.gitee.io/2019/03/27/网站的扩展/7.png">
 <meta property="og:image" content="https://jingyao066.gitee.io/2019/03/27/网站的扩展/8.png">
 <meta property="og:image" content="https://jingyao066.gitee.io/2019/03/27/网站的扩展/9.png">
-<meta property="og:updated_time" content="2020-04-09T03:33:30.044Z">
+<meta property="og:updated_time" content="2020-04-16T07:18:21.291Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网站的扩展">
 <meta name="twitter:description" content="原文地址：https://arcentry.com/blog/scaling-webapps-for-newbs-and-non-techies/通俗地解释如何拓展网站服务，承受更大的访问量。 单个服务器+数据库这可能是后台刚开始的样子，运行业务逻辑的单个应用程序服务器和长期存储数据的数据库。 添加反向代理网站扩展的第一步是添加反向代理(Reverse Proxy)，代理只是一个接收和转发请求的过">
@@ -429,7 +429,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-09 11:33:30" itemprop="dateModified" datetime="2020-04-09T11:33:30+08:00">2020-04-09</time>
+                <time title="修改时间：2020-04-16 15:18:21" itemprop="dateModified" datetime="2020-04-16T15:18:21+08:00">2020-04-16</time>
               
             
           </span>
@@ -514,7 +514,7 @@
 </ol>
 <h1 id="记一次用户重复注册的问题"><a href="#记一次用户重复注册的问题" class="headerlink" title="记一次用户重复注册的问题"></a>记一次用户重复注册的问题</h1><p>刚开始是单服务器，注册方法出现手机号重复的用户。于是在方法上加了<code>synchronized</code>关键字，问题解决。<br>之后服务器变成了集群，又出现了重复用户。推测是因为，并发请求多个服务器，请求会被转发到多台不同的服务器。<br>服务器自己虽然加了锁，单多台还是会出现并发问题。于是使用redis的<code>setnx</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Boolean result = redisTemplate.opsForValue().setIfAbsent(&quot;reg_&quot; + paramMap.get(&quot;mobile&quot;),paramMap.get(&quot;mobile&quot;),30,TimeUnit.SECONDS);</span><br><span class="line">if (result) &#123;</span><br><span class="line">	新增逻辑...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>500并发10次，还是会偶尔出现重复数据。很疑惑，于是去掉<code>synchronized</code>关键字，只用redis锁。<br>500并发15次，没有出现重复数据，感觉问题解决了。不知道以后会不会再出现问题。</p>
-
+<h1 id="项目中遇到的问题"><a href="#项目中遇到的问题" class="headerlink" title="项目中遇到的问题"></a>项目中遇到的问题</h1>
       
     </div>
 
@@ -756,7 +756,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#单个服务器-数据库"><span class="nav-number">1.</span> <span class="nav-text">单个服务器+数据库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#添加反向代理"><span class="nav-number">2.</span> <span class="nav-text">添加反向代理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#负载均衡"><span class="nav-number">3.</span> <span class="nav-text">负载均衡</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#扩展数据库"><span class="nav-number">4.</span> <span class="nav-text">扩展数据库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#微服务-Microservices"><span class="nav-number">5.</span> <span class="nav-text">微服务(Microservices)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#缓存和内容交付网络"><span class="nav-number">6.</span> <span class="nav-text">缓存和内容交付网络</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#消息队列-Message-Queues"><span class="nav-number">7.</span> <span class="nav-text">消息队列(Message Queues)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分片-Sharding"><span class="nav-number">8.</span> <span class="nav-text">分片(Sharding)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对负载均衡器进行负载均衡-Load-balancing-the-load-balancer"><span class="nav-number">9.</span> <span class="nav-text">对负载均衡器进行负载均衡(Load-balancing the load-balancer)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#记录我现在做的项目的扩展"><span class="nav-number">10.</span> <span class="nav-text">记录我现在做的项目的扩展</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#记一次用户重复注册的问题"><span class="nav-number">11.</span> <span class="nav-text">记一次用户重复注册的问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#单个服务器-数据库"><span class="nav-number">1.</span> <span class="nav-text">单个服务器+数据库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#添加反向代理"><span class="nav-number">2.</span> <span class="nav-text">添加反向代理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#负载均衡"><span class="nav-number">3.</span> <span class="nav-text">负载均衡</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#扩展数据库"><span class="nav-number">4.</span> <span class="nav-text">扩展数据库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#微服务-Microservices"><span class="nav-number">5.</span> <span class="nav-text">微服务(Microservices)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#缓存和内容交付网络"><span class="nav-number">6.</span> <span class="nav-text">缓存和内容交付网络</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#消息队列-Message-Queues"><span class="nav-number">7.</span> <span class="nav-text">消息队列(Message Queues)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分片-Sharding"><span class="nav-number">8.</span> <span class="nav-text">分片(Sharding)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对负载均衡器进行负载均衡-Load-balancing-the-load-balancer"><span class="nav-number">9.</span> <span class="nav-text">对负载均衡器进行负载均衡(Load-balancing the load-balancer)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#记录我现在做的项目的扩展"><span class="nav-number">10.</span> <span class="nav-text">记录我现在做的项目的扩展</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#记一次用户重复注册的问题"><span class="nav-number">11.</span> <span class="nav-text">记一次用户重复注册的问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#项目中遇到的问题"><span class="nav-number">12.</span> <span class="nav-text">项目中遇到的问题</span></a></li></ol></div>
             
 
           </div>
