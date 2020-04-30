@@ -106,7 +106,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://jingyao066.gitee.io/2018/12/06/redis/1.jpg">
 <meta property="og:image" content="https://jingyao066.gitee.io/2018/12/06/redis/2.jpg">
-<meta property="og:updated_time" content="2020-04-07T05:49:44.452Z">
+<meta property="og:updated_time" content="2020-04-20T09:53:57.064Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis">
 <meta name="twitter:description" content="redis是什么redis是一个开源的，使用C语言编写的，支持网络交互的、可基于内存也可持久化的Key-Value数据库 安装过程参考另一篇文章linux linux操作redis连接redis./redis-cli127.0.0.1:6379&amp;gt; 配置redisredis的配置文件位于Redis安装目录下，文件名为 redis.conf，可以通过CONFIG命令查看或者设置配置项。12312">
@@ -422,7 +422,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-07 13:49:44" itemprop="dateModified" datetime="2020-04-07T13:49:44+08:00">2020-04-07</time>
+                <time title="修改时间：2020-04-20 17:53:57" itemprop="dateModified" datetime="2020-04-20T17:53:57+08:00">2020-04-20</time>
               
             
           </span>
@@ -704,13 +704,12 @@
 <h1 id="Redis-SETNX-命令实现分布式锁"><a href="#Redis-SETNX-命令实现分布式锁" class="headerlink" title="Redis SETNX 命令实现分布式锁"></a>Redis SETNX 命令实现分布式锁</h1><p>起因：<br>最开始我们是单服务，注册时候总是出现重复的手机号用户。<br>于是加了同步锁<code>synchronized</code>，解决了问题。</p>
 <p>后来用了阿里云SLB分布式服务。又出现了重复注册的问题，想到用redis的SETNX来解决问题。<br>现在分布式的应用场景很多，为了保持数据的一致性，经常碰到需要对资源加锁的情形。利用redis来实现分布式锁就是其中的一种实现方案。<br>命令各式：<br><code>SETNX key value</code></p>
 <p>将 key 的值设为 value ，当且仅当 key 不存在。<br>若给定的 key 已经存在，则 SETNX 不做任何动作。<br>SETNX 是『SET if Not eXists』(如果不存在，则 SET)的简写。<br>设置成功，返回1。<br>设置失败，返回0。<br>利用SETNX的特性，很容易的想到，在需要加锁的时候，调用SETNX命令，如果返回了1，表示设置成功，获得了当前锁，之后做一些想要的操作，完成之后调用DEL命令释放锁。<br>因为java的try/catch特性，即使程序报错，我们也可以在finally块释放锁，这样不会因为程序报错导致所无法释放的情况。<br>示例代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">try &#123;</span><br><span class="line">	Boolean result = redisTemplate.opsForValue().setIfAbsent(&quot;reg_&quot; + newUser.getMobile(),newUser.getMobile(),30,TimeUnit.SECONDS);</span><br><span class="line">	if(result)&#123;</span><br><span class="line">		//插入新用户</span><br><span class="line">		usersMapper.insertSelective(newUser);</span><br><span class="line">		redisTemplate.delete(&quot;reg_&quot; + newUser.getMobile());</span><br><span class="line">	&#125;</span><br><span class="line">&#125; catch (java.lang.Exception e) &#123;</span><br><span class="line">	e.printStackTrace();</span><br><span class="line">&#125; finally &#123;</span><br><span class="line">	redisTemplate.delete(&quot;reg_&quot; + newUser.getMobile());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>幂等性：<br>HTTP/1.1中对幂等性的定义是：一次和多次请求某一个资源对于资源本身应该具有同样的结果（网络超时等问题除外）。也就是说，其任意多次执行对资源本身所产生的影响均与一次执行的影响相同。</p>
-<p>很多复杂的事务要分布进行，但它们组成了一个整体，要么整体生效，要么整体失效。这种思想反应到数据库上，就是多条SQL语句，要么所有执行成功，要么所有执行失败。</p>
-<p>数据库事务由严格的定义，它必须满足4个特性：<br>原子性(Atomicity),一致性(consistency),隔离性(Isolation),持久性(Durability)。</p>
+<p>幂等性：<br>HTTP/1.1中对幂等性的定义是：一次和多次请求某一个资源对于资源本身应该具有同样的结果（网络超时等问题除外）。也就是说，其任意多次执行对资源本身所产生的影响均与一次执行的影响相同。<br>很多复杂的事务要分布进行，但它们组成了一个整体，要么整体生效，要么整体失效。这种思想反应到数据库上，就是多条SQL语句，要么所有执行成功，要么所有执行失败。</p>
+<p>数据库事务有严格的定义，它必须满足4个特性：<br>原子性(Atomicity)、一致性(consistency)、隔离性(Isolation)、持久性(Durability)。</p>
 <p>原子性：<br>表示组成一个事务的多个数据库操作是一个不可分割的原子单元，只有所有的操作执行成功，整个事务才提交。事务中的任何一个数据库操作失败，已经执行的任何操作都必须被撤销，让数据库返回初始状态。</p>
 <p>一致性：<br>事务操作成功后，数据库所处的状态和他的业务规则是一致的，即数据不会被破坏。如A账户转账100元到B账户，不管操作成功与否，A和B账户的存款总额是不变的。</p>
 <p>隔离性：<br>在并发数据操作时，不同的事务拥有各自的数据空间，他们的操作不会对对方产生敢逃。准确地说，并非要求做到完全无干扰。数据库规定了多种事务隔离界别，不同的隔离级别对应不用的干扰成都，隔离级别越高，数据一致性越好，但并发行越弱。</p>
-<p>持久性：<br>一旦事务提交成功后，事务中所有的数据操作都必须被持久化到数据库中。即使在事务提交后，数据库马上崩溃，在数据库重启时，也必须保证能够通过某种机制恢复数据。<br>在这些事务特性中，数据“一致性”时最终目标，其他特性都是为达到这个目标而采取的措施、要求或手段。<br>数据库管理系统一般采用重执行日志来保证原子性、一致性和持久性。重执行日志记录了数据库变化的每一个动作，数据库在一个事务中执行一部分操作后发生错误退出，数据库即可根据重执行日志撤销已经执行的操作。对于已经提交的事务即使数据库崩溃，在重启数据库时也能后根据日志对尚未持久化的数据进行相应的重执行操作。</p>
+<p>持久性：<br>一旦事务提交成功后，事务中所有的数据操作都必须被持久化到数据库中。即使在事务提交后，数据库马上崩溃，在数据库重启时，也必须保证能够通过某种机制恢复数据。<br>在这些事务特性中，数据“一致性”是最终目标，其他特性都是为达到这个目标而采取的措施、要求或手段。<br>数据库管理系统一般采用重执行日志来保证原子性、一致性和持久性。重执行日志记录了数据库变化的每一个动作，数据库在一个事务中执行一部分操作后发生错误退出，数据库即可根据重执行日志撤销已经执行的操作。对于已经提交的事务即使数据库崩溃，在重启数据库时也能后根据日志对尚未持久化的数据进行相应的重执行操作。</p>
 <p><a href="https://blog.csdn.net/harleylau/article/details/85856774" target="_blank" rel="noopener">参考</a></p>
 
       
