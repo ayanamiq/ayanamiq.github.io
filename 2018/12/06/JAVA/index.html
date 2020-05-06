@@ -106,7 +106,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://github.com/ayanamiq/images/blob/master/token.png?raw=true">
 <meta property="og:image" content="https://jingyao066.gitee.io/2018/12/06/java/1.jpg">
-<meta property="og:updated_time" content="2020-04-30T09:43:25.068Z">
+<meta property="og:updated_time" content="2020-05-06T02:12:22.396Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java">
 <meta name="twitter:description" content="this：表示当前函数，所属对象的引用super：用于调用父类方法 概念staticstatic可修饰属性、方法和代码块static 修饰属性：是一个类的共享变量，属于整个类，在不实例化对象的情况下就能访问。static 修饰方法：不需要实例化对象，可以使用类名调用，静态方法不能访问非静态成员，包括成员的方法和变量。因为此时用类调用，没有对象的概念，this是不可用的。static 修饰代码块：一">
@@ -422,7 +422,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-30 17:43:25" itemprop="dateModified" datetime="2020-04-30T17:43:25+08:00">2020-04-30</time>
+                <time title="修改时间：2020-05-06 10:12:22" itemprop="dateModified" datetime="2020-05-06T10:12:22+08:00">2020-05-06</time>
               
             
           </span>
@@ -1166,6 +1166,7 @@
 <h2 id="如何比较两个字符串对象是否相等"><a href="#如何比较两个字符串对象是否相等" class="headerlink" title="如何比较两个字符串对象是否相等"></a>如何比较两个字符串对象是否相等</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class TestEquals &#123;</span><br><span class="line">    </span><br><span class="line">    public static void main(String args[])&#123;</span><br><span class="line">        String s1 = new String(&quot;hello&quot;);</span><br><span class="line">        String s2 = new String(&quot;hello&quot;);</span><br><span class="line">        System.out.println(&quot;s1 == s2的结果是：&quot;+(s1 == s2));//false</span><br><span class="line">        System.out.println(&quot;s1.equals(s2)的结果是：&quot;+s1.equals(s2));//true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这一次是比较两个字符串对象是否相等：<br><code>System.out.println(s1 == s2);</code><br>打印出来的结果依然是fase，因为这里比较的是s1和s2两个字符串对象的引用，两个对象的引用永远不会相等，所以打印出来的结果为false。<br><code>System.out.println(s1.equals(s2));</code><br>打印出来的结果为true，因为在String类里面重写了从Object类继承(所有的类都是从Object类继承下来，String类当然也不例外，<br>从父类继承下来就拥有了父类的一切属性与方法，所以Sting类里面也有equals()方法，并且还把这个继承下来的equals()方法重写了)下来的equals()方法，改变了这个方法默认的实现，<br>在String类里面是这样重写equals()方法的实现的：用当前的这个字符串对象和指定的字符串对象比较，<br>指定的字符串对象不能为空并且这个对象的字符序列和当前这个字符串对象的字符串序列一样，如果这些条件都满足，那么这两个字符串对象就是相等的。<br>因此这里的s2已经满足了条件，所以打印出来的结果是true。</p>
 <p>以后在某一个类里面比较两个对象是否相等时，首先去API文档里面查找这个类是否重写了从Object类继承下来的equals()方法。<br>如果重写了equals()方法，那么在比较两个对象是否相等时调用的就是重写以后的equals()方法，如果没有重写，<br>那么调用时就是直接调用从Object类里面的继承下来的那个equals()方法，并且采用equals()方法默认的实现去比较两个对象是否相等。<br>因此每一个类都可以根据需要对从Object类继承下来的equals()方法进行重写。<br>比较两个对象是否相等，我们采用equals()方法，判断两个对象是否相等的条件是由我们重写equals()方法的实现后定义的，这样就可以比较灵活地使用equals()方法在不同的类里面比较位于同一类下的两个对象是否相等了。</p>
+<p>测试</p>
 
       
     </div>
